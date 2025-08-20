@@ -87,22 +87,34 @@ zjuthesis 模板有三种使用方式，Overleaf，本地编译，或者 Contain
 > - 本模板已经兼容 TeXLive 2021。TeXLive 2018 以及之前的版本复制伪粗体文字会产生乱码，建议使用本地 TeXLive 的同学使用最新版 TeXLive。
 > - 计算机专业的部分页面与学校通用格式不同，如果你是计算机专业的同学，请使用计算机专业的模板。
 
-### 使用容器编译
+### 在 Dev Containers 中使用
 
-本模板提供了一套配置文件，用以支持在容器中安装TeX Live，项目使用的字体，以及VS Code上的[LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)插件，配合GitHub Codespaces可以做到开箱即用。感谢 [FUTURETECH6](https://github.com/FUTURETECH6) 同学贡献的[代码](https://github.com/TheNetAdmin/zjuthesis/pull/222)。
+本模板提供了一套配置文件，用以支持在 [Dev Containers](https://containers.dev/) 中安装 TeX Live，项目使用的字体，以及 VS Code上的 [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) 插件，以实现对本项目的开箱即用。感谢 [futuretech6](https://github.com/futuretech6) 同学贡献的[代码](https://github.com/TheNetAdmin/zjuthesis/pull/222)。
 
-GitHub Codespace使用方法：
+在本地 IDE 中使用 Dev Containers（主流 IDEs，如 JetBrains 系列等均支持 Dev Containers，此处以 VS Code作为示例）：
+
+1. 安装 [Dev Containers 插件](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+1. 执行 "Dev Containers: Reopen in Container" 指令（或点击界面左下角远程连接按钮并选择 "Reopen in Container"）
+1. 等待镜像编译[^ghproxy]完成后即可使用
+
+[^ghproxy]: 为了规避 GFW 影响，[Dockerfile](.devcontainer/Dockerfile#L4) 中使用了 [gh-proxy](https://gh-proxy.com/) 进行加速。若内容下载异常，可尝试修改 `ARG GITHUB_DOMAIN` 为其他 GitHub 代理或自行配置 docker-buildx 代理。
+
+<details>
+
+<summary>在 GitHub Codespace 使用 Dev Containers：</summary>
 
 1. 创建个人的项目（直接fork，或自行clone并修改remote）
 1. 在个人的项目主页点击"Code"
 1. 点击"Codespaces"
 1. 点击"New codespace"
-1. 等待容器构建（这一过程约要10分钟，因为要在标准Ubuntu的镜像中安装TeX Live）
+1. 等待容器构建（这一过程约要10分钟）
 1. 构建完成后，可以选择在VS Code（需要[GitHub Codespaces](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces)插件）中或在浏览器中打开，然后按照在本地的使用方式使用
 
 > **注意**
 >
-> - 这一功能的初衷是为了方便性能较弱的设备（例如低功耗笔记本电脑）也能利用免费的云运算资源较快地完成编译，因此**不建议**在本地性能较强的机器上使用（请改用"本地编译"）。
+> - 使用 GitHub Codespace 功能的初衷是为了方便性能较弱的设备（例如低功耗笔记本电脑）也能利用云运算资源较快地完成编译，因此**不建议**在本地性能较强的机器上使用（请改用"本地编译" 或 "在本地 IDE 中使用 Dev Containers"）。
+
+</details>
 
 ### 字数统计
 
