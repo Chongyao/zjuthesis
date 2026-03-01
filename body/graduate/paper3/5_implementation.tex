@@ -1,1 +1,125 @@
-% 实现
+\section{实现细节}\label{sec:implementation}
+
+为了将上述理论付诸实践，我们在此介绍若干实现细节，包括缩减矩阵束的正则化、缩减矩阵的快速计算、SE-free 界面模态计算中的预缩减，以及 MPI/OpenMP 实现。
+
+%% \subsection{Algorithm of adaptive-shifting}
+\subsection{正则化} \label{sec:regularization}
+
+需要注意的是，来自 $\mathbf{S}^p_{\mathcal{I}}$ 和 $\mathbf{S}^d_{\mathcal{I}}$ 的组合子结构基可能呈现线性相关性。引入界面模态会进一步增加这种可能性。因此，得到的缩减广义特征值问题可能涉及秩亏的刚度矩阵和质量矩阵，这无法由常见的求解器求解。所得系统可以表述为奇异矩阵束（见\Cref{sec:singluar-matrix-pencil}），其中质量矩阵和刚度矩阵共享一个公共零空间。
+
+可以使用奇异值分解或其他方法（配合适当的阈值）从中提取线性无关的基，但对于大规模问题而言，其代价过高。此外，这样得到的基很可能是密集的，而非块稀疏的，这会导致一个代价高昂的特征值问题，其刚度矩阵和质量矩阵都是密集的，即使其维度已经缩减。
+
+我们提出通过缩放单位矩阵来正则化缩减后的刚度矩阵和质量矩阵：
+\begin{equation}
+  (\mathbf{S}^T \mathbf{K} \mathbf{S} + \mu \mathbf{I}) x = \lambda
+  (\mathbf{S}^T \mathbf{M} \mathbf{S} + \sigma \mathbf{I})x.
+  \label{eq:final-eig}
+\end{equation}
+参数 $\mu$ 和 $\sigma$ 应当足够小，使这种扰动对"真实"特征值和特征向量的影响较小，但又应足够大，使特征值求解器（例如我们实现中使用的 Spectra~\cite{Qiu2015Spectra} 中的隐式重启动 Lanczos 方法）能够给出结果。
+
+然而，正则化后会引入一些额外的特征值。\textcolor{ExplainConclusion}{直观地说，对于刚度和质量贡献可忽略的近零空间中的向量，特征值问题由正则化项主导，从而产生 $\lambda \approx \mu / \sigma$。}
+因此，我们要求这些"伪"特征值大于截止频率，并对两个参数采用以下条件：
+\begin{equation}
+  \mu / \sigma > \alpha \lambda_{\text{cut-off}}, \text{ 且 } \mu < \beta\lambda_{\min} ,
+\end{equation}
+其中 $\alpha > 1$ 且 $\beta \ll 1$。  
+% By default, we set
+% $\alpha=4,\beta=1e-6$.
+
+\begin{wrapfigure}[6]{c}{2cm}
+  \vspace*{-0.6cm}
+  \hspace*{-0.45cm}
+ \includegraphics[width=2.5cm]{mu_and_sigma/mu_and_sigma_plot.pdf}
+\end{wrapfigure}
+
+%% \begin{figure}
+%%   \centering
+%%   \includegraphics[width=\linewidth]{mu_and_sigma/mu_and_sigma_plot.pdf}
+%%   \caption{\textbf{Error under different regularization weights.} We set $\sigma
+%%     = \mu / (4 \lambda_{\text{cut-off}})$ for different values of $\mu$. The error using our
+%%     method (Blue) increases when $\mu$ is close to the minimum eigenvalue. However, the
+%%     error is close to that of using Gram-Schmidt orthogonalization of
+%%     $\mathbf{S}$ (Red) when $\mu$ is small enough.}
+%%   \label{fig:error-different-mu-sigma}
+%% \end{figure}
+%% \Cref{fig:error-different-mu-sigma}
+\textcolor{ConclusionEvidence}{插图展示了误差对 $\mu$ 的敏感性。结果表明，在适当选择 $\mu$ 和 $\sigma$ 的情况下，该方法可以达到与计算代价高昂的正交化技术相当的精度。} 在实践中，
+我们使用\Cref{alg:adaptive-shifting} 来寻找合适的 $\mu$ 和 $\sigma$。
+
+在我们所有的实验中，这种启发式方法都能给出可靠的特征值和特征向量。使用更好的方法显然可以进一步改进结果。
+
+\inputbody{paper3/5_1_alg_adaptive_shifting}
+
+
+\subsection{快速缩减矩阵组装}\label{sec:fast-matrix-reducing}
+缩减系统矩阵 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 的构建计算量很大，但我们通过利用基的正交性和平衡性质显著加速了这一过程。
+首先，子结构特征模态 $\mathbf{S}_\mathcal{I}^{p/d}$ 自然地对角化局部块，将 $\mathbf{K}$ 和 $\mathbf{M}$ 分别投影为对角特征值矩阵 $\mathbf{\Lambda}$ 和单位矩阵 $\mathbf{I}$。
+其次，更为关键的是，SE-free 界面模态 $\mathbf{S}_b$ 满足静力平衡方程 $\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} + \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$。
+因此，涉及这些模态的刚度投影项在内部区域 $\mathcal{I}$ 上恒为零。这一性质将理论上密集的矩阵-矩阵乘法转化为仅限于边界自由度的稀疏操作，大幅降低了组装 $\hat{\mathbf{K}}$ 的计算代价。\Cref{fig:reduced-matrix-structure} 展示了缩减矩阵的稀疏结构。
+
+\begin{figure}[t]
+  \centering
+  \tiny
+  \color{black}{
+  \input{matrix_structure.pdf_tex}
+  }
+  \caption{\textbf{缩减矩阵的稀疏结构。}
+    （左）缩减刚度矩阵。**"消失的投影"**表示计算中被跳过的交叉项。由于 SE-free 模态满足静力平衡，中间乘积给出 $\mathbf{K} \mathbf{S}_b = [\mathbf{0}^T, \mathbf{f}_b^T]^T$。这确保了任何涉及内部模态的投影 $\mathbf{S}_*^T (\mathbf{K} \mathbf{S}_b)$ 恒为零，而无需执行密集的内部乘法。
+    （右）缩减质量矩阵，反映了几何重叠模式。}
+  \label{fig:reduced-matrix-structure}
+\end{figure}
+
+\subsection{混合 MPI/OpenMP 框架}
+我们实现了混合 MPI/OpenMP 并行模型，以最大化分布式内存集群上的可扩展性。
+我们将每个子结构（来自 Primal $\mathcal{P}^p$ 和 Dual $\mathcal{P}^d$ 划分）视为分配给 MPI 进程的计算单元，局部密集线性代数任务由 OpenMP 线程加速。
+构建通信图时，边仅连接几何重叠的 Primal 和 Dual 子结构。
+进程间通信仅限于两个特定阶段：
+\begin{enumerate}
+    \item \textbf{基生成阶段：}进程交换由重叠邻居的固定界面特征模态导出的边界轮廓数据。该数据量很小（仅边界数据），便于 SE-free 界面模态的构建。
+    \item \textbf{组装阶段：}进程通信以聚合缩减矩阵。
+    值得注意的是，由于上一节所述的简化刚度组装，$\hat{\mathbf{K}}$ 的通信开销可以忽略不计。
+    主要的通信代价来自质量矩阵 $\hat{\mathbf{M}}$ 的投影。
+\end{enumerate}
+
+
+
+% \subsection{Reduced Matrix Assembly}
+% The projection of $\mathbf{K}$ and $\mathbf{M}$ is optimized by exploiting basis
+% properties. The substructure eigenmodes $\mathbf{S}_\mathcal{I}^{p/d}$ naturally
+% diagonalize the inner blocks into eigenvalues and identity matrices.
+% Furthermore, since the interface modes satisfy the static equilibrium
+% $\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} +
+% \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$, the stiffness projection
+% terms involving these modes vanish on the interior domain $\mathcal{I}$. This
+% reduces the theoretically dense matrix-matrix multiplications to efficient
+% sparse operations involving only boundary DOFs.
+
+% \subsection{MPI/OpenMP framework}
+% The proposed method is implemented using a hybrid MPI/OpenMP parallelism model
+% to maximize scalability on distributed-memory clusters. We treat each
+% substructure (from both primal $\mathcal{P}^p$ and dual $\mathcal{P}^d$
+% partitions) as a computational unit assigned to an MPI rank. The heaviest
+% computation is the interior modes computation and SE-free interface modes which
+% are very local. The communication ony exist in two two part. we construct a
+% communication graph where edges connect overlapping primal and dual
+% substructures. The first part is to pass the boundary condition computed from
+% clamping eigen modes of the overlapped substructures of the other partition at
+% the boundary. This part is very small. The second comes from the matrix
+% projection. Most of the cost here is to reduce the mass matrix since stiffness matrix reducing is simplified in the previous section. The remaining cost is the coupling between two partitions to reduce mass matrix. 
+
+
+
+\subsection{基于 METIS 的划分}\label{sec:metis-partition}
+迄今为止讨论的划分都是轴向对齐的。对于复杂几何形状，基于图的划分工具如 METIS~\cite{Karypis1997METIS} 更为可取。它们能确保子结构自由度均衡并最小化界面长度，从而优化并行负载均衡。
+
+\paragraph{Primal-Dual 划分的生成}
+我们采用两阶段加权策略来生成所需的不同的划分。我们通过 METIS 以默认设置（均匀边权重）生成 Primal 划分 $\mathcal{P}^p$。为了生成不同的划分，我们增加属于 $\mathcal{P}^p$ 界面的边的权重。
+我们以这种非均匀边权重生成 Dual 划分 $\mathcal{P}^d$。\Cref{fig:metis-pd-partition} 第一行左侧的两幅图展示了划分结果。
+
+\paragraph{互补划分}
+如\Cref{sec:phase-complement}所述，界面位置决定了子结构特征模态的相位。一个关键问题出现在 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的界面相交处：在这些交汇点，$\mathbf{S}_i^p$ 和 $\mathbf{S}^d_j$ 共享相同的相位约束，局部地将基退化为单一相位。为缓解这一问题，我们引入覆盖这些交汇点的辅助子结构。对于每个交汇点，我们将 $\gamma$-环顶点邻域聚合为一个新的子结构。参数 $\gamma$ 逐步增加，直到新子结构的顶点数达到 $\Omega_i^p$ 和 $\Omega_j^d$ 的最大顶点数。我们将这些重叠的子结构收集为\Cref{fig:metis-c-partition} 所示的互补划分。
+
+对于每个子结构，我们按照\Cref{eq:sub-eig} 计算子结构特征模态，并将它们组装到 $\mathbf{S}^c$ 中以简化记号，尽管这些子结构可能重叠。此外，我们不添加这些子结构的界面模态，因为我们在实验中发现仅添加子结构特征模态已足够。我们将选择最优基函数留作未来工作。现在子空间扩展为 $\mathbf{S} =
+[\mathbf{S}^p, \mathbf{S}^d, \mathbf{S}^c]$，我们使用该子空间来缩减全局系统。
+
+如\Cref{fig:laplacian-metis-error-time} 所示，若没有这些互补划分来解决交汇点的相位缺陷，我们的方法无法超越传统 CMS。然而，通过引入这些辅助子结构，它在相当的计算预算下实现了显著更低的误差。

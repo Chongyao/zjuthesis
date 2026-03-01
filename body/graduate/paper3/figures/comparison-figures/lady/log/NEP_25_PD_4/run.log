@@ -1,0 +1,192 @@
+[Rank 0] Reading input data...
+[Rank 0] Finished reading and setup.
+[0;34m[TOC] Read K and M file time: 0.113929 s[0m
+[0;32m[TIC] CMS::solve start[0m
+[0;32m[TIC] CMS::preprocess start[0m
+[Rank 0] Total 4 MPI processes started.
+[0;32m[TIC] CMS::permute start[0m
+[0;34m[TOC] CMS::permute time: 0.0336755 s[0m
+[Rank 0] Permutation completed.
+[Rank 0] Sending to itself with nrows = 228681, nnzK = 915279, nnzM = 915279
+[Rank 0] Sending subsystem to process 1 with nrows = 50183, nnzK = 201777, nnzM = 201777
+[Rank 0] Sending subsystem to process 2 with nrows = 49605, nnzK = 199334, nnzM = 199334
+[Rank 0] Sending subsystem to process 3 with nrows = 34365, nnzK = 137848, nnzM = 137848
+[0;34m[TOC] CMS::preprocess time: 0.0731735 s[0m
+[0;32m[TIC] CMS::solveCore start[0m
+[0;32m[TIC] CMS::solveSSystem start[0m
+[Rank 3] Need eigenvalues: 25, Solving subsystem matrix...
+[Rank 2] Need eigenvalues: 25, Solving subsystem matrix...
+[Rank 1] Need eigenvalues: 25, Solving subsystem matrix...
+[1;31;40m[Rank 2] Number of converged eigenpairs: 28, the smallest is: 32.5612[0m
+[1;31;40m[Rank 3] Number of converged eigenpairs: 30, the smallest is: 9.44707[0m
+[Rank 0] Need eigenvalues: 25, Solving subsystem matrix...
+[1;31;40m[Rank 1] Number of converged eigenpairs: 28, the smallest is: 36.9874[0m
+[1;31;40m[Rank 0] Number of converged eigenpairs: 28, the smallest is: 1.59737[0m
+[0;34m[TOC] CMS::solveSSystem time: 8.97886 s[0m
+[0;34m[TOC] CMS::solveCore time: 8.97891 s[0m
+[0;34m[TOC] solve time: 9.05215 s[0m
+[Rank 3] Finished writing Partition_1_1_4_p_Substructure_3.ev
+[Rank 2] Finished writing Partition_1_1_4_p_Substructure_2.ev
+[Rank 1] Finished writing Partition_1_1_4_p_Substructure_1.ev
+[Rank 0] Finished writing Partition_1_1_4_p_Substructure_0.ev
+[0;34m[TOC] CMS::solve time: 9.1563 s[0m
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There are 8 unused database options. They are:
+Option left: name:--K-path value: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/K_ele.csc source: command line
+Option left: name:--M-path value: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/M_ele.csc source: command line
+Option left: name:--nbd value: 0 source: command line
+Option left: name:--nep value: 25 source: command line
+Option left: name:--nev value: 50 source: command line
+Option left: name:--output value: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD source: command line
+Option left: name:--par-path value: ./Partition_1_1_4_p.partition source: command line
+Option left: name:--stat_st value: 1 source: command line
+[Rank 0] Reading input data...
+[Rank 0] Finished reading and setup.
+[0;34m[TOC] Read K and M file time: 0.10716 s[0m
+[0;32m[TIC] CMS::solve start[0m
+[0;32m[TIC] CMS::preprocess start[0m
+[Rank 0] Total 5 MPI processes started.
+[0;32m[TIC] CMS::permute start[0m
+[0;34m[TOC] CMS::permute time: 0.0285315 s[0m
+[Rank 0] Permutation completed.
+[Rank 0] Sending to itself with nrows = 190093, nnzK = 761144, nnzM = 761144
+[Rank 0] Sending subsystem to process 1 with nrows = 63473, nnzK = 255084, nnzM = 255084
+[Rank 0] Sending subsystem to process 2 with nrows = 51995, nnzK = 208940, nnzM = 208940
+[Rank 0] Sending subsystem to process 3 with nrows = 40652, nnzK = 163443, nnzM = 163443
+[Rank 0] Sending subsystem to process 4 with nrows = 16027, nnzK = 64424, nnzM = 64424
+[0;34m[TOC] CMS::preprocess time: 0.0748416 s[0m
+[0;32m[TIC] CMS::solveCore start[0m
+[0;32m[TIC] CMS::solveSSystem start[0m
+[Rank 4] Need eigenvalues: 25, Solving subsystem matrix...
+[Rank 3] Need eigenvalues: 25, Solving subsystem matrix...
+[Rank 2] Need eigenvalues: 25, Solving subsystem matrix...
+[Rank 1] Need eigenvalues: 25, Solving subsystem matrix...
+[1;31;40m[Rank 4] Number of converged eigenpairs: 31, the smallest is: 33.9625[0m
+[Rank 0] Need eigenvalues: 25, Solving subsystem matrix...
+[1;31;40m[Rank 3] Number of converged eigenpairs: 29, the smallest is: 36.1123[0m
+[1;31;40m[Rank 2] Number of converged eigenpairs: 26, the smallest is: 34.9581[0m
+[1;31;40m[Rank 1] Number of converged eigenpairs: 27, the smallest is: 26.0784[0m
+[1;31;40m[Rank 0] Number of converged eigenpairs: 25, the smallest is: 3.77898[0m
+[0;34m[TOC] CMS::solveSSystem time: 6.87418 s[0m
+[0;34m[TOC] CMS::solveCore time: 6.87424 s[0m
+[0;34m[TOC] solve time: 6.94914 s[0m
+[Rank 4] Finished writing Partition_1_1_4_d_Substructure_4.ev
+[Rank 2] Finished writing Partition_1_1_4_d_Substructure_2.ev
+[Rank 3] Finished writing Partition_1_1_4_d_Substructure_3.ev
+[Rank 1] Finished writing Partition_1_1_4_d_Substructure_1.ev
+[Rank 0] Finished writing Partition_1_1_4_d_Substructure_0.ev
+[0;34m[TOC] CMS::solve time: 7.05624 s[0m
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There are 8 unused database options. They are:
+Option left: name:--K-path value: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/K_ele.csc source: command line
+Option left: name:--M-path value: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/M_ele.csc source: command line
+Option left: name:--nbd value: 0 source: command line
+Option left: name:--nep value: 25 source: command line
+Option left: name:--nev value: 50 source: command line
+Option left: name:--output value: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD source: command line
+Option left: name:--par-path value: ./Partition_1_1_4_d.partition source: command line
+Option left: name:--stat_st value: 1 source: command line
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_1.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_2.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_3.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_1.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_2.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_3.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_4.ev
+[2026-01-22 23:55:55.072] [info] TOC: set interface modes cost 2.399363 seconds.
+[2026-01-22 23:55:55.564] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes0_Substructure_0.ev, nconv: 28, nrow: 254347
+[2026-01-22 23:55:55.751] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes1_Substructure_0.ev, nconv: 28, nrow: 115921
+[2026-01-22 23:55:55.877] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes2_Substructure_0.ev, nconv: 28, nrow: 93170
+[2026-01-22 23:55:55.983] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes3_Substructure_0.ev, nconv: 30, nrow: 56998
+[2026-01-22 23:55:56.076] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes4_Substructure_0.ev, nconv: 27, nrow: 279423
+[2026-01-22 23:55:56.286] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes5_Substructure_0.ev, nconv: 26, nrow: 100320
+[2026-01-22 23:55:56.405] [info] Writing eigenvalues and eigenvectors to: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes6_Substructure_0.ev, nconv: 29, nrow: 84361
+[2026-01-22 23:56:15.329] [info] TOC: Spectra get ground truth cost 18.329124 seconds.
+[2026-01-22 23:56:15.330] [info] Spectra factorization cost is 0 s
+4.60404e-14     1.21667     3.31503     5.34254     6.04101     8.69369     10.0217      10.922     13.4949     13.9139     15.3476     18.2413     20.0693     20.5092     23.1875     24.1352     25.8642     26.5223     29.0686     30.2966     32.5418     33.8911     34.0928     35.1696     38.7438     40.1104      42.054     43.9804     44.8041     46.4874     47.6249     48.7554     50.7129     51.8571     54.2526     56.1759     57.8945     59.8894      60.502     62.2393     64.0718      65.037     65.5728     66.3413     68.2943     71.1549     74.2134     75.4832      77.859     79.2882
+[2026-01-22 23:56:16.273] [info] ||Kv - MvA|| / ||Kv||, Identity as metric: 1.9190e-08
+[2026-01-22 23:56:21.706] [info] ||Kv - MvA|| / ||Kv||, Minv as metric :2.9972e-13
+#[INFO]Mesh: #Vertices 3 364316, #Elements 3 728624
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_1.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_2.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_p_Substructure_3.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_1.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_2.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_3.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/Partition_1_1_4_d_Substructure_4.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes0_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes1_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes2_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes3_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes4_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes5_Substructure_0.ev
+open file: /public/bigdata/home/yinjunzhou/Project/FINAL_EX/a_lady/NEP_25_PD/interface_modes6_Substructure_0.ev
+[2026-01-22 23:56:28.914] [info] TOC: construct reduced K, M cost 4.601649 seconds.
+[2026-01-22 23:56:33.984] [info] TIC: solve reduced eigen
+[2026-01-22 23:56:34.213] [info] TOC: solve reduced eigen cost 0.228771 seconds.
+Attempt 1: max_eigenvalue = 79.3944, mu/sigma = 1000, relative_error = 0.920606
+Convergence achieved with mu = 1e-07, sigma = 1e-10
+Reduced eigenproblem size (columns of vec_red): 50
+eigen values by cms with Subspace 1_1_4+1_1_3:0.00133508     1.2171    3.31568    5.34496    6.04151    8.69488    10.0254    10.9247    13.4963    13.9147    15.3498    18.2448    20.0714    20.5108    23.1904    24.1376    25.8663    26.5266    29.0749    30.2994    32.5462    33.8943    34.0986     35.177    38.7514    40.1177    42.0616    43.9873    44.8126    46.4946     47.627    48.7616    50.7309    51.8662      54.26    56.1904    57.9117    59.9078    60.5177    62.2602    64.0876    65.0522    65.5776    66.3599    68.3118    71.1716    74.2396    75.5018    77.9093    79.3944
+[2026-01-22 23:56:40.549] [info] ||Kv - MvA|| / ||Kv||, Identity as metric: 3.4147e-01
+[2026-01-22 23:56:46.192] [info] ||Kv - MvA|| / ||Kv||, Minv as metric :3.7269e-01
+idx	true_ev(SLEPc)		computed_ev		relErr
+1	1.216670e+00	1.217102e+00	3.549465e-04
+2	3.315032e+00	3.315678e+00	1.948486e-04
+3	5.342540e+00	5.344963e+00	4.534566e-04
+4	6.041013e+00	6.041510e+00	8.212243e-05
+5	8.693689e+00	8.694876e+00	1.366082e-04
+6	1.002170e+01	1.002536e+01	3.656845e-04
+7	1.092200e+01	1.092470e+01	2.468237e-04
+8	1.349486e+01	1.349632e+01	1.081832e-04
+9	1.391395e+01	1.391471e+01	5.441095e-05
+10	1.534758e+01	1.534982e+01	1.461402e-04
+11	1.824129e+01	1.824481e+01	1.934418e-04
+12	2.006925e+01	2.007135e+01	1.046333e-04
+13	2.050919e+01	2.051078e+01	7.781544e-05
+14	2.318755e+01	2.319043e+01	1.242100e-04
+15	2.413522e+01	2.413756e+01	9.705250e-05
+16	2.586421e+01	2.586635e+01	8.261769e-05
+17	2.652235e+01	2.652663e+01	1.613624e-04
+18	2.906863e+01	2.907489e+01	2.155294e-04
+19	3.029664e+01	3.029945e+01	9.273222e-05
+20	3.254183e+01	3.254619e+01	1.340565e-04
+21	3.389106e+01	3.389433e+01	9.625194e-05
+22	3.409280e+01	3.409856e+01	1.689977e-04
+23	3.516957e+01	3.517697e+01	2.101854e-04
+24	3.874380e+01	3.875137e+01	1.952005e-04
+25	4.011045e+01	4.011766e+01	1.799876e-04
+26	4.205402e+01	4.206157e+01	1.795996e-04
+27	4.398040e+01	4.398733e+01	1.575575e-04
+Total num below threshold: 26
+28	4.480405e+01	4.481262e+01	1.912333e-04
+29	4.648736e+01	4.649461e+01	1.557778e-04
+30	4.762487e+01	4.762699e+01	4.453588e-05
+31	4.875544e+01	4.876156e+01	1.255765e-04
+32	5.071295e+01	5.073088e+01	3.535271e-04
+33	5.185706e+01	5.186617e+01	1.757620e-04
+34	5.425257e+01	5.425996e+01	1.362588e-04
+35	5.617590e+01	5.619037e+01	2.577229e-04
+36	5.789446e+01	5.791167e+01	2.972970e-04
+37	5.988940e+01	5.990780e+01	3.073671e-04
+38	6.050200e+01	6.051775e+01	2.603626e-04
+39	6.223935e+01	6.226021e+01	3.351591e-04
+40	6.407184e+01	6.408757e+01	2.454314e-04
+41	6.503699e+01	6.505224e+01	2.344948e-04
+42	6.557276e+01	6.557762e+01	7.423221e-05
+43	6.634132e+01	6.635986e+01	2.794529e-04
+44	6.829428e+01	6.831176e+01	2.559381e-04
+45	7.115485e+01	7.117156e+01	2.348325e-04
+46	7.421340e+01	7.423957e+01	3.526726e-04
+47	7.548322e+01	7.550185e+01	2.468539e-04
+48	7.785897e+01	7.790934e+01	6.468780e-04
+49	7.928816e+01	7.939439e+01	1.339784e-03
+[2026-01-22 23:56:46.279] [info] error of eigen values (2-norm): 2.1026e-03
+[2026-01-22 23:56:46.279] [info] error of eigen values (Mean): 2.2787e-04
+[2026-01-22 23:56:46.774] [info] norm of exact error is 6.6686e+00

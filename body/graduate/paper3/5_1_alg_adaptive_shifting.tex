@@ -1,0 +1,49 @@
+\begin{algorithm}[H]
+  \caption{自适应位移}\label{alg:adaptive-shifting}
+  \begin{algorithmic}[1]
+    \STATE $\mu \gets 0$
+    \STATE $\sigma \gets 0$
+    \STATE \COMMENT{初始尝试}
+    \STATE $\lambda_{\min}, \lambda_{\text{cut-off}} \gets$ 求解 \cref{eq:final-eig}
+    \IF{失败}
+      \STATE $\mu \gets 10^{-3}$
+      \STATE $\sigma \gets 10^{-6}$
+    \ELSE
+      \RETURN 特征值和特征向量
+    \ENDIF
+    
+    \STATE \COMMENT{寻找可行的初始位移}
+    \STATE $\lambda_{\min}, \lambda_{\text{cut-off}} \gets$ 求解 \cref{eq:final-eig}
+    \WHILE{失败}
+      \STATE $\mu \gets \mu \times 10$
+      \STATE $\sigma \gets \sigma \times 10$
+      \STATE $\lambda_{\min}, \lambda_{\text{cut-off}} \gets$ 求解 \cref{eq:final-eig}
+    \ENDWHILE
+    
+    \STATE \COMMENT{优化 $\mu$}
+    \STATE $\alpha \gets 4$
+    \STATE $\beta \gets 10^{-6}$
+    \WHILE{$\mu \ge \beta \lambda_{\min}$}
+      \STATE $\mu \gets \mu / 10$
+      \STATE $\lambda_{\min}, \lambda_{\text{cut-off}} \gets$ 求解 \cref{eq:final-eig}
+      \IF{异常}
+        \STATE \COMMENT{撤销更改}
+        \STATE $\mu \gets \mu \times 10$
+        \STATE \textbf{break}
+      \ENDIF
+    \ENDWHILE
+    
+    \STATE \COMMENT{优化 $\sigma$}
+    \WHILE{$\mu / \sigma \le \alpha \lambda_{\text{cut-off}}$}
+      \STATE $\sigma \gets \sigma / 10$
+      \STATE $\lambda_{\min}, \lambda_{\text{cut-off}} \gets$ 求解 \cref{eq:final-eig}
+      \IF{异常}
+        \STATE \COMMENT{撤销更改}
+        \STATE $\sigma \gets \sigma \times 10$
+        \STATE \textbf{break}
+      \ENDIF
+    \ENDWHILE
+    
+    \RETURN 特征值和特征向量
+  \end{algorithmic}
+\end{algorithm}

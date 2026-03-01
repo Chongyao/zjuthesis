@@ -1,0 +1,102 @@
+#!/home/zcy/Applications/ParaView-6.0.1-MPI-Linux-Python3.12-x86_64/bin/pvbatch
+import sys
+import os
+
+# Add parent directory to path to import pv_utils
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    import pv_utils
+except ImportError:
+    # Fallback if running directly from directory without parent in path context
+    sys.path.append("..")
+    import pv_utils
+
+# -----------------------------------------------------------------------------
+# Model Specific Configuration
+# -----------------------------------------------------------------------------
+MODEL_NAME = "cat"
+SOURCE_DIR = "/home/zcy/workspace/projects/arborecence/pipline"
+CURRENT_DIR = os.getcwd()
+
+# Define which modes to plot
+# Based on trace: 1, 25, 47 (46 was colored but not saved)
+MODES_TO_PLOT = [1, 25, 47]
+
+
+# -----------------------------------------------------------------------------
+# Execution
+# -----------------------------------------------------------------------------
+def main():
+    # 1. Load Configs
+    camera_file = os.path.join(CURRENT_DIR, "camera.json")
+    preset_file = os.path.join(os.path.dirname(pv_utils.__file__), "color_presets.json")
+
+    camera_params = pv_utils.load_json(camera_file)
+    presets = pv_utils.load_json(preset_file)
+
+    # 2. Ensure Data Exists
+    vtk_file = f"{MODEL_NAME}.vtk"
+    modes_file = f"{MODEL_NAME}-modes.vtk"
+    pv_utils.ensure_symlinks(SOURCE_DIR, CURRENT_DIR, [vtk_file, modes_file])
+
+    # 3. Setup ParaView
+    view = pv_utils.setup_view(camera_params)
+    img_res = [2146, 1334]  # Resolution from trace
+
+    # 4. Plot Partitions (Primal/Dual)
+    vtk_path = os.path.join(CURRENT_DIR, vtk_file)
+    model_source = pv_utils.load_vtk(vtk_path, vtk_file)
+
+    if model_source:
+        print("Plotting partitions...")
+        part_preset = presets.get("partition", "Blue to Red Rainbow")
+
+        # Primal
+        pv_utils.plot_field(
+            view,
+            model_source,
+            "partition_0",
+            part_preset,
+            os.path.join(CURRENT_DIR, "primal-partition.png"),
+            resolution=img_res,
+            compute_normals=True,
+        )
+
+        # Dual (Transparent)
+        pv_utils.plot_field(
+            view,
+            model_source,
+            "partition_1",
+            part_preset,
+            os.path.join(CURRENT_DIR, "dual-partition.png"),
+            resolution=img_res,
+            compute_normals=True,
+            transparent=True,
+        )
+
+    # 5. Plot Eigen Modes
+    modes_path = os.path.join(CURRENT_DIR, modes_file)
+    modes_source = pv_utils.load_vtk(modes_path, modes_file)
+
+    if modes_source:
+        print("Plotting modes...")
+        eig_preset = presets.get("eigenvec", "Cool to Warm")
+
+        for mode_idx in MODES_TO_PLOT:
+            field_name = f"eigenvec_{mode_idx}"
+            print(f"  - {field_name}")
+            out_path = os.path.join(CURRENT_DIR, f"eig-{mode_idx}.png")
+            pv_utils.plot_field(
+                view,
+                modes_source,
+                field_name,
+                eig_preset,
+                out_path,
+                resolution=img_res,
+                compute_normals=False,
+            )
+
+
+if __name__ == "__main__":
+    main()
