@@ -1,0 +1,63 @@
+{
+  "description": "Selected mode shapes for visualization. Each category contains one mode per submesh.",
+  "data_source": "/home/zcy/workspace/projects/arborecence/pipline/cms_local_update/falcon_shell_balanced_small/results",
+  "total_modes": 36,
+  "categories": {
+    "primal_interior_modes": {
+      "vtk_pattern": "interior_modes_primal_sub{}.vtk",
+      "modes": [
+        {"submesh": 0, "mode": 1},
+        {"submesh": 1, "mode": 11},
+        {"submesh": 2, "mode": 15},
+        {"submesh": 3, "mode": 17},
+        {"submesh": 4, "mode": 11},
+        {"submesh": 5, "mode": 12},
+        {"submesh": 6, "mode": 19},
+        {"submesh": 7, "mode": 17},
+        {"submesh": 8, "mode": 6}
+      ]
+    },
+    "dual_interior_modes": {
+      "vtk_pattern": "interior_modes_dual_sub{}.vtk",
+      "modes": [
+        {"submesh": 0, "mode": 1},
+        {"submesh": 1, "mode": 18},
+        {"submesh": 2, "mode": 19},
+        {"submesh": 3, "mode": 17},
+        {"submesh": 4, "mode": 19},
+        {"submesh": 5, "mode": 16},
+        {"submesh": 6, "mode": 16},
+        {"submesh": 7, "mode": 19},
+        {"submesh": 8, "mode": 12},
+        {"submesh": 9, "mode": 6}
+      ]
+    },
+    "primal_interface_modes": {
+      "vtk_pattern": "interface_modes_primal_sub{}.vtk",
+      "modes": [
+        {"submesh": 0, "mode": 3},
+        {"submesh": 1, "mode": 7},
+        {"submesh": 2, "mode": 1},
+        {"submesh": 3, "mode": 6},
+        {"submesh": 4, "mode": 10},
+        {"submesh": 5, "mode": 0},
+        {"submesh": 6, "mode": 14},
+        {"submesh": 7, "mode": 18},
+        {"submesh": 8, "mode": 6}
+      ]
+    },
+    "dual_interface_modes": {
+      "vtk_pattern": "interface_modes_dual_sub{}.vtk",
+      "modes": [
+        {"submesh": 0, "mode": 0},
+        {"submesh": 1, "mode": 10},
+        {"submesh": 2, "mode": 19},
+        {"submesh": 3, "mode": 6},
+        {"submesh": 4, "mode": 0},
+        {"submesh": 5, "mode": 8},
+        {"submesh": 6, "mode": 19},
+        {"submesh": 7, "mode": 16}
+      ]
+    }
+  }
+}

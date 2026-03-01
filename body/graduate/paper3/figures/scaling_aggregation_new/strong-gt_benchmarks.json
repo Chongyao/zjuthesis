@@ -1,0 +1,43 @@
+[
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.5_nx1000_ny1000",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.5_nx1000_ny1000/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 48.45,
+          "compute_time_s": 48.2618,
+          "load_time_s": 0.054916,
+          "save_time_s": 0.113073,
+          "peak_memory_gb": 3.556
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 48.45,
+      "total_compute_s": 48.2618,
+      "total_load_s": 0.054916,
+      "total_save_s": 0.113073,
+      "max_peak_memory_gb": 3.556,
+      "total_data_transfer_s": 0.167989
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 48.45,
+      "overall_max_peak_memory_gb": 3.556
+    }
+  }
+]

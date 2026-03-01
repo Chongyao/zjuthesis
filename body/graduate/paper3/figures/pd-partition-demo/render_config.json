@@ -1,0 +1,57 @@
+[
+    {
+        "vtk": "S1_all_modes.vtk",
+        "camera": {
+            "InteractionMode": "2D",
+            "CameraPosition": [0.5, 0.75, 5.025],
+            "CameraFocalPoint": [0.5, 0.75, 0.0],
+            "CameraParallelScale": 0.9013878188659973
+        },
+        "plots": [
+            {
+                "field": "eigenvec_24",
+                "output": "primal-eig.png"
+            }
+        ]
+    },
+    {
+        "vtk": "quad.vtk",
+        "camera": {
+            "InteractionMode": "2D",
+            "CameraPosition": [0.5, 0.75, 5.025],
+            "CameraFocalPoint": [0.5, 0.75, 0.0],
+            "CameraParallelScale": 0.9013878188659973
+        },
+        "plots": [
+            {
+                "field": "partition_1",
+                "output": "partition-p.png",
+                "preset": "Cool to Warm"
+            },
+            {
+                "field": "partition_3",
+                "output": "partition-d.png",
+                "preset": "Cool to Warm"
+            }
+        ]
+    },
+    {
+        "vtk": "S1_shift_all_modes.vtk",
+        "camera": {
+            "InteractionMode": "2D",
+            "CameraPosition": [0.5, 0.75, 5.025],
+            "CameraFocalPoint": [0.5, 0.75, 0.0],
+            "CameraParallelScale": 0.9013878188659973
+        },
+        "plots": [
+            {
+                "field": "eigenvec_24",
+                "output": "dual-eig-1.png"
+            },
+            {
+                "field": "eigenvec_39",
+                "output": "dual-eig-2.png"
+            }
+        ]
+    }
+]

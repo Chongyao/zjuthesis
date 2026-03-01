@@ -1,0 +1,65 @@
+[
+    {
+        "vtk": "eig_vecs_primal_dual.vtk",
+        "camera": {
+            "InteractionMode": "2D",
+            "CameraPosition": [0.5, 0.75, 5.025],
+            "CameraFocalPoint": [0.5, 0.75, 0.0],
+            "CameraParallelScale": 0.9013878188659973
+        },
+        "plots": [
+            {"field": "eigenvec_0", "output": "dual-sub-eig-0.png"},
+            {"field": "eigenvec_1", "output": "dual-sub-eig-1.png"},
+            {"field": "eigenvec_2", "output": "dual-sub-eig-2.png"},
+            {"field": "eigenvec_3", "output": "dual-sub-eig-3.png"},
+            {"field": "eigenvec_4", "output": "dual-sub-eig-4.png"},
+            {"field": "eigenvec_5", "output": "dual-sub-eig-5.png"},
+            {"field": "eigenvec_6", "output": "dual-sub-eig-6.png"},
+            {"field": "eigenvec_7", "output": "dual-sub-eig-7.png"},
+            {"field": "eigenvec_8", "output": "dual-sub-eig-8.png"},
+            {"field": "eigenvec_9", "output": "dual-sub-eig-9.png"}
+        ]
+    },
+    {
+        "vtk": "eig_vecs_interface_modes_lc_solve-exact.vtk",
+        "camera": {
+            "InteractionMode": "2D",
+            "CameraPosition": [0.5, 0.75, 5.025],
+            "CameraFocalPoint": [0.5, 0.75, 0.0],
+            "CameraParallelScale": 0.9013878188659973
+        },
+        "plots": [
+            {"field": "eigenvec_20", "output": "gt-0.png"},
+            {"field": "eigenvec_21", "output": "gt-1.png"},
+            {"field": "eigenvec_22", "output": "gt-2.png"},
+            {"field": "eigenvec_23", "output": "gt-3.png"},
+            {"field": "eigenvec_24", "output": "gt-4.png"},
+            {"field": "eigenvec_25", "output": "gt-5.png"},
+            {"field": "eigenvec_26", "output": "gt-6.png"},
+            {"field": "eigenvec_27", "output": "gt-7.png"},
+            {"field": "eigenvec_28", "output": "gt-8.png"},
+            {"field": "eigenvec_29", "output": "gt-9.png"}
+        ]
+    },
+    {
+        "vtk": "eig_vecs_interface_modes_lc_solve.vtk",
+        "camera": {
+            "InteractionMode": "2D",
+            "CameraPosition": [0.5, 0.75, 5.025],
+            "CameraFocalPoint": [0.5, 0.75, 0.0],
+            "CameraParallelScale": 0.9013878188659973
+        },
+        "plots": [
+            {"field": "eigenvec_0", "output": "SE-free-IMR-0.png"},
+            {"field": "eigenvec_1", "output": "SE-free-IMR-1.png"},
+            {"field": "eigenvec_2", "output": "SE-free-IMR-2.png"},
+            {"field": "eigenvec_3", "output": "SE-free-IMR-3.png"},
+            {"field": "eigenvec_4", "output": "SE-free-IMR-4.png"},
+            {"field": "eigenvec_5", "output": "SE-free-IMR-5.png"},
+            {"field": "eigenvec_6", "output": "SE-free-IMR-6.png"},
+            {"field": "eigenvec_7", "output": "SE-free-IMR-7.png"},
+            {"field": "eigenvec_8", "output": "SE-free-IMR-8.png"},
+            {"field": "eigenvec_9", "output": "SE-free-IMR-9.png"}
+        ]
+    }
+]

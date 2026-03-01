@@ -1,0 +1,912 @@
+[
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx9802_ny202_np24_neig11_ranks49",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx9802_ny202_np24_neig11_ranks49/Lx1.0_Ly1.0_nx9802_ny202_np24_neig11_ranks49/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 49,
+          "max_wall_time_s": 0.75,
+          "avg_wall_time_s": 0.6514285714285715,
+          "load_balance_time": 0.8685714285714287,
+          "bottleneck_peak_memory_gb": 0.151,
+          "avg_peak_memory_gb": 0.14785714285714285,
+          "load_balance_memory": 0.97918637653737,
+          "bottleneck_compute_s": 0.715983,
+          "bottleneck_load_s": 0.009121,
+          "bottleneck_save_s": 0.001727
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.41,
+          "compute_time_s": 0.017876,
+          "load_time_s": 0.146918,
+          "save_time_s": 0.010823,
+          "peak_memory_gb": 0.968
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 49,
+          "max_wall_time_s": 0.53,
+          "avg_wall_time_s": 0.4883673469387755,
+          "load_balance_time": 0.9214478244127838,
+          "bottleneck_peak_memory_gb": 0.596,
+          "avg_peak_memory_gb": 0.5959591836734693,
+          "load_balance_memory": 0.9999315162306533,
+          "bottleneck_compute_s": 0.411735,
+          "bottleneck_load_s": 0.097493,
+          "bottleneck_save_s": 0.003476
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.6,
+          "compute_time_s": 0.337785,
+          "load_time_s": 0.112389,
+          "save_time_s": 0.103986,
+          "peak_memory_gb": 1.411
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.18,
+          "compute_time_s": 0.000472,
+          "load_time_s": 0.147015,
+          "save_time_s": 0.000749,
+          "peak_memory_gb": 1.053
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 49,
+          "max_wall_time_s": 1.06,
+          "avg_wall_time_s": 0.9057142857142858,
+          "load_balance_time": 0.8544474393530997,
+          "bottleneck_peak_memory_gb": 1.803,
+          "avg_peak_memory_gb": 1.6442244897959186,
+          "load_balance_memory": 0.9119381529650131,
+          "bottleneck_compute_s": 0.702296,
+          "bottleneck_load_s": 0.287809,
+          "bottleneck_save_s": 0.001414
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.00296,
+          "load_time_s": 0.000693,
+          "save_time_s": 0.00031,
+          "peak_memory_gb": 0.036
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.1,
+          "compute_time_s": 0.083818,
+          "load_time_s": 0.001321,
+          "save_time_s": 0.00018,
+          "peak_memory_gb": 0.06
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 1.31,
+      "total_compute_s": 0.442911,
+      "total_load_s": 0.40833600000000003,
+      "total_save_s": 0.116048,
+      "max_peak_memory_gb": 1.411,
+      "total_data_transfer_s": 0.5243840000000001
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 2.34,
+      "max_bottleneck_compute_s": 0.715983,
+      "total_bottleneck_load_s": 0.39442299999999997,
+      "total_bottleneck_save_s": 0.006617,
+      "max_peak_memory_gb": 1.803,
+      "total_bottleneck_data_transfer_s": 0.40103999999999995,
+      "avg_load_balance_time": 0.8814888974457707,
+      "avg_load_balance_memory": 0.9636853485776787
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 3.65,
+      "overall_max_peak_memory_gb": 1.803
+    }
+  },
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx11402_ny202_np28_neig11_ranks57",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx11402_ny202_np28_neig11_ranks57/Lx1.0_Ly1.0_nx11402_ny202_np28_neig11_ranks57/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 57,
+          "max_wall_time_s": 0.78,
+          "avg_wall_time_s": 0.7250877192982456,
+          "load_balance_time": 0.9295996401259559,
+          "bottleneck_peak_memory_gb": 0.15,
+          "avg_peak_memory_gb": 0.14742105263157895,
+          "load_balance_memory": 0.9828070175438597,
+          "bottleneck_compute_s": 0.749728,
+          "bottleneck_load_s": 0.009207,
+          "bottleneck_save_s": 0.002531
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.51,
+          "compute_time_s": 0.020943,
+          "load_time_s": 0.168316,
+          "save_time_s": 0.012625,
+          "peak_memory_gb": 1.121
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 57,
+          "max_wall_time_s": 0.59,
+          "avg_wall_time_s": 0.543859649122807,
+          "load_balance_time": 0.9217960154623849,
+          "bottleneck_peak_memory_gb": 0.689,
+          "avg_peak_memory_gb": 0.6886140350877192,
+          "load_balance_memory": 0.9994398187049627,
+          "bottleneck_compute_s": 0.460567,
+          "bottleneck_load_s": 0.114394,
+          "bottleneck_save_s": 0.003634
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.69,
+          "compute_time_s": 0.385238,
+          "load_time_s": 0.131594,
+          "save_time_s": 0.121949,
+          "peak_memory_gb": 1.641
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.22,
+          "compute_time_s": 0.000351,
+          "load_time_s": 0.17492,
+          "save_time_s": 0.000819,
+          "peak_memory_gb": 1.225
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 57,
+          "max_wall_time_s": 1.18,
+          "avg_wall_time_s": 1.0963157894736844,
+          "load_balance_time": 0.9290811775200716,
+          "bottleneck_peak_memory_gb": 1.889,
+          "avg_peak_memory_gb": 1.7974035087719298,
+          "load_balance_memory": 0.9515105922561831,
+          "bottleneck_compute_s": 0.843087,
+          "bottleneck_load_s": 0.300089,
+          "bottleneck_save_s": 0.001258
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.003657,
+          "load_time_s": 0.00079,
+          "save_time_s": 0.000363,
+          "peak_memory_gb": 0.039
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.12,
+          "compute_time_s": 0.101303,
+          "load_time_s": 0.00148,
+          "save_time_s": 0.000191,
+          "peak_memory_gb": 0.062
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 1.56,
+      "total_compute_s": 0.5114920000000001,
+      "total_load_s": 0.47709999999999997,
+      "total_save_s": 0.13594699999999998,
+      "max_peak_memory_gb": 1.641,
+      "total_data_transfer_s": 0.6130469999999999
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 2.55,
+      "max_bottleneck_compute_s": 0.843087,
+      "total_bottleneck_load_s": 0.42369,
+      "total_bottleneck_save_s": 0.007423000000000001,
+      "max_peak_memory_gb": 1.889,
+      "total_bottleneck_data_transfer_s": 0.431113,
+      "avg_load_balance_time": 0.9268256110361374,
+      "avg_load_balance_memory": 0.9779191428350019
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 4.109999999999999,
+      "overall_max_peak_memory_gb": 1.889
+    }
+  },
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx3402_ny202_np8_neig22_ranks17",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx3402_ny202_np8_neig22_ranks17/Lx1.0_Ly1.0_nx3402_ny202_np8_neig22_ranks17/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 17,
+          "max_wall_time_s": 0.82,
+          "avg_wall_time_s": 0.6970588235294117,
+          "load_balance_time": 0.8500717360114778,
+          "bottleneck_peak_memory_gb": 0.181,
+          "avg_peak_memory_gb": 0.17235294117647057,
+          "load_balance_memory": 0.9522261943451413,
+          "bottleneck_compute_s": 0.787221,
+          "bottleneck_load_s": 0.010384,
+          "bottleneck_save_s": 0.002164
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.12,
+          "compute_time_s": 0.005823,
+          "load_time_s": 0.062503,
+          "save_time_s": 0.003486,
+          "peak_memory_gb": 0.465
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 17,
+          "max_wall_time_s": 0.34,
+          "avg_wall_time_s": 0.2982352941176471,
+          "load_balance_time": 0.8771626297577855,
+          "bottleneck_peak_memory_gb": 0.27,
+          "avg_peak_memory_gb": 0.2615882352941177,
+          "load_balance_memory": 0.9688453159041395,
+          "bottleneck_compute_s": 0.283681,
+          "bottleneck_load_s": 0.034844,
+          "bottleneck_save_s": 0.00598
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.34,
+          "compute_time_s": 0.194016,
+          "load_time_s": 0.053576,
+          "save_time_s": 0.063431,
+          "peak_memory_gb": 0.946
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.1,
+          "compute_time_s": 2.8e-05,
+          "load_time_s": 0.077205,
+          "save_time_s": 0.000278,
+          "peak_memory_gb": 0.68
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 17,
+          "max_wall_time_s": 0.48,
+          "avg_wall_time_s": 0.3835294117647059,
+          "load_balance_time": 0.7990196078431373,
+          "bottleneck_peak_memory_gb": 1.393,
+          "avg_peak_memory_gb": 1.194764705882353,
+          "load_balance_memory": 0.8576918204467717,
+          "bottleneck_compute_s": 0.334341,
+          "bottleneck_load_s": 0.112196,
+          "bottleneck_save_s": 0.000186
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.003072,
+          "load_time_s": 0.000601,
+          "save_time_s": 0.000308,
+          "peak_memory_gb": 0.034
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.07,
+          "compute_time_s": 0.054592,
+          "load_time_s": 0.000901,
+          "save_time_s": 0.000138,
+          "peak_memory_gb": 0.06
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 0.6500000000000001,
+      "total_compute_s": 0.25753099999999995,
+      "total_load_s": 0.19478600000000001,
+      "total_save_s": 0.067641,
+      "max_peak_memory_gb": 0.946,
+      "total_data_transfer_s": 0.262427
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 1.64,
+      "max_bottleneck_compute_s": 0.787221,
+      "total_bottleneck_load_s": 0.157424,
+      "total_bottleneck_save_s": 0.00833,
+      "max_peak_memory_gb": 1.393,
+      "total_bottleneck_data_transfer_s": 0.165754,
+      "avg_load_balance_time": 0.8420846578708002,
+      "avg_load_balance_memory": 0.9262544435653508
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 2.29,
+      "overall_max_peak_memory_gb": 1.393
+    }
+  },
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx1802_ny202_np4_neig30_ranks9",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx1802_ny202_np4_neig30_ranks9/Lx1.0_Ly1.0_nx1802_ny202_np4_neig30_ranks9/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 9,
+          "max_wall_time_s": 1.03,
+          "avg_wall_time_s": 0.831111111111111,
+          "load_balance_time": 0.8069039913700107,
+          "bottleneck_peak_memory_gb": 0.216,
+          "avg_peak_memory_gb": 0.18911111111111112,
+          "load_balance_memory": 0.8755144032921811,
+          "bottleneck_compute_s": 0.997199,
+          "bottleneck_load_s": 0.008598,
+          "bottleneck_save_s": 0.004365
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.08,
+          "compute_time_s": 0.002227,
+          "load_time_s": 0.040333,
+          "save_time_s": 0.001688,
+          "peak_memory_gb": 0.303
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 9,
+          "max_wall_time_s": 0.33,
+          "avg_wall_time_s": 0.2411111111111111,
+          "load_balance_time": 0.7306397306397306,
+          "bottleneck_peak_memory_gb": 0.279,
+          "avg_peak_memory_gb": 0.23433333333333334,
+          "load_balance_memory": 0.8399044205495818,
+          "bottleneck_compute_s": 0.278886,
+          "bottleneck_load_s": 0.022059,
+          "bottleneck_save_s": 0.007165
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.23,
+          "compute_time_s": 0.132885,
+          "load_time_s": 0.030774,
+          "save_time_s": 0.039568,
+          "peak_memory_gb": 0.611
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.07,
+          "compute_time_s": 1.5e-05,
+          "load_time_s": 0.0488,
+          "save_time_s": 0.000218,
+          "peak_memory_gb": 0.462
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 9,
+          "max_wall_time_s": 0.35,
+          "avg_wall_time_s": 0.28,
+          "load_balance_time": 0.8000000000000002,
+          "bottleneck_peak_memory_gb": 1.106,
+          "avg_peak_memory_gb": 0.9717777777777779,
+          "load_balance_memory": 0.8786417520594736,
+          "bottleneck_compute_s": 0.241018,
+          "bottleneck_load_s": 0.069203,
+          "bottleneck_save_s": 0.00129
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.001716,
+          "load_time_s": 0.000491,
+          "save_time_s": 0.000206,
+          "peak_memory_gb": 0.031
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.05,
+          "compute_time_s": 0.036817,
+          "load_time_s": 0.00048,
+          "save_time_s": 0.000108,
+          "peak_memory_gb": 0.058
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 0.45,
+      "total_compute_s": 0.17365999999999998,
+      "total_load_s": 0.12087800000000001,
+      "total_save_s": 0.041788,
+      "max_peak_memory_gb": 0.611,
+      "total_data_transfer_s": 0.162666
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 1.71,
+      "max_bottleneck_compute_s": 0.997199,
+      "total_bottleneck_load_s": 0.09986,
+      "total_bottleneck_save_s": 0.01282,
+      "max_peak_memory_gb": 1.106,
+      "total_bottleneck_data_transfer_s": 0.11268,
+      "avg_load_balance_time": 0.7791812406699138,
+      "avg_load_balance_memory": 0.8646868586337456
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 2.16,
+      "overall_max_peak_memory_gb": 1.106
+    }
+  },
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx5002_ny202_np12_neig12_ranks25",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx5002_ny202_np12_neig12_ranks25/Lx1.0_Ly1.0_nx5002_ny202_np12_neig12_ranks25/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 25,
+          "max_wall_time_s": 0.43,
+          "avg_wall_time_s": 0.39879999999999993,
+          "load_balance_time": 0.9274418604651161,
+          "bottleneck_peak_memory_gb": 0.157,
+          "avg_peak_memory_gb": 0.15004,
+          "load_balance_memory": 0.9556687898089172,
+          "bottleneck_compute_s": 0.396168,
+          "bottleneck_load_s": 0.008533,
+          "bottleneck_save_s": 0.00259
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.18,
+          "compute_time_s": 0.008789,
+          "load_time_s": 0.081968,
+          "save_time_s": 0.005057,
+          "peak_memory_gb": 0.522
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 25,
+          "max_wall_time_s": 0.36,
+          "avg_wall_time_s": 0.3264,
+          "load_balance_time": 0.9066666666666667,
+          "bottleneck_peak_memory_gb": 0.317,
+          "avg_peak_memory_gb": 0.31679999999999997,
+          "load_balance_memory": 0.9993690851735014,
+          "bottleneck_compute_s": 0.286997,
+          "bottleneck_load_s": 0.049344,
+          "bottleneck_save_s": 0.003745
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.33,
+          "compute_time_s": 0.186555,
+          "load_time_s": 0.057331,
+          "save_time_s": 0.056427,
+          "peak_memory_gb": 0.784
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.11,
+          "compute_time_s": 5.5e-05,
+          "load_time_s": 0.082141,
+          "save_time_s": 0.000374,
+          "peak_memory_gb": 0.581
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 25,
+          "max_wall_time_s": 0.53,
+          "avg_wall_time_s": 0.4628,
+          "load_balance_time": 0.8732075471698113,
+          "bottleneck_peak_memory_gb": 1.212,
+          "avg_peak_memory_gb": 1.0758,
+          "load_balance_memory": 0.8876237623762377,
+          "bottleneck_compute_s": 0.358682,
+          "bottleneck_load_s": 0.140115,
+          "bottleneck_save_s": 0.00133
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.002218,
+          "load_time_s": 0.000404,
+          "save_time_s": 0.000247,
+          "peak_memory_gb": 0.034
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.07,
+          "compute_time_s": 0.056332,
+          "load_time_s": 0.000745,
+          "save_time_s": 0.000121,
+          "peak_memory_gb": 0.058
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 0.71,
+      "total_compute_s": 0.253949,
+      "total_load_s": 0.222589,
+      "total_save_s": 0.062226,
+      "max_peak_memory_gb": 0.784,
+      "total_data_transfer_s": 0.284815
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 1.32,
+      "max_bottleneck_compute_s": 0.396168,
+      "total_bottleneck_load_s": 0.197992,
+      "total_bottleneck_save_s": 0.007665,
+      "max_peak_memory_gb": 1.212,
+      "total_bottleneck_data_transfer_s": 0.205657,
+      "avg_load_balance_time": 0.9024386914338648,
+      "avg_load_balance_memory": 0.947553879119552
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 2.0300000000000002,
+      "overall_max_peak_memory_gb": 1.212
+    }
+  },
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx6602_ny202_np16_neig11_ranks33",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx6602_ny202_np16_neig11_ranks33/Lx1.0_Ly1.0_nx6602_ny202_np16_neig11_ranks33/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 33,
+          "max_wall_time_s": 0.64,
+          "avg_wall_time_s": 0.5184848484848484,
+          "load_balance_time": 0.8101325757575757,
+          "bottleneck_peak_memory_gb": 0.152,
+          "avg_peak_memory_gb": 0.14739393939393938,
+          "load_balance_memory": 0.9696969696969696,
+          "bottleneck_compute_s": 0.610689,
+          "bottleneck_load_s": 0.009527,
+          "bottleneck_save_s": 0.001386
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.24,
+          "compute_time_s": 0.011792,
+          "load_time_s": 0.099359,
+          "save_time_s": 0.006918,
+          "peak_memory_gb": 0.659
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 33,
+          "max_wall_time_s": 0.42,
+          "avg_wall_time_s": 0.38333333333333336,
+          "load_balance_time": 0.9126984126984128,
+          "bottleneck_peak_memory_gb": 0.41,
+          "avg_peak_memory_gb": 0.4092121212121212,
+          "load_balance_memory": 0.9980783444198078,
+          "bottleneck_compute_s": 0.331724,
+          "bottleneck_load_s": 0.06479,
+          "bottleneck_save_s": 0.003574
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.41,
+          "compute_time_s": 0.225617,
+          "load_time_s": 0.076729,
+          "save_time_s": 0.070515,
+          "peak_memory_gb": 0.955
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.13,
+          "compute_time_s": 9.7e-05,
+          "load_time_s": 0.102473,
+          "save_time_s": 0.000549,
+          "peak_memory_gb": 0.71
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 33,
+          "max_wall_time_s": 0.65,
+          "avg_wall_time_s": 0.5818181818181818,
+          "load_balance_time": 0.895104895104895,
+          "bottleneck_peak_memory_gb": 1.345,
+          "avg_peak_memory_gb": 1.2247272727272727,
+          "load_balance_memory": 0.9105778979384928,
+          "bottleneck_compute_s": 0.440134,
+          "bottleneck_load_s": 0.173666,
+          "bottleneck_save_s": 0.000167
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.002328,
+          "load_time_s": 0.000475,
+          "save_time_s": 0.000244,
+          "peak_memory_gb": 0.033
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.07,
+          "compute_time_s": 0.048989,
+          "load_time_s": 0.001928,
+          "save_time_s": 0.000153,
+          "peak_memory_gb": 0.058
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 0.8699999999999999,
+      "total_compute_s": 0.288823,
+      "total_load_s": 0.280964,
+      "total_save_s": 0.07837899999999998,
+      "max_peak_memory_gb": 0.955,
+      "total_data_transfer_s": 0.35934299999999997
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 1.71,
+      "max_bottleneck_compute_s": 0.610689,
+      "total_bottleneck_load_s": 0.24798299999999998,
+      "total_bottleneck_save_s": 0.005127,
+      "max_peak_memory_gb": 1.345,
+      "total_bottleneck_data_transfer_s": 0.25311,
+      "avg_load_balance_time": 0.8726452945202944,
+      "avg_load_balance_memory": 0.95945107068509
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 2.58,
+      "overall_max_peak_memory_gb": 1.345
+    }
+  },
+  {
+    "run_key": "weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx8202_ny202_np20_neig11_ranks41",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/weak-pd_unit200x200_Lx-1.0_Ly-1.0/Lx1.0_Ly1.0_nx8202_ny202_np20_neig11_ranks41/Lx1.0_Ly1.0_nx8202_ny202_np20_neig11_ranks41/run_statistics_v8.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 41,
+          "max_wall_time_s": 0.61,
+          "avg_wall_time_s": 0.5685365853658536,
+          "load_balance_time": 0.9320271891243502,
+          "bottleneck_peak_memory_gb": 0.159,
+          "avg_peak_memory_gb": 0.14780487804878048,
+          "load_balance_memory": 0.9295904279797514,
+          "bottleneck_compute_s": 0.579692,
+          "bottleneck_load_s": 0.0096,
+          "bottleneck_save_s": 0.002462
+        }
+      },
+      "alfim_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.32,
+          "compute_time_s": 0.014732,
+          "load_time_s": 0.122182,
+          "save_time_s": 0.008895,
+          "peak_memory_gb": 0.813
+        }
+      },
+      "alfim_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 41,
+          "max_wall_time_s": 0.48,
+          "avg_wall_time_s": 0.43609756097560975,
+          "load_balance_time": 0.9085365853658537,
+          "bottleneck_peak_memory_gb": 0.504,
+          "avg_peak_memory_gb": 0.5035365853658537,
+          "load_balance_memory": 0.9990805265195509,
+          "bottleneck_compute_s": 0.378567,
+          "bottleneck_load_s": 0.089939,
+          "bottleneck_save_s": 0.003637
+        }
+      },
+      "alfim_assemble": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.5,
+          "compute_time_s": 0.279982,
+          "load_time_s": 0.091879,
+          "save_time_s": 0.08612,
+          "peak_memory_gb": 1.185
+        }
+      },
+      "mp_cms_analyze": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.18,
+          "compute_time_s": 0.000199,
+          "load_time_s": 0.145193,
+          "save_time_s": 0.000614,
+          "peak_memory_gb": 0.882
+        }
+      },
+      "mp_cms_compute": {
+        "type": "parallel",
+        "stats": {
+          "num_tasks": 41,
+          "max_wall_time_s": 0.82,
+          "avg_wall_time_s": 0.7358536585365854,
+          "load_balance_time": 0.89738251041047,
+          "bottleneck_peak_memory_gb": 1.579,
+          "avg_peak_memory_gb": 1.444780487804878,
+          "load_balance_memory": 0.9149971423716771,
+          "bottleneck_compute_s": 0.555239,
+          "bottleneck_load_s": 0.21982,
+          "bottleneck_save_s": 0.001251
+        }
+      },
+      "mp_cms_assemble_mpi": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.02,
+          "compute_time_s": 0.002615,
+          "load_time_s": 0.000561,
+          "save_time_s": 0.000243,
+          "peak_memory_gb": 0.034
+        }
+      },
+      "solve_reduced_sparse_reg": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 0.07,
+          "compute_time_s": 0.052121,
+          "load_time_s": 0.001049,
+          "save_time_s": 0.000194,
+          "peak_memory_gb": 0.059
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 5,
+      "total_wall_time_s": 1.09,
+      "total_compute_s": 0.349649,
+      "total_load_s": 0.36086399999999996,
+      "total_save_s": 0.096066,
+      "max_peak_memory_gb": 1.185,
+      "total_data_transfer_s": 0.45692999999999995
+    },
+    "summary_parallel": {
+      "num_steps": 3,
+      "total_bottleneck_wall_time_s": 1.9099999999999997,
+      "max_bottleneck_compute_s": 0.579692,
+      "total_bottleneck_load_s": 0.319359,
+      "total_bottleneck_save_s": 0.007350000000000001,
+      "max_peak_memory_gb": 1.579,
+      "total_bottleneck_data_transfer_s": 0.326709,
+      "avg_load_balance_time": 0.9126487616335579,
+      "avg_load_balance_memory": 0.9478893656236598
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 3.0,
+      "overall_max_peak_memory_gb": 1.579
+    }
+  }
+]

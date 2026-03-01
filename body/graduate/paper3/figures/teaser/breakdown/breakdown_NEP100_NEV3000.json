@@ -1,0 +1,85 @@
+{
+  "description": "Time breakdown for Falcon Shell simulation (NEP100, NEV3000)",
+  "source_file": "derived_from_NEV500",
+  "total_time": 5228.9718,
+  "stages": [
+    {
+      "name": "Interior Eigenmodes",
+      "total_time": 2167.9748,
+      "components": [
+        {
+          "name": "Computation",
+          "time": 2167.9748,
+          "type": "computation",
+          "description": "Eigen solver for interior modes"
+        }
+      ]
+    },
+    {
+      "name": "Matrix Reducing",
+      "total_time": 1716.2496,
+      "components": [
+        {
+          "name": "Idle Time",
+          "time": 966.566849,
+          "type": "idle",
+          "description": "Waiting for load imbalance (Total off-diag - Transfer)"
+        },
+        {
+          "name": "Computation",
+          "time": 746.793551,
+          "type": "computation",
+          "description": "Local projection computation"
+        },
+        {
+          "name": "Data Communication",
+          "time": 2.889200,
+          "type": "communication",
+          "description": "Actual data transfer (26GB)"
+        }
+      ]
+    },
+    {
+      "name": "Interface Modes",
+      "total_time": 1138.3560,
+      "components": [
+        {
+          "name": "Computation",
+          "time": 1136.8967,
+          "type": "computation",
+          "description": "Solver for SE-free interface modes"
+        },
+        {
+          "name": "Data Communication",
+          "time": 1.459300,
+          "type": "communication",
+          "description": "Sync excitation timing"
+        }
+      ]
+    },
+    {
+      "name": "Solve Reduced eigen probelm",
+      "total_time": 201.4540,
+      "components": [
+        {
+          "name": "Computation",
+          "time": 201.4540,
+          "type": "computation",
+          "description": "Reduced eigen solver (Estimated for NEV3000)"
+        }
+      ]
+    },
+    {
+      "name": "Assemble Reduce Operator",
+      "total_time": 4.9374,
+      "components": [
+        {
+          "name": "Computation",
+          "time": 4.9374,
+          "type": "computation",
+          "description": "Assembly (Estimated for NEV3000)"
+        }
+      ]
+    }
+  ]
+}

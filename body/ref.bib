@@ -23,3 +23,2159 @@
     year = {2008},
     url = {http://grs.zju.edu.cn/redir.php?catalog_id=10038&object_id=12877},
 }
+
+@String{cgforum = "Computer Graphics Forum"}
+
+@String{tog = "ACM TOG"}
+
+@article{Thingi10K,
+  title={Thingi10K: A Dataset of 10,000 3D-Printing Models},
+  author={Zhou, Qingnan and Jacobson, Alec},
+  journal={arXiv preprint arXiv:1605.04797},
+  year={2016}
+}
+
+@article{Budninskiy_2019_wavelet,
+title = {Operator-adapted wavelets for finite-element differential forms},
+journal = {Journal of Computational Physics},
+volume = {388},
+pages = {144-177},
+year = {2019},
+issn = {0021-9991},
+author = {Max Budninskiy and Houman Owhadi and Mathieu Desbrun},
+keywords = {Non- multiresolution analysis, Finite-element differential forms, Operator-adapted wavelets},
+abstract = {We introduce in this paper an operator-adapted multiresolution analysis for finite-element differential forms. From a given continuous, linear, bijective, and self-adjoint positive-definite operator L, a hierarchy of basis functions and associated wavelets for discrete differential forms is constructed in a fine-to-coarse fashion and in quasilinear time. The resulting wavelets are L-orthogonal across all scales, and can be used to derive a Galerkin discretization of the operator such that its stiffness matrix becomes block-diagonal, with uniformly well-conditioned and sparse blocks. Because our approach applies to arbitrary differential p-forms, we can derive both scalar-valued and vector-valued wavelets block-diagonalizing a prescribed operator. We also discuss the generality of the construction by pointing out that it applies to various types of computational grids, offers arbitrary smoothness orders of basis functions and wavelets, and can accommodate linear differential constraints such as divergence-freeness. Finally, we demonstrate the benefits of the corresponding operator-adapted multiresolution decomposition for coarse-graining and model reduction of linear and non-linear partial differential equations.}
+}
+
+@article{Geers2010,
+author = {Geers, M. G. D. and Kouznetsova, V. G. and Brekelmans, W. A. M.},
+title = {Multi-scale computational homogenization: Trends and challenges},
+year = {2010},
+issue_date = {August, 2010},
+publisher = {Elsevier Science Publishers B. V.},
+address = {NLD},
+volume = {234},
+number = {7},
+issn = {0377-0427},
+abstract = {In the past decades, considerable progress had been made in bridging the mechanics of materials to other disciplines, e.g. downscaling to the field of materials science or upscaling to the field of structural engineering. Within this wide context, this paper reviews the state-of-the-art of a particular, yet powerful, method, i.e. computational homogenization. The paper discusses the main trends since the early developments of this approach up to the ongoing contributions and upcoming challenges in the field.},
+journal = {J. Comput. Appl. Math.},
+month = aug,
+pages = {2175–2182},
+numpages = {8},
+keywords = {Coarse graining, Homogenization, Multi-scale}
+}
+
+@article{Lukas2020,
+title = {On periodic homogenization of highly contrasted elastic structures},
+journal = {Journal of the Mechanics and Physics of Solids},
+volume = {144},
+pages = {104104},
+year = {2020},
+issn = {0022-5096},
+author = {Lukáš Jakabčin and Pierre Seppecher},
+keywords = {Higher-order homogeneization, High-contrast periodic elastic composite, Secondgradient models},
+}
+
+@article{Bacigalupo2014,
+  title = {Homogenization of periodic elastic composites and locally resonant sonic materials},
+  author = {Nemat-Nasser, Sia and Willis, John R. and Srivastava, Ankit and Amirkhizi, Alireza V.},
+  journal = {Phys. Rev. B},
+  volume = {83},
+  issue = {10},
+  pages = {104103},
+  numpages = {8},
+  year = {2011},
+  month = {Mar},
+  publisher = {American Physical Society},
+}
+
+@article{OstojaStarzewski2006,
+title = {Material spatial randomness: From statistical to representative volume element},
+journal = {Probabilistic Engineering Mechanics},
+volume = {21},
+number = {2},
+pages = {112-132},
+year = {2006},
+issn = {0266-8920},
+author = {Martin Ostoja-Starzewski},
+keywords = {Random media, Representative volume element, Statistical volume element, Scale effects},
+abstract = {The material spatial randomness forces one to re-examine various basic concepts of continuum solid mechanics. In this paper we focus on the Representative Volume Element (RVE) that is commonly taken for granted in most of deterministic as well as in stochastic solid mechanics, although in the latter case it is called the Statistical Volume Element (SVE). The key issue is the scale over which homogenization is being carried out—it is called the mesoscale, separating the microscale (level of microheterogeneities) from the macroscale (level of RVE). As the mesoscale grows, the SVE tends to become the RVE. This occurs in terms of two hierarchies of bounds stemming from Dirichlet and Neumann boundary value problems on the mesoscale, respectively. Since generally there is no periodicity in real random media, the RVE can only be approached approximately on finite scales. We review results on this subject in the settings of linear elasticity, finite elasticity, plasticity, viscoelasticity, thermoelasticity, and permeability.}
+}
+
+@article{ChenDdFEM2015,
+author = {Chen, Desai and Levin, David I. W. and Sueda, Shinjiro and Matusik, Wojciech},
+title = {Data-driven finite elements for geometry and material design},
+year = {2015},
+issue_date = {August 2015},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {34},
+number = {4},
+issn = {0730-0301},
+abstract = {Crafting the behavior of a deformable object is difficult---whether it is a biomechanically accurate character model or a new multimaterial 3D printable design. Getting it right requires constant iteration, performed either manually or driven by an automated system. Unfortunately, Previous algorithms for accelerating three-dimensional finite element analysis of elastic objects suffer from expensive precomputation stages that rely on a priori knowledge of the object's geometry and material composition. In this paper we introduce Data-Driven Finite Elements as a solution to this problem. Given a material palette, our method constructs a metamaterial library which is reusable for subsequent simulations, regardless of object geometry and/or material composition. At runtime, we perform fast coarsening of a simulation mesh using a simple table lookup to select the appropriate metamaterial model for the coarsened elements. When the object's material distribution or geometry changes, we do not need to update the metamaterial library---we simply need to update the metamaterial assignments to the coarsened elements. An important advantage of our approach is that it is applicable to non-linear material models. This is important for designing objects that undergo finite deformation (such as those produced by multimaterial 3D printing). Our method yields speed gains of up to two orders of magnitude while maintaining good accuracy. We demonstrate the effectiveness of the method on both virtual and 3D printed examples in order to show its utility as a tool for deformable object design.},
+journal = {ACM Trans. Graph.},
+month = jul,
+articleno = {74},
+numpages = {10},
+keywords = {data-driven simulation, finite element methods, material design, numerical coarsening}
+}
+
+@article{Shewchuk2007Anisotropic,
+  author    = {Shewchuk, Jonathan Richard},
+  title     = {Conditioning of Finite Element Equations with Arbitrary Anisotropic Meshes},
+  journal   = {SIAM Journal on Matrix Analysis and Applications},
+  volume    = {29},
+  number    = {3},
+  pages     = {975--994},
+  year      = {2007},
+  publisher = {Society for Industrial and Applied Mathematics}
+}
+
+@article{Dasgupta2003,
+author = {Martin, Sebastian and Kaufmann, Peter and Botsch, Mario and Wicke, Martin and Gross, Markus},
+title = {Polyhedral Finite Elements Using Harmonic Basis Functions},
+journal = {Computer Graphics Forum},
+volume = {27},
+number = {5},
+pages = {1521-1529},
+keywords = {I.3.5 Computer Graphics: Computational Geometry and Object Modeling—Physically based modeling},
+year = {2008}
+}
+
+@article{SukumarMalsch2006,
+  author    = {Sukumar, Natarajan and Malsch, Elisabeth A.},
+  title     = {Recent advances in the construction of polygonal finite element interpolants},
+  journal   = {Archives of Computational Methods in Engineering},
+  volume    = {13},
+  number    = {1},
+  pages     = {129--163},
+  year      = {2006},
+  publisher = {Springer}
+}
+
+@article{Jabbari2022AdaptiveRefinement,
+author = {Jabbari, Mahdi and Moslemi, Hamid},
+title = {Adaptive mesh refinement in polygonal finite elements using clustering technique},
+year = {2022},
+issue_date = {Dec 2022},
+publisher = {Elsevier Science Publishers B. V.},
+address = {NLD},
+volume = {212},
+number = {C},
+issn = {0168-874X},
+journal = {Finite Elem. Anal. Des.},
+month = dec,
+numpages = {16},
+keywords = {Polygonal elements, Adaptive finite element method, Clustering, Mesh refinement, Error estimation}
+}
+
+@article{BeiraoDaVeiga2013a_VEMBasic,
+  author    = {Beir{\~a}o da Veiga, Louren{\c{c}}o and Brezzi, Franco and Cangiani, Andrea and Manzini, Gianmarco and Marini, L. Donatella and Russo, Alessandro},
+  title     = {Basic principles of virtual element methods},
+  journal   = {Mathematical Models and Methods in Applied Sciences},
+  volume    = {23},
+  number    = {01},
+  pages     = {199--214},
+  year      = {2013},
+  publisher = {World Scientific}
+}
+
+@article{BeiraoDaVeiga2013b_VEMHitchhiker,
+author = {Beir\~{a}o da Veiga, L. and Brezzi, F. and Marini, L. D. and Russo, A.},
+title = {The Hitchhiker's Guide to the Virtual Element Method},
+journal = {Mathematical Models and Methods in Applied Sciences},
+volume = {24},
+number = {08},
+pages = {1541-1573},
+year = {2014},
+
+abstract = { We present the essential ingredients in the Virtual Element Method for a simple linear elliptic second-order problem. We emphasize its computer implementation, which will enable interested readers to readily implement the method. }
+}
+
+@article{GainesJenkins2015,
+  author    = {Gaines, Allison A. and Jenkins, E. W.},
+  title     = {A virtual element method for linear elasticity on general polygonal meshes},
+  journal   = {Computer Methods in Applied Mechanics and Engineering},
+  volume    = {283},
+  pages     = {1067--1085},
+  year      = {2015},
+  publisher = {Elsevier}
+}
+
+@article{zhu_example-based_2015,
+author = {Zhu, Fei and Li, Sheng and Wang, Guoping},
+title = {Example-Based Materials in Laplace-Beltrami Shape Space},
+year = {2015},
+issue_date = {February 2015},
+publisher = {The Eurographs Association &amp; John Wiley &amp; Sons, Ltd.},
+address = {Chichester, GBR},
+volume = {34},
+number = {1},
+issn = {0167-7055},
+  
+journal = {Comput. Graph. Forum},
+month = {feb},
+pages = {36–46},
+numpages = {11},
+keywords = {deformable simulation, I.3.7 [Computer Graphics]: Three-Dimensional Graphics and Realism Animation, example-based materials, Laplace Beltrami eigen-analysis}
+}
+
+@article{pan_subspace_2015,
+author = {Pan, Zherong and Bao, Hujun and Huang, Jin},
+title = {Subspace Dynamic Simulation Using Rotation-Strain Coordinates},
+year = {2015},
+issue_date = {November 2015},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {34},
+number = {6},
+issn = {0730-0301},
+  
+abstract = {In this paper, we propose a full featured and efficient subspace simulation method in the rotation-strain (RS) space for elastic objects. Sharply different from previous methods using the rotation-strain space, except for the ability to handle non-linear elastic materials and external forces, our method correctly formulates the kinetic energy, centrifugal and Coriolis forces which significantly reduces the dynamic artifacts. We show many techniques used in the Euclidean space methods, such as modal derivatives, polynomial and cubature approximation, can be adapted to our RS simulator. Carefully designed experiments show that the equation of motion in RS space has less non-linearity than its Euclidean counterpart, and as a consequence, our method has great advantages of lower dimension and computational complexity than state-of-the-art methods in the Euclidean space.},
+journal = {ACM Trans. Graph.},
+month = {oct},
+articleno = {242},
+numpages = {12},
+pages = {242:1-242:12},
+keywords = {elastic animation, model reduction}
+}
+
+@article{bergou_discrete_2008,
+author = {Bergou, Mikl\'{o}s and Wardetzky, Max and Robinson, Stephen and Audoly, Basile and Grinspun, Eitan},
+title = {Discrete Elastic Rods},
+year = {2008},
+issue_date = {August 2008},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {27},
+number = {3},
+issn = {0730-0301},
+  
+abstract = {We present a discrete treatment of adapted framed curves, parallel transport, and holonomy, thus establishing the language for a discrete geometric model of thin flexible rods with arbitrary cross section and undeformed configuration. Our approach differs from existing simulation techniques in the graphics and mechanics literature both in the kinematic description---we represent the material frame by its angular deviation from the natural Bishop frame---as well as in the dynamical treatment---we treat the centerline as dynamic and the material frame as quasistatic. Additionally, we describe a manifold projection method for coupling rods to rigid-bodies and simultaneously enforcing rod inextensibility. The use of quasistatics and constraints provides an efficient treatment for stiff twisting and stretching modes; at the same time, we retain the dynamic bending of the centerline and accurately reproduce the coupling between bending and twisting modes. We validate the discrete rod model via quantitative buckling, stability, and coupled-mode experiments, and via qualitative knot-tying comparisons.},
+journal = {ACM Trans. Graph.},
+month = {aug},
+pages = {1–12},
+numpages = {12},
+keywords = {rods, strands, discrete holonomy, discrete differential geometry}
+}
+
+@inproceedings{spillmann_corde_2007,
+author = {Spillmann, J. and Teschner, M.},
+title = {{CoRdE}: Cosserat Rod Elements for the Dynamic Simulation of One-Dimensional Elastic Objects},
+year = {2007},
+isbn = {9781595936240},
+publisher = {Eurographics Association},
+address = {Goslar, DEU},
+abstract = {Simulating one-dimensional elastic objects such as threads, ropes or hair strands is a difficult problem, especially if material torsion is considered. In this paper, we present CoRdE(french 'rope'), a novel deformation model for the dynamic interactive simulation of elastic rods with torsion. We derive continuous energies for a dynamically deforming rod based on the Cosserat theory of elastic rods. We then discretize the rod and compute energies per element by employing finite element methods. Thus, the global dynamic behavior is independent of the discretization. The dynamic evolution of the rod is obtained by numerical integration of the resulting Lagrange equations of motion. We further show how this system of equations can be decoupled and efficiently solved. Since the centerline of the rod is explicitly represented, the deformation model allows for accurate contact and self-contact handling. Thus, we can reproduce many important looping phenomena. Further, a broad variety of different materials can be simulated at interactive rates. Experiments underline the physical plausibility of our deformation model.},
+booktitle = {Proceedings of the 2007 ACM SIGGRAPH/Eurographics Symposium on Computer Animation},
+pages = {63–72},
+numpages = {10},
+keywords = {Cosserat theory, elastic rods, physically-based modeling, Lagrangian dynamics},
+location = {San Diego, California},
+series = {SCA '07}
+}
+
+@article{soler_cosserat_2018,
+author = {Soler, Carlota and Martin, Tobias and Sorkine-Hornung, Olga},
+title = {Cosserat Rods with Projective Dynamics},
+journal = {Computer Graphics Forum},
+volume = {37},
+number = {8},
+pages = {137-147},
+keywords = {CCS Concepts, •Computing methodologies → Physical simulation, Real-time simulation, Simulation by animation, Computer graphics},
+  
+abstract = {Abstract We present a novel method to simulate Cosserat rods with Projective Dynamics (PD). The proposed method is both numerically robust and accurate with respect to the underlying physics, making it suitable for a variety of applications in computer graphics and related disciplines. Cosserat theory assigns an orientation frame to each point and is thus able to realistically simulate stretching and shearing effects, in addition to bending and twisting. Within the PD framework, it is possible to obtain accurate simulations given the implicit integration over time and its decoupling of the local-global solve. In the proposed method, we start from the continuous formulation of the Cosserat theory and derive the constraints for the PD solver. We extend the standard definition of PD and add body orientations as system variables. Thus, we include the preservation of angular momentum, so that twisting and bending can be accurately simulated. Our formulation allows the simulation of different bending behaviors with respect to a user-defined Young's modulus, the radius of the rod's cross-section, and material density. We show how different material specifications in our simulations converge within a few iterations to a reference solution, generated with a high-precision finite element method. Furthermore, we demonstrate mesh independence of our formulation: Refining the simulation mesh still results in the same characteristic motion, which is in contrast to previous position based methods.},
+year = {2018}
+}
+
+@article{wen_cosserat_2020,
+author = {Wen, Jiahao and Chen, Jiong and Umetani, Nobuyuki and Bao, Hujun and Huang, Jin},
+title = {Cosserat Rod with rh-Adaptive Discretization},
+journal = {Computer Graphics Forum},
+volume = {39},
+number = {7},
+pages = {143-154},
+keywords = {CCS Concepts, • Computing methodologies → Physical simulation},
+  
+abstract = {Abstract Rod-like one-dimensional elastic objects often exhibit complex behaviors which pose great challenges to the discretization method for pursuing a faithful simulation. By only moving a small portion of material points, the Eulerian-on-Lagrangian (EoL) method already shows great adaptivity to handle sharp contact, but it is still far from enough to reproduce rich and complex geometry details arising in simulations. In this paper, we extend the discrete configuration space by unifying all Lagrangian and EoL nodes in representation for even more adaptivity with every sample being assigned with a dynamic material coordinate. However, this great extension will immediately bring in much more redundancy in the dynamic system. Therefore, we propose additional energy to control the spatial distribution of all material points, seeking to equally space them with respect to a curvature-based density field as a monitor. This flexible approach can effectively constrain the motion of material points to resolve numerical degeneracy, while simultaneously enables them to notably slide inside the parametric domain to account for the shape parameterization. Besides, to accurately respond to sharp contact, our method can also insert or remove nodes online and adjust the energy stiffness to suppress possible jittering artifacts that could be excited in a stiff system. As a result of this hybrid rh-adaption, our proposed method is capable of reproducing many realistic rod dynamics, such as excessive bending, twisting and knotting while only using a limited number of elements.},
+year = {2020}
+}
+
+@article{sueda_large-scale_nodate,
+author = {Sueda, Shinjiro and Jones, Garrett L. and Levin, David I. W. and Pai, Dinesh K.},
+title = {Large-Scale Dynamic Simulation of Highly Constrained Strands},
+year = {2011},
+issue_date = {July 2011},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {30},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {A significant challenge in applications of computer animation is the simulation of ropes, cables, and other highly constrained strandlike physical curves. Such scenarios occur frequently, for instance, when a strand wraps around rigid bodies or passes through narrow sheaths. Purely Lagrangian methods designed for less constrained applications such as hair simulation suffer from difficulties in these important cases. To overcome this, we introduce a new framework that combines Lagrangian and Eulerian approaches. The two key contributions are the reduced node, whose degrees of freedom precisely match the constraint, and the Eulerian node, which allows constraint handling that is independent of the initial discretization of the strand. The resulting system generates robust, efficient, and accurate simulations of massively constrained systems of rigid bodies and strands.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {39},
+numpages = {10},
+keywords = {elastic rods, constrained strands, physically-based simulation, lagrangian mechanics, thin solids}
+}
+
+@article{kaufman_adaptive_2014,
+author = {Kaufman, Danny M. and Tamstorf, Rasmus and Smith, Breannan and Aubry, Jean-Marie and Grinspun, Eitan},
+title = {Adaptive Nonlinearity for Collisions in Complex Rod Assemblies},
+year = {2014},
+issue_date = {July 2014},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {33},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {We develop an algorithm for the efficient and stable simulation of large-scale elastic rod assemblies. We observe that the time-integration step is severely restricted by a strong nonlinearity in the response of stretching modes to transversal impact, the degree of this nonlinearity varying greatly with the shape of the rod. Building on these observations, we propose a collision response algorithm that adapts its degree of nonlinearity. We illustrate the advantages of the resulting algorithm by analyzing simulations involving elastic rod assemblies of varying density and scale, with up to 1.7 million individual contacts per time step.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {123},
+numpages = {12},
+pages = {123:1-123:12},
+keywords = {collisions, hair, time-integration, simulation, rods}
+}
+
+@article{goldenthal_efficient_2007,
+author = {Goldenthal, Rony and Harmon, David and Fattal, Raanan and Bercovier, Michel and Grinspun, Eitan},
+title = {Efficient Simulation of Inextensible Cloth},
+year = {2007},
+issue_date = {July 2007},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {26},
+number = {3},
+issn = {0730-0301},
+  
+abstract = {Many textiles do not noticeably stretch under their own weight. Unfortunately, for better performance many cloth solvers disregard this fact. We propose a method to obtain very low strain along the warp and weft direction using Constrained Lagrangian Mechanics and a novel fast projection method. The resulting algorithm acts as a velocity filter that easily integrates into existing simulation code.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+pages = {49–es},
+numpages = {8},
+keywords = {inextensibility, constrained lagrangian mechanics, physically-based modeling, constraints, isometry, stretching, cloth simulation}
+}
+
+@article{spillmann_inextensible_2010,
+author = {Spillmann, Jonas and Harders, Matthias},
+title = {Inextensible elastic rods with torsional friction based on Lagrange multipliers},
+journal = {Computer Animation and Virtual Worlds},
+volume = {21},
+number = {6},
+pages = {561-572},
+keywords = {deformation modeling, elastic rods, constrained Lagrangian mechanics, friction},
+  
+abstract = {Abstract Elastic rods are thin flexible objects typically undergoing large non-linear deformations that cannot be modeled with linear methods. They are used in a number of research fields, e.g., to represent hair or ropes in animations, or catheters or needles in medical simulations. In this paper, we propose a deformation model for inextensible elastic rods. The method of Lagrange multipliers is employed to enforce the inextensibility of the rod, and to couple the material frames with the centerline. The resulting system is banded, allowing for an efficient linear time solution. We also propose a manifold projection method to incorporate the non-penetration constraints resulting from contact handling into our constrained Lagrangian mechanics (CLM) problem. We further augment the contact model by treating torsional friction. This allows to reproduce friction effects such as dynamic rolling and twisting of rods. Various examples underline the benefits and applicability of our model. Copyright © 2010 John Wiley \& Sons, Ltd.},
+year = {2010}
+}
+
+@inproceedings{hadap_oriented_2006,
+author = {Hadap, Sunil},
+title = {Oriented Strands: Dynamics of Stiff Multi-Body System},
+year = {2006},
+isbn = {3905673347},
+publisher = {Eurographics Association},
+address = {Goslar, DEU},
+abstract = {The simulation of strand like primitives modeled as dynamics of serial branched multi-body chain, albeit a potential reduced coordinate formulation, gives rise to stiff and highly non-linear differential equations. We introduce a recursive, linear time and fully implicit method to solve the stiff dynamical problem arising from such a multi-body system. We augment the merits of the proposed scheme by means of analytical constraints and an elaborate collision response model. We finally discuss a versatile simulation system based on the strand primitive for character dynamics and visual effects. We demonstrate dynamics of ears, braid, long/curly hair and foliage.},
+booktitle = {Proceedings of the 2006 ACM SIGGRAPH/Eurographics Symposium on Computer Animation},
+pages = {91–100},
+numpages = {10},
+location = {Vienna, Austria},
+series = {SCA '06}
+}
+
+@article{bertails_super-helices_2006,
+author = {Bertails, Florence and Audoly, Basile and Cani, Marie-Paule and Querleux, Bernard and Leroy, Fr\'{e}d\'{e}ric and L\'{e}v\^{e}que, Jean-Luc},
+title = {Super-Helices for Predicting the Dynamics of Natural Hair},
+year = {2006},
+issue_date = {July 2006},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {25},
+number = {3},
+issn = {0730-0301},
+  
+abstract = {Simulating human hair is recognized as one of the most difficult tasks in computer animation. In this paper, we show that the Kirchhoff equations for dynamic, inextensible elastic rods can be used for accurately predicting hair motion. These equations fully account for the nonlinear behavior of hair strands with respect to bending and twisting. We introduce a novel deformable model for solving them: each strand is represented by a Super-Helix, i.e., a piecewise helical rod which is animated using the principles of Lagrangian mechanics. This results in a realistic and stable simulation, allowing large time steps. Our second contribution is an in-depth validation of the Super-Helix model, carried out through a series of experiments based on the comparison of real and simulated hair motions. We show that our model efficiently handles a wide range of hair types with a high level of realism.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+pages = {1180–1187},
+numpages = {8},
+keywords = {Cosserat model, physically-based simulation, Lagrangian dynamics, hair modeling}
+}
+
+@article{bertails_linear_2009,
+author = {Bertails, Florence},
+title = {Linear Time Super-Helices},
+journal = {Computer Graphics Forum},
+volume = {28},
+number = {2},
+pages = {417-426},
+keywords = {Computer Graphics I.3.7: Three-Dimensional Graphics and Realism—Animation},
+  
+abstract = {Abstract Thin elastic rods such as cables, phone coils, tree branches, or hair, are common objects in the real world but computing their dynamics accurately remains challenging. The recent Super-Helix model, based on the discrete equations of Kirchhoff for a piecewise helical rod, is one of the most promising models for simulating non-stretchable rods that can bend and twist. However, this model suffers from a quadratic complexity in the number of discrete elements, which, in the context of interactive applications, makes it limited to a few number of degrees of freedom - or equivalently to a low number of variations in curvature along the mean curve. This paper proposes a new, recursive scheme for the dynamics of a Super-Helix, inspired by the popular algorithm of Featherstone for serial multibody chains. Similarly to Featherstone's algorithm, we exploit the recursive kinematics of a Super-Helix to propagate elements inertias from the free end to the clamped end of the rod, while the dynamics is solved within a second pass traversing the rod in the reverse way. Besides the gain in linear complexity, which allows us to simulate a rod of complex shape much faster than the original approach, our algorithm makes it straightforward to simulate tree-like structures of Super-Helices, which turns out to be particularly useful for animating trees and plants realistically, under large displacements.},
+year = {2009}
+}
+
+@article{deul_direct_2018,
+author = {Deul, Crispin and Kugelstadt, Tassilo and Weiler, Marcel and Bender, Jan},
+title = {Direct Position-Based Solver for Stiff Rods},
+journal = {Computer Graphics Forum},
+volume = {37},
+number = {6},
+pages = {313-324},
+keywords = {physically based animation, animation, Computing methodologies → Physical simulation},
+  
+abstract = {Abstract In this paper, we present a novel direct solver for the efficient simulation of stiff, inextensible elastic rods within the position-based dynamics (PBD) framework. It is based on the XPBD algorithm, which extends PBD to simulate elastic objects with physically meaningful material parameters. XPBD approximates an implicit Euler integration and solves the system of non-linear equations using a non-linear Gauss–Seidel solver. However, this solver requires many iterations to converge for complex models and if convergence is not reached, the material becomes too soft. In contrast, we use Newton iterations in combination with our direct solver to solve the non-linear equations which significantly improves convergence by solving all constraints of an acyclic structure (tree), simultaneously. Our solver only requires a few Newton iterations to achieve high stiffness and inextensibility. We model inextensible rods and trees using rigid segments connected by constraints. Bending and twisting constraints are derived from the well-established Cosserat model. The high performance of our solver is demonstrated in highly realistic simulations of rods consisting of multiple 10 000 segments. In summary, our method allows the efficient simulation of stiff rods in the PBD framework with a speedup of two orders of magnitude compared to the original XPBD approach.},
+year = {2018}
+}
+
+@article{bergou_discrete_2010,
+author = {Bergou, Mikl\'{o}s and Audoly, Basile and Vouga, Etienne and Wardetzky, Max and Grinspun, Eitan},
+title = {Discrete Viscous Threads},
+year = {2010},
+issue_date = {July 2010},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {29},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {We present a continuum-based discrete model for thin threads of viscous fluid by drawing upon the Rayleigh analogy to elastic rods, demonstrating canonical coiling, folding, and breakup in dynamic simulations. Our derivation emphasizes space-time symmetry, which sheds light on the role of time-parallel transport in eliminating---without approximation---all but an O(n) band of entries of the physical system's energy Hessian. The result is a fast, unified, implicit treatment of viscous threads and elastic rods that closely reproduces a variety of fascinating physical phenomena, including hysteretic transitions between coiling regimes, competition between surface tension and gravity, and the first numerical fluid-mechanical sewing machine. The novel implicit treatment also yields an order of magnitude speedup in our elastic rod dynamics.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {116},
+numpages = {10},
+pages = {116:1-116:10},
+keywords = {hair simulation, elastic rods, coiling, Rayleigh analogy, viscous threads}
+}
+
+@article{pai2002strands,
+author = {Pai, Dinesh K.},
+title = {STRANDS: Interactive Simulation of Thin Solids using Cosserat Models},
+journal = {Computer Graphics Forum},
+volume = {21},
+number = {3},
+pages = {347-352},
+  
+abstract = {Abstract Strandsare thin elastic solids that are visually well approximated as smooth curves, and yet possess essential physical behaviors characteristic of solid objects such as twisting. Common examples in computer graphics include: sutures, catheters, and tendons in surgical simulation; hairs, ropes, and vegetation in animation. Physical models based on spring meshes or 3D finite elements for such thin solids are either inaccurate or inefficient for interactive simulation. In this paper we show that models based on the Cosserat theory of elastic rods are very well suited for interactive simulation of these objects. The physical model reduces to a system of spatial ordinary differential equations that can be solved efficiently for typical boundary conditions. The model handles the important geometric non-linearity due to large changes in shape. We introduce Cosserat-type physical models, describe efficient numerical methods for interactive simulation of these models, and implementation results.},
+year = {2002}
+}
+
+@article{selle2008mass,
+author = {Selle, Andrew and Lentine, Michael and Fedkiw, Ronald},
+title = {A Mass Spring Model for Hair Simulation},
+year = {2008},
+issue_date = {August 2008},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {27},
+number = {3},
+issn = {0730-0301},
+  
+abstract = {Our goal is to simulate the full hair geometry, consisting of approximately one hundred thousand hairs on a typical human head. This will require scalable methods that can simulate every hair as opposed to only a few guide hairs. Novel to this approach is that the individual hair/hair interactions can be modeled with physical parameters (friction, static attraction, etc.) at the scale of a single hair as opposed to clumped or continuum interactions. In this vein, we first propose a new altitude spring model for preventing collapse in the simulation of volumetric tetrahedra, and we show that it is also applicable both to bending in cloth and torsion in hair. We demonstrate that this new torsion model for hair behaves in a fashion similar to more sophisticated models with significantly reduced computational cost. For added efficiency, we introduce a semi-implicit discretization of standard springs that makes them truly linear in multiple spatial dimensions and thus unconditionally stable without requiring Newton-Raphson iteration. We also simulate complex hair/hair interactions including sticking and clumping behavior, collisions with objects (e.g. head and shoulders) and self-collisions. Notably, in line with our goal to simulate the full head of hair, we do not generate any new hairs at render time.},
+journal = {ACM Trans. Graph.},
+month = {aug},
+pages = {1–11},
+numpages = {11},
+keywords = {mass-spring models, hair simulation}
+}
+
+@inproceedings{kaldor2008simulating,
+author = {Kaldor, Jonathan M. and James, Doug L. and Marschner, Steve},
+title = {Simulating Knitted Cloth at the Yarn Level},
+year = {2008},
+isbn = {9781450301121},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+  
+abstract = {Knitted fabric is widely used in clothing because of its unique and stretchy behavior, which is fundamentally different from the behavior of woven cloth. The properties of knits come from the nonlinear, three-dimensional kinematics of long, inter-looping yarns, and despite significant advances in cloth animation we still do not know how to simulate knitted fabric faithfully. Existing cloth simulators mainly adopt elastic-sheet mechanical models inspired by woven materials, focusing less on the model itself than on important simulation challenges such as efficiency, stability, and robustness. We define a new computational model for knits in terms of the motion of yarns, rather than the motion of a sheet. Each yarn is modeled as an inextensible, yet otherwise flexible, B-spline tube. To simulate complex knitted garments, we propose an implicit-explicit integrator, with yarn inextensibility constraints imposed using efficient projections. Friction among yarns is approximated using rigid-body velocity filters, and key yarn-yarn interactions are mediated by stiff penalty forces. Our results show that this simple model predicts the key mechanical properties of different knits, as demonstrated by qualitative comparisons to observed deformations of actual samples in the laboratory, and that the simulator can scale up to substantial animations with complex dynamic motion.},
+booktitle = {ACM SIGGRAPH 2008 Papers},
+articleno = {65},
+numpages = {9},
+pages = {65:1-65:9},
+keywords = {cloth, simulation, constraints, yarn, knits, knitwear},
+location = {Los Angeles, California},
+series = {SIGGRAPH '08}
+}
+
+@inproceedings{umetani2014position,
+author = {Umetani, Nobuyuki and Schmidt, Ryan and Stam, Jos},
+title = {Position-Based Elastic Rods},
+year = {2015},
+publisher = {Eurographics Association},
+address = {Goslar, DEU},
+abstract = {We present a novel method to simulate complex bending and twisting of elastic rods. Elastic rods are commonly simulated using force based methods, such as the finite element method. These methods are accurate, but do not directly fit into the more efficient position-based dynamics framework, since the definition of material frames are not entirely based on positions. We introduce ghost points, which are additional points defined on edges, to naturally endow continuous material frames on discretized rods. We achieve robustness by a novel discretization of the Cosserat theory. The method supports coupling with a frame, a triangle, and a rigid body at the rod's end point. Our formulation is highly efficient, capable of simulating hundreds of strands in real-time.},
+booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},
+pages = {21–30},
+numpages = {10},
+location = {Copenhagen, Denmark},
+series = {SCA '14}
+}
+
+@ARTICLE{spillmann2008cosseratnet,
+author={Spillmann, Jonas and Teschner, Matthias},
+journal={IEEE Transactions on Visualization and Computer Graphics},
+title={Cosserat Nets},
+year={2009},
+volume={15},
+number={2},
+pages={325-338},
+}
+
+@ARTICLE{servin2008rigid,
+author={Servin, Martin and Lacoursière, Claude},
+journal={IEEE Transactions on Visualization and Computer Graphics},
+title={Rigid Body Cable for Virtual Environments},
+year={2008},
+volume={14},
+number={4},
+pages={783-796},
+abstract={The present paper addresses real-time simulation of cables for virtual environments. A faithful physical model based on constrained rigid bodies is introduced and discretized. The performance and stability of the numerical method are analyzed in details and found to meet the requriements of interactive heavy hoisting simulations. The physical model is well behaved in the limit of infinite stiffness as well as in the elastic regime , and the tuning parameters correspond directly to conventional material constants. The integration scheme mixes the well known Störmer-Verlet method for the dynamics equations with the linearly implicit Euler method for the constraint equations and enables physical constraint relaxation and stabilization terms. The technique is shown to have superior numerical stability properties in comparison with either chain link systems, or spring and damper models. Experimental results are presented to show that the method results in stable, real-time simulations. Stability persists for moderately large fixed integration step of $\Delta t = 1/60$ s, with hoisting loads of up to $10^5$ times heavier than the elements of the cable. Further numerical experiments validating the physical model are also presented.},
+keywords={},
+ISSN={1941-0506},
+month={July}
+}
+
+@inproceedings{kugelstadt2016position,
+author = {Kugelstadt, T. and Sch\"{o}mer, E.},
+title = {Position and Orientation Based Cosserat Rods},
+year = {2016},
+isbn = {9783905674613},
+publisher = {Eurographics Association},
+address = {Goslar, DEU},
+abstract = {We present a novel method to simulate bending and torsion of elastic rods within the position-based dynamics (PBD) framework. The main challenge is that torsion effects of Cosserat rods are described in terms of material frames which are attached to the centerline of the rod. But frames or orientations do not fit into the classical position-based dynamics formulation. To solve this problem we introduce new types of constraints to couple orientations which are represented by unit quaternions. For constraint projection quaternions are treated in the exact same way as positions. Unit length is enforced with an additional constraint. This allows us to use the strain measures form Cosserat theory directly as constraints in PBD. It leads to very simple algebraic expressions for the correction displacements which only contain quaternion products and additions. Our results show that our method is very robust and accurately produces the complex bending and torsion effects of rods. Due to its simplicity our method is very efficient and more than one order of magnitude faster than existing position-based rod simulation methods. It even achieves the same performance as position-based simulations without torsion effects.},
+booktitle = {Proceedings of the ACM SIGGRAPH/Eurographics Symposium on Computer Animation},
+pages = {169–178},
+numpages = {10},
+location = {Zurich, Switzerland},
+series = {SCA '16}
+}
+
+@article{shen2015geometrically,
+author = {Shen, Zhongwei and Huang, Jin and Chen, Wei and Bao, Hujun},
+title = {Geometrically Exact Simulation of Inextensible Ribbon},
+year = {2015},
+issue_date = {October 2015},
+publisher = {The Eurographs Association &amp; John Wiley &amp; Sons, Ltd.},
+address = {Chichester, GBR},
+volume = {34},
+number = {7},
+issn = {0167-7055},
+  
+abstract = {Narrow, inextensible, and naturally flat ribbons have some special and interesting phenomena under isometric deformations. Although a ribbon has a shape between rod and shell, directly applying the geometric representation designed for them imposes a challenge to faithfully reproduce interesting behaviors. We thus parameterize the ribbon surface as a developable ruled surface along its centerline and represent it using a framed centerline curve. Then the elastic and kinetic energy of the ribbon surface can be equivalently yet compactly described by the framed centerline curve only. To avoid numerical singularity when develop ability is violated, a finite Taylor series approximation to the potential energy is adopted. Under the observation that the off-centerline part of ribbon contributes little dynamic effect, the kinetic energy is simplified with respect to the centerline velocity only. For efficiency, each time step is separated into two stages: dynamically evolving the centerline, and then quasi-statically updating the ruling. We validate the method with qualitative analysis and ribbon specific phenomena comparisons with real-world scenarios. A set of comparisons to rod and shell model is also provided to demonstrate the advantages of our method.},
+journal = {Comput. Graph. Forum},
+month = {oct},
+pages = {145–154},
+numpages = {10},
+keywords = {Computer Graphics [I.3.7]: Three-Dimensional Graphics and Realism-Animation, Categories and Subject Descriptors according to ACM CCS, Computer Graphics [I.3.5]: Computational Geometry and Object Modeling-Physically based modeling}
+}
+
+@article{peiret2019schur,
+author = {Peiret, Albert and Andrews, Sheldon and K\"{o}vecses, J\'{o}zsef and Kry, Paul G. and Teichmann, Marek},
+title = {Schur Complement-Based Substructuring of Stiff Multibody Systems with Contact},
+year = {2019},
+issue_date = {October 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {38},
+number = {5},
+issn = {0730-0301},
+  
+abstract = {Substructuring permits parallelization of physics simulation on multi-core CPUs. We present a new substructuring approach for solving stiff multibody systems containing both bilateral and unilateral constraints. Our approach is based on non-overlapping domain decomposition with the Schur complement method, which we extend to systems involving contact formulated as a mixed bounds linear complementarity problem. At each time step, we alternate between solving the subsystem and interface constraint impulses, which leads to the identification of the active constraints. By using the active constraints to compute the effective mass of subsystems within the interface solve, we obtain an exact solution. We demonstrate that our simulations have preferable behavior compared to standard iterative solvers and substructuring techniques based on the exchange of forces at interface bodies. We observe considerable speedups for structured simulations where a user-defined partitioning can be applied, and moderate speedups for unstructured simulations, such as piles of bodies. In the latter case, we propose an automatic partitioning strategy based on the degree of bodies in the constraint graph. Because our method makes use of direct solvers, we are able to achieve interactive and real-time frame rates for a number of challenging scenarios involving large mass ratios, redundant constraints, and ill-conditioned systems.},
+journal = {ACM Trans. Graph.},
+month = {oct},
+articleno = {150},
+numpages = {17},
+keywords = {multibody dynamics, unilateral constraints, LCP, Schur complement}
+}
+
+@article{sanchez-banderas_robust_2020,
+author = {S\'{a}nchez-Banderas, Rosa M. and Rodr\'{\i}guez, Alejandro and Barreiro, H\'{e}ctor and Otaduy, Miguel A.},
+title = {Robust Eulerian-on-Lagrangian Rods},
+year = {2020},
+issue_date = {August 2020},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {39},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {This paper introduces a method to simulate complex rod assemblies and stacked layers with implicit contact handling, through Eulerian-on-Lagrangian (EoL) discretizations. Previous EoL methods fail to handle such complex situations, due to ubiquitous and intrinsic degeneracies in the contact geometry, which prevent the use of remeshing and make simulations unstable. We propose a novel mixed Eulerian-Lagrangian discretization that supports accurate and efficient contact as in EoL methods, but is transparent to internal rod forces, and hence insensitive to degeneracies. By combining the standard and novel EoL discretizations as appropriate, we derive mixed statics-dynamics equations of motion that can be solved in a unified manner with standard solvers. Our solution is simple and elegant in practice, and produces robust simulations on large-scale scenarios with complex rod arrangements and pervasive degeneracies. We demonstrate our method on multi-layer yarn-level cloth simulations, with implicit handling of both intra-and inter-layer contacts.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {59},
+numpages = {10},
+pages = {59:1-59:10},
+keywords = {yarns, rods, cloth}
+}
+
+@article{bridson2002robust,
+author = {Bridson, Robert and Fedkiw, Ronald and Anderson, John},
+title = {Robust Treatment of Collisions, Contact and Friction for Cloth Animation},
+year = {2002},
+issue_date = {July 2002},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {21},
+number = {3},
+issn = {0730-0301},
+  
+abstract = {We present an algorithm to efficiently and robustly process collisions, contact and friction in cloth simulation. It works with any technique for simulating the internal dynamics of the cloth, and allows true modeling of cloth thickness. We also show how our simulation data can be post-processed with a collision-aware subdivision scheme to produce smooth and interference free data for rendering.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+pages = {594–603},
+numpages = {10},
+keywords = {static friction, kinetic friction, physically based animation, collision response, contacts, cloth, collision detection}
+}
+
+@article{martin2011example,
+author = {Martin, Sebastian and Thomaszewski, Bernhard and Grinspun, Eitan and Gross, Markus},
+title = {Example-Based Elastic Materials},
+year = {2011},
+issue_date = {July 2011},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {30},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {We propose an example-based approach for simulating complex elastic material behavior. Supplied with a few poses that characterize a given object, our system starts by constructing a space of prefered deformations by means of interpolation. During simulation, this example manifold then acts as an additional elastic attractor that guides the object towards its space of prefered shapes. Added on top of existing solid simulation codes, this example potential effectively allows us to implement inhomogeneous and anisotropic materials in a direct and intuitive way. Due to its example-based interface, our method promotes an art-directed approach to solid simulation, which we exemplify on a set of practical examples.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {72},
+numpages = {8},
+pages = {72:1-72:8},
+keywords = {control, elastic solids, physically-based simulation}
+}
+
+@article{huang2006efficient,
+author = {Huang, Jin and Liu, Xinguo and Bao, Hujun and Guo, Baining and Shum, Heung-Yeung},
+title = {An Efficient Large Deformation Method Using Domain Decomposition},
+year = {2006},
+issue_date = {December, 2006},
+publisher = {Pergamon Press, Inc.},
+address = {USA},
+volume = {30},
+number = {6},
+issn = {0097-8493},
+  
+abstract = {Efficiently simulating large deformations of flexible objects is a challenging problem in computer graphics. In this paper, we present a physically based approach to this problem, using the linear elasticity model and a finite elements method. To handle large deformations in the linear elasticity model, we exploit the domain decomposition method, based on the observation that each sub-domain undergoes a relatively small local deformation, involving a global rigid transformation. In order to efficiently solve the deformation at each simulation time step, we pre-compute the object responses in terms of displacement accelerations to the forces acting on each node, yielding a force-displacement matrix. However, the force-displacement matrix could be too large to handle for densely tessellated objects. To address this problem, we present two methods. The first method exploits spatial coherence to compress the force-displacement matrix using the clustered principal component analysis method; and the second method pre-computes only the force-displacement vectors for the boundary vertices of the sub-domains and resorts to the Cholesky factorization to solve the acceleration for the internal vertices of the sub-domains. Finally, we present some experimental results to show the large deformation effects and fast performance on complex large scale objects under interactive user manipulations.},
+journal = {Comput. Graph.},
+month = {dec},
+pages = {927–935},
+numpages = {9},
+keywords = {Domain decomposition, Cholesky factorization, Deformation, Cluster PCA}
+}
+
+@ARTICLE{kim2012physics,
+author={Kim, Theodore and James, Doug L.},
+journal={IEEE Transactions on Visualization and Computer Graphics},
+title={Physics-Based Character Skinning Using Multidomain Subspace Deformations},
+year={2012},
+volume={18},
+number={8},
+pages={1228-1240},
+abstract={In this extended version of our Symposium on Computer Animation paper, we describe a domain-decomposition method to simulate articulated deformable characters entirely within a subspace framework. We have added a parallelization and eigendecomposition performance analysis, and several additional examples to the original symposium version. The method supports quasistatic and dynamic deformations, nonlinear kinematics and materials, and can achieve interactive time-stepping rates. To avoid artificial rigidity, or "locking,” associated with coupling low-rank domain models together with hard constraints, we employ penalty-based coupling forces. The multidomain subspace integrator can simulate deformations efficiently, and exploits efficient subspace-only evaluation of constraint forces between rotated domains using a novel Fast Sandwich Transform (FST). Examples are presented for articulated characters with quasistatic and dynamic deformations, and interactive performance with hundreds of fully coupled modes. Using our method, we have observed speedups of between 3 and 4 orders of magnitude over full-rank, unreduced simulations.},
+keywords={},
+  
+ISSN={1941-0506},
+month={Aug},
+}
+
+@article{li2020incremental,
+author = {Li, Minchen and Ferguson, Zachary and Schneider, Teseo and Langlois, Timothy and Zorin, Denis and Panozzo, Daniele and Jiang, Chenfanfu and Kaufman, Danny M.},
+title = {Incremental Potential Contact: Intersection-and Inversion-Free, Large-Deformation Dynamics},
+year = {2020},
+issue_date = {August 2020},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {39},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {Contacts weave through every aspect of our physical world, from daily household chores to acts of nature. Modeling and predictive computation of these phenomena for solid mechanics is important to every discipline concerned with the motion of mechanical systems, including engineering and animation. Nevertheless, efficiently time-stepping accurate and consistent simulations of real-world contacting elastica remains an outstanding computational challenge. To model the complex interaction of deforming solids in contact we propose Incremental Potential Contact (IPC) - a new model and algorithm for variationally solving implicitly time-stepped nonlinear elastodynamics. IPC maintains an intersection- and inversion-free trajectory regardless of material parameters, time step sizes, impact velocities, severity of deformation, or boundary conditions enforced.Constructed with a custom nonlinear solver, IPC enables efficient resolution of time-stepping problems with separate, user-exposed accuracy tolerances that allow independent specification of the physical accuracy of the dynamics and the geometric accuracy of surface-to-surface conformation. This enables users to decouple, as needed per application, desired accuracies for a simulation's dynamics and geometry.The resulting time stepper solves contact problems that are intersection-free (and thus robust), inversion-free, efficient (at speeds comparable to or faster than available methods that lack both convergence and feasibility), and accurate (solved to user-specified accuracies). To our knowledge this is the first implicit time-stepping method, across both the engineering and graphics literature that can consistently enforce these guarantees as we vary simulation parameters.In an extensive comparison of available simulation methods, research libraries and commercial codes we confirm that available engineering and computer graphics methods, while each succeeding admirably in custom-tuned regimes, often fail with instabilities, egregious constraint violations and/or inaccurate and implausible solutions, as we vary input materials, contact numbers and time step. We also exercise IPC across a wide range of existing and new benchmark tests and demonstrate its accurate solution over a broad sweep of reasonable time-step sizes and beyond (up to h = 2s) across challenging large-deformation, large-contact stress-test scenarios with meshes composed of up to 2.3M tetrahedra and processing up to 498K contacts per time step. For applications requiring high-accuracy we demonstrate tight convergence on all measures. While, for applications requiring lower accuracies, e.g. animation, we confirm IPC can ensure feasibility and plausibility even when specified tolerances are lowered for efficiency.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {49},
+numpages = {20},
+pages = {49:1-49:20},
+keywords = {elastodynamics, constrained optimization, friction, contact mechanics}
+}
+
+@book{nocedal1999numerical,
+  title={Numerical optimization},
+  author={Nocedal, Jorge and Wright, Stephen J},
+  year={1999},
+  publisher={Springer}
+}
+
+@article{harris2007parallel,
+  title={Parallel prefix sum (scan) with CUDA},
+  author={Harris, Mark and Sengupta, Shubhabrata and Owens, John D},
+  journal={GPU gems},
+  volume={3},
+  number={39},
+  pages={851--876},
+  year={2007}
+}
+
+@article{thomas1949elliptic,
+  title={Elliptic problems in linear differential equations over a network: Watson scientific computing laboratory},
+  author={Thomas, Llewellyn},
+  journal={Columbia Univ., NY},
+  year={1949}
+}
+
+@article{tang2018clotha,
+author = {Tang, Min and Wang, Tongtong and Liu, Zhongyuan and Tong, Ruofeng and Manocha, Dinesh},
+title = {I-Cloth: Incremental Collision Handling for {GPU-Based} Interactive Cloth Simulation},
+year = {2018},
+issue_date = {December 2018},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {37},
+number = {6},
+issn = {0730-0301},
+  
+abstract = {We present an incremental collision handling algorithm for GPU-based interactive cloth simulation. Our approach exploits the spatial and temporal coherence between successive iterations of an optimization-based solver for collision response computation. We present an incremental continuous collision detection algorithm that keeps track of deforming vertices and combine it with spatial hashing. We use a non-linear GPU-based impact zone solver to resolve the penetrations. We combine our collision handling algorithm with implicit integration to use large time steps. Our overall algorithm, I-Cloth, can simulate complex cloth deformation with a few hundred thousand vertices at 2 - 8 frames per second on a commodity GPU. We highlight its performance on different benchmarks and observe up to 7 - 10X speedup over prior algorithms.},
+journal = {ACM Trans. Graph.},
+month = {dec},
+articleno = {204},
+numpages = {10},
+pages = {204:1-204:10},
+keywords = {cloth simulation, impact zone, collision handling, gpu}
+}
+
+@article{otaduy2009implicit,
+author = {Otaduy, Miguel A. and Tamstorf, Rasmus and Steinemann, Denis and Gross, Markus},
+title = {Implicit Contact Handling for Deformable Objects},
+journal = {Computer Graphics Forum},
+volume = {28},
+number = {2},
+pages = {559-568},
+keywords = {Computer Graphics I.3.7: Animation},
+  
+abstract = {Abstract We present an algorithm for robust and efficient contact handling of deformable objects. By being aware of the internal dynamics of the colliding objects, our algorithm provides smooth rolling and sliding, stable stacking, robust impact handling, and seamless coupling of heterogeneous objects, all in a unified manner. We achieve dynamicsawareness through a constrained dynamics formulation with implicit complementarity constraints, and we present two major contributions that enable an efficient solution of the constrained dynamics problem: a time stepping algorithm that robustly ensures non-penetration and progressively refines the formulation of constrained dynamics, and a new solver for large mixed linear complementarity problems, based on iterative constraint anticipation. We show the application of our algorithm in challenging scenarios such as multi-layered cloth moving at high velocities, or colliding deformable solids simulated with large time steps.},
+year = {2009}
+}
+
+@article{wang_redmax_2019,
+author = {Wang, Ying and Weidner, Nicholas J. and Baxter, Margaret A. and Hwang, Yura and Kaufman, Danny M. and Sueda, Shinjiro},
+title = {RedMax: Efficient \& Flexible Approach for Articulated Dynamics},
+year = {2019},
+issue_date = {August 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {38},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {It is well known that the dynamics of articulated rigid bodies can be solved in O(n) time using a recursive method, where n is the number of joints. However, when elasticity is added between the bodies (e.g., damped springs), with linearly implicit integration, the stiffness matrix in the equations of motion breaks the tree topology of the system, making the recursive O(n) method inapplicable. In such cases, the only alternative has been to form and solve the system matrix, which takes O(n3) time. We propose a new approach that is capable of solving the linearly implicit equations of motion in near linear time. Our method, which we call RedMax, is built using a combined reduced/maximal coordinate formulation. This hybrid model enables direct flexibility to apply arbitrary combinations of constraints and contact modeling in both reduced and maximal coordinates, as well as mixtures of implicit and explicit forces in either coordinate representation. We highlight RedMax's flexibility with seamless integration of deformable objects with two-way coupling, at a standard additional cost. We further highlight its flexibility by constructing an efficient internal (joint) and external (environment) frictional contact solver that can leverage bilateral joint constraints for rapid evaluation of frictional articulated dynamics.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {104},
+numpages = {10},
+pages = {104:1-104:10},
+keywords = {rigid body dynamics, physical simulation, contact, constraints, friction}
+}
+
+@article{chen_unified_2022,
+author = {Chen, Yunuo and Li, Minchen and Lan, Lei and Su, Hao and Yang, Yin and Jiang, Chenfanfu},
+title = {A Unified Newton Barrier Method for Multibody Dynamics},
+year = {2022},
+issue_date = {July 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {We present a simulation framework for multibody dynamics via a universal variational integration. Our method naturally supports mixed rigid-deformables and mixed codimensional geometries, while providing guaranteed numerical convergence and accurate resolution of contact, friction, and a wide range of articulation constraints. We unify (1) the treatment of simulation degrees of freedom for rigid and soft bodies by formulating them both in terms of Lagrangian nodal displacements, (2) the handling of general linear equality joint constraints through an efficient change-of-variable strategy, (3) the enforcement of nonlinear articulation constraints based on novel distance potential energies, (4) the resolution of frictional contact between mixed dimensions and bodies with a variational Incremental Potential Contact formulation, and (5) the modeling of generalized restitution through semi-implicit Rayleigh damping. We conduct extensive unit tests and benchmark studies to demonstrate the efficacy of our method.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {66},
+numpages = {14},
+keywords = {optimization-based time integration, frictional contact, multibody simulation}
+}
+
+@article{wang2021large,
+author = {Wang, Bolun and Ferguson, Zachary and Schneider, Teseo and Jiang, Xin and Attene, Marco and Panozzo, Daniele},
+title = {A Large-Scale Benchmark and an Inclusion-Based Algorithm for Continuous Collision Detection},
+year = {2021},
+issue_date = {October 2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {40},
+number = {5},
+issn = {0730-0301},
+  
+abstract = {We introduce a large-scale benchmark for continuous collision detection (CCD) algorithms, composed of queries manually constructed to highlight challenging degenerate cases and automatically generated using existing simulators to cover common cases. We use the benchmark to evaluate the accuracy, correctness, and efficiency of state-of-the-art continuous collision detection algorithms, both with and without minimal separation.We discover that, despite the widespread use of CCD algorithms, existing algorithms are (1) correct but impractically slow; (2) efficient but incorrect, introducing false negatives that will lead to interpenetration; or (3) correct but over conservative, reporting a large number of false positives that might lead to inaccuracies when integrated in a simulator.By combining the seminal interval root finding algorithm introduced by Snyder in 1992 with modern predicate design techniques, we propose a simple and efficient CCD algorithm. This algorithm is competitive with state-of-the-art methods in terms of runtime while conservatively reporting the time of impact and allowing explicit tradeoff between runtime efficiency and number of false positives reported.},
+journal = {ACM Trans. Graph.},
+month = {sep},
+articleno = {188},
+numpages = {16},
+pages = {188:1-188:16},
+keywords = {Continuous collision detection, computational geometry, physically based animation}
+}
+
+@article{Smith_2015_Bijective,
+author = {Smith, Jason and Schaefer, Scott},
+title = {Bijective Parameterization with Free Boundaries},
+year = {2015},
+issue_date = {August 2015},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {34},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {We present a fully automatic method for generating guaranteed bijective surface parameterizations from triangulated 3D surfaces partitioned into charts. We do so by using a distortion metric that prevents local folds of triangles in the parameterization and a barrier function that prevents intersection of the chart boundaries. In addition, we show how to modify the line search of an interior point method to directly compute the singularities of the distortion metric and barrier functions to maintain a bijective map. By using an isometric metric that is efficient to compute and a spatial hash to accelerate the evaluation and gradient of the barrier function for the boundary, we achieve fast optimization times. Unlike previous methods, we do not require the boundary be constrained by the user to a non-intersecting shape to guarantee a bijection, and the boundary of the parameterization is free to change shape during the optimization to minimize distortion.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {70},
+numpages = {9},
+pages = {70:1-70:9},
+keywords = {free boundary, parameterization, bijective mappings}
+}
+
+@article{Li_2020_incremental,
+author = {Li, Minchen and Ferguson, Zachary and Schneider, Teseo and Langlois, Timothy and Zorin, Denis and Panozzo, Daniele and Jiang, Chenfanfu and Kaufman, Danny M.},
+title = {Incremental Potential Contact: Intersection-and Inversion-Free, Large-Deformation Dynamics},
+year = {2020},
+issue_date = {August 2020},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {39},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {Contacts weave through every aspect of our physical world, from daily household chores to acts of nature. Modeling and predictive computation of these phenomena for solid mechanics is important to every discipline concerned with the motion of mechanical systems, including engineering and animation. Nevertheless, efficiently time-stepping accurate and consistent simulations of real-world contacting elastica remains an outstanding computational challenge. To model the complex interaction of deforming solids in contact we propose Incremental Potential Contact (IPC) - a new model and algorithm for variationally solving implicitly time-stepped nonlinear elastodynamics. IPC maintains an intersection- and inversion-free trajectory regardless of material parameters, time step sizes, impact velocities, severity of deformation, or boundary conditions enforced.Constructed with a custom nonlinear solver, IPC enables efficient resolution of time-stepping problems with separate, user-exposed accuracy tolerances that allow independent specification of the physical accuracy of the dynamics and the geometric accuracy of surface-to-surface conformation. This enables users to decouple, as needed per application, desired accuracies for a simulation's dynamics and geometry.The resulting time stepper solves contact problems that are intersection-free (and thus robust), inversion-free, efficient (at speeds comparable to or faster than available methods that lack both convergence and feasibility), and accurate (solved to user-specified accuracies). To our knowledge this is the first implicit time-stepping method, across both the engineering and graphics literature that can consistently enforce these guarantees as we vary simulation parameters.In an extensive comparison of available simulation methods, research libraries and commercial codes we confirm that available engineering and computer graphics methods, while each succeeding admirably in custom-tuned regimes, often fail with instabilities, egregious constraint violations and/or inaccurate and implausible solutions, as we vary input materials, contact numbers and time step. We also exercise IPC across a wide range of existing and new benchmark tests and demonstrate its accurate solution over a broad sweep of reasonable time-step sizes and beyond (up to h = 2s) across challenging large-deformation, large-contact stress-test scenarios with meshes composed of up to 2.3M tetrahedra and processing up to 498K contacts per time step. For applications requiring high-accuracy we demonstrate tight convergence on all measures. While, for applications requiring lower accuracies, e.g. animation, we confirm IPC can ensure feasibility and plausibility even when specified tolerances are lowered for efficiency.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {49},
+pages = {49:1-49:20},
+numpages = {20},
+keywords = {elastodynamics, constrained optimization, contact mechanics, friction}
+}
+
+@article{Yu_2021_repulsive_curves,
+author = {Yu, Chris and Schumacher, Henrik and Crane, Keenan},
+title = {Repulsive Curves},
+year = {2021},
+issue_date = {April 2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {40},
+number = {2},
+issn = {0730-0301},
+  
+abstract = {Curves play a fundamental role across computer graphics, physical simulation, and mathematical visualization, yet most tools for curve design do nothing to prevent crossings or self-intersections. This article develops efficient algorithms for (self-)repulsion of plane and space curves that are well-suited to problems in computational design. Our starting point is the so-called tangent-point energy, which provides an infinite barrier to self-intersection. In contrast to local collision detection strategies used in, e.g., physical simulation, this energy considers interactions between all pairs of points, and is hence useful for global shape optimization: local minima tend to be aesthetically pleasing, physically valid, and nicely distributed in space. A reformulation of gradient descent based on a Sobolev-Slobodeckij inner product enables us to make rapid progress toward local minima—independent of curve resolution. We also develop a hierarchical multigrid scheme that significantly reduces the per-step cost of optimization. The energy is easily integrated with a variety of constraints and penalties (e.g., inextensibility, or obstacle avoidance), which we use for applications including curve packing, knot untangling, graph embedding, non-crossing spline interpolation, flow visualization, and robotic path planning.},
+journal = {ACM Trans. Graph.},
+month = {may},
+pages = {10:1-10:21},
+articleno = {10},
+numpages = {21},
+keywords = {knots, shape optimization, curves, Computational design}
+}
+
+@article{liu2021surface,
+author = {Liu, Hsueh-Ti Derek and Zhang, Jiayi Eris and Ben-Chen, Mirela and Jacobson, Alec},
+title = {Surface Multigrid via Intrinsic Prolongation},
+year = {2021},
+issue_date = {August 2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {40},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {This paper introduces a novel geometric multigrid solver for unstructured curved surfaces. Multigrid methods are highly efficient iterative methods for solving systems of linear equations. Despite the success in solving problems defined on structured domains, generalizing multigrid to unstructured curved domains remains a challenging problem. The critical missing ingredient is a prolongation operator to transfer functions across different multigrid levels. We propose a novel method for computing the prolongation for triangulated surfaces based on intrinsic geometry, enabling an efficient geometric multigrid solver for curved surfaces. Our surface multigrid solver achieves better convergence than existing multigrid methods. Compared to direct solvers, our solver is orders of magnitude faster. We evaluate our method on many geometry processing applications and a wide variety of complex shapes with and without boundaries. By simply replacing the direct solver, we upgrade existing algorithms to interactive frame rates, and shift the computational bottleneck away from solving linear systems.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {80},
+numpages = {13},
+keywords = {computer graphics, geometric multigrid}
+}
+
+@inproceedings{garland1997surface,
+author = {Garland, Michael and Heckbert, Paul S.},
+title = {Surface Simplification Using Quadric Error Metrics},
+year = {1997},
+isbn = {0897918967},
+publisher = {ACM Press/Addison-Wesley Publishing Co.},
+address = {USA},
+  
+booktitle = {Proceedings of the 24th Annual Conference on Computer Graphics and Interactive Techniques},
+pages = {209–216},
+numpages = {8},
+keywords = {level of detail, surface simplification, mutiresolution modeling, non-manifold, pair contraction},
+series = {SIGGRAPH '97}
+}
+
+@article{chen2018numerical,
+author = {Chen, Jiong and Bao, Hujun and Wang, Tianyu and Desbrun, Mathieu and Huang, Jin},
+title = {Numerical Coarsening Using Discontinuous Shape Functions},
+year = {2018},
+issue_date = {August 2018},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {37},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {In this paper, an efficient and scalable approach for simulating inhomogeneous and non-linear elastic objects is introduced. Our numerical coarsening approach consists in optimizing non-conforming and matrix-valued shape functions to allow for predictive simulation of heterogeneous materials with non-linear constitutive laws even on coarse grids, thus saving orders of magnitude in computational time compared to traditional finite element computations. The set of local shape functions over coarse elements is carefully tailored in a preprocessing step to balance geometric continuity and local material stiffness. In particular, we do not impose continuity of our material-aware shape functions between neighboring elements to significantly reduce the fictitious numerical stiffness that conforming bases induce; however, we enforce crucial geometric and physical properties such as partition of unity and exact reproduction of representative fine displacements to eschew the use of discontinuous Galerkin methods. We demonstrate that we can simulate, with no parameter tuning, inhomogeneous and non-linear materials significantly better than previous approaches that traditionally try to homogenize the constitutive model instead.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {120},
+numpages = {12},
+pages = {120:1-120:12},
+keywords = {nonlinear constitutive models, numerical coarsening, deformable body simulation}
+}
+
+@article{zhang2022progressive,
+author = {Zhang, Jiayi Eris and Dumas, J\'{e}r\'{e}mie and Fei, Yun (Raymond) and Jacobson, Alec and James, Doug L. and Kaufman, Danny M.},
+title = {Progressive Simulation for Cloth Quasistatics},
+year = {2022},
+issue_date = {December 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {6},
+issn = {0730-0301},
+  
+abstract = {The trade-off between speed and fidelity in cloth simulation is a fundamental computational problem in computer graphics and computational design. Coarse cloth models provide the interactive performance required by designers, but they can not be simulated at higher resolutions ("up-resed") without introducing simulation artifacts and/or unpredicted outcomes, such as different folds, wrinkles and drapes. But how can a coarse simulation predict the result of an unconstrained, high-resolution simulation that has not yet been run?We propose Progressive Cloth Simulation (PCS), a new forward simulation method for efficient preview of cloth quasistatics on exceedingly coarse triangle meshes with consistent and progressive improvement over a hierarchy of increasingly higher-resolution models. PCS provides an efficient coarse previewing simulation method that predicts the coarse-scale folds and wrinkles that will be generated by a corresponding converged, high-fidelity C-IPC simulation of the cloth drape's equilibrium. For each preview PCS can generate an increasing-resolution sequence of consistent models that progress towards this converged solution. This successive improvement can then be interrupted at any point, for example, whenever design parameters are updated. PCS then ensures feasibility at all resolutions, so that predicted solutions remain intersection-free and capture the complex folding and buckling behaviors of frictionally contacting cloth.},
+journal = {ACM Trans. Graph.},
+month = {nov},
+articleno = {218},
+numpages = {16},
+keywords = {multiresolution, cloth simulation, contact mechanics, progressive simulation}
+}
+
+@article{chen2019material,
+author = {Chen, Jiong and Budninskiy, Max and Owhadi, Houman and Bao, Hujun and Huang, Jin and Desbrun, Mathieu},
+title = {Material-Adapted Refinable Basis Functions for Elasticity Simulation},
+year = {2019},
+issue_date = {December 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {38},
+number = {6},
+issn = {0730-0301},
+  
+abstract = {In this paper, we introduce a hierarchical construction of material-adapted refinable basis functions and associated wavelets to offer efficient coarse-graining of linear elastic objects. While spectral methods rely on global basis functions to restrict the number of degrees of freedom, our basis functions are locally supported; yet, unlike typical polynomial basis functions, they are adapted to the material inhomogeneity of the elastic object to better capture its physical properties and behavior. In particular, they share spectral approximation properties with eigenfunctions, offering a good compromise between computational complexity and accuracy. Their construction involves only linear algebra and follows a fine-to-coarse approach, leading to a block-diagonalization of the stiffness matrix where each block corresponds to an intermediate scale space of the elastic object. Once this hierarchy has been precomputed, we can simulate an object at runtime on very coarse resolution grids and still capture the correct physical behavior, with orders of magnitude speedup compared to a fine simulation. We show on a variety of heterogeneous materials that our approach outperforms all previous coarse-graining methods for elasticity.},
+journal = {ACM Trans. Graph.},
+month = {nov},
+articleno = {161},
+numpages = {15},
+keywords = {material-adapted basis functions, deformable body simulation, operator-adapted wavelets, numerical coarsening}
+}
+
+@article{chen_multiscale_2021,
+	title = {Multiscale cholesky preconditioning for ill-conditioned problems},
+	volume = {40},
+	issn = {0730-0301, 1557-7368},
+  
+	abstract = {Many computer graphics applications boil down to solving sparse systems of linear equations. While the current arsenal of numerical solvers available in various specialized libraries and for different computer architectures often allow efficient and scalable solutions to image processing, modeling and simulation applications, an increasing number of graphics problems face large-scale and ill-conditioned sparse linear systems --- a numerical challenge which typically chokes both direct factorizations (due to high memory requirements) and iterative solvers (because of slow convergence). We propose a novel approach to the efficient preconditioning of such problems which often emerge from the discretization over unstructured meshes of partial differential equations with heterogeneous and anisotropic coefficients. Our numerical approach consists in simply performing a fine-to-coarse ordering and a multiscale sparsity pattern of the degrees of freedom, using which we apply an incomplete Cholesky factorization. By further leveraging supernodes for cache coherence, graph coloring to improve parallelism and partial diagonal shifting to remedy negative pivots, we obtain a preconditioner which, combined with a conjugate gradient solver, far exceeds the performance of existing carefully-engineered libraries for graphics problems involving bad mesh elements and/or high contrast of coefficients. We also back the core concepts behind our simple solver with theoretical foundations linking the recent method of operator-adapted wavelets used in numerical homogenization to the traditional Cholesky factorization of a matrix, providing us with a clear bridge between incomplete Cholesky factorization and multiscale analysis that we leverage numerically.},
+	language = {en},
+	number = {4},
+	urldate = {2023-02-10},
+	journal = {ACM Transactions on Graphics},
+	author = {Chen, Jiong and Schäfer, Florian and Huang, Jin and Desbrun, Mathieu},
+	month = aug,
+	year = {2021},
+	keywords = {/unread},
+	pages = {1--13},
+	file = {2021_Chen et al_Multiscale cholesky preconditioning for ill-conditioned problems.pdf:/home/zcy/OneDrive/Papers/Simulation/multigrid/2021_Chen et al_Multiscale cholesky preconditioning for ill-conditioned problems.pdf:application/pdf},
+}
+
+@article{li_analysis_2022,
+	title = {Analysis of heterogeneous structures of non-separated scales using curved bridge nodes},
+	volume = {392},
+	issn = {00457825},
+  
+	abstract = {Numerically predicting the performance of heterogeneous structures without scale separation is a challenging task owing to the critical requirements related to computational scalability and efficiency that must be satisfied. In addition, adopting a sufficiently fine mesh to consider the small-scale heterogeneities results in prohibitive computational costs, whereas neglecting them tends to drastically over-stiffen the rigidity of the structure.},
+	language = {en},
+	urldate = {2022-02-25},
+	journal = {Computer Methods in Applied Mechanics and Engineering},
+	author = {Li, Ming and Hu, Jingqiao},
+	month = mar,
+	year = {2022},
+	pages = {114582},
+	file = {2022_Li_Hu_Analysis of heterogeneous structures of non-separated scales using curved.pdf:/home/zcy/OneDrive/Papers/Simulation/FEM/2022_Li_Hu_Analysis of heterogeneous structures of non-separated scales using curved.pdf:application/pdf},
+}
+
+@article{heFast2023,
+author = {He, Zhongyun and Pérez, Jesús and Otaduy, Miguel A.},
+title = {Fast Numerical Coarsening with Local Factorizations},
+journal = {Computer Graphics Forum},
+volume = {41},
+number = {8},
+pages = {9-17},
+keywords = {CCS Concepts, • Computing methodologies → Physical simulation},
+year = {2022}
+}
+
+@article{ni_numerical_2023,
+	title = {Numerical {Coarsening} with {Neural} {Shape} {Functions}},
+	issn = {0167-7055, 1467-8659},
+  
+	language = {en},
+	urldate = {2023-07-18},
+	journal = {Computer Graphics Forum},
+	author = {Ni, Ning and Xu, Qingyu and Li, Zhehao and Fu, Xiao‐Ming and Liu, Ligang},
+	month = mar,
+	year = {2023},
+	pages = {cgf.14736},
+	file = {2023_Ni et al_Numerical Coarsening with Neural Shape Functions.pdf:/home/zcy/OneDrive/Papers/2023_Ni et al_Numerical Coarsening with Neural Shape Functions.pdf:application/pdf},
+}
+
+@article{zhang2023progressive,
+author = {Zhang, Jiayi Eris and Dumas, J\'{e}r\'{e}mie and Fei, Yun (Raymond) and Jacobson, Alec and James, Doug L. and Kaufman, Danny M.},
+title = {Progressive Shell Qasistatics for Unstructured Meshes},
+year = {2023},
+issue_date = {December 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {42},
+number = {6},
+issn = {0730-0301},
+  
+abstract = {Thin shell structures exhibit complex behaviors critical for modeling and design across wide-ranging applications. Capturing their mechanical response requires finely detailed, high-resolution meshes. Corresponding simulations for predicting equilibria with these meshes are expensive, whereas coarse-mesh simulations can be fast but generate unacceptable artifacts and inaccuracies. The recently proposed progressive simulation framework [Zhang et al. 2022] offers a promising avenue to address these limitations with consistent and progressively improving simulation over a hierarchy of increasingly higher-resolution models. Unfortunately, it is currently severely limited in application to meshes and shapes generated via Loop subdivision.We propose Progressive Shells Quasistatics to extend progressive simulation to the high-fidelity modeling and design of all input shell (and plate) geometries with unstructured (as well as structured) triangle meshes. To do so, we construct a fine-to-coarse hierarchy with a novel nonlinear prolongation operator custom-suited for curved-surface simulation that is rest-shape preserving, supports complex curved boundaries, and enables the reconstruction of detailed geometries from coarse-level meshes. Then, to enable convergent, high-quality solutions with robust contact handling, we propose a new, safe, and efficient shape-preserving upsampling method that ensures non-intersection and strain limits during refinement. With these core contributions, Progressive Shell Quasistatics enables, for the first time, wide generality for progressive simulation, including support for arbitrary curved-shell geometries, progressive collision objects, curved boundaries, and unstructured triangle meshes - all while ensuring that preview and final solutions remain free of intersections. We demonstrate these features across a wide range of stress-tests where progressive simulation captures the wrinkling, folding, twisting, and buckling behaviors of frictionally contacting thin shells with orders-of-magnitude speed-up in examples over direct fine-resolution simulation.},
+journal = {ACM Trans. Graph.},
+month = {dec},
+articleno = {176},
+numpages = {17},
+keywords = {shell simulation, multiresolution, contact mechanics, progressive simulation, model reduction}
+}
+
+@article{Berger2012QuasiKroneckerFrom,
+author = {Berger, Thomas and Trenn, Stephan},
+title = {The Quasi-Kronecker Form For Matrix Pencils},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+volume = {33},
+number = {2},
+pages = {336-368},
+year = {2012},
+  
+}
+
+@article{Van1979Kronecker,
+title = {The computation of Kronecker's canonical form of a singular pencil},
+journal = {Linear Algebra and its Applications},
+volume = {27},
+pages = {103-140},
+year = {1979},
+issn = {0024-3795},
+  
+author = {P. {Van Dooren}},
+abstract = {We develop stable algorithms for the computation of the Kronecker structure of an arbitrary pencil. This problem can be viewed as a generalization of the well-known eigenvalue problem of pencils of the type λI−A. We first show that the elementary divisors (λ − α)i of a regular pencil λB−A can be retrieved with a deflation algorithm acting on the expansion (λ − α)B − (A − αB). This method is a straightforward generalization of Kublanovskaya's algorithm for the determination of the Jordan structure of a constant matrix. We also show how to use this method to determine the structure of the infinite elementary divisors of λB−A. In the case of singular pencils, the occurrence of Kronecker indices—containing the singularity of the pencil—somewhat complicates the problem. Yet our algorithm retrieves these indices with no additional effort, when determining the elementary divisors of the pencil. The present ideas can also be used to separate from an arbitrary pencil a smaller regular pencil containing only the finite elementary divisors of the original one. This is shown to be an effective tool when used together with the QZ algorithm.}
+}
+
+@book{gantmakher2000theory,
+  title={The theory of matrices},
+  author={Gantmakher, Feliks Ruvimovich},
+  volume={131},
+  year={2000},
+  publisher={American Mathematical Soc.}
+}
+
+@article{Kressner2024AnalysisOfeigenvalue,
+author = {Kressner, Daniel and Plestenjak, Bor},
+title = {Analysis of eigenvalue condition numbers for a class of randomized numerical methods for singular matrix pencils},
+year = {2024},
+issue_date = {Sep 2024},
+publisher = {BIT Computer Science and Numerical Mathematics},
+address = {USA},
+volume = {64},
+number = {3},
+issn = {0006-3835},
+  
+abstract = {The numerical solution of the generalized eigenvalue problem for a singular matrix pencil is challenging due to the discontinuity of its eigenvalues. Classically, such problems are addressed by first extracting the regular part through the staircase form and then applying a standard solver, such as the QZ algorithm, to that regular part. Recently, several novel approaches have been proposed to transform the singular pencil into a regular pencil by relatively simple randomized modifications. In this work, we analyze three such methods by Hochstenbach, Mehl, and Plestenjak that modify, project, or augment the pencil using random matrices. All three methods rely on the normal rank and do not alter the finite eigenvalues of the original pencil. We show that the eigenvalue condition numbers of the transformed pencils are unlikely to be much larger than the δ-weak eigenvalue condition numbers, introduced by Lotz and Noferini, of the original pencil. This not only indicates favorable numerical stability but also reconfirms that these condition numbers are a reliable criterion for detecting simple finite eigenvalues. We also provide evidence that, from a numerical stability perspective, the use of complex instead of real random matrices is preferable even for real singular matrix pencils and real eigenvalues. As a side result, we provide sharp left tail bounds for a product of two independent random variables distributed with the generalized beta distribution of the first kind or Kumaraswamy distribution.},
+journal = {BIT},
+month = jul,
+numpages = {27},
+keywords = {Singular pencil, Singular generalized eigenvalue problem, Eigenvalue condition number, Randomized numerical method, Random matrices, 65F15, 15A18, 15A22, 15A21, 47A55, 68W20, 15B52}
+}
+
+@article{Hochstenbach2019SolvingSingular,
+author = {Hochstenbach, Michiel E. and Mehl, Christian and Plestenjak, Bor},
+title = {Solving Singular Generalized Eigenvalue Problems by a Rank-Completing Perturbation},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+volume = {40},
+number = {3},
+pages = {1022-1046},
+year = {2019},
+    abstract = { Generalized eigenvalue problems involving a singular pencil are very challenging to solve, with respect to both accuracy and efficiency. The existing package Guptri is very elegant but may be time-demanding, even for small and medium-sized matrices. We propose a simple method to compute the eigenvalues of singular pencils, based on one perturbation of the original problem of a certain specific rank. For many problems, the method is both fast and robust. This approach may be seen as a welcome alternative to staircase methods. }
+}
+
+@article{Demmel1993TheGS,
+  title={The generalized Schur decomposition of an arbitrary pencil A–\&lgr;B—robust software with error bounds and applications. Part II},
+  author={James Demmel and Bo K{\aa}gstr{\"o}m},
+  journal={ACM Transactions on Mathematical Software (TOMS)},
+  year={1993},
+  volume={19},
+  pages={175 - 201}
+}
+
+@article{Edelman2000StaircaseFailures,
+author = {Edelman, Alan and Ma, Yanyuan},
+title = {Staircase Failures Explained by Orthogonal Versal Forms},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+volume = {21},
+number = {3},
+pages = {1004-1025},
+year = {2000},
+    abstract = { Treating matrices as points in n2 -dimensional space, we apply geometry to study and explain algorithms for the numerical determination of the Jordan structure of a matrix. Traditional notions such as sensitivity of subspaces are replaced with angles between tangent spaces of manifolds in n2 -dimensional space. We show that the subspace sensitivity is associated with a small angle between complementary subspaces of a tangent space on a manifold in n2 -dimensional space. We further show that staircase algorithm failure is related to a small angle between what we call staircase invariant space and this tangent space. The matrix notions in n2 -dimensional space are generalized to pencils in 2mn-dimensional space. We apply our theory to special examples studied by Boley, Demmel, and Kågström. }
+}
+
+@article{Fernando2008FirstOrder,
+title = {First order spectral perturbation theory of square singular matrix pencils},
+journal = {Linear Algebra and its Applications},
+volume = {429},
+number = {2},
+pages = {548-576},
+year = {2008},
+issn = {0024-3795},
+  
+author = {Fernando {De Terán} and Froilán M. Dopico and Julio Moro},
+keywords = {15A18, 15A22, 65F15, 65F22, Eigenvalues, Eigenvectors, Perturbation, Puiseux expansions, Singular pencils},
+abstract = {Let H(λ)=A0+λA1 be a square singular matrix pencil, and let λ0∈C be an eventually multiple eigenvalue of H(λ). It is known that arbitrarily small perturbations of H(λ) can move the eigenvalues of H(λ) anywhere in the complex plane, i.e., the eigenvalues are discontinuous functions of the entries of A0 and A1. Therefore, it is not possible to develop an eigenvalue perturbation theory for arbitrary perturbations of H(λ). However, if the perturbations are restricted to lie in an appropriate set then the eigenvalues change continuously. We prove that this set of perturbations is generic, i.e., it contains almost all pencils, and present sufficient conditions for a pencil to be in this set. In addition, for perturbations in this set, explicit first order perturbation expansions of λ0 are obtained in terms of the perturbation pencil and bases of the left and right null spaces of H(λ0), both for simple and multiple eigenvalues. Infinite eigenvalues are also considered. Finally, information on the eigenvectors of the generically regular perturbed pencil is presented. We obtain, as corollaries, results for regular pencils that are also new.}
+}
+
+@article{Lin2021ShiftInvertLanczos ,
+author = {Lin, Chao-Ping and Xie, Huiqing and Grimes, Roger and Bai, Zhaojun},
+title = {On the shift-invert Lanczos method for the buckling eigenvalue problem},
+journal = {International Journal for Numerical Methods in Engineering},
+volume = {122},
+number = {11},
+pages = {2751-2769},
+keywords = {buckling analysis, eigenvalue problem, Lanczos method, shift-invert, singular pencil},
+  
+abstract = {Abstract We consider the problem of extracting a few desired eigenpairs of the buckling eigenvalue problem Kx=λKGx, where K is symmetric positive semi-definite, KG is symmetric indefinite, and the pencil K−λKG is singular, namely, K and KG share a nontrivial common nullspace. Moreover, in practical buckling analysis of structures, bases for the nullspace of K and the common nullspace of K and KG are available. There are two open issues for developing an industrial strength shift-invert Lanczos method: (1) the shift-invert operator (K−σKG)−1 does not exist or is extremely ill-conditioned, and (2) the use of the semi-inner product induced by K drives the Lanczos vectors rapidly toward the nullspace of K, which leads to a rapid growth of the Lanczos vectors in norms and causes permanent loss of information and the failure of the method. In this paper, we address these two issues by proposing a generalized buckling spectral transformation of the singular pencil K−λKG and a regularization of the inner product via a low-rank updating of the semi-positive definiteness of K. The efficacy of our approach is demonstrated by numerical examples, including one from industrial buckling analysis.},
+year = {2021}
+}
+
+@article{karl2024ShiftInvertArnoldi,
+    title={The shift-and-invert Arnoldi method for singular matrix pencils},
+    author={Meerbergen, Karl and Wang, Zhijun},
+    
+    publisher={arXiv},
+    year={2024},
+    month={Jan},
+}
+
+@book{Aurenhammer2013VoronoiDiagrams,
+author = {Aurenhammer, Franz and Klein, Rolf and Lee, Der-Tsai},
+title = {Voronoi Diagrams and Delaunay Triangulations},
+publisher = {WORLD SCIENTIFIC},
+year = {2013},
+  
+address = {},
+edition   = {},
+}
+
+@misc{Qiu2015Spectra,
+  author = {Qiu, Yixuan},
+  title = {SpectrA: C++ Library For Large Scale Eigenvalue Problems},
+  year = {2015},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+}
+
+@article{Hernandez2005SLEPc,
+author = {Hernandez, Vicente and Roman, Jose E. and Vidal, Vicente},
+title = {SLEPc: A scalable and flexible toolkit for the solution of eigenvalue problems},
+year = {2005},
+issue_date = {September 2005},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {31},
+number = {3},
+issn = {0098-3500},
+  
+abstract = {The Scalable Library for Eigenvalue Problem Computations (SLEPc) is a software library for computing a few eigenvalues and associated eigenvectors of a large sparse matrix or matrix pencil. It has been developed on top of PETSc and enforces the same programming paradigm.The emphasis of the software is on methods and techniques appropriate for problems in which the associated matrices are sparse, for example, those arising after the discretization of partial differential equations. Therefore, most of the methods offered by the library are projection methods such as Arnoldi or Lanczos, or other methods with similar properties. SLEPc provides basic methods as well as more sophisticated algorithms. It also provides built-in support for spectral transformations such as the shift-and-invert technique. SLEPc is a general library in the sense that it covers standard and generalized eigenvalue problems, both Hermitian and non-Hermitian, with either real or complex arithmetic.SLEPc can be easily applied to real world problems. To illustrate this, several case studies arising from real applications are presented and solved with SLEPc with little programming effort. The addressed problems include a matrix-free standard problem, a complex generalized problem, and a singular value decomposition. The implemented codes exhibit good properties regarding flexibility as well as parallel performance.},
+journal = {ACM Trans. Math. Softw.},
+month = sep,
+pages = {351–362},
+numpages = {12},
+keywords = {Eigenvalue computation, singular values, spectral transform}
+}
+
+@article{Karypis1997METIS,
+author = {Karypis, George and Kumar, Vipin},
+year = {1997},
+month = {01},
+pages = {},
+title = {METIS—A Software Package for Partitioning Unstructured Graphs, Partitioning Meshes and Computing Fill-Reducing Ordering of Sparse Matrices}
+}
+
+@article{seshu1997substructuring,
+	title = {Substructuring and {Component} {Mode} {Synthesis}},
+	volume = {4},
+	issn = {1070-9622, 1875-9203},
+  
+	abstract = {Substructuring and component mode synthesis (CMS), is a very popular method of model reduction for large structural dynamics problems. Starting from the pioneering works on this technique in the early 1960s, many researchers have studied and used this technique in a variety of applications. Besides model reduction, CMS offers several other crucial advantages. The present work aims to provide a review of the available literature on this important technique.},
+	language = {en},
+	number = {3},
+	urldate = {2025-08-06},
+	journal = {Shock and Vibration},
+	author = {Seshu, P.},
+	year = {1997},
+	pages = {199--210},
+	file = {1997 - Seshu - Substructuring and Component Mode Synthesis.pdf:/mnt/sda2/zcy/OneDrive/Papers/Numeric/CMS/1997 - Seshu - Substructuring and Component Mode Synthesis.pdf:application/pdf},
+}
+
+@inproceedings{horvath2018efficiency,
+	address = {Lublin, Poland},
+	title = {Efficiency and accuracy investigation of the {Craig}-{Bampton} method through continuum vibration tests},
+  
+	abstract = {The paper investigates and shows the efficiency and accuracy of the Cr-aiBgampton model order reduction method on the analysis of a cantilever beam and rod with harmonic excitation. The results of different finite elemen-tand Craig-Bampton models are compared to the analytical (closed-form) continuum vibration results as reference.},
+	language = {en},
+	urldate = {2025-08-06},
+	author = {Horváth, Péter},
+	year = {2018},
+	pages = {120006},
+	file = {2018 - Horváth - Efficiency and accuracy investigation of the Craig-Bampton method through continuum vibration tests.pdf:/mnt/sda2/zcy/OneDrive/Papers/Numeric/CMS/2018 - Horváth - Efficiency and accuracy investigation of the Craig-Bampton method through continuum vibration tests.pdf:application/pdf},
+}
+
+@article{William1985CMS,
+author = {William Weayer  and C. Lawrence Loh },
+title = {Dynamics of Trusses by Component‐Mode Method},
+journal = {Journal of Structural Engineering},
+volume = {111},
+number = {12},
+pages = {2565-2575},
+year = {1985},
+  
+}
+
+@article{craig1968coupling,
+	title = {Coupling of substructures for dynamic analyses.},
+	volume = {6},
+	issn = {0001-1452, 1533-385X},
+  
+	language = {en},
+	number = {7},
+	urldate = {2025-08-06},
+	journal = {AIAA Journal},
+	author = {Craig, Roy R. and Bampton, Mervyn C. C.},
+	year = {1968},
+	pages = {1313--1319},
+	file = {1968 - Craig and Bampton - Coupling of substructures for dynamic analyses..pdf:/mnt/sda2/zcy/OneDrive/Papers/Numeric/CMS/1968 - Craig and Bampton - Coupling of substructures for dynamic analyses..pdf:application/pdf},
+}
+
+@article{KRATTIGER2019Riview,
+title = {Interface reduction for Hurty/Craig-Bampton substructured models: Review and improvements},
+journal = {Mechanical Systems and Signal Processing},
+volume = {114},
+pages = {579-603},
+year = {2019},
+issn = {0888-3270},
+  
+author = {Dimitri Krattiger and Long Wu and Martin Zacharczuk and Martin Buck and Robert J. Kuether and Matthew S. Allen and Paolo Tiso and Matthew R.W. Brake},
+keywords = {Component mode synthesis, Substructuring, Hurty/Craig-Bampton method, Interface reduction, Characteristic constraint modes},
+abstract = {The Hurty/Craig-Bampton method in structural dynamics represents the interior dynamics of each subcomponent in a substructured system with a truncated set of normal modes and retains all of the physical degrees of freedom at the substructure interfaces. This makes the assembly of substructures into a reduced-order system model relatively simple, but means that the reduced-order assembly will have as many interface degrees of freedom as the full model. When the full-model mesh is highly refined, and/or when the system is divided into many subcomponents, this can lead to an unacceptably large system of equations of motion. To overcome this, interface reduction methods aim to reduce the size of the Hurty/Craig-Bampton model by reducing the number of interface degrees of freedom. This research presents a survey of interface reduction methods for Hurty/Craig-Bampton models, and proposes improvements and generalizations to some of the methods. Some of these interface reductions operate on the assembled system-level matrices while others perform reduction locally by considering the uncoupled substructures. The advantages and disadvantages of these methods are highlighted and assessed through comparisons of results obtained from a variety of representative linear FE models.}
+}
+
+@article{Kuether2017InterfaceReduction,
+    author = {Kuether, Robert J. and Coffin, Peter B. and Brink, Adam R.},
+    title = {On Hurty/Craig-Bampton Substructuring With Interface Reduction on Contacting Surfaces},
+    volume = {Volume 8: 29th Conference on Mechanical Vibration and Noise},
+    series = {International Design Engineering Technical Conferences and Computers and Information in Engineering Conference},
+    pages = {V008T12A017},
+    year = {2017},
+    month = {08},
+  
+}
+
+@article{Bennighof2004AMLS,
+author = {Bennighof, Jeffrey K. and Lehoucq, R. B.},
+title = {An Automated Multilevel Substructuring Method for Eigenspace Computation in Linear Elastodynamics},
+journal = {SIAM Journal on Scientific Computing},
+volume = {25},
+number = {6},
+pages = {2084-2106},
+year = {2004},
+  
+}
+
+@article{Boo2016ErrorEstimation,
+author = {Boo, Seung-Hwan and Kim, Jin-Gyun and Lee, Phill-Seung},
+title = {Error estimation for the automated multi-level substructuring method},
+journal = {International Journal for Numerical Methods in Engineering},
+volume = {106},
+number = {11},
+pages = {927-950},
+keywords = {structural dynamics, finite element method, component mode synthesis, automated multi-level substructuring, eigenvalue problem, error estimation},
+  
+year = {2016}
+}
+
+@article{Papalukopoulos2006Dynamics,
+    author = {Papalukopoulos, C. and Natsiavas, S.},
+    title = {Dynamics of Large Scale Mechanical Models Using Multilevel Substructuring},
+    journal = {Journal of Computational and Nonlinear Dynamics},
+    volume = {2},
+    number = {1},
+    pages = {40-51},
+    year = {2006},
+    month = {07},
+    issn = {1555-1415},
+  
+}
+
+@article{MUMPS:1,
+   title   = {A Fully Asynchronous Multifrontal Solver Using Distributed Dynamic Scheduling},
+   author  = {P.R. Amestoy and I. S. Duff and J. Koster and J.-Y. L'Excellent},
+   journal = {SIAM Journal on Matrix Analysis and Applications},
+   volume  = {23},
+   number  = {1},
+   year    = {2001},
+   pages   = {15-41}
+ }
+
+@article{MUMPS:2,
+  title = {{Performance and Scalability of the Block Low-Rank Multifrontal
+  Factorization on Multicore Architectures}},
+  author = {P.R. Amestoy and A. Buttari and J.-Y. L'Excellent and T. Mary},
+  journal = {ACM Transactions on Mathematical Software},
+  volume = 45,
+  issue = 1,
+  pages = {2:1--2:26},
+  year={2019},
+}
+
+@article{KrylovSchur,
+author = {Stewart, G. W.},
+title = {A Krylov--Schur Algorithm for Large Eigenproblems},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+volume = {23},
+number = {3},
+pages = {601-614},
+year = {2002},
+}
+
+@article{giammatteo2024extension,
+	title = {An extension of the approximate component mode synthesis method to the heterogeneous {Helmholtz} equation},
+	issn = {0272-4979, 1464-3642},
+  
+	abstract = {Abstract
+            In this work, we propose and analyze an extension of the approximate component mode synthesis (ACMS) method to the two-dimensional heterogeneous Helmholtz equation. The ACMS method has originally been introduced by Hetmaniuk and Lehoucq as a multiscale method to solve elliptic partial differential equations. The ACMS method uses a domain decomposition to separate the numerical approximation by splitting the variational problem into two independent parts: local Helmholtz problems and a global interface problem. While the former are naturally local and decoupled such that they can be easily solved in parallel, the latter requires the construction of suitable local basis functions relying on local eigenmodes and suitable extensions. We carry out a full error analysis of this approach focusing on the case where the domain decomposition is kept fixed, but the number of eigenfunctions is increased. The theoretical results in this work are supported by numerical experiments verifying algebraic convergence for the method. In certain, practically relevant cases, even super-algebraic convergence for the local Helmholtz problems can be achieved without oversampling.},
+	language = {en},
+	urldate = {2025-08-06},
+	journal = {IMA Journal of Numerical Analysis},
+	author = {Giammatteo, Elena and Heinlein, Alexander and Schlottbom, Matthias},
+	month = oct,
+	year = {2024},
+	pages = {drae076},
+}
+
+@article{hetmaniuk2010special,
+	title = {A special finite element method based on component mode synthesis},
+	volume = {44},
+	issn = {0764-583X, 1290-3841},
+  
+	abstract = {The goal of our paper is to introduce basis functions for the ﬁnite element discretization of a second order linear elliptic operator with rough or highly oscillating coeﬃcients. The proposed basis functions are inspired by the classic idea of component mode synthesis and exploit an orthogonal decomposition of the trial subspace to minimize the energy. Numerical experiments illustrate the eﬀectiveness of the proposed basis functions.},
+	language = {en},
+	number = {3},
+	urldate = {2025-08-06},
+	journal = {ESAIM: Mathematical Modelling and Numerical Analysis},
+	author = {Hetmaniuk, Ulrich L. and Lehoucq, Richard B.},
+	month = may,
+	year = {2010},
+	pages = {401--420}
+}
+
+@article{hetmaniuk2014error,
+	title = {{ERROR} {ESTIMATES} {FOR} {A} {TWO}-{DIMENSIONAL} {SPECIAL} {FINITE} {ELEMENT} {METHOD} {BASED} {ON} {COMPONENT} {MODE} {SYNTHESIS}},
+	abstract = {This paper presents a priori error estimates for a special ﬁnite element discretization based on component mode synthesis. The basis functions exploit an orthogonal decomposition of the trial subspace to minimize the energy and are expressed in terms of local eigenproblems. The a priori error bounds state the explicit dependency of constants with respect to the mesh size and the ﬁrst neglected eigenvalues. A residual-based a posteriori error indicator is derived. Numerical experiments on academic problems illustrate the sharpness of these bounds.},
+	language = {en},
+	author = {Hetmaniuk, Ulrich and Klawonn, Axel},
+	year = {2014}
+}
+
+@article{Heinlein2015ACMS,
+author = {Heinlein, A. and Hetmaniuk, U. and Klawonn, A. and Rheinbach, O.},
+title = {The approximate component mode synthesis special finite element method in two dimensions},
+year = {2015},
+issue_date = {December 2015},
+publisher = {Elsevier Science Publishers B. V.},
+address = {NLD},
+volume = {289},
+number = {C},
+issn = {0377-0427},
+  
+abstract = {A special finite element method based on approximate component mode synthesis (ACMS) was introduced in Hetmaniuk and Lehoucq (2010). ACMS was developed for second order elliptic partial differential equations with rough or highly varying coefficients. Here, a parallel implementation of ACMS is presented and parallel scalability issues are discussed for representative examples. Additionally, a parallel domain decomposition preconditioner (FETI-DP) is applied to solve the ACMS finite element system. Weak parallel scalability results for ACMS are presented for up to 1024 cores. Our numerical results also suggest a quadratic-logarithmic condition number bound for the preconditioned FETI-DP method applied to ACMS discretizations.},
+journal = {J. Comput. Appl. Math.},
+month = dec,
+pages = {116–133},
+numpages = {18},
+keywords = {Component mode synthesis, Domain decomposition, Eigendecomposition, FETI-DP, Finite elements, Multiscale}
+}
+
+@article{bourquin1992component,
+  title={Component mode synthesis and eigenvalues of second order operators: discretization and algorithm},
+  author={Bourquin, Fr{\'e}d{\'e}ric},
+  journal={ESAIM: Mathematical Modelling and Numerical Analysis},
+  volume={26},
+  number={3},
+  pages={385--423},
+  year={1992},
+  publisher={EDP Sciences}
+}
+
+@Inbook{Smith1997DDM,
+author="Smith, Barry F.",
+editor="Keyes, David E.
+and Sameh, Ahmed
+and Venkatakrishnan, V.",
+title="Domain Decomposition Methods for Partial Differential Equations",
+bookTitle="Parallel Numerical Algorithms",
+year="1997",
+publisher="Springer Netherlands",
+address="Dordrecht",
+pages="225--243",
+abstract="Domain decomposition methods are iterative methods for the solution of linear or nonlinear systems that use explicit information about the geometry, discretization, and/or partial differential equations that underlie the discrete systems. Considerable research in domain decomposition methods for partial differential equations has been carried out in the past dozen years. Recently, these techniques have begun to be applied to ``real-world'' engineering problems. This chapter summarizes basic ideas of domain decomposition methods. Though no particular applications are discussed, references are furnished to several recent uses of domain decomposition.",
+isbn="978-94-011-5412-3",
+    
+}
+
+@article{Madureira2025SACMS,
+author = {Madureira, Alexandre L. and Sarkis, Marcus},
+title = {Spectral ACMS: A Robust Localized Approximated Component Mode Synthesis Method},
+journal = {SIAM Journal on Numerical Analysis},
+volume = {63},
+number = {3},
+pages = {1055-1077},
+year = {2025},
+  
+}
+
+@article{Lars2024ModeSelection,
+title = {Mode selection for component mode synthesis with guaranteed assembly accuracy},
+journal = {Journal of Sound and Vibration},
+volume = {589},
+pages = {118596},
+year = {2024},
+issn = {0022-460X},
+  
+author = {Lars A.L. Janssen and Rob H.B. Fey and Bart Besselink and Nathan {van de Wouw}},
+keywords = {Assembly accuracy requirements, Model reduction, Interconnected systems, Mode selection, Component mode synthesis}
+}
+
+@inproceedings{2007ComponentMS,
+  title={Component Mode Synthesis in ANSYS Workbench Simulation CMS},
+  author={},
+  year={2007},
+}
+
+@inproceedings{Karypis1995graph,
+author = {Karypis, George and Kumar, Vipin},
+title = {Analysis of multilevel graph partitioning},
+year = {1995},
+isbn = {0897918169},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+  
+abstract = {Recently, a number of researchers have investigated a class of algorithms that are based on multilevel graph partitioning that have moderate computational complexity, and provide excellent graph partitions. However, there exists little theoretical analysis that could explain the ability of multilevel algorithms to produce good partitions. In this paper we present such an analysis. Weshow under certain reasonable assumptions that even if no refinement is used in the uncoarsening phase, a good bisection of the coarser graph is worse than a good bisection of the finer graph by at most a small factor. We also show that for planar graphs, the size of a good vertex-separator of the coarse graph projected to the finer graph (without performing refinement in the uncoarsening phase) is higher than the size of a good vertex-separator of the finer graph by at most a small factor.},
+booktitle = {Proceedings of the 1995 ACM/IEEE Conference on Supercomputing},
+pages = {29–es},
+location = {San Diego, California, USA},
+series = {Supercomputing '95}
+}
+
+@Inbook{Hendrickson2011,
+author="Hendrickson, Bruce",
+editor="Padua, David",
+title="Chaco",
+bookTitle="Encyclopedia of Parallel Computing",
+year="2011",
+publisher="Springer US",
+address="Boston, MA",
+pages="248--249",
+isbn="978-0-387-09766-4",
+    
+}
+
+@article{HUANG2006927,
+title = {An efficient large deformation method using domain decomposition},
+journal = {Computers \& Graphics},
+volume = {30},
+number = {6},
+pages = {927-935},
+year = {2006},
+issn = {0097-8493},
+  
+author = {Jin Huang and Xinguo Liu and Hujun Bao and Baining Guo and Heung-Yeung Shum},
+keywords = {Deformation, Domain decomposition, Cluster PCA, Cholesky factorization},
+abstract = {Efficiently simulating large deformations of flexible objects is a challenging problem in computer graphics. In this paper, we present a physically based approach to this problem, using the linear elasticity model and a finite elements method. To handle large deformations in the linear elasticity model, we exploit the domain decomposition method, based on the observation that each sub-domain undergoes a relatively small local deformation, involving a global rigid transformation. In order to efficiently solve the deformation at each simulation time step, we pre-compute the object responses in terms of displacement accelerations to the forces acting on each node, yielding a force–displacement matrix. However, the force–displacement matrix could be too large to handle for densely tessellated objects. To address this problem, we present two methods. The first method exploits spatial coherence to compress the force-displacement matrix using the clustered principal component analysis method; and the second method pre-computes only the force–displacement vectors for the boundary vertices of the sub-domains and resorts to the Cholesky factorization to solve the acceleration for the internal vertices of the sub-domains. Finally, we present some experimental results to show the large deformation effects and fast performance on complex large scale objects under interactive user manipulations.}
+}
+
+@article{alexa2019harmonic,
+author = {Alexa, Marc},
+title = {Harmonic triangulations},
+year = {2019},
+issue_date = {August 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {38},
+number = {4},
+issn = {0730-0301},
+  
+abstract = {We introduce the notion of harmonic triangulations: a harmonic triangulation simultaneously minimizes the Dirichlet energy of all piecewise linear functions. By a famous result of Rippa, Delaunay triangulations are the harmonic triangulations of planar point sets. We prove by explicit counterexample that in 3D a harmonic triangulation does not exist in general. However, we show that bistellar flips are harmonic: if they decrease Dirichlet energy for one set of function values, they do so for all. This observation gives rise to the notion of locally harmonic triangulations. We demonstrate that locally harmonic triangulations can be efficiently computed, and efficiently reduce sliver tetrahedra. The notion of harmonic triangulation also gives rise to a scalar measure of the quality of a triangulation, which can be used to prioritize flips and optimize the position of vertices. Tetrahedral meshes generated by optimizing this function generally show better quality than Delaunay-based optimization techniques.},
+journal = {ACM Trans. Graph.},
+month = jul,
+articleno = {54},
+numpages = {14},
+keywords = {tetrahedral mesh optimization, simplicial meshes, dirichlet energy}
+}
+
+@article{Shewchuk2002whatIsAGoodLinearFiniteElement,
+author = {Shewchuk, Jonathan},
+year = {2002},
+month = {09},
+pages = {},
+title = {What Is a Good Linear Finite Element? - Interpolation, Conditioning, Anisotropy, and Quality Measures},
+volume = {73},
+journal = {Proceedings of the 11th International Meshing Roundtable}
+}
+
+@article{si_2015_tetgen,
+author = {Si, Hang},
+title = {TetGen, a Delaunay-Based Quality Tetrahedral Mesh Generator},
+year = {2015},
+issue_date = {January 2015},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {2},
+issn = {0098-3500},
+  
+abstract = {TetGen is a C++ program for generating good quality tetrahedral meshes aimed to support numerical methods and scientific computing. The problem of quality tetrahedral mesh generation is challenged by many theoretical and practical issues. TetGen uses Delaunay-based algorithms which have theoretical guarantee of correctness. It can robustly handle arbitrary complex 3D geometries and is fast in practice. The source code of TetGen is freely available.This article presents the essential algorithms and techniques used to develop TetGen. The intended audience are researchers or developers in mesh generation or other related areas. It describes the key software components of TetGen, including an efficient tetrahedral mesh data structure, a set of enhanced local mesh operations (combination of flips and edge removal), and filtered exact geometric predicates. The essential algorithms include incremental Delaunay algorithms for inserting vertices, constrained Delaunay algorithms for inserting constraints (edges and triangles), a new edge recovery algorithm for recovering constraints, and a new constrained Delaunay refinement algorithm for adaptive quality tetrahedral mesh generation. Experimental examples as well as comparisons with other softwares are presented.},
+journal = {ACM Trans. Math. Softw.},
+month = feb,
+articleno = {11},
+numpages = {36},
+keywords = {Delaunay, Steiner points, Tetrahedral mesh generation, boundary recovery, constrained Delaunay, edge removal, flips, mesh improvement, mesh quality, mesh refinement}
+}
+
+@article{HuangRS2011,
+author = {Huang, Jin and Tong, Yiying and Zhou, Kun and Bao, Hujun and Desbrun, Mathieu},
+title = {Interactive Shape Interpolation through Controllable Dynamic Deformation},
+year = {2011},
+issue_date = {July 2011},
+publisher = {IEEE Educational Activities Department},
+address = {USA},
+volume = {17},
+number = {7},
+issn = {1077-2626},
+  
+month = jul,
+pages = {983–992},
+numpages = {10},
+keywords = {Deformation gradient, modal analysis., shape interpolation, space-time constraints}
+}
+
+@article{MENGOLINI2019995,
+title = {An engineering perspective to the virtual element method and its interplay with the standard finite element method},
+journal = {Computer Methods in Applied Mechanics and Engineering},
+volume = {350},
+pages = {995-1023},
+year = {2019},
+issn = {0045-7825},
+  
+author = {Michael Mengolini and Matías F. Benedetto and Alejandro M. Aragón},
+keywords = {VEM, FEM, -FEM, Linear elasticity, Non-conforming meshes, Stress recovery},
+abstract = {In this manuscript we thoroughly study the behavior of the virtual element method (VEM) in the context of two-dimensional linear elasticity problems for an engineering audience versed in standard FEM. Through detailed convergence studies we show the accuracy and the convergence rates recovered by VEM, and we compare them to those obtained by the h- and p-versions of the finite element method (FEM). We also demonstrate the mixability between FEM and VEM; in particular, applications of VEM for coupling non-conforming discretizations and for local refinement are presented, showing higher versatility compared to FEM. Computer implementation aspects in displacement-based finite element codes are thoroughly explained, remarking on the main differences with respect to standard FEM.}
+}
+
+@article{Chen2020PrismsCones,
+author = {Chen, Wenbin and Wang, Yanqiu},
+title = {H1, H(curl) and H(div) conforming elements on polygon-based prisms and cones},
+year = {2020},
+issue_date = {Aug 2020},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+volume = {145},
+number = {4},
+issn = {0029-599X},
+  
+abstract = {The conation and extrusion techniques were proposed by Bossavit (Math Comput Simul 80:1567–1577, 2010) for constructing (m+1)-dimensional Whitney forms on prisms/cones from m-dimensional ones defined on the base shape. We combine the conation and extrusion techniques with the 2D polygonal H(div) conforming finite element proposed by Chen and Wang (Math Comput 307:2053–2087, 2017), and construct the lowest-order H1, H(curl) and H(div) conforming elements on polygon-based prisms and cones. The elements have optimal approximation rates. Despite of the relatively sophisticated theoretical analysis, the construction itself is easy to implement. As an example, we provide a 100-line Matlab code for evaluating the shape functions of H1, H(curl) and H(div) conforming elements as well as their exterior derivatives on polygon-based cones. Note that all convex and some non-convex 3D polyhedra can be divided into polygon-based cones by connecting the vertices with a chosen interior point. Thus our construction also provides composite elements for all such polyhedra.},
+journal = {Numer. Math.},
+month = aug,
+pages = {973–1004},
+numpages = {32},
+keywords = {65N30}
+}
+
+@article{Michael2019VEM,
+title = {An engineering perspective to the virtual element method and its interplay with the standard finite element method},
+journal = {Computer Methods in Applied Mechanics and Engineering},
+volume = {350},
+pages = {995-1023},
+year = {2019},
+issn = {0045-7825},
+  
+author = {Michael Mengolini and Matías F. Benedetto and Alejandro M. Aragón},
+keywords = {VEM, FEM, -FEM, Linear elasticity, Non-conforming meshes, Stress recovery},
+abstract = {In this manuscript we thoroughly study the behavior of the virtual element method (VEM) in the context of two-dimensional linear elasticity problems for an engineering audience versed in standard FEM. Through detailed convergence studies we show the accuracy and the convergence rates recovered by VEM, and we compare them to those obtained by the h- and p-versions of the finite element method (FEM). We also demonstrate the mixability between FEM and VEM; in particular, applications of VEM for coupling non-conforming discretizations and for local refinement are presented, showing higher versatility compared to FEM. Computer implementation aspects in displacement-based finite element codes are thoroughly explained, remarking on the main differences with respect to standard FEM.}
+}
+
+@article{Li2022CBN,
+title = {Analysis of heterogeneous structures of non-separated scales using curved bridge nodes},
+journal = {Computer Methods in Applied Mechanics and Engineering},
+volume = {392},
+pages = {114582},
+year = {2022},
+issn = {0045-7825},
+  
+author = {Ming Li and Jingqiao Hu},
+keywords = {Curved bridge nodes (CBNs), Shape functions, Heterogeneous structures, Scale separation, Substructuring, Multiscale analysis},
+}
+
+@article{li2023NeuralMetamaterialNetworks,
+  title = {Neural {{Metamaterial Networks}} for {{Nonlinear Material Design}}},
+  author = {Li, Yue and Coros, Stelian and Thomaszewski, Bernhard},
+  year = {2023},
+  month = dec,
+  journal = {ACM Transactions on Graphics},
+  volume = {42},
+  number = {6},
+  pages = {186:1--186:13},
+  issn = {0730-0301},
+  
+}
+
+@article{zhu2010multigridElas,
+author = {Zhu, Yongning and Sifakis, Eftychios and Teran, Joseph and Brandt, Achi},
+title = {An efficient multigrid method for the simulation of high-resolution elastic solids},
+year = {2010},
+issue_date = {March 2010},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {29},
+number = {2},
+issn = {0730-0301},
+  
+abstract = {We present a multigrid framework for the simulation of high-resolution elastic deformable models, designed to facilitate scalability on shared memory multiprocessors. We incorporate several state-of-the-art techniques from multigrid theory, while adapting them to the specific requirements of graphics and animation applications, such as the ability to handle elaborate geometry and complex boundary conditions. Our method supports simulation of linear elasticity and corotational linear elasticity. The efficiency of our solver is practically independent of material parameters, even for near-incompressible materials. We achieve simulation rates as high as 6 frames per second for test models with 256K vertices on an 8-core SMP, and 1.6 frames per second for a 2M vertex object on a 16-core SMP.},
+journal = {ACM Trans. Graph.},
+month = apr,
+articleno = {16},
+numpages = {18},
+keywords = {Deformable models, corotational linear elasticity, near-incompressible solids, parallel simulation}
+}
+
+@article{Griebel2003amgElas,
+author = {Griebel, Michael and Oeltz, Daniel and Schweitzer, Marc Alexander},
+title = {An Algebraic Multigrid Method for Linear Elasticity},
+journal = {SIAM Journal on Scientific Computing},
+volume = {25},
+number = {2},
+pages = {385-407},
+year = {2003},
+  
+}
+
+@article{Wu2022schwarz,
+author = {Wu, Botao and Wang, Zhendong and Wang, Huamin},
+title = {A GPU-based multilevel additive schwarz preconditioner for cloth and deformable body simulation},
+year = {2022},
+issue_date = {July 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {4},
+issn = {0730-0301},
+  
+journal = {ACM Trans. Graph.},
+month = jul,
+articleno = {63},
+numpages = {14},
+keywords = {additive schwarz, cloth and deformable body simulation, conjugate gradient, multilevel method, preconditioning}
+}
+
+@proceedings{Danczyk2011ImproveCondition,
+    author = {Danczyk, Josh and Suresh, Krishnan},
+    title = {Improving the Condition Number of Finite Element Stiffness Matrices via Inverted Elements},
+    volume = {Volume 2: 31st Computers and Information in Engineering Conference, Parts A and B},
+    series = {International Design Engineering Technical Conferences and Computers and Information in Engineering Conference},
+    pages = {31-38},
+    year = {2011},
+    month = {08},
+    abstract = {In the finite element method, poor quality elements typically increase the condition number of the underlying stiffness matrix, thereby potentially: (1) degrading the computed solution, and (2) slowing the convergence of iterative solvers. Current mesh improvement strategies rely on node movement and edge-flipping to alleviate these problems. However, these methods cannot guarantee a lower-bound on mesh quality, especially in 3-D. In this paper we propose the concept, and use, of inverted elements to improve mesh quality and condition number. Inverted elements are standard finite elements, but with negative Jacobian. After establishing the mathematical properties of these elements we show how they can be used to dramatically improve the quality of a mesh through the use of an ‘element cover’. Further, we show that a lower-bound on the mesh quality can be easily achieved, as supported by numerical experiments and case-studies.},
+}
+
+@Article{RH2005EliminateSlivers,
+AUTHOR = {R.H.  Moore, S.  Saigal},
+TITLE = {Eliminating Slivers in Three-Dimensional Finite Element Models},
+JOURNAL = {Computer Modeling in Engineering \& Sciences},
+VOLUME = {7},
+YEAR = {2005},
+NUMBER = {3},
+PAGES = {283--292},
+ISSN = {1526-1506},
+ABSTRACT = {An efficient method for treating slivers and other poorly shaped elements in finite element solutions is presented. A major difficulty for finite element analyses arises from the creation of slivers in automated mesh generation. Sliver shaped elements can degrade the accuracy of a solution and are difficult to remove from a mesh. The proposed method treats slivers by first merging them with neighboring elements to form polyhedra and next subdividing the polyhedra into well-shaped tetrahedral elements. The method does not require the cumbersome and expensive operations of addition or rearrangement of nodes. The validity and accuracy of the present method are demonstrated through the evaluation of a performance metric for a set of example problems.},
+  
+}
+
+@article{Tournois2009PerturbingSlivers,
+author = {Tournois, Jane and Srinivasan, Rahul and Alliez, Pierre},
+year = {2009},
+month = {10},
+pages = {},
+title = {Perturbing Slivers in 3D Delaunay Meshes},
+isbn = {978-3-642-04318-5},
+journal = {Proceedings of the 18th International Meshing Roundtable, IMR 2009},
+  
+}
+
+@inproceedings{Cheng1999SliverExudation,
+author = {Cheng, Siu-Wing and Dey, Tamal and Edelsbrunner, Herbert and Facello, Michael and Teng, Shang-Hua},
+year = {1999},
+month = {06},
+pages = {1-13},
+title = {Sliver Exudation},
+volume = {47},
+journal = {J. ACM},
+  
+}
+
+@article{Vysok2017CurrentCO,
+  title={Current Capabilities of Modal Analysis of Aircraft Propeller in ANSYS Mechanical Environment},
+  author={Vysok{\'y}},
+  journal={Advances in Military Technology},
+  year={2017},
+  volume={12},
+}
+
+@article{10.1145/327070.327215,
+author = {Rodgers, David P.},
+title = {Improvements in multiprocessor system design},
+year = {1985},
+issue_date = {June 1985},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {13},
+number = {3},
+issn = {0163-5964},
+  
+journal = {SIGARCH Comput. Archit. News},
+month = jun,
+pages = {225–231},
+numpages = {7}
+}
+
+@inproceedings{Rodgers1985Improvements,
+author = {Rodgers, David P.},
+title = {Improvements in multiprocessor system design},
+year = {1985},
+isbn = {0818606347},
+publisher = {IEEE Computer Society Press},
+address = {Washington, DC, USA},
+booktitle = {Proceedings of the 12th Annual International Symposium on Computer Architecture},
+pages = {225–231},
+numpages = {7},
+location = {Boston, Massachusetts, USA},
+series = {ISCA '85}
+}
+
+@article{Gustafson1988Reevaluating,
+author = {Gustafson, John L.},
+title = {Reevaluating Amdahl's law},
+year = {1988},
+issue_date = {May 1988},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {31},
+number = {5},
+issn = {0001-0782},
+  
+journal = {Commun. ACM},
+month = may,
+pages = {532–533},
+numpages = {2}
+}
+
+@incollection{McCool2012Performance,
+  author    = {McCool, Michael D. and Robison, Arch D. and Reinders, James},
+  title     = {Performance Theory},
+  booktitle = {Structured Parallel Programming: Patterns for Efficient Computation},
+  year      = {2012},
+  publisher = {Elsevier},
+  pages     = {61--62},
+  isbn      = {978-0-12-415993-8}
+}
+
+@book{pinkus1997fourier,
+  title={Fourier series and integral transforms},
+  author={Pinkus, Allan and Zafrany, Samy},
+  year={1997},
+  publisher={Cambridge University Press}
+}
+
+@article{WARDETZKY2007499,
+title = {Discrete quadratic curvature energies},
+journal = {Computer Aided Geometric Design},
+volume = {24},
+number = {8},
+pages = {499-518},
+year = {2007},
+note = {Discrete Differential Geometry},
+issn = {0167-8396},
+  
+author = {Max Wardetzky and Miklós Bergou and David Harmon and Denis Zorin and Eitan Grinspun},
+keywords = {Cloth simulation, Thin plates, Willmore flow, Bending energy, Discrete Laplace operator, Discrete mean curvature, Non-conforming finite elements},
+abstract = {We present a family of discrete isometric bending models (IBMs) for triangulated surfaces in 3-space. These models are derived from an axiomatic treatment of discrete Laplace operators, using these operators to obtain linear models for discrete mean curvature from which bending energies are assembled. Under the assumption of isometric surface deformations we show that these energies are quadratic in surface positions. The corresponding linear energy gradients and constant energy Hessians constitute an efficient model for computing bending forces and their derivatives, enabling fast time-integration of cloth dynamics with a two- to three-fold net speedup over existing nonlinear methods, and near-interactive rates for Willmore smoothing of large meshes.}
+}
+
+@article{2008ChenCholmod,
+author = {Chen, Yanqing and Davis, Timothy A. and Hager, William W. and Rajamanickam, Sivasankaran},
+title = {Algorithm 887: CHOLMOD, Supernodal Sparse Cholesky Factorization and Update/Downdate},
+year = {2008},
+issue_date = {October 2008},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {35},
+number = {3},
+issn = {0098-3500},
+  
+abstract = {CHOLMOD is a set of routines for factorizing sparse symmetric positive definite matrices of the form A or AAT, updating/downdating a sparse Cholesky factorization, solving linear systems, updating/downdating the solution to the triangular system Lx = b, and many other sparse matrix functions for both symmetric and unsymmetric matrices. Its supernodal Cholesky factorization relies on LAPACK and the Level-3 BLAS, and obtains a substantial fraction of the peak performance of the BLAS. Both real and complex matrices are supported. CHOLMOD is written in ANSI/ISO C, with both C and MATLABTM interfaces. It appears in MATLAB 7.2 as x = Ab when A is sparse symmetric positive definite, as well as in several other sparse matrix functions.},
+journal = {ACM Trans. Math. Softw.},
+month = oct,
+articleno = {22},
+numpages = {14},
+keywords = {Cholesky factorization, linear equations, sparse matrices}
+}
+
+@inproceedings{2010LiHybridMPI/OpenMPPpower-awareCcomputing,
+author = {Li, Dong and Supinski, Bronis and Schulz, Martin and Cameron, Kirk and Nikolopoulos, Dimitrios},
+year = {2010},
+month = {05},
+pages = {1 - 12},
+title = {Hybrid MPI/OpenMP power-aware computing},
+  
+}
+
+@inproceedings{rabenseifner2009hybrid,
+  title={Hybrid MPI/OpenMP parallel programming on clusters of multi-core SMP nodes},
+  author={Rabenseifner, Rolf and Hager, Georg and Jost, Gabriele},
+  booktitle={2009 17th Euromicro international conference on parallel, distributed and network-based processing},
+  pages={427--436},
+  year={2009},
+  organization={IEEE}
+}
+
+@inproceedings{Jammer2022Towards,
+author = {Jammer, Tim and H\"{u}ck, Alexander and Lehr, Jan-Patrick and Protze, Joachim and Schwitanski, Simon and Bischof, Christian},
+title = {Towards a Hybrid MPI Correctness Benchmark Suite},
+year = {2022},
+isbn = {9781450397995},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+  
+booktitle = {Proceedings of the 29th European MPI Users' Group Meeting},
+pages = {46–56},
+numpages = {11},
+keywords = {message passing interface, hybrid model, data race, correctness, conflicting MPI call, OpenMP, MPI, HPC},
+location = {Chattanooga, TN, USA},
+series = {EuroMPI/USA '22}
+}
+
+@inproceedings{Cappello2000MPI,
+author = {Cappello, Franck and Etiemble, Daniel},
+title = {MPI versus MPI+OpenMP on IBM SP for the NAS benchmarks},
+year = {2000},
+isbn = {0780398025},
+publisher = {IEEE Computer Society},
+address = {USA},
+booktitle = {Proceedings of the 2000 ACM/IEEE Conference on Supercomputing},
+pages = {12–es},
+location = {Dallas, Texas, USA},
+series = {SC '00}
+}
+
+@article{Castanier20101Characteristic,
+author = {Castanier, Matthew P. and Tan, Yung-Chang and Pierre, Christophe},
+title = {Characteristic Constraint Modes for Component Mode Synthesis},
+journal = {AIAA Journal},
+volume = {39},
+number = {6},
+pages = {1182-1187},
+year = {2001},
+  
+}
+
+@Article{Cheon2023Enhanced,
+AUTHOR = {Cheon, Seunghee and Lee, Jaehun},
+TITLE = {An Enhanced Hybrid-Level Interface-Reduction Method Combined with an Interface Discrimination Algorithm},
+JOURNAL = {Mathematics},
+VOLUME = {11},
+YEAR = {2023},
+NUMBER = {23},
+ARTICLE-NUMBER = {4867},
+ISSN = {2227-7390},
+  
+}
+
+@article{BATTIATO2018187,
+title = {Reduction and coupling of substructures via Gram–Schmidt Interface modes},
+journal = {Computer Methods in Applied Mechanics and Engineering},
+volume = {336},
+pages = {187-212},
+year = {2018},
+issn = {0045-7825},
+author = {G. Battiato and C.M. Firrone and T.M. Berruti and B.I. Epureanu},
+keywords = {Component mode synthesis, Interface reduction methods, Dynamic coupling, Cyclic symmetry, Forced response},
+}
+
+@article{Kuether2017Model,
+author = {Kuether, Robert J. and Allen, Matthew S. and Hollkamp, Joseph J.},
+title = {Modal Substructuring of Geometrically Nonlinear Finite Element Models with Interface Reduction},
+journal = {AIAA Journal},
+volume = {55},
+number = {5},
+pages = {1695-1706},
+year = {2017},
+doi = {10.2514/1.J055215},
+}
+
+@article{HONG2013403,
+title = {Next-generation parametric reduced-order models},
+journal = {Mechanical Systems and Signal Processing},
+volume = {37},
+number = {1},
+pages = {403-421},
+year = {2013},
+issn = {0888-3270},
+author = {Sung-Kwon Hong and Bogdan I. Epureanu and Matthew P. Castanier},
+keywords = {Parametric reduced order models, Thickness variation, Transformation matrix, Parameterization techniques, Interface reduction},
+}
+
+@article{aristidou2013dynamic,
+  title={Dynamic simulation of large-scale power systems using a parallel Schur-complement-based decomposition method},
+  author={Aristidou, Petros and Fabozzi, Davide and Van Cutsem, Thierry},
+  journal={IEEE Transactions on Parallel and Distributed Systems},
+  volume={25},
+  number={10},
+  pages={2561--2570},
+  year={2013},
+  publisher={IEEE}
+}
+
+@article{knyazev2001lobpcg,
+author = {Knyazev, Andrew V.},
+title = {Toward the Optimal Preconditioned Eigensolver: Locally Optimal Block Preconditioned Conjugate Gradient Method},
+journal = {SIAM Journal on Scientific Computing},
+volume = {23},
+number = {2},
+pages = {517-541},
+year = {2001},
+doi = {10.1137/S1064827500366124},
+}
+
+@article{Sleijpen2000JD,
+author = {G. Sleijpen, Gerard L. and Van der Vorst, Henk A.},
+title = {A Jacobi–Davidson Iteration Method for Linear Eigenvalue Problems},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+volume = {17},
+number = {2},
+pages = {401-425},
+year = {1996},
+doi = {10.1137/S0895479894270427},
+}
+
+@article{Farhat2001FETIDP,
+author = {Farhat, Charbel and Lesoinne, Michel and LeTallec, Patrick and Pierson, Kendall and Rixen, Daniel},
+title = {FETI-DP: a dual–primal unified FETI method—part I: A faster alternative to the two-level FETI method},
+journal = {International Journal for Numerical Methods in Engineering},
+volume = {50},
+number = {7},
+pages = {1523-1544},
+keywords = {domain decomposition, numerical scalability, iterative methods},
+doi = {https://doi.org/10.1002/nme.76},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/nme.76},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/nme.76},
+year = {2001}
+}
+
+@ARTICLE{Degomme2017SMPI,
+  author={Degomme, Augustin and Legrand, Arnaud and Markomanolis, George S. and Quinson, Martin and Stillwell, Mark and Suter, Frédéric},
+  journal={IEEE Transactions on Parallel and Distributed Systems}, 
+  title={Simulating MPI Applications: The SMPI Approach}, 
+  year={2017},
+  volume={28},
+  number={8},
+  pages={2387-2400},
+  keywords={Computational modeling;Hardware;Adaptation models;Runtime;Extrapolation;Standards;Network topology;Simulation;MPI runtime and applications;performance prediction and extrapolation},
+  doi={10.1109/TPDS.2017.2669305}}
+
+@InProceedings{Basu1990Model,
+author="Basu, A.
+and Srinivas, S.
+and Kumar, K. G.
+and Paulraj, A.",
+editor="Burkhart, Helmar",
+title="A model for performance prediction of message passing multiprocessors achieving concurrency by domain decomposition",
+booktitle="CONPAR 90 --- VAPP IV",
+year="1990",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="75--85",
+abstract="This paper discusses an analytical model for evaluating the performance of any message passing multiprocessor achieving concurrency by domain decomposition i.e., by partitioning the data domain into sub-domains, computation on each of which is carried out on a different processor.",
+isbn="978-3-540-46597-3"
+}
+
+@article{Gao2008AMLS,
+author = {Gao, Weiguo and Li, Xiaoye S. and Yang, Chao and Bai, Zhaojun},
+title = {An Implementation and Evaluation of the AMLS Method for Sparse Eigenvalue Problems},
+year = {2008},
+issue_date = {July 2008},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {34},
+number = {4},
+issn = {0098-3500},
+url = {https://doi.org/10.1145/1377596.1377600},
+doi = {10.1145/1377596.1377600},
+abstract = {We describe an efficient implementation and present a performance study of an automated multi-level substructuring (AMLS) method for sparse eigenvalue problems. We assess the time and memory requirements associated with the key steps of the algorithm, and compare it with the shift-and-invert Lanczos algorithm. Our eigenvalue problems come from two very different application areas: accelerator cavity design and normal-mode vibrational analysis of polyethylene particles. We show that the AMLS method, when implemented carefully, outperforms the traditional method in broad application areas when large numbers of eigenvalues are sought, with relatively low accuracy.},
+journal = {ACM Trans. Math. Softw.},
+month = jul,
+articleno = {20},
+numpages = {28},
+keywords = {Sparse eigenvalue problems, multilevel substructuring, performance evaluation}
+}
+
+@article{Spillane2025GenEO,
+  author = {Spillane, Nicole},
+  title = {GenEO spectral coarse spaces in SPD domain decomposition},
+  year = {2025},
+  issue_date = {Dec 2025},
+  publisher = {Springer-Verlag},
+  address = {Berlin, Heidelberg},
+  volume = {100},
+  number = {4},
+  issn = {1017-1398},
+  url = {https://doi.org/10.1007/s11075-025-02166-x},
+  doi = {10.1007/s11075-025-02166-x},
+  journal = {Numer. Algorithms},
+  month = jul,
+  pages = {1987--2020},
+  numpages = {34},
+  keywords = {Linear solver, Domain decomposition, Coarse space, Preconditioning, Deflation, Linear elasticity, Inexact Schwarz, Spectral bounds}
+}
+
+@article{Ryadh2015Schwarz,
+  title = {A robust coarse space for optimized Schwarz methods: SORAS-GenEO-2},
+  journal = {Comptes Rendus Mathematique},
+  volume = {353},
+  number = {10},
+  pages = {959--963},
+  year = {2015},
+  issn = {1631-073X},
+  doi = {10.1016/j.crma.2015.07.014},
+  url = {https://www.sciencedirect.com/science/article/pii/S1631073X15002162},
+  author = {Ryadh Haferssas and Pierre Jolivet and Fr\'{e}d\'{e}ric Nataf}
+}
+
+@article{NicoleSpillaneSolve2013,
+  title = {Solving generalized eigenvalue problems on the interfaces to build a robust two-level FETI method},
+  journal = {Comptes Rendus Mathematique},
+  volume = {351},
+  number = {5},
+  pages = {197--201},
+  year = {2013},
+  issn = {1631-073X},
+  doi = {10.1016/j.crma.2013.03.010},
+  url = {https://www.sciencedirect.com/science/article/pii/S1631073X1300054X},
+  author = {Nicole Spillane and Victorita Dolean and Patrice Hauret and Fr\'{e}d\'{e}ric Nataf and Daniel J. Rixen}
+}
+
+@article{Marco2024Overlap,
+  title = {An overlapping domain decomposition method for the solution of parametric elliptic problems via proper generalized decomposition},
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {418},
+  pages = {116484},
+  year = {2024},
+  issn = {0045-7825},
+  doi = {10.1016/j.cma.2023.116484},
+  url = {https://www.sciencedirect.com/science/article/pii/S0045782523006084},
+  author = {Marco Discacciati and Ben J. Evans and Matteo Giacomini},
+  keywords = {Reduced order models, Proper generalized decomposition, Domain decomposition methods, Overlapping Schwarz method, Non-intrusiveness}
+}
+
+@article{Wu:2022:GBM,
+ address = {New York, NY, USA},
+ articleno = {63},
+ author = {Wu, Botao and Wang, Zhendong and Wang, Huamin},
+ doi = {10.1145/3528223.3530085},
+ issn = {0730-0301},
+ issue_date = {July 2022},
+ journal = {ACM Trans. Graph. (SIGGRAPH)},
+ keywords = {preconditioning, multilevel method, conjugate gradient, cloth and deformable body simulation, additive Schwarz},
+ month = {jul},
+ number = {4},
+ numpages = {14},
+ publisher = {Association for Computing Machinery},
+ title = {A GPU-Based Multilevel Additive Schwarz Preconditioner for Cloth and Deformable Body Simulation},
+ url = {https://doi.org/10.1145/3528223.3530085},
+ volume = {41},
+ year = {2022}
+}
+
+@article{M2AN_2005__39_4_693_0,
+     author = {Ben Belgacem, Faker and Fourni\'e, Miche and Gmati, Nabil and Jelassi, Faten},
+     title = {On the {Schwarz} algorithms for the elliptic exterior boundary value problems},
+     journal = {ESAIM: Mod\'elisation math\'ematique et analyse num\'erique},
+     pages = {693--714},
+     year = {2005},
+     publisher = {EDP Sciences},
+     volume = {39},
+     number = {4},
+     doi = {10.1051/m2an:2005030},
+     mrnumber = {2165675},
+     zbl = {1089.65126},
+     language = {en},
+     url = {https://www.numdam.org/articles/10.1051/m2an:2005030/}
+}
+
+@article{NASA1965CMS,
+author = {HURTY, WALTER C.},
+title = {Dynamic analysis of structural systems using component modes},
+journal = {AIAA Journal},
+volume = {3},
+number = {4},
+pages = {678-685},
+year = {1965},
+doi = {10.2514/3.2947},
+
+URL = { 
+        https://doi.org/10.2514/3.2947
+},
+eprint = { 
+        https://doi.org/10.2514/3.2947
+}
+
+}
+
+@article{Nasikun2022HSIM,
+author = {Nasikun, Ahmad and Hildebrandt, Klaus},
+title = {The Hierarchical Subspace Iteration Method for Laplace–Beltrami Eigenproblems},
+year = {2022},
+issue_date = {April 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {2},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/3495208},
+doi = {10.1145/3495208},
+abstract = {Sparse eigenproblems are important for various applications in computer graphics. The spectrum and eigenfunctions of the Laplace–Beltrami operator, for example, are fundamental for methods in shape analysis and mesh processing. The Subspace Iteration Method is a robust solver for these problems. In practice, however, Lanczos schemes are often faster. In this article, we introduce the Hierarchical Subspace Iteration Method (HSIM), a novel solver for sparse eigenproblems that operates on a hierarchy of nested vector spaces. The hierarchy is constructed such that on the coarsest space all eigenpairs can be computed with a dense eigensolver. HSIM uses these eigenpairs as initialization and iterates from coarse to fine over the hierarchy. On each level, subspace iterations, initialized with the solution from the previous level, are used to approximate the eigenpairs. This approach substantially reduces the number of iterations needed on the finest grid compared to the non-hierarchical Subspace Iteration Method. Our experiments show that HSIM can solve Laplace–Beltrami eigenproblems on meshes faster than state-of-the-art methods based on Lanczos iterations, preconditioned conjugate gradients, and subspace iterations.},
+journal = {ACM Trans. Graph.},
+month = jan,
+articleno = {17},
+numpages = {14},
+keywords = {Laplace–Beltrami operator, Laplace matrix, spectral methods, multigrid, eigensolver, subspace iteration method}
+}
