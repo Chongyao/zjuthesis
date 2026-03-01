@@ -37,12 +37,13 @@
 }
 {
     % Windows or other platform
-    \setCJKfamilyfont{zhfs}   {FangSong} [AutoFakeBold={\FakeBoldSize}]
-    \setCJKfamilyfont{zhhei}  {SimHei}   [AutoFakeBold={\FakeBoldSize}]
-    \setCJKfamilyfont{zhkai}  {KaiTi}    [AutoFakeBold={\FakeBoldSize}]
-    \setCJKfamilyfont{zhsong} {SimSun}   [AutoFakeBold={\FakeBoldSize}]
+    % Use Noto CJK fonts on Linux
+    \setCJKfamilyfont{zhfs}   {Noto Serif CJK SC} [AutoFakeBold={\FakeBoldSize}]
+    \setCJKfamilyfont{zhhei}  {Noto Sans CJK SC}  [AutoFakeBold={\FakeBoldSize}]
+    \setCJKfamilyfont{zhkai}  {Noto Serif CJK SC} [AutoFakeBold={\FakeBoldSize}]
+    \setCJKfamilyfont{zhsong} {Noto Serif CJK SC} [AutoFakeBold={\FakeBoldSize}]
 
-    \setCJKmainfont[AutoFakeBold={\FakeBoldSize}]{FangSong}
+    \setCJKmainfont[AutoFakeBold={\FakeBoldSize}]{Noto Serif CJK SC}
 }
 
 \setmainfont{Times New Roman}

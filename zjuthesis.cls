@@ -65,7 +65,8 @@
 
 \LoadClass[
     zihao=-4,
-    UTF8
+    UTF8,
+    fontset=noto
 ]{ctexrep}
 
 \input{config/packages}
