@@ -1,0 +1,11 @@
+solve_eig,Solve Eigenmodes
+sub_schur,Interface Modes (CMS)
+alfim_compute,SE-free Modes (Ours)
+mp_cms_compute,Matrix-Reducing (Ours)
+alfim_analyze,Preprocessing of SE-free Modes (Ours)
+alfim_assemble,Postprocessing of SE-free Modes (Ours)
+mp_cms_analyze,Preprocessing of Matrix-Reducing (Ours)
+mp_cms_assemble_mpi,Postprocessing of Matrix-Reducing (Ours)
+solve_reduced_sparse_reg,Solve Reduced Eigenmodes (Ours)
+solve_reduced_eig,Solve Reduced Eigenmodes (CMS)
+traditional_cms_assemble,Assemble Reduced Matrix (CMS)

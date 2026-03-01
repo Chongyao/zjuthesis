@@ -1,0 +1,330 @@
+[
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx11402_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx11402_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 109.87,
+          "compute_time_s": 109.482,
+          "load_time_s": 0.113523,
+          "save_time_s": 0.247883,
+          "peak_memory_gb": 7.559
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 109.87,
+      "total_compute_s": 109.482,
+      "total_load_s": 0.113523,
+      "total_save_s": 0.247883,
+      "max_peak_memory_gb": 7.559,
+      "total_data_transfer_s": 0.361406
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 109.87,
+      "overall_max_peak_memory_gb": 7.559
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx8202_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx8202_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 101.23,
+          "compute_time_s": 100.937,
+          "load_time_s": 0.083289,
+          "save_time_s": 0.186712,
+          "peak_memory_gb": 5.524
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 101.23,
+      "total_compute_s": 100.937,
+      "total_load_s": 0.083289,
+      "total_save_s": 0.186712,
+      "max_peak_memory_gb": 5.524,
+      "total_data_transfer_s": 0.270001
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 101.23,
+      "overall_max_peak_memory_gb": 5.524
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx6602_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx6602_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 62.17,
+          "compute_time_s": 61.9303,
+          "load_time_s": 0.070426,
+          "save_time_s": 0.145586,
+          "peak_memory_gb": 4.448
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 62.17,
+      "total_compute_s": 61.9303,
+      "total_load_s": 0.070426,
+      "total_save_s": 0.145586,
+      "max_peak_memory_gb": 4.448,
+      "total_data_transfer_s": 0.21601199999999998
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 62.17,
+      "overall_max_peak_memory_gb": 4.448
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx1802_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx1802_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 21.17,
+          "compute_time_s": 21.0799,
+          "load_time_s": 0.022418,
+          "save_time_s": 0.041023,
+          "peak_memory_gb": 1.319
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 21.17,
+      "total_compute_s": 21.0799,
+      "total_load_s": 0.022418,
+      "total_save_s": 0.041023,
+      "max_peak_memory_gb": 1.319,
+      "total_data_transfer_s": 0.063441
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 21.17,
+      "overall_max_peak_memory_gb": 1.319
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx5002_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx5002_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 60.51,
+          "compute_time_s": 60.3161,
+          "load_time_s": 0.054522,
+          "save_time_s": 0.115707,
+          "peak_memory_gb": 3.45
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 60.51,
+      "total_compute_s": 60.3161,
+      "total_load_s": 0.054522,
+      "total_save_s": 0.115707,
+      "max_peak_memory_gb": 3.45,
+      "total_data_transfer_s": 0.17022900000000002
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 60.51,
+      "overall_max_peak_memory_gb": 3.45
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx3402_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx3402_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 31.61,
+          "compute_time_s": 31.4706,
+          "load_time_s": 0.04112,
+          "save_time_s": 0.075175,
+          "peak_memory_gb": 2.368
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 31.61,
+      "total_compute_s": 31.4706,
+      "total_load_s": 0.04112,
+      "total_save_s": 0.075175,
+      "max_peak_memory_gb": 2.368,
+      "total_data_transfer_s": 0.11629500000000001
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 31.61,
+      "overall_max_peak_memory_gb": 2.368
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx9802_ny202",
+    "csv_path": "./scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx9802_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 94.55,
+          "compute_time_s": 94.2119,
+          "load_time_s": 0.098989,
+          "save_time_s": 0.21115,
+          "peak_memory_gb": 6.541
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 94.55,
+      "total_compute_s": 94.2119,
+      "total_load_s": 0.098989,
+      "total_save_s": 0.21115,
+      "max_peak_memory_gb": 6.541,
+      "total_data_transfer_s": 0.310139
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 94.55,
+      "overall_max_peak_memory_gb": 6.541
+    }
+  },
+  {
+    "run_key": "gt-global-results/Lx1.0_Ly1.0_nx202_ny202",
+    "csv_path": "/home/zcy/workspace/projects/arborecence/pipline/primal-dual/benchmark/scaling_mpi_sim_benchmarks_output/gt-global-results/Lx1.0_Ly1.0_nx202_ny202/run_statistics_gt.csv",
+    "steps": {
+      "solve_eig": {
+        "type": "serial",
+        "stats": {
+          "num_tasks": 1,
+          "wall_time_s": 1.88,
+          "compute_time_s": 1.8418,
+          "load_time_s": 0.004955,
+          "save_time_s": 0.009324,
+          "peak_memory_gb": 0.172
+        }
+      }
+    },
+    "summary_serial": {
+      "num_steps": 1,
+      "total_wall_time_s": 1.88,
+      "total_compute_s": 1.8418,
+      "total_load_s": 0.004955,
+      "total_save_s": 0.009324,
+      "max_peak_memory_gb": 0.172,
+      "total_data_transfer_s": 0.014279
+    },
+    "summary_parallel": {
+      "num_steps": 0,
+      "total_bottleneck_wall_time_s": 0.0,
+      "max_bottleneck_compute_s": 0.0,
+      "total_bottleneck_load_s": 0.0,
+      "total_bottleneck_save_s": 0.0,
+      "max_peak_memory_gb": 0.0,
+      "total_bottleneck_data_transfer_s": 0.0,
+      "avg_load_balance_time": 0.0,
+      "avg_load_balance_memory": 0.0
+    },
+    "overall": {
+      "estimated_total_wall_time_s": 1.88,
+      "overall_max_peak_memory_gb": 0.172
+    }
+  }
+]

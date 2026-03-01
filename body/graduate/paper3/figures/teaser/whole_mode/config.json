@@ -1,0 +1,40 @@
+{
+  "description": "Whole model mode shape rendering configuration",
+  "data_source": "/home/zcy/workspace/projects/arborecence/pipline/cms_local_update/falcon_shell_balanced_small/results/eigenvectors.vtk",
+  "output_dir": ".",
+  "resolution": [2146, 1358],
+  "camera": {
+    "ViewSize": [2146, 1358],
+    "OrientationAxesVisibility": 0,
+    "CenterOfRotation": [-0.0018030911908186037, -0.0005164100507585312, -0.0011420232333920269],
+    "UseToneMapping": 1,
+    "Exposure": 2.0,
+    "UseAmbientOcclusion": 1,
+    "CameraPosition": [-0.0018030911908186037, -0.0005164100507585312, -3.7051945619701026],
+    "CameraFocalPoint": [-0.0018030911908186037, -0.0005164100507585312, -0.0011420232333920269],
+    "CameraViewUp": [0.0, 1.0, 0.0],
+    "CameraFocalDisk": 1.0,
+    "CameraParallelScale": 0.9586793410854032
+  },
+  "modes": [
+    {
+      "field_name": "eigenmode_10",
+      "warp_scale": 0.08,
+      "output_name": "eigenmode_10.png"
+    },
+    {
+      "field_name": "eigenmode_11",
+      "warp_scale": 0.08,
+      "output_name": "eigenmode_11.png"
+    },
+    {
+      "field_name": "eigenmode_43",
+      "warp_scale": 0.02,
+      "output_name": "eigenmode_43.png"
+    }
+  ],
+  "colormap": {
+    "preset": "Fast",
+    "compute_normals": true
+  }
+}
