@@ -70,6 +70,7 @@
 ]{ctexrep}
 
 \input{config/packages}
+\input{config/paper3_macros}
 
 \ifthenelse{\equal{\Degree}{undergraduate}}
 {
