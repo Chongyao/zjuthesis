@@ -1,0 +1,38 @@
+\subsection{碰撞的有效集法}
+\label{app:active_set}
+不等式约束 $\mathbf{C_I}$ 主要代表碰撞约束，用于避免相交。根据~\cite{bridson2002robust}，顶点-三角形约束和边-边约束可以表示如下：
+\begin{equation}
+   \left\{
+   \begin{array}{l}
+   (\mathbf p_a-w_i \mathbf p_i - w_j \mathbf p_j - w_k \mathbf p_k ) \cdot \mathbf{n} -\delta \geq 0,\\
+   \left( (w_i \p_i + (1 - w_i) \p_{i+1}) - (w_j \p_j + (1
+  - w_j) \p_{j+1}) \right) \cdot \mathbf{n} - \delta \geq 0.
+   \end{array}
+ \right.
+ \label{eq: collision constraint}
+\end{equation}
+使用经典的有效集法（算法~\ref{alg: active_set}），激活的约束将被插入到 $\mathbf{C_{\mathcal A}}$ 中并作为等式约束处理。非激活的约束将被直接删除。
+\begin{algorithm}
+\caption{有效集法}\label{alg: active_set}
+\begin{algorithmic}
+\REQUIRE ${\mathbf{s}}^k$
+\STATE 在 $\mathbf{x}^k = \mathcal{T}\left( {\mathbf{s}}^k   \right)$ 处获取当前激活集 $\mathcal{A}$
+\WHILE{true}
+    \STATE 求解式~\eqref{eq: final_kkt} 并得到 $\Delta {\mathbf{s}}$，$\lambda$
+
+    \IF{$\nabla_{\mathbf{s}} \mathbf{C}_{\mathbf I} (\mathbf{s}+ \Delta\mathbf{s}) - \mathbf{d}_I < 0$} \STATE （在可行域内）
+      \IF{$\left\| \lambda \right\|_{-\infty}$ > 0} \STATE （所有激活约束均为紧约束（LCP））
+      \STATE ${\mathbf{s}}^{k+1} = {\mathbf{s}}^k + \Delta {\mathbf{s}}$
+      \STATE break
+      \ELSE \STATE （部分约束为松约束）
+      \STATE 从激活集 $\mathcal{A}$ 中删除松约束（$\lambda_i < 0$）
+      \ENDIF
+      \ELSE \STATE （不在可行域内，回溯）
+      \STATE $\beta = \min \{ \frac{d_{\mathcal{A}, i} - \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal{A}, i} ^\top \Delta \mathbf{x}^k}{\nabla_{\mathbf{s}} \mathbf{C}_{\mathcal{A}, i} ^\top \Delta \mathbf{s}}\}$
+      \STATE ${\mathbf{s}}^k$ = ${\mathbf{s}}^k + \beta \Delta {\mathbf{s}}$
+      \STATE 将最紧约束加入 $\mathcal{A}$
+    \ENDIF
+\ENDWHILE
+\STATE $\Delta {\mathbf{s}} = {\mathbf{s}}^{k+1} - {\mathbf{s}}^k$
+\end{algorithmic}
+\end{algorithm}

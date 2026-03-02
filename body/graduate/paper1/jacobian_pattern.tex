@@ -1,0 +1,117 @@
+ \subsection{$\mathcal{O}(n)$ 时间复杂度的矩阵-向量乘法}
+\label{ssec:jacobian-patt}
+
+PCG 算法涉及频繁的矩阵-向量乘法操作，针对矩阵 $\mathbf{A} = \J^\top\mathbf{H}\J$。我们将证明，在我们的紧凑表示下，将 $\mathbf{H}, \J, \J^\top, \mathbf{A}$ 与向量相乘都可以在 $\mathcal{O}(n)$ 时间内实现。
+
+为简化表述，我们采用如下记号：
+\begin{itemize}
+  \item $\LowerTri$：块元素均为 $\I$ 的块下三角矩阵，
+  \item $\UpperTri$：块元素均为 $\I$ 的块上三角矩阵，
+  \item $\Diag$：块对角矩阵（忽略其具体数值），
+  \item $\TriDiag$：块三对角矩阵（忽略其具体数值）。
+\end{itemize}
+
+\textbf{$\mathbf H$ 的模式：}对于杆仿真，在应用变换 $\mathcal T$ 之前，系统矩阵具有简单的带状结构，采用 $(\mathbf{p}, \mathbf{q})$ 排序时如下：
+\begin{equation}
+  \label{eq:H-patt}
+  \mathbf{H} =
+  \begin{bmatrix}
+    \mathbf{H}_{\mathbf{p}} & \mathbf{0}              \\
+    \mathbf{0}              & \mathbf{H}_{\mathbf{q}}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{1}{\Delta t^{2}}\mathbf{M}_{\mathbf{p}} & \mathbf{0}                                                               \\
+    \mathbf{0}                                    & \frac{1}{\Delta t^{2}} \mathbf{M}_{\mathbf{q}} + \mathbf{K}_{\mathbf{q}}
+  \end{bmatrix} =
+  \left[
+    \begin{array}{@{}c|c@{}}
+      \Diag      & \mathbf{0} \\
+      \hline
+      \mathbf{0} & \TriDiag
+    \end{array}
+    \right],
+\end{equation}
+其中 $ \mathbf{H}_{\p} = \FPP{^2E}{\mathbf{p}^2} = \FPP{^2T_{p}}{\mathbf{p}^2} =\mathbf{M}_\p/\Delta t^2$，且 $\mathbf{H}_{\q}= \FPP{^2E}{\mathbf{q}^2} = \FPP{^2T_{q}(\mathbf{q})}{\mathbf{q}^2} + \FPP{^2V(\mathbf{q})}{\mathbf{q}^2} = \mathbf{M}_q /\Delta t^2 + \mathbf{K}_q$。在这种简单的带状结构下，$\mathbf H$ 的矩阵-向量乘法的 $\mathcal{O}(n)$ 时间复杂度自然得到保证。
+
+\textbf{$\mathbf{J}$ 的模式：}我们将雅可比矩阵 $\J$ 分为两块：
+\begin{equation}
+  \J =
+  \begin{bmatrix}
+    \J_{\mathbf{p, s}} \\
+    \J_{\mathbf{q, s}}
+  \end{bmatrix}.
+\end{equation}
+由于 $\mathbf s=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$，$\J_{\mathbf{q, s}}$ 具有如下模式：
+\begin{equation}
+  \J_{\mathbf{q, s}} =
+  \begin{bmatrix}
+    \frac{\partial \mathbf{q}}{\partial \mathbf{p}_{c}} & \frac{\partial \mathbf{q}}{\partial \mathbf{\omega}}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \mathbf{0} & \Diag
+  \end{bmatrix}.
+  \label{eq:Jqs_pattern}
+\end{equation}
+$\J_{\mathbf{p, s}}$ 的模式相对复杂，如下所示：
+\begin{equation}
+  \begin{aligned}
+    \J_{\mathbf{p, s}} & =
+    \begin{bmatrix}
+      \I     &                        &                                                 &                        \\
+      \I     & \J^{1}_{\mathbf{p, s}} & \multicolumn{2}{c}{\raisebox{1ex}[0pt]{\Huge0}}                          \\
+      \vdots & \vdots                 & \ddots                                          &                        \\
+      \I     & \J^{1}_{\mathbf{p, s}} & \cdots                                          & \J^{n}_{\mathbf{p, s}} \\
+    \end{bmatrix} \\
+                       & =
+    \begin{bmatrix}
+      \I     &        &                                                      \\
+      \I     & \I     & \multicolumn{2}{c}{\raisebox{1ex}[0pt]{\Huge0}}      \\
+      \vdots & \vdots & \ddots                                          &    \\
+      \I     & \I     & \cdots                                          & \I \\
+    \end{bmatrix}
+    \underbrace{
+    \begin{bmatrix}
+        \I &                        &        &                        \\
+           & \J^{1}_{\mathbf{p, s}} &        &                        \\
+           &                        & \ddots &                        \\
+           &                        &        & \J^{n}_{\mathbf{p, s}}
+      \end{bmatrix}}_{\mathrm{Diag}\left(\{\J^{i}_{\mathbf{p, s}}\}\right)}                                      \\&=
+    \begin{bmatrix}
+      \LowerTri \cdot \Diag
+    \end{bmatrix}.
+  \end{aligned}
+\end{equation}
+显然，我们可以在 $\mathcal{O}(n)$ 时间内将 $\J_{\mathbf{q, s}}$ 与向量相乘。此外，$\J_{\mathbf{p, s}}$ 的矩阵-向量乘法的时间复杂度与 $\LowerTri$ 相同，相当于在 $\mathcal{O}(n)$ 时间内计算向量的前缀和~\cite{harris2007parallel}。因此，我们可以在 $\mathcal{O}(n)$ 时间内实现 $\mathbf J$ 的矩阵-向量乘法。$\J^{\top}$ 具有相同的性质。
+
+最终，我们可以在 $\mathcal{O}(n)$ 时间内将 $\mathbf{A}$ 与向量相乘：
+\begin{equation}
+  \mathbf{A} = \J^{\top}\mathbf{H}\J =
+  \underbrace{
+    \left[
+      \begin{array}{@{}c|c@{}}
+        \Diag \cdot \UpperTri &
+        \begin{bmatrix}
+          \mathbf{0} \\
+          \Diag
+        \end{bmatrix}
+      \end{array}
+      \right]}_{\J^{\top}}
+  \underbrace{
+    \left[
+      \begin{array}{@{}c|c@{}}
+        \Diag      & \mathbf{0} \\
+        \hline
+        \mathbf{0} & \TriDiag
+      \end{array}
+      \right]}_{\mathbf{H}}
+  \underbrace{
+    \left[
+      \begin{array}{c}
+        \LowerTri \cdot \Diag \\
+        \hline
+        \begin{bmatrix}
+          \mathbf{0} & \Diag \\
+        \end{bmatrix}
+      \end{array}
+      \right]}_{\J}.
+\end{equation}
