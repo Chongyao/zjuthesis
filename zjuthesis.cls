@@ -71,6 +71,7 @@
 
 \input{config/packages}
 \input{config/paper3_macros}
+\input{config/paper1_macros}
 
 \ifthenelse{\equal{\Degree}{undergraduate}}
 {
