@@ -1,0 +1,113 @@
+% \iffalse
+% Without loss of generality, we assume that the system matrix
+% $\mathbf{H}$ of maximal coordinates is symmetric positive
+% definitive. (Otherwise, we can add $\alpha \I$ to ensure the positive
+% definitiveness.) Then its sub-block $\mathbf{H}_{\mathbf{p}}$ and
+% $\mathbf{H}_{\mathbf{q}}$ is also symmetric positive definitive.
+
+
+% Then, the linear systems on reduced coordinates can be rewritten as:
+% \[
+%   \begin{aligned}
+%   \mathbf{A} &=
+%   \begin{bmatrix}
+%     \J_{\mathbf{ps}}^{\top} &
+%     \J_{\mathbf{qs}}^{\top}
+%   \end{bmatrix}
+%   \begin{bmatrix}
+%     \mathbf{H}_{\mathbf{p}} & \mathbf{0} \\
+%     \mathbf{0} & \mathbf{H}_{\mathbf{q}}
+%   \end{bmatrix}
+%   \begin{bmatrix}
+%     \J_{\mathbf{ps}} \\
+%     \J_{\mathbf{qs}}
+%   \end{bmatrix}\\
+%   &=\J^{\top}_{\mathbf{ps}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{ps}} +
+%   \J^{\top}_{\mathbf{qs}} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{qs}}
+%   \end{aligned}
+% \]
+% With $\J_{\mathbf{qs}} =
+% \begin{bmatrix}
+%   \mathbf{0}, \J_{\mathbf{q\omega}}
+% \end{bmatrix}
+% $ and $\J_{\mathbf{ps}} =
+% \begin{bmatrix}
+%   \I, \J_{\mathbf{p\omega}}
+% \end{bmatrix}$
+% , we can find that:
+% \fi
+\textbf{The proof of positive definiteness:}
+\label{sec: invert}
+Without loss of generality, we suppose that the system matrix $\mathbf{H}$ is
+symmetric positive definitive. Otherwise, we can add $\alpha \I$ to ensure
+its positive definiteness. Obviously, its diagonal blocks
+$\mathbf{H}_{\mathbf{p}}$ and $\mathbf{H}_{\mathbf{q}}$ are also positive definite.
+
+\textcolor{black}{Our preconditioner has the following block strucutre based on Eq.~\ref{eq:preconditioner_structure}:
+\begin{equation}
+  \begin{aligned}
+    \mathbf{P} & =\begin{bmatrix}
+                    \sum_{i=0}^{n}\mathbf{h}_{i} & \mathbf{0}                                                                                                                                                \\
+                    \mathbf{0}                   & \overbrace{\operatorname{blk-diag}(\J_{\p,\omega}^\top \mathbf{H}_\p \J_{\p,\omega})+ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q,\omega}}^{\mathbf{P}_{22}}
+                  \end{bmatrix}.
+  \end{aligned}
+\end{equation}
+}
+where $\mathbf{h}_{i}$ is a diagonal matrix whose diagonal elements
+are all greater than $\mathbf{0}$.
+
+Obviously, the first diagonal block is positive definite, thus
+$\mathbf{P}$ is positive definite iff $\mathbf{P}_{22}$ is positive
+definite.
+
+According to ~\Cref{eq:A}, we point out that
+$\J_{\mathbf{p, s}}^{\top}\mathbf{H}_{\mathbf{p}}\J_{\mathbf{p, s}}$ and
+$\J_{\mathbf{q, s}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q, s}}$ are
+both at least positive semi-definite, since:
+\begin{equation}
+  \forall \mathbf{v} \ne \mathbf{0}, \quad
+  \mathbf{v}^{\top}\J_{*}^{\top}\mathbf{H}_{*}\underbrace{\J_{*} \mathbf{v}}_{\mathbf{y}} = \mathbf{y}^{\top}
+  \mathbf{H}_{*}\mathbf{y} >= 0.
+\end{equation}
+Therefore,
+$\operatorname{blk-diag}\left(\J_{\p, \omega}^\top \mathbf{H}_{\p} \J_{\p,
+    \omega}\right)$ is still semi-definite.
+Next, we show that
+$\J_{\mathbf{q,\omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q,\omega}}$ is
+positive definite.
+
+The mapping $\mathcal{T}_{\mathbf{q,\omega}}$ from $\omega$ to
+$\mathbf{q}$ is a locally injective mapping, so its Jacobian
+$\J_{\mathbf{q,\omega}}$ has full column rank.  Considering the positive
+definiteness of $\mathbf{H_{\mathbf q}}$,
+%sub-block$\mathbf{H}_{\mathbf{q}}$ is also naturally positive definite, and
+we can factorize it as $\mathbf{LL}^{\top}$ and
+\begin{equation}
+  \begin{aligned}
+    \mathrm{rank}(\J_{\mathbf{q,\omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q,\omega}})
+     & =
+    \mathrm{rank}(\J_{\mathbf{q,\omega}}^{\top}\mathbf{LL}^{\top}\J_{\mathbf{q,\omega}}) \\
+     & =\mathrm{rank}(\mathbf{L}^{\top}\J_{\mathbf{q,\omega}})                           \\
+     & =\mathrm{rank}(\J_{\mathbf{q,\omega}})
+     & =\mathrm{dim}(\omega).
+  \end{aligned}
+\end{equation}
+
+Thus,
+$\J_{\mathbf{q,\omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q,\omega}}$ is
+still positive definite.
+
+So far, our preconditioner is positive definite:
+\begin{equation}
+  \begin{aligned}
+    \mathbf{P} & =\left(\operatorname{blk-diag}\left(\J_{\p, \s}^\top
+    \mathbf{H}_{\p} \J_{\p, \s}\right) + \begin{bmatrix} \mathbf{0} &
+
+                \mathbf{0}    \\ \mathbf{0} & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q,
+                  \omega}\end{bmatrix}\right)                                                                                                                                                                                                                                                  \\
+               & =\begin{bmatrix}
+                    \overbrace{\sum_{i=0}^{n}\mathbf{h}_{i}}^{\text{positive definite}} & \mathbf{0}                                                                                                                                                                                                                                               \\
+                    \mathbf{0}                                                          & \underbrace{\underbrace{\operatorname{blk-diag}(\J_{\p,\omega}^\top \mathbf{H}_\p \J_{\p,\omega})}_{\text{positive semi-definite}}+ \underbrace{\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q,\omega}}_{\text{positive definite}}}_{\text{positive definite}}
+                  \end{bmatrix}.
+  \end{aligned}
+\end{equation}

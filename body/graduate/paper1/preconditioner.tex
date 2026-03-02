@@ -1,0 +1,273 @@
+\subsection{混合预条件子}
+\begin{figure}[t]
+  \centering
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sheet/pdf/single_chain_preconditioner_C.pdf}
+    \caption{不同线段数下的平均预计算耗时}
+    \label{fig:pre}
+  \end{subfigure}
+
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sheet/pdf/single_chain_preconditioner_A.pdf}
+    \caption{不同线段数下的平均PCG迭代次数}
+  \end{subfigure}
+
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sheet/pdf/single_chain_preconditioner_B.pdf}
+    \caption{不同线段数下的平均计算耗时}
+    \label{fig:compute}
+  \end{subfigure}
+
+  \caption{\textbf{我们的预条件子与其他预条件子的比较。}
+    我们在重力作用下模拟一个螺旋线，使用不同的预条件子运行100个时间步，
+    每个时间步最多使用$5$次牛顿迭代。
+    % We discretize the rod with different number of segments to see the trend of the preconditioner.
+    我们的预条件子的构建成本略高
+    (a)。然而，使用我们的预条件子求解线性系统
+    所需的PCG迭代次数(b)和时间(c)远少于使用
+    对角或块对角预条件子。随着杆被
+    细分为更多的线段，我们方法的优势更加
+    明显。}
+  \label{fig:compare_preconditioner}
+  \vspace{-0.12in}
+\end{figure}
+合适的预条件子对性能至关重要。研究人员
+通常使用$\mathbf{A}$的对角或块对角部分来
+构造预条件子，因为其构造简单且成本较低。
+例如，RedMax~\cite{wang_redmax_2019}采用块对角策略来构造其预条件子。然而，我们注意到这种
+常见方法并不令人满意，而以下预条件子
+通常能带来更好的收敛性。
+
+%On the other hand, for rod-like objects, such as \textit{Discrete Elastic Rod}~\cite{bergou_discrete_2008}, $\mathbf{H}$ is a
+%penta-diagonal block matrix. So we choose to utilize the origin matrix and use
+%the direct method, Cholesky Decomposition to factorize $\mathbf{H}$. This could be achieved in linear complexity because of this specific matrix pattern for rod.
+具体地，我们的链式结构中的$\mathbf{A}$可以表示如下：
+\begin{equation}
+  \begin{aligned}
+    \mathbf{A} & = \J^{\top} \mathbf{H} \J =
+    \begin{bmatrix}
+      \J_{\mathbf{p, s}}^{\top} &
+      \J_{\mathbf{q, s}}^{\top}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mathbf{H}_{\mathbf{p}} & \mathbf{0}              \\
+      \mathbf{0}              & \mathbf{H}_{\mathbf{q}}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \J_{\mathbf{p, s}} \\
+      \J_{\mathbf{q, s}}
+    \end{bmatrix}                                                          \\
+               & =\J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}} +
+    \J^{\top}_{\mathbf{q, s}} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}.
+  \end{aligned}
+  \label{eq:A}
+\end{equation}
+% \begin{equation}
+% \begin{split}
+% \mathbf{A} &= \begin{bmatrix} \J_{\p,\s}^\top & \begin{matrix}\mathbf{0}\\\J_{\q,\omega}^\top\end{matrix} \end{bmatrix}
+% \begin{bmatrix} \mathbf{H}_{\p} & \mathbf{0} \\ \mathbf{0} & \mathbf{H}_{\q} \end{bmatrix}
+% \begin{bmatrix} \J_{\p,\s} \\ \begin{matrix} \mathbf{0} & \J_{\q, \omega}\end{matrix}\end{bmatrix}\\
+% &= \J_{\p, \s}^\top \mathbf{H}_{\p} \J_{\p, \s}  + \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0}  & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega} \end{bmatrix}\\
+% %% &= \J_{\p, \omega}^\top\left(\mathbf{M}_{\p} + \J_{\p, \omega}^{\top, -1}\begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0}  & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega} \end{bmatrix}\J_{\p, \omega}^{-1}\right) \J_{\p, \omega}\\
+% %% &= \J_{\p, \omega}^\top \tilde{\mathbf{H}}_{\p} \J_{\p,\omega}
+% \end{split}
+% \label{eq:A}
+% \end{equation}
+
+经过进一步分析，我们注意到$\mathbf{A}$具有如下结构：
+\begin{equation}
+  \begin{aligned}
+    \J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}} & =
+    \begin{bmatrix}
+      \mathbf{0} & \mathbf{0}                                                                   \\
+      \mathbf{0} & \J_{\mathbf{q, \omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q, \omega}}
+    \end{bmatrix} =
+    \begin{bmatrix}
+      \mathbf{0} & \mathbf{0} \\
+      \mathbf{0} & \TriDiag
+    \end{bmatrix}
+    ,                                                                        \\
+    \J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}} & =
+    \mathrm{Diag}\{\J^{i}_{\mathbf{p,s}}\}^{\top} \cdot
+    \underbrace{
+    \UpperTri \cdot \mathbf{H}_{\mathbf{p}}\cdot \LowerTri}_{\bar{\mathbf{H}}_{\mathbf{p}}}
+    \cdot \mathrm{Diag}\{\J^{i}_{\mathbf{p,s}}\},
+  \end{aligned}
+  \label{eq:JTHJ}
+\end{equation} 其中
+$\J_{\mathbf{q, s}} =
+  \begin{bmatrix}
+    \mathbf{0}, \J_{\mathbf{q,\omega}}
+  \end{bmatrix}
+$且$\J_{\mathbf{p, s}} =
+  \begin{bmatrix}
+    \I, \J_{\mathbf{p, \omega}}
+  \end{bmatrix}$。
+
+显然，$ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$在
+~\Cref{eq:JTHJ}中具有块三对角结构。\textcolor{black}{受
+此性质启发，我们选择提取$\J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}$的完整块三对角
+部分和$\J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}}$的对角部分来构造我们的混合预条件子$\mathbf P$，以
+尽可能保留变换$\mathcal T$后的
+信息：}
+% Clearly, $ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ has a simple block-tridiagonal structure. Inspired by this property, we select to extract the intact block-tridiagonal part of $\J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}$ and the block-diagonal part of $ \J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}}$ to construct our preconditioner $\mathbf P$, for keeping the information after the transformation $\mathcal T$ as much as possible:
+\begin{equation}
+  \setlength{\arraycolsep}{0.5pt}
+  \mathbf{P} =\left(\operatorname{blk-diag}\left(\J_{\p, \s}^\top \mathbf{H}_{\p} \J_{\p, \s}\right) + \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0}  & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega} \end{bmatrix}\right).
+  \label{eq:preconditioner_structure}
+\end{equation}
+这种混合预条件子具有一些优良性质：
+它始终是对称正定矩阵，
+构造和应用它的时间复杂度均为$\mathcal{O}(n)$。
+%% \begin{itemize}
+%%   \item Construct the preconditioner in $\mathcal{O}(n)$ time.
+%%   \item Apply the preconditioner in $\mathcal{O}(n)$ time.
+%%   \item[*] Converge in a sublinear number of iterations.
+%% \end{itemize}
+%% We leave the proof of the symmetric positive-definiteness of $\mathbf{P}$ in
+%% Appendix~\ref{sec: invert}.
+{\color{black}
+\input{invertible}
+}
+
+\textbf{$\mathcal{O}(n)$时间构造：}考虑这种特殊的[块对角
+    矩阵]-[块矩阵]-[块对角矩阵]乘法：
+\begin{equation}
+  \label{eq:bmb_multiplication}
+  \setlength{\arraycolsep}{1.2pt}
+  \begin{bmatrix}
+    \mathbf{A}_{1} &                &        &                \\
+                   & \mathbf{A}_{2} &        &                \\
+                   &                & \ddots &                \\
+                   &                &        & \mathbf{A}_{n}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mathbf{B}_{11} & \mathbf{B}_{12} & \cdots & \mathbf{B}_{1n} \\
+    \mathbf{B}_{21} & \mathbf{B}_{22} & \cdots & \mathbf{B}_{2n} \\
+    \vdots          & \vdots          & \ddots & \vdots          \\
+    \mathbf{B}_{n1} & \mathbf{B}_{n2} & \cdots & \mathbf{B}_{nn} \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mathbf{C}_{1} &                &        &                \\
+                   & \mathbf{C}_{2} &        &                \\
+                   &                & \ddots &                \\
+                   &                &        & \mathbf{C}_{n}
+  \end{bmatrix}.
+\end{equation}
+结果矩阵$\mathbf A \mathbf B \mathbf C$的$(i, j)$块为
+$\mathbf{A}_{i} \mathbf{B}_{ij} \mathbf{C}_{j}$。据此，假设三个矩阵$\mathbf A$、$\mathbf B$和$\mathbf C$都已准备好，
+我们可以明显地在$\mathcal{O}(n)$时间内构造其块三对角或块对角部分。
+
+回到我们的预条件子，
+$\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$自然满足这种
+结构，因为$\J_{\mathbf{q, \omega}}$是一个块对角
+矩阵 (~\Cref{eq:Jqs_pattern})。$\J_{\p,\s}^\top \mathbf{H}_\p \J_{\p, \s}$可以轻松转换
+为~\Cref{eq:bmb_multiplication}所示的结构，使用~\Cref{eq:JTHJ}中显示的乘法结合律。因此，我们的关注点转换为我们如何在线性时间内访问
+$\bar{\mathbf{H}}_{\mathbf{p}}$。幸运的是，
+$\mathbf{H}_{\mathbf{p}}$是一个分块对角矩阵：
+\begin{equation}
+  \bar{\mathbf{H}}_{\mathbf{p}} = \UpperTri \mathbf{H}_{\mathbf{p}} \LowerTri =
+  \begin{bmatrix}
+    \sum_{i=1}^{n} \mathbf{h}_{i} & \sum_{i=2}^{n} \mathbf{h}_{i} & \sum_{i=3}^{n} \mathbf{h}_{i} & \cdots & \mathbf{h}_{n} \\
+    \sum_{i=2}^{n} \mathbf{h}_{i} & \sum_{i=2}^{n} \mathbf{h}_{i} & \sum_{i=3}^{n} \mathbf{h}_{i} & \cdots & \mathbf{h}_{n} \\
+    \sum_{i=3}^{n} \mathbf{h}_{i} & \sum_{i=3}^{n} \mathbf{h}_{i} & \sum_{i=3}^{n} \mathbf{h}_{i} & \cdots & \mathbf{h}_{n} \\
+    \vdots                        & \vdots                        & \vdots                        & \ddots & \vdots         \\
+    \mathbf{h}_{n}                & \mathbf{h}_{n}                & \mathbf{h}_{n}                & \cdots & \mathbf{h}_{n} \\
+  \end{bmatrix}.
+\end{equation}
+其中$\mathbf{h}_{i}$是$\mathbf{H}_{\mathbf{p}}$的第$i$个对角块。因此，$\bar{\mathbf{H}}_{\mathbf{p}}$只有$n$个\emph{不同的}非零块，可以像前缀和一样在
+$\mathcal{O}(n)$时间内计算。总之，我们的
+预条件子只有$\mathcal{O}(n)$个非零块，我们可以
+利用这一观察结果为每个块显式构造它。
+
+\textbf{$\mathcal{O}(n)$时间求解：}由于预条件子具有标准的块三对角结构，我们使用Thomas算法~\cite{thomas1949elliptic}在$\mathcal{O}(n)$时间内求解。
+
+%\textcolor{black}{For the last property, we offer empirical evidence.}
+虽然我们的预条件子的构造可能比块对角或对角预条件子相对\textcolor{black}{更}
+复杂，但这个
+专门设计的预条件子与块对角或对角策略相比，速度提升至少一个
+数量级，如图~\ref{fig:compare_preconditioner}所示。我们还将我们的PCG
+方法与通过矩阵分解构造$\mathbf A^{-1}$的方法进行比较：在
+矩阵分解阶段 (图~\ref{fig:pre}) 和
+矩阵-向量乘法阶段 (图~\ref{fig:compute})，稠密矩阵结构都会导致更多的时间消耗。
+
+\textcolor{black}{此外，我们的PCG求解器具有近乎线性
+  复杂度。在
+  图~\ref{fig:compare_preconditioner}的设置下，求解
+  线性系统的平均时间随线段数
+  的增加几乎线性增长 (见图~\ref{fig:linear_increasing})。因此，我们的
+  方法对线段数量具有良好的可扩展性。应该
+  注意的是，线性复杂度不适用于
+  整个时间步，因为\Cref{eq:
+    collision constraint}中的碰撞约束在我们的缩减
+  表示下是非线性的，解决
+  碰撞所需的牛顿迭代次数可能因帧而异。}
+
+%% To count the timing cost only w.r.t the number
+%% of DOFs, we show the statistics using the setting of
+%% Fig.~\ref{fig:compare_preconditioner} in
+%% Fig.~\ref{fig:linear_increasing}. This figure shows the relationship
+%% between the time cost and the number of segments, where the cost
+%% increases almost linearly as the number of segments
+%% increases. Therefore, our method is well scalable with respect to the
+%% number of segments.}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/linear_increasing.pdf}
+  \caption{\textbf{每个时间步的平均耗时。}我们在图~\ref{fig:visual_damping_penalty}中模拟重力作用下的螺旋线。我们的PCG使用几乎固定的迭代次数求解线性系统。每个时间步的耗时与线段数量几乎呈线性关系。}
+  \label{fig:linear_increasing}
+\end{figure}
+
+
+\begin{figure}[t]
+  \centering
+  \vspace{1.2cm}
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sheet/pdf/pcg_mu_our.pdf}
+    \caption{我们的预条件子}
+    \label{A}
+  \end{subfigure}
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sheet/pdf/pcg_mu_blk.pdf}
+    \caption{块对角预条件子}
+    \label{B}
+  \end{subfigure}
+
+  \caption{\textbf{PCG迭代次数随杨氏模量的变化。}随着杨氏模量的增加，我们预条件子的优势更加明显。}
+  \label{fig:PCG_iter_Young}
+\end{figure}
+
+根据~\Cref{eq:A}，$\mathbf{A}$是两部分之和。
+随着杨氏模量的增加，$\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$会越来越占主导地位。因此，在这种情况下，我们使用完整$\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$的预条件子能更好地逼近$\mathbf A$，从而带来更好的收敛速度，如图~\ref{A}所示，而简单的块对角预条件子丢弃了$\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$中的许多大的非零值，导致收敛速度较差，如图~\ref{B}所示。
+
+%Our
+%preconditioner only use the intact part of $\J_{\q,\mathbf{s}}^\top
+%\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ and when this part of $\mathbf{A}$ is
+%not dominated (e.g. Young's module is very small and the rod is very easy to be
+%bended), the effectness of our preconditioner will decrease as shown is Fig.~\ref{A}.
+
+
+
+%Figure~\ref{fig: compare_preconditioner} shows the accerlation between our
+%preconditioner and the RedMax block-diagonal preconditioner.
+
+
+% $\J_{\mathbf{ps}} =
+% \begin{bmatrix}
+%   \I, \J_{\mathbf{p\omega}}x
+% \end{bmatrix}
+% $, we can get that:
+
+% \[
+
+% \]
+% Its first diagonal block is positive definiteness, while the rest
+% diagonal block is semi-positive definiteness.  So our preconditioner

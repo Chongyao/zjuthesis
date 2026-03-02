@@ -1,0 +1,78 @@
+\section{不可伸长 Cosserat 杆的表示方法}\label{sec: background}
+
+在详细阐述我们的方法之前，我们首先简要描述文献~\cite{spillmann_corde_2007} 中的传统表示方法。
+
+在该表示方法中，一根非闭环的不可伸长 Cosserat 杆被离散化为杆上的 $n$ 个顶点，这些顶点将杆分割为 $n-1$ 个段。杆的形状由第 $i$ 个顶点上的笛卡尔坐标 $\p_i$ 表示。在第 $i$ 个段 $\mathbf{e}_i$ 上，从 $\p_i$ 到 $\p_{i+1}$ 具有静止长度 $l_i$，一个四元数 $\q_i$ 用于表示其材料坐标系。因此，表示这样一根杆的变量为
+% For modeling twisting effects, additional material frames are needed for each segment, such as Cosserat rod model~\cite{spillmann_corde_2007}.
+% For capturing the detailed contact with curvature-varying obstacles, additional Eulerian coordinates in material space is needed as the recently developed $rh$-adaptive moving mesh method~\cite{wen_cosserat_2020}.
+$\mathbf{x} = [\p^\top, \q^\top]^\top$，其中 $\p\in \mathcal{R}^{3n}$ 是所有顶点的笛卡尔坐标位置，而 $\q\in \mathcal{R}^{4(n-1)}$ 由所有段上的四元数表示的材料坐标系组成。
+%and $\mathbf{u} \in \mathcal{R}^n$ describes the corresponding Eulerian coordinate of each vertex.
+%We can drop some of DOFs for specific applications. Here we list
+%all the DOFs for completeness.
+
+这 $7n-4$ 个变量并非独立的，仿真过程中需要仔细处理它们之间的以下约束：
+\begin{itemize}
+\item 不可伸长约束：
+\begin{equation}
+  \left\| \p_{i+1} - \p_i \right\| - l_i = 0,
+  \label{eq: inext_cons_d}
+  \end{equation}
+\item 单位四元数约束：
+\begin{equation}
+  \left\| \q_i  \right\| - 1 = 0,
+  \label{eq: unitq_cons}
+\end{equation}
+\item 不可剪切约束或对齐约束：
+\begin{equation}
+  d(\mathbf q_i) - \frac{\p_{i+1} - \p_i}{\left\| \p_{i+1} - \p_i\right\|} = 0,
+  \label{eq: alignment_cons}
+\end{equation}
+\end{itemize}
+其中 $d$ 是一个从由 $\q_i$ 表示的材料坐标系中提取段对齐轴（例如文献~\cite{spillmann_corde_2007} 中的第三轴）的函数。
+
+\subsection{紧凑表示}
+
+材料坐标系是一个旋转 $R\in SO(3)$，存在多种可能的表示方式。其李代数是一个 $3 \times 3$ 的斜对称矩阵，可以紧凑地表示为一个长度为三的向量，这也被称为轴角表示。我们选择用这样的表示 $\omega_i\in\mathcal{R}^3$ 来替换第 $i$ 个段上的四元数 $\q_i$。相应的单位四元数可以容易地从 $\omega_i$ 计算得到：
+\begin{equation}
+  \q_i = \mathcal{B}\left(\omega_i\right) = \left[\cos \frac{\left\|
+      \omega_i \right\|}{2}, \frac{\omega_i}{\left\| \omega_i \right\| }
+    \sin \frac{\left\| \omega_i \right\|}{2}\right]^\top.
+    \label{eq: omega2quaternion}
+\end{equation}
+当 $\left\| \omega_i \right\|$ 趋近于零时，我们应用洛必达法则来避免除零问题：
+\begin{equation}
+  \q_i = \Lim{\left\| \omega_i \right\| \rightarrow
+    0} \mathcal{B}\left(\omega_i\right)
+    = \left[1, \frac{\omega_i}{2} \right]^\top.
+    \label{eq: omega2quaternion2}
+\end{equation}
+这一选择消除了 \Cref{eq: unitq_cons} 中的单位四元数约束。
+
+{\color{black}常见的 $3\times 3$ 矩阵表示也可以根据罗德里格斯旋转公式通过指数映射轻松计算得到：}
+\begin{equation}
+\mathbf{m}_i
+= \operatorname{exp}\left( \mathbf{\omega}_i\right).
+\end{equation}
+现在采用图~\ref{fig:single-chain} 所示的链式表示，不可伸长杆上的非根顶点位置可以递归表示如下：
+\begin{equation}
+\p_{i+1}=\p_i+l_id(\mathbf{m}_i)=\p_i+l_id(\operatorname{exp}(\omega_i)), i=1,2,\cdots,n-1.
+\label{eq:w2p}
+\end{equation}
+这同时消除了 \Cref{eq: alignment_cons} 中的对齐约束和 \Cref{eq: inext_cons_d} 中的不可伸长约束。也可以通过四元数得到段对齐轴，即 $d(\mathcal{B}(\omega_i))$，但代价会更高。
+
+最后，我们使用笛卡尔坐标 $\p_c=\p_0$ 来表示根顶点的位置。
+
+\begin{figure}[h!]
+  \centering
+  \centering
+  \includegraphics[width=0.75\textwidth]{single_chain_new.pdf}
+  \caption{\textbf{链式结构。} \textcolor{black}{我们提出了一种紧凑的链式结构，没有冗余自由度来表示不可伸长的 Cosserat 杆，即 Kirchhoff 杆。}}
+  \label{fig:single-chain}
+\end{figure}
+
+综合以上内容，我们使用根顶点处的 $\p_c \in \mathcal{R}^3$ 和第 $i$ 个段 $\mathbf{e}_i$ 上的 $\omega_i\in\mathcal{R}^3$ 来表示杆。回顾使用 $\p$ 和 $\q$ 中 $7n-4$ 个变量的传统表示方法，在~\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中有 $4(n-1)$ 个线性独立约束，因此实际上只有 $(7n-4)-4(n-1)=3n$ 个自由度。我们的表示方法 $\mathbf{s}=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$ 恰好有 $3n$ 个自由度，完美匹配非闭环不可伸长分段线性 Cosserat 杆的本质。\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中的所有等式约束都是不必要的，在采用我们的表示方法时它们已被自然满足。\textcolor{black}{实际上，我们的方法完美地建模了一类特殊的不可剪切且不可伸长的 Cosserat 杆，即 Kirchhoff 杆~\cite{dill1992kirchhoff}。}
+
+%% \textcolor{black}{We noticed that DER~\cite{bergou_discrete_2008} uses
+%% only one degree of freedom (twisting) on each segment, which is less
+%% than ours on each segment, but its total number of DOFs is $4n-1$
+%% because it keeps the $n-1$ stretching DOFs.}
