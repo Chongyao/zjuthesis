@@ -173,12 +173,10 @@
 %\end{figure}
 \subsection{更多结果}
 除了对比实验中展示的结果外，我们还在一些复杂场景中进一步展示了我们方法的能力。
-\textbf{弹簧穿线.}一根杆（$E = \SI{20}{MPa},G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，30个线段）一端固定，另一端约束在滑槽中，穿过两个弹簧（$E = \SI{2}{MPa}, G = \SI{2}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，每个弹簧150个线段），如图~\ref{fig:demo_hang}所示。杆和两个弹簧都被我们的方法模拟为不可伸长的Cosserat杆，时间步长为$\SI{0.003}{s}$。在中间悬挂一个重物后，两个弹簧相互滑动靠近。每帧涉及约16个碰撞接触，以约$\SI{20}{fps}$的速度模拟。
-\textbf{打结.}如图~\ref{fig:demo_knot0}所示，从一个给定的结结构开始施加拉伸力（$\SI{200}{N}$），我们的方法可以模拟结随时间逐渐收紧的过程。当结收紧时，它承受沿中心线的大张力。由于我们的紧凑表示，杆（$E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，100个线段）完美地保持了不可伸长性。我们的带活动集方法的SQP框架在时间步长为$\SI{0.003}{s}$时以$\SI{25}{fps}$的速度很好地处理了自碰撞。\color{black}{
+XM|\textbf{打结.}如图~\ref{fig:demo_knot0}所示，从一个给定的结结构开始施加拉伸力（$\SI{200}{N}$），我们的方法可以模拟结随时间逐渐收紧的过程。当结收紧时，它承受沿中心线的大张力。由于我们的紧凑表示，杆（$E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，100个线段）完美地保持了不可伸长性。我们的带活动集方法的SQP框架在时间步长为$\SI{0.003}{s}$时以$\SI{25}{fps}$的速度很好地处理了自碰撞。
   在图~\ref{fig:demo_knot0}中形成最小结后，我们继续将拉伸力增加到$\SI{20000}{N}$，结变得更紧，如图~\ref{fig:tightest_knot}所示。
   %In this phase, we set the velocity as zero after each time step to help decrease the posibility of fail of DCD.
-  %Fig.~\ref{fig:tightest_knot} shows the smallest knot our method get.
-}
+
 \begin{figure}[t]
   \centering
   \begin{tikzpicture}
@@ -199,8 +197,7 @@
   \caption{\color{black}\textbf{不同大小力作用下的打结.}我们可以通过更大的拉伸力模拟更紧的结.}
   %\label{fig:tightest_knot}
   \label{fig:tightest_knot}
-\end{figure}
-\begin{figure}
+
   \textbf{超螺旋形成.}\textcolor{black}{我们可以模拟Kirchhoff杆（$E = \SI{1000}{MPa}, G = \SI{100000}{MPa}, r = \SI{0.003}{m}, \rho = \SI{200}{\den}$，50个线段）的超螺旋形成，这是一种典型的将扭转能量转化为弯曲能量的现象（图~\ref{fig:demo_plectoneme}）。}
 杆的两端在x方向上被拉伸（$\SI{1}{N}$），并且只允许在x方向上自由移动。当扭转（$\SI{10}{rad/s}$）两端时，杆开始卷曲并形成超螺旋。
 %Notice that the ends could move freely in the tangent
