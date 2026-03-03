@@ -136,15 +136,6 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 
 \subsection{计算代价分析}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\linewidth]{substructure_analysis/schur_vs_eig_timing_curves.pdf}
-  %%\includegraphics[width=0.49\linewidth]{substructure_analysis/schur_vs_eig_timing_curves.png}
-  %% \includegraphics[width=0.49\linewidth]{substructure_analysis/schur_cost_breakdown.png}
-  \caption{\textbf{传统 CMS 并行部分计算代价分析。} 一个方形网格由 size $\times$ size 个顶点离散化。\textbf{左图：} $t_{\text{sub-eig}}$ 与特征模态数量呈超线性关系。当子结构特征模态数量较少时，固定代价 $t_{\text{sub-schur}}$（红色虚线）接近 $t_{\text{sub-eig}}$。
-    %% \textbf{右图：} Schur 补代价分解（$t_{\text{sub-schur}}$）。
-    %% 代价主要来自重复求解和矩阵乘法，而非初始分解。
-  }
   \label{fig:breakdown-CMS}
 \end{figure}
 
