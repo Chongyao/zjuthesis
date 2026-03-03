@@ -6,7 +6,7 @@
 
 在介绍我们的方法之前，我们对定义在 $[0,L]$ 上的一维拉普拉斯特征问题进行一个说明性分析。为简单起见，忽略界面模态。
 
-\begin{figure}[tbp]
+\n\begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{frequency-vs-phase/basis.pdf}
   \includegraphics[width=\linewidth]{frequency-vs-phase/frequency-vs-phase.pdf}
@@ -32,7 +32,7 @@
 
 为了验证相位完备基函数相较于传统 CMS 的固定相位基函数的有效性，我们计算了积分误差。完整细节见\Cref{app:integrated-error-exp}。\textcolor{ConclusionEvidence}{下图显示，使用相位完备基函数的误差显著低于使用固定相位基函数的误差。}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
@@ -93,7 +93,7 @@ CMS 的另一个显著成本来自界面模态的计算（\Cref{sec:interface}�
 
 幸运的是，我们可以再次利用多重划分方案来显著缓解这一问题，从而得到一种高效的无需 Schur 补和特征求解的 IMR（SE-free IMR）。核心思想是用来自 dual 划分的子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）替换人工单位位移激励（\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$）。
 
-\begin{figure}[]
+\begin{figure}[htbp]
   \centering
   % Using subfigure with explicit width control
   \begin{subfigure}{1.0\linewidth}
