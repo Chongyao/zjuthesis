@@ -69,7 +69,9 @@ CMS 方法中精度与代价的权衡主要由每个子结构计算的内部特�
 $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{ConclusionEvidence}{得益于相位互补性，本文方法仅需少量的子结构特征模态，而传统 CMS 需要数百个。}
 
 如 \Cref{fig:scaling} 所示，本文方法的时间扩展性与 CB-CMS 相当，但运行速度\textbf{快两个数量级}。关键在于，在内存效率方面，本文方法展示了显著更优的可扩展性。更详细的各阶段代价分析见附录。这验证了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其随界面规模呈二次增长，而 MP-CMS 完全消除了这一瓶颈，使得内存占用仅依赖于稀疏子结构矩阵，不受双基额外开销的影响。因此，本文方法对于具有大量计算节点的超大规模问题特别有效。
-
+YY|
+WR|
+KM|\subsubsection{代价分解}\label{sec:breakdown}
 \Cref{fig:strong-scaling-breakdown} 和 \Cref{fig:weak-scaling-breakdown}（见 \Cref{sec:breakdown}）提供了两种方法时间代价的分解。计算数百个子结构特征模态显著降低了传统 CMS 的速度。这证实了增加 $q_{\mathcal{I}}$ 不仅计算代价高昂，而且在降低误差方面效果不佳。本文方法的主要代价来自矩阵缩减。\textcolor{IsConclusion}{此外，分解结果清楚地表明，传统 CMS 中的串行界面步骤（Schur 补）随着问题规模增长在内存使用中占比越来越大，直接导致了 \Cref{fig:scaling} 中所见的内存可扩展性不佳。}
 
 \Cref{fig:scaling-balance} 突显了本文方法在强扩展性和弱扩展性中时间和内存代价方面优异的均衡性（约 $0.9$）。相比之下，传统 C-B 方法的均衡性呈下降趋势——尤其是内存均衡性（接近 $0.6$）——这表明其对并行计算的适用性有限。
