@@ -74,14 +74,14 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
 
 \Cref{fig:scaling-balance} 突显了本文方法在强扩展性和弱扩展性中时间和内存代价方面优异的均衡性（约 $0.9$）。相比之下，传统 C-B 方法的均衡性呈下降趋势——尤其是内存均衡性（接近 $0.6$）——这表明其对并行计算的适用性有限。
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{critical-qb/combined_scaling.pdf}
   \caption{\textbf{子结构特征模态的关键数量。} 本文方法的关键 $q_{\mathcal{I}^\star}$ 远小于传统 CMS。}
   \label{fig:critical-qb}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_total_breakdown.pdf}
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_peak_memory_line.pdf}
@@ -89,7 +89,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
   \label{fig:scaling}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_balance_line.pdf}
   \caption{\textbf{强扩展性与弱扩展性并行部分的均衡性。} 本文方法在时间代价和内存代价方面均表现出比传统 CMS 更好的均衡性。这表明本文方法具有更好的并行适用性。}
@@ -116,7 +116,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
 \paragraph{轴向对齐划分的弹性问题。}
 \Cref{fig:elasticity-aa-error-time} 突显了三维弹性问题中的可扩展性。在此情况下，\textbf{SP-CMS+Schur} 的界面代价急剧上升。虽然 \textbf{AMLS} 通过缓解大规模界面求解提供了显著改进，但 \textcolor{ConclusionEvidence}{\textbf{MP-CMS} 始终优于 AMLS，以可忽略的时间开销提供高保真模态，证明了其是最高效的求解器。}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}{0.8\linewidth}
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/primal-partition.png}
@@ -135,7 +135,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
     \label{fig:laplacian-aa-error-time}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}{\linewidth}
       \includegraphics[width=0.189\linewidth]{comparison-figures/cat/primal-partition.png}
@@ -165,7 +165,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
       \label{fig:laplacian-metis-error-time}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \begin{subfigure}{\linewidth}
     \centering
@@ -188,7 +188,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
 \subsubsection{时间 vs. 精确模态数}
 为进一步量化实际优势，我们评估在给定精度阈值（$\epsilon_{\text{target}}$）内计算目标数量的全局特征模态（$q_t$）所需的总时间（$t_{\text{cms}}$），基于累积相对误差 $\epsilon_{\text{ev}}$（\Cref{eq:error-ev}）。\Cref{fig:comp-timing-vs-nev} 中的结果比较了所有三种方法。\textcolor{ConclusionEvidence}{我们的 MP-CMS 方法（标记为"ours"）在达到目标 $q_t$ 方面始终比 CB-CMS 和 CMS-IMR 方法更快。这突显了我们的方法不仅计算更快，而且在给定时间预算内提供更精确的模态，尤其是当需要大量全局特征模态（$q_t$）时。}
 
-\begin{figure}
+\begin{figure}[H]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
  \caption{\textbf{整体效率对比：时间 vs. 精确模态数。} 每条曲线绘制总时间（$t_{\text{cms}}$）vs. 精确模态数量（$q_t$）（$\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）。每个点对应一次具有特定 $q_{\mathcal{I}}$ 的运行。本文方法（MP-CMS，标记为"ours"）在达到目标 $q_t$ 方面始终比 CB-CMS（"traditional CMS"）、AMLS 和 CMS-IMR（"IMR"）更快。}
@@ -203,7 +203,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
 
 其次，我们在涉及晶格微结构的三维弹性问题上验证效率，如 \Cref{fig:micro-local-update} 所示。此处修改是参数化的：最左侧单元被替换为更厚的几何结构以增强局部刚度。通过充分利用缓存结果，本文方法相比完全 MP-CMS 重新计算实现了 $\mathbf{5.4\times}$ 的加速。此外，即使与高度优化的 Spectra 求解器（结合 CHOLMOD 进行线性求解）相比，仍实现了 $\mathbf{2.24\times}$ 的加速，突显了增量更新策略的优越性。
 
-\begin{figure}[htbp]
+\begin{figure}[H][htbp]
   \centering
   \begin{tabular}{@{} m{1.5em} c c @{}}
     & \textbf{Primal} & \textbf{Dual} \\[1ex]
@@ -222,7 +222,7 @@ $q_{\mathcal{I}}$ 的关键数量如 \Cref{fig:critical-qb} 所示。\textcolor{
   \label{fig:pcb-local-update}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \begin{tikzpicture}
     \node[anchor=north west, inner sep=0] (img) at (0,0) {%
