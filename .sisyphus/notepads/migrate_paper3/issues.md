@@ -1,0 +1,1 @@
+- Status: Not yet complete. Not in outer par mode errors remain after initial fixes; requires broader patch propagation across all .tex files and re-compilation.

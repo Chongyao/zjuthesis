@@ -1,0 +1,11 @@
+Notes from build attempt on 2026-03-02:
+- Ran: latexmk -xelatex -outdir=out zjuthesis.tex, log saved to compile_last.log.
+- Observed fatal errors: "Not in outer par mode." across multiple sections, plus "No file zjuthesis.bbl." issues, indicating biblatex not yet processed due to TeX errors.
+- Focused fixes: added explicit figure placement options to several figures (e.g., \begin{figure}[tbp]) in:
+  - body/graduate/paper3/3_background.tex
+  - body/graduate/paper3/4_method.tex (two instances)
+- Rebuilt; errors persist; still Not in outer par mode at many points (e.g., l.31, l.139 etc), likely due to deeper unbalanced braces or environments in several sections (paper3/1_intro.tex, paper3/4_method.tex, 5_1_alg_adaptive_shifting.tex, etc).
+- Next steps: perform a targeted pass to ensure:
+  - every \begin{figure} has a corresponding \end{figure} and a valid placement spec (no empty [] as placement)
+  - search for unmatched braces or broken environments around text, especially near math blocks
+- Request: permission to continue patching additional files with [tbp] in other figures and to run iterative builds to converge on a clean PDF.
