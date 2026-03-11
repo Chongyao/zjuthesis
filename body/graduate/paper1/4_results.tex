@@ -1,5 +1,5 @@
 \section{实验结果与分析}
-我们在各种实验中测试了我们方法的性能。本节中的所有实验均在AMD Core Ryzen 7-3800X 3.9GHz CPU上进行，内存为32GB。在我们的所有实验中，如果$\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \|_{2} <$ 1e-5或者达到5次迭代（如果没有特别声明），我们就终止牛顿迭代（算法~\ref{alg: nonlinear_solver}）。在我们的实验中，它通常在满足前一个条件时终止。对于每次线性系统求解，当残差的$L_2$范数小于1e-7时，我们终止PCG迭代。表~\ref{table:timing}总结了我们实验的统计数据和性能。
+我们在各种实验中测试了我们方法的性能。本节中的所有实验均在AMD Core Ryzen 7-3800X 3.9GHz CPU上进行，内存为32GB。在我们的所有实验中，如果$\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \|_{2} <$ 1e-5或者达到5次迭代（如果没有特别声明），我们就终止牛顿迭代（算法~\ref{alg: nonlinear_solver}）。在我们的实验中，它通常在满足前一个条件时终止。对于每次线性系统求解，当残差的$L_2$范数小于1e-7时，我们终止PCG迭代。
 \subsection{对比实验}
 \label{sec:cmp_res}
 我们将我们的方法与几种现有方法进行比较，包括罚函数方法、笛卡尔坐标下的直接KKT方法、现有的Cosserat杆紧凑表示方法~\cite{bertails_super-helices_2006,bertails_linear_2009}，以及一种基于RedMax~\cite{wang_redmax_2019}的潜在紧凝表示方法。为了衡量不同约束的违反程度，我们定义$\frac{\sum_{i=0}^{n-2}\left\|\p_{i+1} - \p_i\right\|}{\sum_{i=1}^{n-1}l_i} - 1$作为衡量不可伸长约束违反程度的度量。为了衡量对齐约束的违反程度，我们定义$\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\left\|\p_{i+1} - \p_i\right\|} - d(\q_i) \right\|$作为度量。
@@ -163,7 +163,8 @@
     \end{tikzpicture}
     \caption{我们的方法与扩展RedMax在重力作用下的螺旋线.}
   \end{subfigure}
-  \caption{\color{black}\textbf{与扩展RedMax的稳定性比较.}\textcolor{black}{我们使用二分法估计RedMax稳定模拟的最大时间步长。对于每个$g$，二分法的最后一次试验给出一个时间步长区间(a)，其起点（紫色曲线）和终点（橙色曲线）分别对应稳定和不稳定的模拟。}随着重力加速度的增加，RedMax变得越来越容易不稳定。在(b)中，我们展示了(a)中曲线的第一个采样点的模拟结果。我们的方法可以在更大的时间步下稳定地模拟杆。}
+  \caption{\color{black}\textbf{与Super-Helices和扩展RedMax的稳定性比较.}\textcolor{black}{我们使用二分法估计RedMax稳定模拟的最大时间步长。对于每个$g$，二分法的最后一次试验给出一个时间步长区间(a)，其起点（紫色曲线）和终点（橙色曲线）分别对应稳定和不稳定的模拟。}随着重力加速度的增加，RedMax变得越来越容易不稳定。在(b)中，我们展示了(a)中曲线的第一个采样点的模拟结果。我们的方法可以在更大的时间步下稳定地模拟杆。}
+  \label{fig:compare_to_super_helix}
 \end{figure}
   %\begin{figure}[H]
 %\centering
@@ -290,7 +291,7 @@ XM|\textbf{打结.}如图~\ref{fig:demo_knot0}所示，从一个给定的结结�
   %   \includegraphics[width=\textwidth]{figs/plectoneme/frame1999.png}
   % \end{subfigure}
   \caption{\textbf{超螺旋形成.}超螺旋形成展示了从扭转能量到弯曲能量的能量转化。在此过程中，杆的两端仅在x方向上自由移动.}
-  \label{fig:demo_plectoneme}
+  \label{fig:demo_plectoneme_short}
   %\todo[inline]{Needs rendering and adjusting camera.}
 \end{figure}
 \begin{figure}[H]

@@ -5,7 +5,7 @@
 \subsection{一维拉普拉斯问题的分析}\label{subsec:1d-laplacian}
 
 在介绍我们的方法之前，我们对定义在 $[0,L]$ 上的一维拉普拉斯特征问题进行一个说明性分析。为简单起见，忽略界面模态。
-VP|\begin{figure}[H][htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{frequency-vs-phase/basis.pdf}
   \includegraphics[width=\linewidth]{frequency-vs-phase/frequency-vs-phase.pdf}
@@ -31,7 +31,7 @@ VP|\begin{figure}[H][htbp]
 
 为了验证相位完备基函数相较于传统 CMS 的固定相位基函数的有效性，我们计算了积分误差。完整细节见\Cref{app:integrated-error-exp}。\textcolor{ConclusionEvidence}{下图显示，使用相位完备基函数的误差显著低于使用固定相位基函数的误差。}
 
-\begin{figure}[H][htbp]
+\begin{figure}[H]
   \centering
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
@@ -86,13 +86,13 @@ VP|\begin{figure}[H][htbp]
 
 \section{无 Schur 补和无特征求解的 IMR}\label{sec:interface-modes}
 
-CMS 的另一个显著成本来自界面模态的计算（\Cref{sec:interface}）和缩减步骤（\Cref{sec:reducing}），即 Schur 补。如\Cref{fig:breakdown-CMS}所示，当网格尺寸较大但子结构特征模态数量相对较少时，其成本（即 $t_{\text{sub-schur}}$）与求解子结构特征值问题相当。此外，Schur 补产生的稠密矩阵带来了极大的内存占用。在这种情况下，直接应用上述多重划分方案涉及多个 Schur 补步骤，从而影响效率。为了降低这一成本，界面模态缩减法（IMR）~\cite{KRATTIGER2019Riview}用低频特征模态（\Cref{fig:imr-tra}）替换全频界面模态（\Cref{fig:domain-partition}），这些低频特征模态来自定义在子结构或界面凝聚矩阵上的特征值问题。然而，成本仍然很高。
+CMS 的另一个显著成本来自界面模态的计算（\cref{sec:interface}）和缩减步骤（\cref{sec:reducing}），即 Schur 补。如图所示，当网格尺寸较大但子结构特征模态数量相对较少时，其成本（即 $t_{\text{sub-schur}}$）与求解子结构特征值问题相当。此外，Schur 补产生的稠密矩阵带来了极大的内存占用。
 
 \subsection{低频界面模态的近似}\label{subsec:approx-interface-modes}
 
 幸运的是，我们可以再次利用多重划分方案来显著缓解这一问题，从而得到一种高效的无需 Schur 补和特征求解的 IMR（SE-free IMR）。核心思想是用来自 dual 划分的子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）替换人工单位位移激励（\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$）。
 
-\begin{figure}[H][htbp]
+\begin{figure}[H]
   \centering
   % Using subfigure with explicit width control
   \begin{subfigure}{1.0\linewidth}
