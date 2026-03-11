@@ -98,6 +98,20 @@ KM|\subsubsection{代价分解}\label{sec:breakdown}
   \label{fig:scaling-balance}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{scaling_aggregation_new/strong_scaling_plots/3_strong_scaling_time_total_breakdown.png}
+  \caption{\textbf{强扩展性代价分解.} }
+  \label{fig:strong-scaling-breakdown}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{scaling_aggregation_new/weak_scaling_plots/3_weak_scaling_time_total_breakdown.png}
+  \caption{\textbf{弱扩展性代价分解.} }
+  \label{fig:weak-scaling-breakdown}
+\end{figure}
+
 \subsection{方法对比}
 本节对 \textbf{MP-CMS} 进行全面的性能评估。我们以三种已建立的方法作为基准：\textbf{SP-CMS+Schur}（带完整 Schur 补的单划分 CMS）、\textbf{SP-CMS+IMR}（带界面模态缩减法）和 \textbf{AMLS}（自动多级子结构法）~\cite{Gao2008AMLS}。我们的分析聚焦于两个关键方面：
 \begin{enumerate}
@@ -205,7 +219,7 @@ KM|\subsubsection{代价分解}\label{sec:breakdown}
 
 其次，我们在涉及晶格微结构的三维弹性问题上验证效率，如 \Cref{fig:micro-local-update} 所示。此处修改是参数化的：最左侧单元被替换为更厚的几何结构以增强局部刚度。通过充分利用缓存结果，本文方法相比完全 MP-CMS 重新计算实现了 $\mathbf{5.4\times}$ 的加速。此外，即使与高度优化的 Spectra 求解器（结合 CHOLMOD 进行线性求解）相比，仍实现了 $\mathbf{2.24\times}$ 的加速，突显了增量更新策略的优越性。
 
-\begin{figure}[H][htbp]
+\begin{figure}[H]
   \centering
   \begin{tabular}{@{} m{1.5em} c c @{}}
     & \textbf{Primal} & \textbf{Dual} \\[1ex]
@@ -247,7 +261,31 @@ KM|\subsubsection{代价分解}\label{sec:breakdown}
 
 我们采用猎鹰 9 号火箭的中空壳状模型，离散化为 1000 万顶点（3000 万自由度）。域被划分为 primal 划分的 9 个子结构和 dual 划分的 10 个子结构，共使用 19 个计算节点。我们为每个子结构计算 100 个子结构特征模态，以求解前 3000 个全局特征模态。
 
-计算代价分解如 \Cref{fig:teaser} 所示。高效的任务分配最小化了矩阵缩减期间的空闲时间。值得注意的是，在 88 分钟的总运行时间内，节点间通信代价仅为 4.3 秒——一个可忽略的比例。这证实了本文方法继承了基于 CMS 方法的低通信开销特性。若无界面模态缩减，传统 CB-CMS 方法在此规模下每个节点至少需要 2.82 TB 内存，远超可用的 512 GB 内存。
+计算代价分解如 \cref{fig:teaser} 所示。高效的任务分配最小化了矩阵缩减期间的空闲时间。值得注意的是，在 88 分钟的总运行时间内，节点间通信代价仅为 4.3 秒——一个可忽略的比例。这证实了本文方法继承了基于 CMS 方法的低通信开销特性。若无界面模态缩减，传统 CB-CMS 方法在此规模下每个节点至少需要 2.82 TB 内存，远超可用的 512 GB 内存。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{teaser/teaser.pdf}
+  \caption{\textbf{大规模模型计算代价分解.} }
+  \label{fig:teaser}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{\textbf{超级计算集群硬件规格与模型参数.}}
+  \label{tab:statistics}
+  \begin{tabular}{l|c}
+    \hline
+    \textbf{配置项} & \textbf{数值} \\ \hline
+    节点数量 & 19 \\
+    每节点 CPU & Intel Xeon Gold 6248 \\
+    每节点内存 & 512 GB \\
+    顶点数量 & 1000 万 \\
+    自由度 & 3000 万 \\
+    目标特征模态数 & 3000 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 本文方法的精度也在结果中得到验证。3000 个计算特征模态的最大残差为 $1.6 \times 10^{-4}$，大多数高频残差接近 $10^{-6}$。
 
