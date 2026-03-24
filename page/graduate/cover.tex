@@ -1,4 +1,13 @@
-\inputpage{cover-chn}
-\inputpage{title-chn}
-\inputpage{title-eng}
-\inputpage{auth-claim}
+% 根据模式选择封面
+\ifthenelse{\equal{\Period}{proposal}}
+{
+    % 开题报告模式
+    \inputpage{proposal/cover}
+}
+{
+    % 论文模式
+    \inputpage{cover-chn}
+    \inputpage{title-chn}
+    \inputpage{title-eng}
+    \inputpage{auth-claim}
+}

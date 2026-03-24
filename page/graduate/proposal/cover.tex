@@ -1,0 +1,70 @@
+% 博士/硕士学位论文开题报告封面
+
+\cleardoublepage{}
+
+\hskip 40mm
+
+\begin{center}
+    \includegraphics[width=0.5\paperwidth]{logo/zjuchar.pdf}
+\end{center}
+
+\begin{center}
+    \zihao{-1} \heiti \bfseries
+    \ifthenelse{\equal{\GradLevel}{doctor}}
+    {
+        博~~士~~学~~位~~论~~文
+        \\ \vskip 24pt
+        开题报告
+    }
+    {
+        硕~~士~~学~~位~~论~~文
+        \\ \vskip 24pt
+        开题报告
+    }
+\end{center}
+
+\vskip 40pt
+
+\begin{center}
+    \includegraphics[width=0.17\paperwidth]{logo/zju.pdf}
+\end{center}
+
+\vskip 40pt
+
+\ifthenelse{\equal{\BlindReview}{true}}
+{
+    % in blind review
+    \begin{center}
+        \bfseries \zihao{3}
+        \begin{tabularx}{.7\textwidth}{>{\fangsong}l >{\fangsong}X<{\centering}}
+            研究生姓名   & \uline{\hfill} \\
+            研究生学号   & \uline{\hfill} \\
+            指导教师     & \uline{\hfill} \\
+            学科专业     & \uline{\hfill} \\
+            所在学院     & \uline{\hfill} \\
+        \end{tabularx}
+    \end{center}
+}
+{
+    % not in blind review
+    \begin{center}
+        \bfseries \zihao{3}
+        \begin{tabularx}{.7\textwidth}{>{\fangsong}l >{\fangsong}X<{\centering}}
+            研究生姓名   & \uline{\hfill \StudentName \hfill} \\
+            研究生学号   & \uline{\hfill \StudentID \hfill} \\
+            指导教师     & \uline{\hfill \AdvisorName \hfill} \\
+            学科专业     & \uline{\hfill \Major \hfill} \\
+            所在学院     & \uline{\hfill \Department \hfill} \\
+        \end{tabularx}
+    \end{center}
+}
+
+\vskip 30pt
+
+\begin{center}
+    \bfseries \zihao{3}
+    \begin{tabularx}{.8\textwidth}{>{\fangsong}l X<{\centering}}
+        论文题目： & \uline{\hfill \fangsong \TitleLineOne \hfill} \\
+        ~         & \uline{\hfill \fangsong \TitleLineTwo \hfill} \\
+    \end{tabularx}
+\end{center}
