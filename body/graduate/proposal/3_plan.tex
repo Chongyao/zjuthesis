@@ -1,0 +1,416 @@
+% 三、研究基础
+
+\section{与本项目有关的研究工作积累和已取得的研究工作成绩}
+
+\subsection{报告者本人研究工作}
+
+\subsubsection{不可拉伸弹性棒仿真方法研究}
+
+\textbf{（1）紧凑坐标表示方法}
+
+在传统表示方法下，Cosserat杆需要使用顶点的笛卡尔坐标和单元上的四元数来表示，这种表示方法使用了过多的自由度（如$7n-4$个自由度），并且需要许多额外的约束条件，包括长度约束、四元数单位化约束和轴对齐约束等。
+
+本人提出了一种紧凑坐标表示方法，摒弃了传统的节点位置自由度，转而使用基于根节点位置以及局部轴角（Axis-angle）的曲率链式参数化体系。在这种表示中，系统的求解维度被精确缩减至与其内蕴自由度完全一致的$3n$维。所有约束在表示层面自然满足，将约束优化问题转化为无约束优化问题。
+
+\textbf{（2）近线性复杂度预处理器}
+
+分析了系统Hessian矩阵的特殊结构，发现其具有块三对角结构。利用这一特点，设计了一个精心构造的混合预处理器。与广泛使用的块对角预处理器相比，该预处理器可以将PCG求解器的收敛速度提高一到两个数量级。
+
+更重要的是，证明了该预处理器始终是对称正定的（SPD），这为算法的稳定性奠定了坚实的理论基础。
+
+\textbf{（3）与现有方法的对比}
+
+与Super-Helices方法相比，本方法实现了更好的性能和稳定性，能够在相对较大的时间步长下稳定模拟具有数百个顶点和数十个碰撞的不可拉伸Cosserat杆。与RedMax方法相比，本方法专门针对细长杆优化，效率更高。
+
+\subsubsection{多重划分模态综合法研究}
+
+\textbf{（1）相位互补的多重划分策略}
+
+观察到传统CMS方法的子结构特征模态可以视为子结构内的加窗傅里叶模态，其中边界约束固定了基函数的相位。基于这一观察，引入了从第二个空间交错划分计算得到的基函数。来自两个不同划分的子结构特征模态处于相似的频带，但它们的相位不同，从而为近似全局特征模态提供了更有效的子空间。
+
+\textbf{（2）无Schur补的IMR方法}
+
+提出了无Schur补及无局部特征求解的界面模态缩减法（SE-free IMR）。利用一个划分中的界面通常位于另一个划分的子结构内部这一事实，使用子结构静力平衡问题来近似低频界面模态，直接利用对偶划分中的低频模态基去近乎无损地逼近原始的界面约束空间。
+
+该方法彻底避开了传统方法中最为昂贵的界面刚度耦合计算，在极低维度、高收敛率的模态基子空间内，实现了针对超大规模系统软硬耦合特征值的高效并行提取。
+
+\textbf{（3）实验验证}
+
+实验表明，与传统CMS方法相比，本方法将精度提高了3个数量级，并在时间和内存成本上实现了更好的强扩展性和弱扩展性。同时也验证了从CMS继承的优势，即快速局部更新和超级计算集群上MPI进程间的低通信成本。
+
+\subsubsection{畸变单元处理方法研究（初步）}
+
+\textbf{（1）谱几何退化分析框架}
+
+提出了将系统病态条件划分为"尺度病态"与"结构性病态"的分类准则。尺度病态可通过简单的预处理器缓解，而结构性病态需要专门的基函数处理。
+
+\textbf{（2）算子自适应基函数设计}
+
+利用局部刚度矩阵的主特征向量作为物理探针，识别出产生最强人工锁定的方向。沿着这一方向，设计自适应基函数优化策略。
+
+\subsection{团队研究积累}
+
+\textbf{1. 学术论文发表}
+
+研究团队在计算机图形学、物理仿真领域有多年积累，已在SIGGRAPH、TOG、TVCG等顶级期刊和会议发表论文多篇，积累了丰富的科研经验。
+
+\textbf{2. 项目经验}
+
+承担了多项国家自然科学基金项目、国家重点研发计划项目等，具备完成高水平研究项目的能力和经验。
+
+\textbf{3. 国际合作}
+
+与国外知名大学和研究机构保持密切的学术交流与合作，定期互访，及时把握国际前沿动态。
+
+\subsection{已具备的实验条件}
+
+\textbf{1. 硬件设施}
+\begin{itemize}
+  \item 高性能计算集群：配备多个计算节点，支持MPI并行计算
+  \item 图形工作站：多台高性能工作站，配备专业显卡
+  \item 大容量存储：TB级存储空间，支持大规模数据管理
+\end{itemize}
+
+\textbf{2. 软件资源}
+\begin{itemize}
+  \item 商业仿真软件：ANSYS、Abaqus、Nastran等
+  \item 开源计算库：Eigen、PETSc、Trilinos等
+  \item 开发工具：Visual Studio、CLion、Git等
+\end{itemize}
+
+\textbf{3. 文献资源}
+\begin{itemize}
+  \item 学校图书馆数据库访问权限
+  \item IEEE、ACM、ScienceDirect等数据库
+  \item 丰富的纸质和电子图书资源
+\end{itemize}
+
+\section{已具备的实验、资料等条件，尚缺少的实验、资料条件和拟解决的途径}
+
+\subsection{已具备条件}
+
+\subsubsection{实验条件}
+
+\textbf{硬件方面}：
+
+（1）\textbf{桌面工作站}
+\begin{itemize}
+  \item CPU：AMD Ryzen 9 7900X 12核处理器
+  \item 内存：128GB DDR4
+  \item 存储：2TB SSD + 8TB HDD
+  \item 显卡：NVIDIA RTX 3080
+  \item 用途：算法开发、小规模测试、可视化
+\end{itemize}
+
+（2）\textbf{服务器集群}
+\begin{itemize}
+  \item 节点配置：双路Intel Xeon Gold 6248（共36核），512GB内存
+  \item 节点数量：5个计算节点
+  \item 网络：InfiniBand高速互连
+  \item 存储：分布式存储系统
+  \item 用途：中等规模并行计算
+\end{itemize}
+
+（3）\textbf{超算资源}
+\begin{itemize}
+  \item 可申请国家超算中心资源
+  \item 支持大规模并行计算
+  \item 用途：千万自由度级别问题求解
+\end{itemize}
+
+\textbf{软件方面}：
+
+（1）\textbf{操作系统与开发环境}
+\begin{itemize}
+  \item Ubuntu 20.04 LTS / CentOS 7
+  \item GCC 9.3+ / Intel OneAPI
+  \item CMake 3.16+ / Make
+\end{itemize}
+
+（2）\textbf{科学计算库}
+\begin{itemize}
+  \item Eigen 3.4：线性代数运算
+  \item PETSc 3.18：大规模并行求解
+  \item Trilinos 13.2：高性能计算框架
+  \item Intel MKL：数学核心库
+\end{itemize}
+
+（3）\textbf{图形与可视化}
+\begin{itemize}
+  \item OpenGL 4.6：图形渲染
+  \item VTK 9.1：科学可视化
+  \item ParaView 5.10：并行可视化
+\end{itemize}
+
+（4）\textbf{仿真与分析软件}
+\begin{itemize}
+  \item ANSYS Mechanical：结构分析
+  \item Abaqus：有限元分析
+  \item MATLAB：算法原型开发
+\end{itemize}
+
+\subsubsection{资料条件}
+
+\textbf{文献资源}：
+
+（1）\textbf{数据库访问}
+\begin{itemize}
+  \item IEEE Xplore Digital Library
+  \item ACM Digital Library
+  \item Elsevier ScienceDirect
+  \item Springer Link
+  \item Wiley Online Library
+  \item CNKI中国知网
+\end{itemize}
+
+（2）\textbf{电子图书}
+\begin{itemize}
+  \item Safari Books Online
+  \item O'Reilly Learning Platform
+  \item 超星电子图书
+\end{itemize}
+
+（3）\textbf{学术交流}
+\begin{itemize}
+  \item 参加国际学术会议
+  \item 访问学者交流
+  \item 在线学术研讨会
+\end{itemize}
+
+\textbf{代码与数据资源}：
+
+（1）\textbf{开源项目}
+\begin{itemize}
+  \item GitHub上的相关开源项目
+  \item 自主开发的算法原型
+  \item 历年研究生代码积累
+\end{itemize}
+
+（2）\textbf{测试数据}
+\begin{itemize}
+  \item 标准测试算例
+  \item 工业应用案例
+  \item 自建测试数据集
+\end{itemize}
+
+（3）\textbf{分析工具}
+\begin{itemize}
+  \item 性能分析工具（VTune、Perf）
+  \item 内存检测工具（Valgrind）
+  \item 并行调试工具（TotalView、DDT）
+\end{itemize}
+
+\subsection{尚缺少条件}
+
+\subsubsection{工业应用案例数据}
+
+\textbf{缺少条件}：
+\begin{itemize}
+  \item 真实工业产品的仿真需求和数据
+  \item 企业级的测试用例和验证标准
+  \item 复杂工程问题的完整模型
+\end{itemize}
+
+\textbf{影响}：
+\begin{itemize}
+  \item 难以验证方法在实际工程中的有效性
+  \item 缺乏与工业需求对接的反馈机制
+\end{itemize}
+
+\subsubsection{特定领域专家指导}
+
+\textbf{缺少条件}：
+\begin{itemize}
+  \item 航空航天领域的专家顾问
+  \item 汽车工业的技术指导
+  \item 高性能计算专家的支持
+\end{itemize}
+
+\textbf{影响}：
+\begin{itemize}
+  \item 对特定领域的需求理解不够深入
+  \item 工程应用的针对性不足
+\end{itemize}
+
+\subsubsection{大规模并行计算资源}
+
+\textbf{缺少条件}：
+\begin{itemize}
+  \item 百万核级别的超算资源
+  \item 大规模GPU集群
+  \item 专用的高性能存储
+\end{itemize}
+
+\textbf{影响}：
+\begin{itemize}
+  \item 千万自由度以上问题的测试受限
+  \item 算法的极端规模验证不足
+\end{itemize}
+
+\subsubsection{商业软件接口}
+
+\textbf{缺少条件}：
+\begin{itemize}
+  \item 主流CAE软件的开发接口
+  \item 商业软件的二次开发能力
+  \item 与工业软件的集成通道
+\end{itemize}
+
+\textbf{影响}：
+\begin{itemize}
+  \item 技术转化和推广受限
+  \item 与现有工作流的整合困难
+\end{itemize}
+
+\subsection{拟解决途径}
+
+\subsubsection{工业应用案例获取途径}
+
+\textbf{产学研合作}：
+
+（1）\textbf{建立与企业的合作关系}
+\begin{itemize}
+  \item 签署产学研合作协议
+  \item 设立联合研究项目
+  \item 开展技术咨询服务
+\end{itemize}
+
+（2）\textbf{参与实际工程项目}
+\begin{itemize}
+  \item 申请企业横向课题
+  \item 参与企业研发项目
+  \item 提供仿真技术支持
+\end{itemize}
+
+（3）\textbf{建立案例库}
+\begin{itemize}
+  \item 收集公开的工业案例
+  \item 整理测试数据集
+  \item 建立验证标准
+\end{itemize}
+
+\textit{预期成果}：
+\begin{itemize}
+  \item 获取3-5个真实工业案例
+  \item 建立标准测试集
+  \item 完成方法验证报告
+\end{itemize}
+
+\subsubsection{专家支持获取途径}
+
+\textbf{学术合作}：
+
+（1）\textbf{邀请专家指导}
+\begin{itemize}
+  \item 聘请校外专家作为指导小组成员
+  \item 定期组织专家咨询会议
+  \item 邀请专家做学术报告
+\end{itemize}
+
+（2）\textbf{参加学术活动}
+\begin{itemize}
+  \item 参加国内外学术会议
+  \item 参与学术研讨班
+  \item 组织专题研讨会
+\end{itemize}
+
+（3）\textbf{建立合作网络}
+\begin{itemize}
+  \item 加入相关学术组织
+  \item 参与学术联盟
+  \item 建立长期合作关系
+\end{itemize}
+
+\textit{具体计划}：
+\begin{itemize}
+  \item 邀请航空航天领域专家1名
+  \item 邀请高性能计算专家1名
+  \item 每学期至少2次专家咨询
+\end{itemize}
+
+\subsubsection{计算资源获取途径}
+
+\textbf{资源申请}：
+
+（1）\textbf{国家超算资源}
+\begin{itemize}
+  \item 申请国家超级计算中心资源
+  \item 参与国家超算项目
+  \item 利用高校超算联盟资源
+\end{itemize}
+
+（2）\textbf{云计算平台}
+\begin{itemize}
+  \item 利用阿里云、腾讯云等平台
+  \item 申请教育优惠
+  \item 按需使用弹性资源
+\end{itemize}
+
+（3）\textbf{合作共享}
+\begin{itemize}
+  \item 与其他高校共享计算资源
+  \item 参与计算资源共享计划
+  \item 建立校际合作机制
+\end{itemize}
+
+\textit{具体计划}：
+\begin{itemize}
+  \item 申请国家超算中心100万核时
+  \item 申请省级超算资源
+  \item 完成千万自由度测试
+\end{itemize}
+
+\subsubsection{软件接口获取途径}
+
+\textbf{技术途径}：
+
+（1）\textbf{开源软件集成}
+\begin{itemize}
+  \item 基于开源CAE软件开发
+  \item 利用现有软件接口
+  \item 建立数据转换工具
+\end{itemize}
+
+（2）\textbf{商业软件合作}
+\begin{itemize}
+  \item 与软件厂商建立合作
+  \item 申请教育版授权
+  \item 参与开发者计划
+\end{itemize}
+
+（3）\textbf{自主开发}
+\begin{itemize}
+  \item 开发独立的仿真模块
+  \item 建立标准化接口
+  \item 提供插件机制
+\end{itemize}
+
+\textit{具体计划}：
+\begin{itemize}
+  \item 完成与ANSYS的数据接口
+  \item 开发独立的仿真模块
+  \item 发布开源版本
+\end{itemize}
+
+\subsection{资源保障计划}
+
+\textbf{1. 经费保障}
+\begin{itemize}
+  \item 国家自然科学基金项目经费
+  \item 学校研究生创新项目资助
+  \item 实验室运行经费支持
+\end{itemize}
+
+\textbf{2. 人员保障}
+\begin{itemize}
+  \item 研究团队稳定
+  \item 研究生梯队建设
+  \item 技术支持人员
+\end{itemize}
+
+\textbf{3. 时间保障}
+\begin{itemize}
+  \item 四年博士学制
+  \item 全日制研究
+  \item 合理的研究计划
+\end{itemize}
