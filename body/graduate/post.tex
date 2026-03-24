@@ -1,8 +1,15 @@
-\inputbody{post/ref}
-\inputbody{post/appendix}
-\ifthenelse{\equal{\BlindReview}{true}}
+% Post part - 开题报告模式下跳过
+\ifthenelse{\equal{\Period}{proposal}}
 {
-}
-{
-    \inputbody{post/cv}
+    % 开题报告模式：不包含附录和简历
+}{
+    % 论文模式
+    \inputbody{post/ref}
+    \inputbody{post/appendix}
+    \ifthenelse{\equal{\BlindReview}{true}}
+    {
+    }
+    {
+        \inputbody{post/cv}
+    }
 }

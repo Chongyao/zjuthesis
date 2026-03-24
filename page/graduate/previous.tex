@@ -1,17 +1,22 @@
-% Previous part
-\cleardoublepage{}
-\pagenumbering{Roman}
-\thispagestyle{previous}
-\pagestyle{previous}
-\resetpagecounter{}
-
-\inputpage{correction}
-\ifthenelse{\equal{\BlindReview}{true}}
+% Previous part - 开题报告模式下跳过
+\ifthenelse{\equal{\Period}{proposal}}
 {
+    % 开题报告模式：不包含这些页面
+}{
+    % 论文模式
+    \cleardoublepage{}
+    \pagenumbering{Roman}
+    \thispagestyle{previous}
+    \pagestyle{previous}
+    \resetpagecounter{}
+    \inputpage{correction}
+    \ifthenelse{\equal{\BlindReview}{true}}
+    {
+    }
+    {
+        \inputpage{acknowledgement}
+    }
+    \inputpage{preface}
+    \inputpage{abstract}
+    \inputpage{term-translation}
 }
-{
-    \inputpage{acknowledgement}
-}
-\inputpage{preface}
-\inputpage{abstract}
-\inputpage{term-translation}
