@@ -59,7 +59,30 @@
 这种局部极大刚度与全局极小刚度的共存，导致组装后的系统矩阵条件数 $\kappa(\mathbf{K})$ 呈指数级激增。在仿真管线中，这种极端的病态性会带来毁灭性的连锁反应：在底层求解阶段，巨大的条件数直接导致共轭梯度法（CG）等克雷洛夫子空间迭代法面临严重的收敛停滞；在时间积分阶段，极大的 $\lambda_{max}$ 迫使显式方法必须采用极小的时间步长以维持稳定，而隐式方法的非线性牛顿迭代则会在由于刚度极端差异导致的高曲率能量景观中迷失方向，使得牛顿步严重偏离最优下降路径，最终导致仿真效率大幅退化甚至计算崩溃。因此，如何从基函数变换或离散表征的源头介入，切断局部硬约束对全局条件数的恶化路径，是本书探讨的核心议题。
 \subsection{基函数变换}
 
+这种局部极大刚度与全局极小刚度的共存，导致组装后的系统矩阵条件数 $\kappa(\mathbf{K})$ 呈指数级激增。在仿真管线中，这种极端的病态性会带来毁灭性的连锁反应：在底层求解阶段，巨大的条件数直接导致共轭梯度法（CG）等克雷洛夫子空间迭代法面临严重的收敛停滞；在时间积分阶段，极大的 $\lambda_{max}$ 迫使显式方法必须采用极小的时间步长以维持稳定，而隐式方法的非线性牛顿迭代则会在由于刚度极端差异导致的高曲率能量景观中迷失方向，使得牛顿步严重偏离最优下降路径，最终导致仿真效率大幅退化甚至计算崩溃。因此，如何从基函数变换或离散表征的源头介入，切断局部硬约束对全局条件数的恶化路径，是本书探讨的核心议题。
 
+\subsection{基函数变换与能量景观重塑}
+
+针对前文所述的系统矩阵病态性危机，打破局部极端刚度主导全局动力学的直接途径，是放弃传统以空间节点位移为核心的标准基函数（如经典有限元的节点形函数），转而引入更契合系统宏观行为的新离散自由度 $\mathbf{z}$。这种从原始广义坐标 $\mathbf{q} \in \mathbb{R}^n$ 到新状态空间 $\mathbf{z} \in \mathbb{R}^m$ ($m \le n$) 的映射，本质上等效于对物理系统进行\textbf{广义基函数变换（Generalized Basis Function Transformation）}。
+
+假设这种基函数变换可由映射算子 $\mathbf{q} = \mathcal{M}(\mathbf{z})$ 描述。将该映射代入系统的总势能中，可得到关于新坐标的势能泛函 $\tilde{V}(\mathbf{z}) = V(\mathcal{M}(\mathbf{z}))$。根据微积分链式法则，新系统下的广义内力 $\tilde{\mathbf{f}}_{int}$ 与有效刚度矩阵 $\tilde{\mathbf{K}}$ 可推导为：
+\begin{equation}
+    \tilde{\mathbf{f}}_{int}(\mathbf{z}) = \nabla_{\mathbf{z}} \tilde{V} = \mathbf{J}^T \mathbf{f}_{int}(\mathbf{q})
+\end{equation}
+\begin{equation}
+    \tilde{\mathbf{K}}(\mathbf{z}) = \nabla_{\mathbf{z}}^2 \tilde{V} = \mathbf{J}^T \mathbf{K}(\mathbf{q}) \mathbf{J} + \frac{\partial \mathbf{J}}{\partial \mathbf{z}} \times \mathbf{f}_{int}(\mathbf{q})
+\end{equation}
+其中，$\mathbf{J} = \frac{\partial \mathcal{M}}{\partial \mathbf{z}} \in \mathbb{R}^{n \times m}$ 为变换算子的雅可比矩阵（Jacobian）。根据映射算子 $\mathcal{M}$ 的代数性质，基函数变换可划分为线性与非线性两大类，它们分别从不同的维度缓解了系统矩阵的软硬耦合困境：
+
+\paragraph{线性基函数变换} 
+当映射算子为线性时，变换退化为常数矩阵投影 $\mathbf{q} = \mathbf{U} \mathbf{z}$，此时雅可比矩阵 $\mathbf{J} = \mathbf{U}$ 且二阶导数项为零。有效刚度矩阵简化为 $\tilde{\mathbf{K}} = \mathbf{U}^T \mathbf{K} \mathbf{U}$。这一过程在计算力学中通常被称为子空间降阶（Model Order Reduction）或模态分析（Modal Analysis）。
+结合上一节的特征谱分析，若精心构造投影矩阵 $\mathbf{U}$（例如提取系统的低频振动模态作为基向量），这种线性变换能够像“低通滤波器”一样，精准截断主导最大特征值 $\lambda_{max}$ 的高频“硬”模式。降维后的系统矩阵不仅规模大幅缩减，其条件数 $\kappa(\tilde{\mathbf{K}})$ 也由于高频刚度的剥离而得到数量级上的改善，从而极大加速了克雷洛夫子空间迭代的收敛速度。
+
+\paragraph{非线性基函数变换} 
+在许多复杂的工程问题（如不可伸长细长体的模拟、关节铰链约束的刚柔耦合系统）中，物理场中存在的“硬”约束往往表现为高度非线性的几何流形（Geometric Manifold）。若强行在笛卡尔坐标 $\mathbf{q}$ 下通过极大的惩罚弹簧（Penalty Springs）来维持这些约束，必然导致原始刚度 $\mathbf{K}(\mathbf{q})$ 的条件数趋于无穷。
+此时，引入非线性基函数变换 $\mathbf{q} = \mathcal{M}(\mathbf{z})$ 成为破局的关键。通过选取顺应几何约束的内部参数作为新自由度 $\mathbf{z}$（如欧拉角、曲率或轴力/弯矩参数化等），非线性映射 $\mathcal{M}$ 将这些硬约束内建（built-in）于运动学表述中。在此变换下，原本在 $\mathbf{q}$ 空间中陡峭狭长的“惩罚能量峡谷”，在 $\mathbf{z}$ 空间中被直接展平。值得注意的是，非线性有效刚度矩阵中的第二项 $\frac{\partial \mathbf{J}}{\partial \mathbf{z}} \times \mathbf{f}_{int}$ 是非线性变换独有的\textbf{几何刚度项（Geometric Stiffness）}。它动态地捕获了变换流形的曲率特征，在重塑能量景观（Energy Landscape）的同时，从物理源头上消除了刚度失配现象，彻底拯救了隐式积分中牛顿迭代的非线性寻优过程。
+
+综上所述，无论是全局范围内的线性特征模态提取，还是局部几何层面的非线性流形参数化，基函数变换的核心思想均是\textbf{“让离散自由度顺应物理规律”}。通过物理感知的基函数重构，代替纯数值层面的矩阵预处理，是跨越软硬耦合鸿沟、构建高效稳定仿真管线的必然选择。
 \section{软硬耦合下的系统失效与研究问题}
 
 \subsection{不可拉伸弹性棒的刚度失配问题}
