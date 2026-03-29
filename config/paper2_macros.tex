@@ -1,4 +1,14 @@
 % Paper 2 migration macros (agFEM).
-% TODO: fill with the specialized operators, vector/matrix shorthands, and formatting helpers
-% extracted from the agFEM draft once the translation work reaches the math-heavy sections.
-% This placeholder exists solely to satisfy the compilation pipeline for now.
+% Specialized operators, vector/matrix shorthands, and formatting helpers.
+
+% Math operators (\DOT and \FPP are defined in paper3_macros.tex)
+\newcommand{\VEC}[1]{\operatorname{vec}\left( #1 \right)}
+\newcommand{\trace}[1]{\operatorname{tr}\left(#1 \right)}
+\newcommand{\Vol}[1]{\operatorname{Vol}\left(#1 \right)}
+
+% Colors
+\definecolor{zcyRed}{RGB}{255,153,153}
+\definecolor{zcyPurple}{RGB}{217,218,255}
+\definecolor{zcyGreen}{RGB}{193, 255, 209}
+\definecolor{zcyPink}{RGB}{255, 225, 241}
+\definecolor{zcyBlue}{RGB}{135, 200, 203}

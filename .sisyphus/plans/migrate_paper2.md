@@ -36,16 +36,16 @@
 ### 阶段 3：精确翻译 (Precise Translation)
 *(执行要求：逐段读取对应源文件，严格按“准确、朴实”原则翻译至目标文件)*
 
-- [ ] **Chunk 1**: 翻译 `0.2-abstract.tex` 和 `1.0-introduction.tex` $\rightarrow$ 写入 `1_intro.tex`。
-- [ ] **Chunk 2**: 翻译 `1.1-relatedWork.tex` $\rightarrow$ 写入 `2_related.tex`。
-- [ ] **Chunk 3**: 翻译 `2-background.tex` $\rightarrow$ 写入 `3_background.tex`。
-- [ ] **Chunk 4**: 翻译 `3-method.tex` $\rightarrow$ 写入 `4_method.tex`。
+- [x] **Chunk 1**: 翻译 `0.2-abstract.tex` 和 `1.0-introduction.tex` $\rightarrow$ 写入 `1_intro.tex`。
+- [x] **Chunk 2**: 翻译 `1.1-relatedWork.tex` $\rightarrow$ 写入 `2_related.tex`。
+- [x] **Chunk 3**: 翻译 `2-background.tex` $\rightarrow$ 写入 `3_background.tex`。
+- [x] **Chunk 4**: 翻译 `3-method.tex` $\rightarrow$ 写入 `4_method.tex`。
   *(注意：若 `appendix.tex` 中包含方法补充推导，请在此阶段将其并入 `4_method.tex` 相应小节末尾)*
-- [ ] **Chunk 5**: 翻译 `0.3-teaser.tex`、`4-results.tex` 和 `4.1-statistics.tex` $\rightarrow$ 统合写入 `5_results.tex`。
+- [x] **Chunk 5**: 翻译 `0.3-teaser.tex`、`4-results.tex` 和 `4.1-statistics.tex` $\rightarrow$ 统合写入 `5_results.tex`。
   *(注意：将 teaser 图表与描述平滑融入结果分析的开篇或对应实验节)*
-- [ ] **Chunk 6**: 翻译 `5-conclusion.tex` $\rightarrow$ 写入 `6_summary.tex`，标题设为 `\section{本章小结}`。
+- [x] **Chunk 6**: 翻译 `5-conclusion.tex` $\rightarrow$ 写入 `6_summary.tex`，标题设为 `\section{本章小结}`。
 
 ### 阶段 4：图表整合与编译验证 (Verification)
-- [ ] 翻译整理 `6-figures.tex` 中的浮动体（图表），将它们精确安插到翻译后的各个小节 `.tex` 中对应的引用位置。
-- [ ] 运行 `make safe` (或 `latexmk -xelatex`) 进行全量编译。
-- [ ] 检查编译日志，修复因图表路径错位、宏包冲突或 `\ref` 未定义导致的报错。
+- [x] 翻译整理 `6-figures.tex` 中的浮动体（图表），将它们精确安插到翻译后的各个小节 `.tex` 中对应的引用位置。
+- [x] 运行 `make safe` (或 `latexmk -xelatex`) 进行全量编译。
+- [x] 检查编译日志，修复因图表路径错位、宏包冲突或 `\ref` 未定义导致的报错。
