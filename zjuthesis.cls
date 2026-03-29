@@ -70,6 +70,7 @@
 ]{ctexrep}
 
 \input{config/packages}
+\input{config/paper2_macros}
 \input{config/paper3_macros}
 \input{config/paper1_macros}
 
