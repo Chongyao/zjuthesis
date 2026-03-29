@@ -19,8 +19,8 @@
 ## 3. 执行步骤 (Execution Steps)
 
 ### 阶段 1：资源迁移 (Resources Migration)
-- [ ] 复制 `/home/zcy/workspace/records/primal-dual_modes/figures/` 下的所有内容到 `body/graduate/paper3/figures/`。
-- [ ] 读取 `/home/zcy/workspace/records/primal-dual_modes/all.bib/all.bib`，在去重的前提下合并至 `body/ref.bib`。
+- [x] 复制 `/home/zcy/workspace/records/primal-dual_modes/figures/` 下的所有内容到 `body/graduate/paper3/figures/`。
+- [x] 读取 `/home/zcy/workspace/records/primal-dual_modes/all.bib/all.bib`，在去重的前提下合并至 `body/ref.bib`。
 
 ### 阶段 2：框架搭建 (Structure Setup)
 - [x] 重写 `body/graduate/paper3/main.tex`，设定章标题并按顺序 `\inputbody` 引入子文件。
