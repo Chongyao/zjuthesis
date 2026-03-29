@@ -1,3 +1,8 @@
+\usetikzlibrary{arrows.meta,positioning}
+\definecolor{probColor}{RGB}{180,60,60}
+\definecolor{solColor}{RGB}{70,110,190}
+\definecolor{coreColor}{RGB}{40,130,90}
+
 \begin{tikzpicture}[
     % 定义通用节点样式
     node distance=1.5cm and 0.8cm, % 节点间的距离 (纵向 and 横向)
@@ -60,17 +65,17 @@
 % ==========================================================
 
 % 1. 顶层：总的问题
-\node (top) [topBox] {病态系统 (Ill-conditioned System)};
+\node (topnode) [topBox] {病态系统 (Ill-conditioned System)};
 
 % 2. 中间层：三个分立的研究问题 (立柱)
 % 先放中间的，再放左右的
-\node (prob2) [pillarBox, below=of top] {\textbf{问题二}\\[2ex]包含恶劣单元的\\有限元网格计算};
+\node (prob2) [pillarBox, below=of topnode] {\textbf{问题二}\\[2ex]包含恶劣单元的\\有限元网格计算};
 \node (prob1) [pillarBox, left=of prob2] {\textbf{问题一}\\[2ex]不可拉伸弹性绳\\的动力学仿真};
-\node (prob3) [pillarBox, right=of prob2] {\textbf{问题三}\\[2ex]基于 CB-CMS \\局部特征基函数求解的\\全局特征问题};
+\node (prob3) [pillarBox, right=of prob2] {\textbf{问题三}\\[2ex]使用CB-CMS局部特征基函数来求解的\\广义特征问题};
 
 % 3. 底层：核心思路 (总)
 % 计算三个立柱的中心对齐位置
-\node (coupling) [bottomBox, below=1.2cm of prob2] {面向软硬耦合的基函数表达};
+\node (coupling) [bottomBox, below=1.2cm of prob2] {存在软硬耦合的基函数};
 \node (transform) [bottomBox, below=1.8cm of coupling] {基函数变换 (Basis Function Transformation)};
 
 % ==========================================================
@@ -78,9 +83,9 @@
 % ==========================================================
 
 % 1. 顶层连向三个立柱
-\draw [arrow] (top.bottom) -- (prob1.top);
-\draw [arrow] (top.bottom) -- (prob2.top);
-\draw [arrow] (top.bottom) -- (prob3.top);
+\draw [arrow] (topnode.south) -- (prob1.north);
+\draw [arrow] (topnode.south) -- (prob2.north);
+\draw [arrow] (topnode.south) -- (prob3.north);
 
 % 2. 三个立柱连向底层思路
 % 为了美观，使用汇聚形式，让 prob1 和 prob3 弯曲连向中间位置
