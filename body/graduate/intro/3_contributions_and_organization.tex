@@ -1,22 +1,12 @@
+\usetikzlibrary{arrows.meta,positioning}
+\definecolor{probColor}{RGB}{180,60,60}
+\definecolor{solColor}{RGB}{70,110,190}
+\definecolor{coreColor}{RGB}{40,130,90}
+
 % 主要研究内容与论文组织
 
 \section{本文主要工作与内容安排}
-
-上文回顾了物理模拟涉及到的基础知识，包含了物理系统的离散化与基函数的选取、系统矩阵的构成以及病态性的来源，以及基函数变换对于系统矩阵的改变等。同时，本文选取了三个重点关注的典型软硬耦合系统作为研究对象。
-
-为了解决此类软硬耦合引发的数值病态问题，最核心也是最艰难的第一步，是对物理系统进行系统性的深入分析，挖掘其中的“软”和“硬”的部分。随后需要判断这些“硬”的物理部分是否是我们实际不关心的、对宏观仿真结果影响极小的细节。如果是，那么就想办法通过基函数变换或广义坐标变换的方式将其独立出来，并从求解的自由度集合中剥离或降维，从而使得最终求解系统的条件数下降，仿真效率提高。
-
-在本文深入探讨的三个主要研究问题中，软硬耦合系统中“硬”的成分的挖掘难度呈现出逐渐增加的趋势：
-
-首先，在不可拉伸的弹性细杆动力学仿真中，“硬”的部分表现为离散节点之间极短的物理距离。这种极短的物理距离对应着极大的轴向拉伸刚度（硬），而杆的弯曲和扭转则相对较“软”。由于这种刚度直接来源于显式的几何形态与距离约束，因此较为容易将其直接刻画出来。
-
-其次，在包含恶劣畸变单元的有限元仿真中，问题变得更为隐蔽。其巨大的数值刚度本质上来源于畸变单元内部极端的空间距离约束（例如极度靠近的两个网格顶点产生的强连接）。然而在传统的宏观网格划分和拉格朗日基函数下，这些极端的空间距离约束被掩盖和混合在整体单元之中。为了将其精准刻画，必须首先通过对局部畸变单元进行细分，才能将这些隐蔽的空间约束显式地暴露出来。
-
-最后，在基于模态综合法（CMS）的大规模广义特征值问题中，软硬耦合的刻画从三维物理空间完全抽象到了频率空间。系统求解的目标是提取全局的低频模态（软），但计算过程却被大量局部的高频特征模态（硬）所严重干扰。这种高频的“硬”成分不再是物理空间中的直观距离，而是频域中由于子结构边界划分所截断出的局部高频模态，其挖掘与隔离的抽象程度最高。
-
-基于上述思路，本文以基函数与表示空间的重构方法为基石，解决了前述的三个数值挑战。本文的组织结构安排如下：
-
-\inputbody{intro/3.1_structure}
+本文基于上述对软硬耦合的分析，主要研究工作包含以下三个方面：
 
 第二章探讨了不可拉伸弹性细杆的高效动力学仿真。针对传统的笛卡尔坐标与四元数混合表示会引入距离、范数和对齐等非线性高刚性约束的问题，本章提出了一种彻底消除内在非线性约束的紧凑坐标表示与高效预处理方法。采用基于关节角（Axis-angle）的链式广义坐标变换，精确匹配了 Kirchhoff 杆的内在自由度，从根源上消除了非线性约束。此外，利用重构后特殊的 Hessian 矩阵非零模式，设计了可证明为对称正定（SPD）的混合预条件子，在隐式 SQP 积分框架下实现了大时间步长与 $\mathcal{O}(n)$ 的近线性求解复杂度，使收敛速度提升了一到两个数量级。
 
@@ -25,3 +15,100 @@
 第四章针对大规模广义特征值问题提出了新型模态综合法。为了解决传统 CMS 中局部高频模态干扰全局低频模态求解，以及子结构边界固定导致模态相位受限的问题，本章引入了多重空间交错划分策略，利用不同划分下错位的边界，为缩减子空间提供了完备的相位补充。此外，针对传统界面模态构造严重依赖 Schur 补而导致巨大内存与通信开销的瓶颈，本章提出了一种无 Schur 补且无局部特征分解的界面模态缩减（IMR）公式，利用相邻划分诱导的局部静力平衡近似替代稠密的界面特征解。该方法打破了分布式内存架构下的通信壁垒，将低频特征值的求解精度提升了三个数量级。
 
 第五章为总结与展望。本章对全文的核心研究成果进行了系统的回顾与总结，反思了当前方法在特定预处理兼容性、自适应划分等方面的局限性，并对物理仿真底层数值优化的未来发展方向进行了展望。
+
+\begin{tikzpicture}[
+    % 定义通用节点样式
+    node distance=1.5cm and 0.8cm, % 节点间的距离 (纵向 and 横向)
+    % 1. 顶层矩形样式
+    topBox/.style={
+        rectangle, 
+        draw=probColor!80, 
+        fill=probColor!10, 
+        very thick,
+        rounded corners,
+        minimum width=12cm, % 设定宽度以覆盖下方的立柱
+        minimum height=1.2cm,
+        align=center,
+        font=\bfseries\large,
+        inner sep=5pt
+    },
+    % 2. 中间立柱样式
+    pillarBox/.style={
+        rectangle, 
+        draw=solColor!80, 
+        fill=solColor!5, 
+        thick,
+        minimum width=3.8cm, % 三个立柱平分宽度
+        minimum height=4cm,  % 立柱高度
+        align=center,
+        text width=3.5cm,    % 限制文本宽度以自动换行
+        inner sep=5pt,
+        font=\small
+    },
+    % 3. 底层横向矩形样式
+    bottomBox/.style={
+        rectangle, 
+        draw=coreColor!80, 
+        fill=coreColor!10, 
+        thick,
+        rounded corners,
+        minimum width=8cm,
+        minimum height=1cm,
+        align=center,
+        font=\bfseries
+    },
+    % 4. 箭头样式
+    arrow/.style={
+        -{Stealth[scale=1.2]}, % 使用专业的 Stealth 箭头
+        thick,
+        draw=gray!80
+    },
+    % 特殊样式：带有“解耦”文字的加粗箭头
+    decoupleArrow/.style={
+        -{Stealth[scale=1.5]},
+        ultra thick,
+        draw=coreColor,
+        shorten >=2pt,
+        shorten <=2pt
+    }
+]
+
+% ==========================================================
+% 第一步：放置节点
+% ==========================================================
+
+% 1. 顶层：总的问题
+\node (topnode) [topBox] {病态系统};
+
+% 2. 中间层：三个分立的研究问题 (立柱)
+% 先放中间的，再放左右的
+\node (prob2) [pillarBox, below=of topnode] {\textbf{问题二}\\[2ex]包含恶劣单元的\\有限元网格计算};
+\node (prob1) [pillarBox, left=of prob2] {\textbf{问题一}\\[2ex]不可拉伸弹性细杆\\的动力学仿真};
+\node (prob3) [pillarBox, right=of prob2] {\textbf{问题三}\\[2ex]广义特征值问题中\\的高频刚性截断};
+
+% 3. 底层：核心思路 (总)
+% 计算三个立柱的中心对齐位置
+\node (coupling) [bottomBox, below=1.2cm of prob2] {存在软硬耦合的基函数};
+\node (transform) [bottomBox, below=1.8cm of coupling] {基函数变换};
+
+% ==========================================================
+% 第二步：绘制连接箭头
+% ==========================================================
+
+% 1. 顶层连向三个立柱
+\draw [arrow] (topnode.south) -- (prob1.north);
+\draw [arrow] (topnode.south) -- (prob2.north);
+\draw [arrow] (topnode.south) -- (prob3.north);
+
+% 2. 三个立柱连向底层思路
+% 为了美观，使用汇聚形式，让 prob1 和 prob3 弯曲连向中间位置
+\draw [arrow] (prob1.south) -- ++(0,-0.6cm) -| (coupling.north);
+\draw [arrow] (prob2.south) -- (coupling.north);
+\draw [arrow] (prob3.south) -- ++(0,-0.6cm) -| (coupling.north);
+
+% 3. 思路一连向思路二，旁边写着“解耦”
+\draw [decoupleArrow] (coupling.south) -- (transform.north)
+    node[midway, right=0.2cm, text=coreColor, font=\bfseries\large] {解耦};
+
+\end{tikzpicture}
+

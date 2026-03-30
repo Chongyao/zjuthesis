@@ -1,0 +1,2 @@
+- Terminology standardization: "弹性细杆" is the preferred term for "Discrete Elastic Rods" in the introduction chapter.
+- Successfully fixed the final occurrence of "弹性棒" in `body/graduate/intro/2_related_and_problems.tex`.
