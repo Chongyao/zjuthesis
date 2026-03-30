@@ -156,7 +156,7 @@ Wave FINAL (After ALL tasks — 验证与编译):
     Evidence: .sisyphus/evidence/task-3-terminology-check.txt
   ```
 
-- [ ] 4. **1_background.tex 文本精简与降温**
+- [x] 4. **1_background.tex 文本精简与降温**
 
   **What to do**:
   - **精简背景铺陈**：将第一、二段中关于 CAE 和 CG 并行发展的历史描述压缩，提取核心论点（两者都需要数值精确与稳定性），去除冗余的文艺性描写（如“飞速发展的黄金阶段”、“殊途同归”）。
@@ -188,7 +188,7 @@ Wave FINAL (After ALL tasks — 验证与编译):
     Evidence: .sisyphus/evidence/task-4-tone-check.txt
   ```
 
-- [ ] 5. **2_related_and_problems.tex 句型重构与评价客观化**
+- [x] 5. **2_related_and_problems.tex 句型重构与评价客观化**
 
   **What to do**:
   - **拆分长句**：梳理各 Subsection 中包含 3 个以上分句的超长复杂句，尤其是分析刚度来源的段落，将其拆分为“一句表达一个核心判断”的短句组合。
@@ -220,7 +220,7 @@ Wave FINAL (After ALL tasks — 验证与编译):
     Evidence: .sisyphus/evidence/task-5-eval-check.txt
   ```
 
-- [ ] 6. **3_contributions_and_organization.tex 冗余清理与限制词补充**
+- [x] 6. **3_contributions_and_organization.tex 冗余清理与限制词补充**
 
   **What to do**:
   - **清理总论重复**：删除前两段中关于“挖掘软硬成分”与“距离约束”、“畸变单元”等与前文（第 1、2 节）高度重复的原理解释。直接切入“本文基于上述对软硬耦合的分析，主要研究工作包含以下三个方面：”。
@@ -249,7 +249,7 @@ Wave FINAL (After ALL tasks — 验证与编译):
 
 ## Final Verification Wave
 
-- [ ] F1. **编译测试与关键词残留核查** — `oracle`
+- [x] F1. **编译测试与关键词残留核查** — `oracle`
   运行 `latexmk -c && latexmk`。确保编译成功且退出码为 0。
   运行 `grep` 验证 "本书", "图 xxx", "TODO: 替换为实际图片", "灾难性" 等关键字在整个 `body/graduate/intro/` 目录中已绝迹。
   Output: `Build [PASS/FAIL] | Keywords [CLEAN/FAIL] | VERDICT: APPROVE/REJECT`
@@ -271,6 +271,6 @@ grep -r "本书" body/graduate/intro/  # Expected: empty
 ```
 
 ### Final Checklist
-- [ ] 所有低难度格式问题修复完成。
-- [ ] 所有中难度文本精简完成。
-- [ ] LaTeX 文档可编译。
+- [x] 所有低难度格式问题修复完成。
+- [x] 所有中难度文本精简完成。
+- [x] LaTeX 文档可编译。
