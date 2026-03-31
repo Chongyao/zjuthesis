@@ -40,7 +40,7 @@
 约束 $\mathbf{C_{\mathcal A}}$ 根据当前碰撞情况和剩余等式约束进行更新。粗略地说，剩余等式约束始终在集合 $\mathbf{C_{\mathcal A}}$ 中，$\mathbf{C_I}$ 中的活动不等式约束（如活动碰撞）将被插入到集合 $\mathbf{C_{\mathcal A}}$ 中并作为等式约束处理。同时，$\mathbf{C_I}$ 中的非活动碰撞将在每次迭代中被移除。在每次迭代中，状态可以回溯到非穿透状态。伪代码见附录~\ref{app:active_set}.
 
 \subsection{SQP 框架}
-总体而言，我们遵循文献~\cite{pan_subspace_2015} 的方法，在序列二次规划（SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。我们使用线搜索方法~\cite{nocedal1999numerical} 来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
+总体而言，我们遵循文献~\cite{pan_subspace_2015} 的方法，在序列二次规划（Sequential Quadratic Programming, SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。我们使用线搜索方法~\cite{nocedal1999numerical} 来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
 \begin{equation}
    \phi(\mathbf{s}, \mu) = E(\mathcal{T}(\mathbf{s})) + \frac{1}{\mu}\left\|\mathbf{C}_{\mathcal{A}} \right\|_{1}.
    \label{eq:merit_function}
@@ -121,7 +121,7 @@
 \label{eq: solve_kkt}
 \end{equation}
 
-和 RedMax~\cite{wang_redmax_2019} 一样，我们使用预条件共轭梯度（PCG）方法求解 $\mathbf{A}$ 的方程。这些方程的数量是 $\nabla_s\mathbf{C_{\mathcal A}}$ 的行数加上 $2$，会带来巨大的计算成本。注意，通过 PCG 求解线性系统的成本与矩阵向量乘法及其预条件器密切相关，我们充分利用 $\mathbf{A}$ 的结构，使两类操作的时间复杂度均为 $\mathcal{O}(n)$ 并加速收敛。详细分析见下一节。
+和 RedMax~\cite{wang_redmax_2019} 一样，我们使用预条件共轭梯度（Preconditioned Conjugate Gradient, PCG）方法求解 $\mathbf{A}$ 的方程。这些方程的数量是 $\nabla_s\mathbf{C_{\mathcal A}}$ 的行数加上 $2$，会带来巨大的计算成本。注意，通过 PCG 求解线性系统的成本与矩阵向量乘法及其预条件器密切相关，我们充分利用 $\mathbf{A}$ 的结构，使两类操作的时间复杂度均为 $\mathcal{O}(n)$ 并加速收敛。详细分析见下一节。
 
 \subsection{$\mathcal{O}(n)$ 时间复杂度的矩阵 - 向量乘法}
 \label{ssec:jacobian-patt}

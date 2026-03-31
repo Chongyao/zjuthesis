@@ -21,7 +21,7 @@
     \STATE 求解式~\eqref{eq: final_kkt} 并得到 $\Delta {\mathbf{s}}$，$\lambda$
 
     \IF{$\nabla_{\mathbf{s}} \mathbf{C}_{\mathbf I} (\mathbf{s}+ \Delta\mathbf{s}) - \mathbf{d}_I < 0$} \STATE （在可行域内）
-      \IF{$\left\| \lambda \right\|_{-\infty}$ > 0} \STATE （所有激活约束均为紧约束（LCP））
+      \IF{$\left\| \lambda \right\|_{-\infty}$ > 0} \STATE （所有激活约束均为紧约束（Linear Complementarity Problem, LCP））
       \STATE ${\mathbf{s}}^{k+1} = {\mathbf{s}}^k + \Delta {\mathbf{s}}$
       \STATE break
       \ELSE \STATE （部分约束为松约束）
