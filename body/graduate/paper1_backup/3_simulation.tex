@@ -1,0 +1,246 @@
+% 第三章 - 仿真算法设计
+% 本章介绍基于紧凑表示的高效稳定仿真算法
+
+\section{仿真算法}
+在传统表示方法下，隐式欧拉时间步进会导致如下非线性约束优化问题~\cite{martin2011example}：
+\begin{subequations}
+  \begin{align}
+    &\mathbf{x}_{t+\Delta t} = \mathop{\arg\min}\limits_{\mathbf x} E(\mathbf{x}) =
+  V\left(\mathbf{q}\right)+T_p\left(\mathbf{p}\right)+T_q\left(\mathbf q \right)+G\left(\mathbf{p}\right),\\
+    &\text{s.t.}  \left\{
+  \begin{array}{l}
+  \mathbf{C_E}(\mathbf{x}) = \mathbf{0},\\
+    \mathbf{C_I} (\mathbf{x})\geq \mathbf{0}.
+    \label{eq:cons_origin_opt}
+  \end{array}
+      \right.
+     % \quad \mathbf{C_E}(\mathbf{x}) = \mathbf{0}\label{eq: eqcons}\\
+    %&\quad \quad \mathbf{C_I} (\mathbf{x})\geq \mathbf{0} \label{eq: ineqcons}
+  \end{align}
+  \label{eq: origin_opt}
+\end{subequations}
+
+\vspace{-0.5cm}
+上述方程中，$V(\mathbf q)$ 为离散弯曲和扭转势能，$T_p(\mathbf p)$ 和 $T_q(\mathbf q)$ 分别为平动和转动动能。$G\left(\mathbf{p}\right)$ 为外力场（如重力）的势能。这些项的具体公式见附录~\ref{app:energies}，更多细节可参阅文献~\cite{spillmann_corde_2007,wen_cosserat_2020}。
+
+\Cref{eq:cons_origin_opt} 中的大量等式约束 $\mathbf{C_E}$ 来自~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。通过由~\cref{eq: omega2quaternion,eq: omega2quaternion2,eq:w2p} 和 $\p_c=\p_0$ 导出的变换 $\mathcal{T}$，用我们的紧凑表示替换传统表示，这些约束已被消除：
+\begin{equation}
+  \mathbf{x} = \mathcal{T}\left( \mathbf{s} \right).
+\end{equation}
+
+我们采用经典的主动集框架~\cite{nocedal1999numerical} 来处理剩余的等式约束（如狄利克雷边界条件约束）和通常来自碰撞的不等式约束 $\mathbf{C_I}$。具体而言，在主动集法的每次迭代中，我们求解如下问题：
+\begin{equation}
+\begin{gathered}
+    {\mathbf{s}}_{t+\Delta t} = \mathop{\arg \min}\limits_{{\mathbf s}} E(\mathcal{T}\left({\mathbf{s}}\right)), \\
+    \text{s.t.}\quad
+    \mathbf{C_{\mathcal A}} (\mathcal{T}\left({\mathbf{s}} \right))= \mathbf{0}.
+    \end{gathered}
+  \label{eq: trans_opt}
+\end{equation}
+约束 $\mathbf{C_{\mathcal A}}$ 根据当前碰撞情况和剩余等式约束进行更新。粗略地说，剩余等式约束始终在集合 $\mathbf{C_{\mathcal A}}$ 中，$\mathbf{C_I}$ 中的活动不等式约束（如活动碰撞）将被插入到集合 $\mathbf{C_{\mathcal A}}$ 中并作为等式约束处理。同时，$\mathbf{C_I}$ 中的非活动碰撞将在每次迭代中被移除。在每次迭代中，状态可以回溯到非穿透状态。伪代码见附录~\ref{app:active_set}.
+
+\subsection{SQP 框架}
+总体而言，我们遵循文献~\cite{pan_subspace_2015} 的方法，在序列二次规划（Sequential Quadratic Programming, SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。我们使用线搜索方法~\cite{nocedal1999numerical} 来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
+\begin{equation}
+   \phi(\mathbf{s}, \mu) = E(\mathcal{T}(\mathbf{s})) + \frac{1}{\mu}\left\|\mathbf{C}_{\mathcal{A}} \right\|_{1}.
+   \label{eq:merit_function}
+\end{equation}
+\textcolor{black}{
+为防止步长过度违反约束，$\mu$ 被更新为当前活动约束对应拉格朗日乘子最大值的倒数~\cite{nocedal1999numerical}}。
+
+具体地，我们每一步在当前 $\mathbf s^k$ 处构造~\cref{eq: trans_opt} 的二次模型如下：
+\begin{equation}
+\begin{gathered}
+    \Delta {\mathbf{s}}^k =\mathop{\arg \min}\limits_{\Delta \mathbf s}
+    \frac{1}{2}\Delta{\mathbf{s}}^{\top} \mathbf{A}^k \Delta {\mathbf{s}} +
+    \mathbf{b}^{k^\top} \Delta {\mathbf{s}},\\
+    \text{s.t.} \quad
+    \nabla_{{\mathbf{s}}}\mathbf{C_{\mathcal A}}  \Delta{\mathbf{s}} + \mathbf{C_{\mathcal A}}(\mathcal{T}({\mathbf{s}}^k )) = \mathbf{0},
+  \label{eq: quad_opt}
+  \end{gathered}
+\end{equation}
+其中，设 $\J(\mathbf{s}) = D \mathcal{T} = \partial \mathbf{x}/\partial \mathbf{s}$，有
+\begin{equation*}
+\begin{split}
+\mathbf{b}^k &= \J(\mathbf{s}^k)^\top \left
+  .\FPP{E(\mathbf{x})}{\mathbf{x}}\right|_{\mathbf{x} =
+  \mathcal{T}(\mathbf{s}^k)},\\
+\mathbf{A}^k &= \J(\mathbf{s}^k)^\top \left.
+  \FPP{^2E(\mathbf{x})}{\mathbf{x}^2}\right|_{\mathbf{x} = \mathcal{T}(\mathbf{s}^k)}
+\J(\mathbf{s}^k) = \J^{k\top} \mathbf{H}^k \J^k.
+\end{split}
+\end{equation*}
+
+这里，我们如~\cite{pan_subspace_2015} 那样省略了 $\left.\FPP{\J\left(\mathbf{s}\right)}{\mathbf{s}}\right|_{\mathbf s=\mathbf{s}^k}:\left.\FPP{E(\mathbf{x})} {\mathbf{x}}\right|_{\mathbf{x} = \mathcal{T}\left(\mathbf{s}^k\right)}$。因此，我们实际上使用不精确牛顿法来求解每个二次子问题。
+% The inverse of the system matrix $\mathbf{N}^\top \J^\top \mathbf{H} \J \mathbf{N}$ is required frequently in equation~\ref{eq: solve_kkt}.
+\begin{algorithm}
+\caption{SQP 框架}\label{alg: nonlinear_solver}
+\begin{algorithmic}
+\REQUIRE $\mathbf{x}^k$
+\STATE $\mathbf{s}^k = \mathcal{T}^{-1}(\mathbf{x}^k)$
+\WHILE{$\big\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \big\|_{2} \neq 0$}
+   \STATE 评估 $\mathbf{A}^k$，$\mathbf{b}^k$，$\nabla_{\mathbf{s}}\mathbf{C}_{\mathcal A}^k$
+   \STATE $\Delta {\mathbf{s}}$, $\lambda$ = active set( $\mathbf{A}^k$, $\mathbf{b}^k$, $\nabla_{\mathbf{s}}\mathbf{C}_{\mathcal A}^k$)
+   \STATE $\alpha$ = line search ($\mathbf{s}^k$, $\Delta \mathbf{s}$, $\lambda$)
+   \STATE ${\mathbf{s}}^{k+1} = {\mathbf{s}}^k + \alpha \Delta {\mathbf{s}}$
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+%We should also notice that the $\nabla_{\mathbf{s}}\mathbf{C_E}$ and
+%$\nabla_{\mathbf{s}}\mathbf{C_E}$ are both stay unchanged. {\color{black}Also we
+%  should notice that our hessian $\mathbf{A}$ may be very dense but easy to
+%  employ matrix-vector product and inverse-vector operation. which asking the
+%  solver to be matrix-free.}
+\Cref{eq: quad_opt} 中的 QP 问题导致一个 KKT 系统：
+\begin{equation}
+  \begin{bmatrix}
+     \mathbf{A}  &  \nabla_{{\mathbf{s}}} \mathbf{C}_{\mathcal{A}}^\top
+    \\\nabla_{{\mathbf{s}}} \mathbf{C}_{\mathcal{A}}   & \bold{0}
+  \end{bmatrix}
+  \begin{bmatrix} \Delta {\mathbf{s}} \\ \lambda \end{bmatrix}
+  =\begin{bmatrix}
+  \mathbf{b}\\
+    - \mathbf{C}_{\mathcal{A}}(\mathcal{T}\left({\mathbf{s}}_k)\right)
+  \end{bmatrix}.
+  \label{eq: final_kkt}
+\end{equation}
+%where $\mathbf{C} = \left[\mathbf{C}_{\text{active}}^\top \right]^\top$.
+通过\textit{舒尔补}方法，先求解 $\lambda$ 然后求解 $\Delta {\mathbf{s}}$：
+% where in this KKT the constraints $C$ include the active set of $\mathbf{C_I}$.
+% This KKT is solved by ranged-based method:
+\begin{equation}
+\left\{
+\begin{array}{l}
+%\begin{split}
+\left( \nabla_{\mathbf{s}}\mathbf{C}_{\mathcal{A}}\mathbf{A}^{-1} \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal{A}}^{\top}\right)  \lambda =\mathbf{C}_{\mathcal{A}} -  \nabla_{\mathbf{s}}\mathbf{C}_{\mathcal{A}}\mathbf{A}^{-1} \mathbf{b},\\
+\mathbf{A}\Delta {\mathbf s} =  \mathbf{b} - \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal{A}}^\top \lambda.
+% \end{split}
+\end{array}
+\right.
+\label{eq: solve_kkt}
+\end{equation}
+
+和 RedMax~\cite{wang_redmax_2019} 一样，我们使用预条件共轭梯度（Preconditioned Conjugate Gradient, PCG）方法求解 $\mathbf{A}$ 的方程。这些方程的数量是 $\nabla_s\mathbf{C_{\mathcal A}}$ 的行数加上 $2$，会带来巨大的计算成本。注意，通过 PCG 求解线性系统的成本与矩阵向量乘法及其预条件器密切相关，我们充分利用 $\mathbf{A}$ 的结构，使两类操作的时间复杂度均为 $\mathcal{O}(n)$ 并加速收敛。详细分析见下一节。
+
+\subsection{$\mathcal{O}(n)$ 时间复杂度的矩阵 - 向量乘法}
+\label{ssec:jacobian-patt}
+
+PCG 算法涉及频繁的矩阵 - 向量乘法操作，针对矩阵 $\mathbf{A} = \J^\top\mathbf{H}\J$。我们将证明，在我们的紧凑表示下，将 $\mathbf{H}, \J, \J^\top, \mathbf{A}$ 与向量相乘都可以在 $\mathcal{O}(n)$ 时间内实现。
+
+为简化表述，我们采用如下记号：
+\begin{itemize}
+  \item $\LowerTri$：块元素均为 $\I$ 的块下三角矩阵，
+  \item $\UpperTri$：块元素均为 $\I$ 的块上三角矩阵，
+  \item $\Diag$：块对角矩阵（忽略其具体数值），
+  \item $\TriDiag$：块三对角矩阵（忽略其具体数值）。
+\end{itemize}
+
+\textbf{$\mathbf H$ 的模式：}对于杆仿真，在应用变换 $\mathcal T$ 之前，系统矩阵具有简单的带状结构，采用 $(\mathbf{p}, \mathbf{q})$ 排序时如下：
+\begin{equation}
+  \label{eq:H-patt}
+  \mathbf{H} =
+  \begin{bmatrix}
+    \mathbf{H}_{\mathbf{p}} & \mathbf{0}              \\
+    \mathbf{0}              & \mathbf{H}_{\mathbf{q}}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{1}{\Delta t^{2}}\mathbf{M}_{\mathbf{p}} & \mathbf{0}                                                               \\
+    \mathbf{0}                                    & \frac{1}{\Delta t^{2}} \mathbf{M}_{\mathbf{q}} + \mathbf{K}_{\mathbf{q}}
+  \end{bmatrix} =
+  \left[
+    \begin{array}{@{}c|c@{}}
+      \Diag      & \mathbf{0} \\
+      \hline
+      \mathbf{0} & \TriDiag
+    \end{array}
+    \right],
+\end{equation}
+其中 $ \mathbf{H}_{\p} = \FPP{^2E}{\mathbf{p}^2} = \FPP{^2T_{p}}{\mathbf{p}^2} =\mathbf{M}_\p/\Delta t^2$，且 $\mathbf{H}_{\q}= \FPP{^2E}{\mathbf{q}^2} = \FPP{^2T_{q}(\mathbf{q})}{\mathbf{q}^2} + \FPP{^2V(\mathbf{q})}{\mathbf{q}^2} = \mathbf{M}_q /\Delta t^2 + \mathbf{K}_q$。在这种简单的带状结构下，$\mathbf H$ 的矩阵 - 向量乘法的 $\mathcal{O}(n)$ 时间复杂度自然得到保证。
+
+\textbf{$\mathbf{J}$ 的模式：}我们将雅可比矩阵 $\J$ 分为两块：
+\begin{equation}
+  \J =
+  \begin{bmatrix}
+    \J_{\mathbf{p, s}} \\
+    \J_{\mathbf{q, s}}
+  \end{bmatrix}.
+\end{equation}
+由于 $\mathbf s=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$，$\J_{\mathbf{q, s}}$ 具有如下模式：
+\begin{equation}
+  \J_{\mathbf{q, s}} =
+  \begin{bmatrix}
+    \frac{\partial \mathbf{q}}{\partial \mathbf{p}_{c}} & \frac{\partial \mathbf{q}}{\partial \mathbf{\omega}}
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \mathbf{0} & \Diag
+  \end{bmatrix}.
+  \label{eq:Jqs_pattern}
+\end{equation}
+$\J_{\mathbf{p, s}}$ 的模式相对复杂，如下所示：
+\begin{equation}
+  \begin{aligned}
+    \J_{\mathbf{p, s}} & =
+    \begin{bmatrix}
+      \I     &                        &                                                 &                        \\
+      \I     & \J^{1}_{\mathbf{p, s}} & \multicolumn{2}{c}{\raisebox{1ex}[0pt]{\Huge0}}                          \\
+      \vdots & \vdots                 & \ddots                                          &                        \\
+      \I     & \J^{1}_{\mathbf{p, s}} & \cdots                                          & \J^{n}_{\mathbf{p, s}} \\
+    \end{bmatrix} \\
+                       & =
+    \begin{bmatrix}
+      \I     &        &                                                      \\
+      \I     & \I     & \multicolumn{2}{c}{\raisebox{1ex}[0pt]{\Huge0}}      \\
+      \vdots & \vdots & \ddots                                          &    \\
+      \I     & \I     & \cdots                                          & \I \\
+    \end{bmatrix}
+    \underbrace{
+    \begin{bmatrix}
+        \I &                        &        &                        \\
+           & \J^{1}_{\mathbf{p, s}} &        &                        \\
+           &                        & \ddots &                        \\
+           &                        &        & \J^{n}_{\mathbf{p, s}}
+      \end{bmatrix}}_{\mathrm{Diag}\left(\{\J^{i}_{\mathbf{p, s}}\}\right)}                                      \\&=
+    \begin{bmatrix}
+      \LowerTri \cdot \Diag
+    \end{bmatrix}.
+  \end{aligned}
+\end{equation}
+显然，我们可以在 $\mathcal{O}(n)$ 时间内将 $\J_{\mathbf{q, s}}$ 与向量相乘。此外，$\J_{\mathbf{p, s}}$ 的矩阵 - 向量乘法的时间复杂度与 $\LowerTri$ 相同，相当于在 $\mathcal{O}(n)$ 时间内计算向量的前缀和~\cite{harris2007parallel}。因此，我们可以在 $\mathcal{O}(n)$ 时间内实现 $\mathbf J$ 的矩阵 - 向量乘法。$\J^{\top}$ 具有相同的性质。
+
+最终，我们可以在 $\mathcal{O}(n)$ 时间内将 $\mathbf{A}$ 与向量相乘：
+\begin{equation}
+  \mathbf{A} = \J^{\top}\mathbf{H}\J =
+  \underbrace{
+    \left[
+      \begin{array}{@{}c|c@{}}
+        \Diag \cdot \UpperTri &
+        \begin{bmatrix}
+          \mathbf{0} \\
+          \Diag
+        \end{bmatrix}
+      \end{array}
+    \right]}_{\J^{\top}}
+  \underbrace{
+    \left[
+      \begin{array}{@{}c|c@{}}
+        \Diag      & \mathbf{0} \\
+        \hline
+        \mathbf{0} & \TriDiag
+      \end{array}
+    \right]}_{\mathbf{H}}
+  \underbrace{
+    \left[
+      \begin{array}{c}
+        \LowerTri \cdot \Diag \\
+        \hline
+        \begin{bmatrix}
+          \mathbf{0} & \Diag \\
+        \end{bmatrix}
+      \end{array}
+    \right]}_{\J}.
+\end{equation}
+\inputbody{paper1/preconditioner_content}
+
+%\textcolor{black}{As a result, the performance can be improved $10$ to $100$ times.}
+

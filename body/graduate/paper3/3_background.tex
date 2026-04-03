@@ -126,8 +126,14 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 虽然 $\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$ 这样的项已在 $\mathbf{S}_{b\mathcal{I}}$ 中预先计算，且许多乘法（彩色文本）可以并行执行，但这仍然代价高昂。实际上，在某些文献~\cite{aristidou2013dynamic}中，界面模态计算（\cref{eq:traditional-response}）和缩减过程（\cref{eq:reducing}）统称为 Schur 补，详见 \cref{sec:schur-complement}。
 
 
-\subsection{Schur 补}\label{sec:schur-complement}
+\subsection{计算代价分析}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{substructure_analysis/schur_vs_eig_timing_curves.pdf}
+  \caption{\textbf{传统 CMS 并行部分的计算代价分析。} 在一个正方形网格上，以 size$\times$size 个顶点离散。左图中，$t_{\text{sub-eig}}$ 随特征模态数量呈超线性增长；当子结构特征模态数量较少时，固定代价 $t_{\text{sub-schur}}$（红色虚线）与 $t_{\text{sub-eig}}$ 接近。}
+  \label{fig:breakdown-CMS}
+\end{figure}
 
 总体代价主要由两部分组成：
 \begin{itemize}
@@ -136,6 +142,6 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
       需要对 $\mathbf{K}_{ii}$ 进行一次分解，随后进行 $n_{b,i}$ 次前代/回代，其中 $n_{b,i}$ 是 $\partial \Omega_i$ 的自由度数。接着是 \cref{eq:reducing} 中子结构级别的矩阵-矩阵乘法（彩色项）。
 \end{itemize}
 
-如图所示，$t_{\text{sub-eig}}$（实线）与 $t_{\text{sub-schur}}$（虚线）的比较显示了两者的计算代价差异。
+\Cref{fig:breakdown-CMS}（左）比较了 $t_{\text{sub-eig}}$（实线）与 $t_{\text{sub-schur}}$（虚线）。
 
-基于此分析，我们提出一种方法，旨在：（1）利用少量有效的子结构特征模态，（2）绕过计算代价高昂且内存密集的 Schur 补。
+基于上述分析，我们提出一种方法，旨在：（1）使用少量但更有效的子结构特征模态；（2）绕开计算代价高、内存占用大的 Schur 补步骤。

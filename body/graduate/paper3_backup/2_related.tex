@@ -1,0 +1,30 @@
+\section{相关工作}
+
+大规模工程结构低频模态的模态分析是一个典型的特征值问题。标准的"整体式"方法将特征求解器直接应用于完整的、未分区的系统矩阵。典型的求解器包括 Krylov 子空间方法（如 Lanczos 或 Arnoldi 方法）\cite{Hernandez2005SLEPc, Qiu2015Spectra}、Jacobi-Davidson (JD) 方法 \cite{Sleijpen2000JD} 以及局部最优块预处理共轭梯度法 (LOBPCG) \cite{knyazev2001lobpcg}。随着模型规模的增加，这些方法的计算成本变得难以承受。然而，它们不仅产生巨大的内存开销，更重要的是在迭代过程中需要重复进行线性求解（例如用于位移-逆变换或预处理步骤）。
+
+\subsection{模态综合法}
+
+这一计算瓶颈促使了基于区域分解的技术的发展，例如模态综合法（Component Mode Synthesis, CMS） \cite{seshu1997substructuring, William1985CMS, bourquin1992component}。具有里程碑意义的 Craig-Bampton (CB) 方法 \cite{craig1968coupling} 几乎被广泛应用于所有商业有限元分析软件 \cite{Vysok2017CurrentCO}。它从两组模态构造缩减基：固定界面正规模态和静态约束模态。然而，对于现代高保真有限元模型，CB 方法面临严重的扩展性瓶颈。随着子结构特征模态数量的增加，其计算变得非常缓慢，尤其是当网格规模较大时。此外，界面的自由度数量将变得非常庞大 \cite{KRATTIGER2019Riview}。这带来了两个主要缺陷：首先，最终的"缩减"模型仍然过大而无法高效求解；其次，通过 Schur 补（式~\ref{eq:traditional-response} 和 \ref{eq:reducing}）计算约束模态的成本变得极其高昂，往往占据总求解时间的主导地位，特别是当子结构特征模态数量较少时。
+
+针对这些问题，研究者提出了多种策略。界面缩减法（Interface Mode Reduction, IMR）旨在缩减界面问题本身的规模 \cite{Kuether2017InterfaceReduction}，而层次化方法如自动多层次子结构法 (AMLS) 则递归地应用分解 \cite{Bennighof2004AMLS, Boo2016ErrorEstimation, Papalukopoulos2006Dynamics}。其他方法，如近似模态综合法 (ACMS)，使用多尺度或调和函数重新表述基函数 \cite{hetmaniuk2010special, hetmaniuk2014error, Heinlein2015ACMS, Madureira2025SACMS, giammatteo2024extension}。
+
+\subsection{界面模态缩减法}
+
+鉴于界面系统规模庞大且稠密，通常通过特征分解对其进行全局或局部进一步缩减。
+\citet{Castanier20101Characteristic} 提出在界面全局组装后，直接求解界面凝聚系统矩阵的特征值问题。这种方法被称为系统级缩减，效率较低。当界面简单且可分离为若干独立界面时，全局 Schur 补可以在这些独立界面及其相邻子结构上局部计算 \citep{Cheon2023Enhanced,KRATTIGER2019Riview}。这种方法被称为混合级界面模态缩减法。当界面复杂且涉及多个交叉点时，特征分解应用于子结构级别的凝聚界面矩阵，该矩阵是全局凝聚界面矩阵块对角矩阵贡献的一部分 \cite{HONG2013403, Kuether2017Model}。以这种方式求解的界面模态需要对共享界面进行额外的兼容性处理，并可能遇到精度问题。此外，当耦合在界面处具有非协调网格的相邻子结构时，\citet{BATTIATO2018187} 提出了 Gram-Schmidt 界面模态方法来处理这一问题。
+
+\subsection{划分与区域分解法}
+
+与区域分解法 (DDM)~\cite{Smith1997DDM} 类似，模态综合法（Component Mode Synthesis, CMS）采用分治策略将计算域划分为多个不重叠的子域。例如，FETI-DP 方法~\cite{Farhat2001FETIDP} 利用拉格朗日乘子（对偶-原始）来强制子域边界上的位移连续性。
+
+重叠型 DDM，如 Schwarz 方法，是 Krylov 求解器的标准预处理器 \cite{M2AN_2005__39_4_693_0, Marco2024Overlap}，尽管它们在材料非均匀性方面表现不佳。GenEO 框架 \cite{NicoleSpillaneSolve2013,Ryadh2015Schwarz,Spillane2025GenEO} 通过重叠区域中的谱丰富克服了这一问题。在图形学领域，并行加性 Schwarz 方法的实现优化了可变形体仿真 \cite{Wu:2022:GBM}。然而，这些工作仅专注于线性系统求解，没有利用重叠域直接计算全局特征值。
+
+存在多种划分策略。一种直接的方法是基于网格空间坐标的几何划分。其他方法利用主成分分析 (PCA) 对顶点进行聚类~\cite{HUANG2006927}，或依赖图划分算法如 METIS~\cite{Karypis1995graph, Karypis1997METIS} 和 CHACO~\cite{Hendrickson2011}。后者通常分析质量和刚度矩阵的稀疏模式，以识别弱耦合的自由度集合。在工业应用中，系统通常根据其物理装配组件进行划分，因为这些部件是独立制造的，具有独特的固有频率~\cite{Vysok2017CurrentCO}。在本工作中，我们不专注于优化划分策略，而是采用基于网格几何的简单几何划分方法。
+
+\subsection{奇异矩阵束}\label{sec:singluar-matrix-pencil}
+
+矩阵束 $\mathbf{K} - \lambda \mathbf{M}$ 若对所有 $\lambda$ 均有 $\DET{\mathbf{K} - \lambda \mathbf{M}} = 0$，则称为奇异矩阵束；这种情况发生在 $\mathbf{K}$ 和 $\mathbf{M}$ 共享公共零空间时。Kronecker 标准型 (KCF) \cite{gantmakher2000theory, Van1979Kronecker, Berger2012QuasiKroneckerFrom} 揭示了此类矩阵束可分解为正则部分和不适定的奇异部分。因此，任意小的扰动都可能导致计算谱产生大的、不连续的变化 \cite{Hochstenbach2019SolvingSingular, Kressner2024AnalysisOfeigenvalue}。
+
+为处理这一问题，主要思路是"压缩"奇异结构。直接方法的基石是阶梯算法 \cite{Demmel1993TheGS, Van1979Kronecker}，如 GUPTRI 实现 \cite{Demmel1993TheGS}。虽然理论上完备，但这些直接方法存在两个主要缺陷：(1) 由于重复的奇异值分解 (SVD)，计算复杂度为 $\mathcal{O}(n^3)$；(2) 在有限精度算术中依赖数值上不适定的秩判定，错误可能破坏整个计算 \cite{Edelman2000StaircaseFailures}。其他方法修改了如 Lanczos 等迭代方法以处理奇异性 \cite{Lin2021ShiftInvertLanczos, karl2024ShiftInvertArnoldi}。
+
+此外，正则化方法将奇异矩阵束扰动为附近的、适定的正则矩阵束 \cite{Fernando2008FirstOrder, Hochstenbach2019SolvingSingular}。求解后，必须从"伪"特征值中筛选出"真实"特征值。然而，这些先进方法通常仍需要秩判定步骤来指导扰动，这也可能是 $\mathcal{O}(n^3)$ 量级的 \cite{Hochstenbach2019SolvingSingular, karl2024ShiftInvertArnoldi}。

@@ -1,0 +1,10 @@
+{
+  "without_rc":{
+    "iters":1216,
+    "time":2.84524E-1
+  },
+  "with_rc":{
+    "iters":1033,
+    "time":2.41097E-1
+  }
+}

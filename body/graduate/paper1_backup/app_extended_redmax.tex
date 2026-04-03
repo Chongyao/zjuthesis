@@ -1,0 +1,116 @@
+ \subsection{Kirchhoff 杆仿真的扩展 RedMax}
+\label{model_redMax}
+Kirchhoff 杆描述的是没有拉伸和剪切变形的杆，因此关节刚体仿真的方法可能适合近似它。为了实现这一点，我们只需要使用球面关节并利用其自由度来推导 Kirchhoff 模型的势能。我们用 $\Q$ 表示球面关节的自由度，并用 $\exp(\Q)$ 表示材料标架的变化。
+
+%% Actually, we only need to extend RedMax~\cite{wang_redmax_2019} for articulated rigid body in the specific spherical-joint case, which uses the exponential coordinates $\mathcal{Q} \in \mathcal{R}^3$ to express the change of the material frame by $\exp(\mathcal{Q})$.
+
+%% Given a rod with material coordinates of  $u \in [0, L]$ , we express the position of centerline by $\mathbf{x}(u)$, the material frame  by $\mathbf{m}(u)$ and the curvature by $\kappa (u)$.
+
+与 Super-Helices 类似，我们用 $n$ 个分段常数基函数对 $\kappa$ 进行离散化。我们将关节（点）的材料坐标设为 $u_i \in [u_0, u_{n-1}]$，其中 $u_0 = 0$ 且 $u_{n-1} = L$，则
+\begin{equation}
+  \kappa(u) = \kappa_j,  \quad   \frac{u_{j-1} + u_j}{2} \leq u \leq \frac{u_j + u_{j+1}}{2},
+\end{equation}
+其中 $j=1,2,\cdots,n-2$。基函数的跨度是每个关节的 Voronoi 空间。
+
+现在我们需要用 $\Q$ 来计算 $\kappa$。根据曲率的定义，给定旋转的变化 $\exp(\Q)$，曲率 $\kappa = \frac{\log(\exp(\Q))}{l} = \frac{\Q}{l}$。由于这种变化只发生在关节处，$l=0$ 会导致 $\kappa$ 无穷大。我们将这个旋转变化平均到关节的 Voronoi 空间，这样就可以得到关节的曲率 $\kappa_j$，通过 $\kappa_j = \frac{\Q}{l_j}$，其中 $l_j = \frac{u_{j+1} - u_{j-1}}{2}$。
+
+%% Not that we have not discretize $[u_0, \frac{u_0 + u_1}{2}]$ and $[\frac{u_{n-2} + u_{n-1}}{2}, u_{n-1}]$. For simplicity, we add them to the nearest Voronoi space, so  $l_1 = \frac{u_{2} - u_{0}}{2} + \frac{u_{1} - u_{0}}{2} = \frac{u_1 + u_2}{2} - u_0$ and $l_{n-2} = \frac{u_{n-1} - u_{n-3}}{2} + \frac{u_{n-1} - u_{n-2}}{2} = u_{n-1} - \frac{u_{n-2} + u_{n-3}}{2}$.
+
+现在我们可以通过以下方式建模势能
+\begin{equation}
+  U=\frac{1}{2}\int_0^L \left\| \kappa(u) - \overline{\epsilon}\right\|_{\mathbf{K}}^2 du,
+\end{equation}
+其中 $\overline{\epsilon}$ 和 $\mathbf{K}$ 与式~\ref{eq:V_q} 相同。因此离散能量为
+\begin{equation}
+  U= \frac{1}{2}\sum_j l_j \left\| \frac{\Q_j}{l_j} - \overline{\epsilon}\right\|_{\left(\mathbf{K}\right)}^2,
+\end{equation}
+其导数为
+\begin{equation}
+  % \begin{split}
+  %   \FPP{U}{\Q_j} &= \left(\mathbf{K}\right) \left( \frac{\Q_j}{l_j} - \overline{\epsilon}\right),\\
+  %   \FPP{^2U}{\Q_j^2} &= \frac{\left(\mathbf{K}\right)}{l_j} .
+  % \end{split}
+    \FPP{U}{\Q_j} = \left(\mathbf{K}\right) \left( \frac{\Q_j}{l_j} - \overline{\epsilon}\right),\quad
+    \FPP{^2U}{\Q_j^2} = \frac{\left(\mathbf{K}\right)}{l_j} .
+\end{equation}
+
+
+\iffalse
+\subsection{与长度相关的内在约束的零空间}\label{sec: nullspace_length_cons}
+虽然零空间的选择不尽相同，但它们起着相同的作用。
+我们给出其中一个的具体形式
+\begin{equation}
+  \mathbf{N}_r = \begin{bmatrix} \mathbf{N}_{r,1} & \mathbf{N}_{r,2} & \cdots & \mathbf{N}_{r,k} &\cdots &\mathbf{N}_{r, n-2} \end{bmatrix}
+\end{equation}
+其中 $n$ 是点的数量，$\mathbf{N}_{r,k}$ 具有以下形式：
+\begin{equation}
+\mathbf{N}_k = \begin{matrix}
+\cdots\\
+r_k\\
+r_{k+1}\\
+\cdots\\
+u_k\\
+\cdots
+\end{matrix}\begin{bmatrix}
+\cdots \\
+-1 \\
+1 \\
+\cdots \\
+1 \\
+\cdots
+\end{bmatrix}
+\end{equation}
+其中右侧的第一列用于指示索引。
+\fi
+%% \section{block diagonal preconditioner}\label{sec: new-block-diag}
+%% RedMax \cite{wang_redmax_2019} proposed to use a block-diagonal preconditioner which is
+%% \begin{equation}
+%% \mathcal{J}^{\top} \operatorname{diag}\left({\mathbf{H}}\right) \mathcal{J}.
+%% \end{equation}
+%% which is blind to the off-diagonal part of $\mathbf{H}$. We choose the use
+%% \begin{equation}
+%%   \operatorname{diag}\left( \mathcal{J}^\top \mathbf{H} \mathcal{J} \right)
+%%   \label{eq: blk_pd}
+%% \end{equation}
+%% which actually preserve some of the information of the off-diagonal part. However, expressing $\mathcal{J}^\top \mathbf{H} \J$ explicitly is costy since it is dense and also difficult. In articulated rigid-body dynamics, the form of $\mathcal{J}$ is more complex and has some continued multiplication terms in is. However, in rod simulation, $\mathcal{J}$ is much simplified. So by some investigating of $\mathcal{J}$, we could derive the exact form of equation~\ref{eq: blk_pd}.
+
+%% To derive our new preconditioner, assume $\mathcal{J}$ is lower triangle for simplicity and it can be factorize into
+%% $\mathcal{J} = \mathcal{L}\text{diag}(\mathcal{J}) $:
+%% \begin{equation}
+%%   \begin{bmatrix}
+%%     \J_0\\
+%%     \J_0& \J_1\\
+%%     \cdots & \cdots & \cdots\\
+%%     \J_0 & \J_1 & \cdots& \J_n
+%%   \end{bmatrix} =  \begin{bmatrix}
+%%     \mathbb{I}\\
+%%     \mathbb{I}& \mathbb{I}\\
+%%     \cdots & \cdots & \cdots\\
+%%     \mathbb{I} & \mathbb{I} & \cdots& \mathbb{I}
+%%   \end{bmatrix} \begin{bmatrix}
+%%     \J_0\\
+%%     & \J_1\\
+%%      & & \cdots\\
+%%      &  & & \J_n
+%%   \end{bmatrix}
+%% \end{equation}
+%% thus
+%% \begin{equation}
+%%   \operatorname{diag}\left( \mathcal{J}^\top \mathbf{H} \mathcal{J} \right) =
+%%   \operatorname{diag}\left( \mathcal{J}^\top \right)\operatorname{diag}\left( \mathcal{L}^\top
+%%   \mathbf{H} \mathcal{L} \right) \operatorname{diag}\left(\mathcal{J}\right).
+%% \end{equation}
+%% Now we give an exmaple of $3 \times 3$ case to illustrate how to calculate$\operatorname{diag}\left(\mathcal{P}^\top \mathbf{H} \mathcal{P}\right)$.
+%% \begin{equation}
+%%   \begin{aligned}
+%%   &\operatorname{diag}\left(\mathcal{P}^\top \mathbf{H} \mathcal{P}\right) =
+%%     \\&\begin{bmatrix}H_{1,1}+H_{1,2}+H_{1,3}+H_{2,1}+H_{2,2}+H_{2,3}+H_{3,1}+H_{3,2}+H_{3,3}\\H_{2,2}+H_{2,3}+H_{3,2}+H_{3,3}\\H_{3,3}\end{bmatrix}
+%%   \end{aligned}
+%% \end{equation}
+%% Figure~\ref{fig: gen_block_diag} shows the process of calculating $\text{diag}\left(\mathcal{P}^\top \mathbf{H} \mathcal{P}\right)$.
+%% \begin{figure}[H]
+%%   \centering
+%%   \includegraphics[width=\textwidth]{figs/gen_block_diag}
+%%   \caption{Generate $\text{diag}\left(\mathcal{P}^\top \mathbf{H} \mathcal{P}\right)$}{There are two steps to generate the block-diagonal part. The first step (top row) is add the off diagonal parts to the diagonal. The second step (bottom row) is add the latter block to the former one sequentially.}
+%%   \label{fig: gen_block_diag}
+%% \end{figure}

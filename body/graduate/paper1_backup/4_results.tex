@@ -1,0 +1,317 @@
+\section{实验结果与分析}
+我们在各种实验中测试了我们方法的性能。本节中的所有实验均在AMD Core Ryzen 7-3800X 3.9GHz CPU上进行，内存为32GB。在我们的所有实验中，如果$\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \|_{2} <$ 1e-5或者达到5次迭代（如果没有特别声明），我们就终止牛顿迭代（算法~\ref{alg: nonlinear_solver}）。在我们的实验中，它通常在满足前一个条件时终止。对于每次线性系统求解，当残差的$L_2$范数小于1e-7时，我们终止PCG迭代。
+\subsection{对比实验}
+\label{sec:cmp_res}
+我们将我们的方法与几种现有方法进行比较，包括罚函数方法、笛卡尔坐标下的直接KKT方法、现有的Cosserat杆紧凑表示方法~\cite{bertails_super-helices_2006,bertails_linear_2009}，以及一种基于RedMax~\cite{wang_redmax_2019}的潜在紧凝表示方法。为了衡量不同约束的违反程度，我们定义$\frac{\sum_{i=0}^{n-2}\left\|\p_{i+1} - \p_i\right\|}{\sum_{i=1}^{n-1}l_i} - 1$作为衡量不可伸长约束违反程度的度量。为了衡量对齐约束的违反程度，我们定义$\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\left\|\p_{i+1} - \p_i\right\|} - d(\q_i) \right\|$作为度量。
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \node [above right, inner sep=0] (image) at (0, 0) {
+      \includegraphics[width=\textwidth]{helix_vs_penalty/render.png}
+    };
+    \node [inner sep=0] at (5.4, 3.2) {$g$};
+    % \node [anchor=west,inner sep=0] at (7, 1.35) {\tiny{Ours}};
+    % \node [anchor=west,inner sep=0] at (7, 1) {\tiny{KKT}};
+    % \node [anchor=west,inner sep=0] at (7, 0.65) {\tiny{Penalty-1e2}};
+    \node [anchor=west,inner sep=0] at (6, 1.78) {\small{Penalty-1e2}};
+    \node [anchor=west,inner sep=0] at (6, 1.3) {\small{Penalty-1e9}};
+    \node [anchor=west,inner sep=0] at (6, 0.9) {\small{KKT}};
+    \node [anchor=west,inner sep=0] at (6, 0.45) {\small{Ours}};
+    % \draw[gray,step=0.2] (image.south west) grid (image.north east);
+    % \draw[black,step=1] (image.south west) grid (image.north east);
+  \end{tikzpicture}
+ \caption{\textbf{重力作用下的螺旋线.}我们模拟由200个线段组成的螺旋线，每个时间步最多使用5次牛顿迭代。}
+ \label{fig:visual_damping_penalty}
+\end{figure}
+%\newpage
+\subsubsection{与罚函数方法的比较}
+对于罚函数方法的实验，我们将能量项$E(\mathcal{T}(s))$替换为$E(\mathbf{x})$，其中包括关于不可伸长约束和对齐约束的罚函数项，并模拟重力作用下的螺旋线（图~\ref{fig:visual_damping_penalty}）。\textcolor{black}{这两个项的权重相同}。在每个时间步中，罚函数方法求解一个关于$E(\mathbf{x})$的无约束优化问题。
+ 
+\textcolor{black}{在第一个实验中，两种方法都运行5次牛顿迭代。如图~\ref{fig:inext_penalty_a}和图~\ref{fig:align_penalty}所示，罚函数方法很难在少量迭代中满足不可伸长约束和对齐约束。换句话说，罚函数方法的精度可能很差。例如，如果权重不够大，不可伸长的杆可能会被严重拉伸。然而，如下一个实验所示，在有限的牛顿迭代次数下，使用较大的权重可能会在动力学中带来伪影。}
+\begin{figure}[H]
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=0.49\textwidth]{sheet/pdf/violation_inext_1e2.pdf}
+  \includegraphics[width=0.49\textwidth]{sheet/pdf/violation_inext_1e9.pdf}
+  \caption{不可伸长约束的违反程度.}
+  \label{fig:inext_penalty_a}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=0.49\textwidth]{sheet/pdf/violation_align_1e2.pdf}
+  \includegraphics[width=0.49\textwidth]{sheet/pdf/violation_align_1e9.pdf}
+  %\includegraphics[width=\textwidth]{sheet/pdf/violation_align_penalty.pdf}
+  \caption{对齐约束的违反程度.}
+  \label{fig:align_penalty}
+  \end{subfigure}
+  \caption{\color{black}\textbf{罚函数方法中约束的违反程度.}
+    罚函数方法无法精确满足不可伸长约束(a)和对齐约束(b)，如果权重不够大，可能会带来较大的违反。注意在第$0$帧时所有方法的违反程度均为零，我们从第$1$帧开始绘制这些曲线。
+    }
+  \label{fig:compare_penalty_method}
+  %% \vspace{-0.12in}
+\end{figure}
+\textcolor{black}{在第二个实验（图~\ref{fig:numeric_damping}）中，我们的方法运行5次牛顿迭代，而权重为1e9的罚函数方法运行不同次数的牛顿迭代。这里我们通过\textcolor{black}{求和}$T_{trans} = \frac{1}{2}\sum_i m_i v_i^2$和公式~\ref{eq:T_q}中的$T_{q,i}$来计算动能。图~\ref{fig:damping_kinetic}显示，随着罚函数方法牛顿迭代次数的增加，振动的周期和相位越来越接近我们的方法。在图~\ref{fig:damping_amplitude}中，使用权重1e9和5次迭代的罚函数方法是过阻尼的，根本没有振动。实际上，随着权重的增加，这种伪影会更加严重。部分原因是，在较大的权重下，优化可能离收敛更远，在有限的牛顿迭代内。}
+\begin{figure}[H]
+  \centering
+  %% \begin{subfigure}[b]{\textwidth}
+  %% \centering
+  %% \includegraphics[width=\textwidth]{sheet/pdf/kinetic_energy_cmp.pdf}
+  %% \caption{The kinetic energy of different methods. }
+  %% \label{fig:damping_kinetic}
+  %% \end{subfigure}
+  %% \begin{subfigure}[b]{\textwidth}
+  %% \centering
+  %% \includegraphics[width=\textwidth]{sheet/pdf/mechanical_energy_cmp.pdf}
+  %% \caption{The mechanical energy of different methods. }
+  %% \label{fig:damping_mechanical}
+  %% \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/kinetic_energy_cmp.pdf}
+  \caption{动能.}
+  \label{fig:damping_kinetic}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/offset.pdf}
+  \caption{自由端节点的y偏移量.}
+  \label{fig:damping_amplitude}
+  \end{subfigure}
+  \caption{\color{black}\textbf{罚函数方法（权重=1e9）使用不同迭代次数时的数值 damping.}较大的权重引入较大的数值阻尼，需要更多的牛顿迭代来减轻伪影。} 
+  \label{fig:numeric_damping}
+\end{figure}
+\textcolor{black}{在第三个实验中，我们比较我们的方法与罚函数方法在图~\ref{fig:visual_damping_penalty}场景第一帧的性能。为了公平起见，我们将两种方法都运行至收敛（我们的方法满足$\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \| _{2}<$ 1e-5，罚函数方法满足$\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<$ 1e-5），不受迭代次数限制。如图~\ref{fig:time_comparison_penalty}所示，我们的方法只需要少量迭代即可快速收敛，而罚函数方法随着罚权重的增加需要越来越多的时间来收敛。注意使用较小的罚权重可以减少收敛的时间成本，但会引入更大的内在约束违反。}
+ 
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/penalty_timing_B.pdf}
+  \caption{$E$随时间的变化.}
+  \label{timing_A}
+  \end{subfigure}
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/penalty_timing_A.pdf}
+  \caption{$E$随迭代次数的变化.}
+ \label{timing_B}
+  \end{subfigure}
+  \caption{\color{black}\textbf{我们的方法与罚函数方法的性能比较.}为了收敛，权重较大的罚函数方法需要更多迭代次数和更高的时间成本.}
+  \label{fig:time_comparison_penalty}
+\end{figure}
+\subsubsection{与直接KKT方法的比较}
+直接求解KKT系统没有数值阻尼伪影，但会导致较大的计算成本，如图~\ref{fig:visual_damping_penalty}和图~\ref{fig:kkt_timing}所示。更重要的是，求解KKT系统无法精确满足不可伸长约束和对齐约束，特别是当牛顿迭代不足时，如图~\ref{fig:kkt_violation_a}和图~\ref{fig:kkt_violation_b}所示。相比之下，我们的Cosserat杆紧凑表示自然地满足了~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}中的约束，我们不会浪费任何计算成本来满足这些约束。文献~\cite{deul_direct_2018}中的方法也包含KKT求解器，但它在每个牛顿步中将KKT求解器与非线性Gauss-Seidel求解器交替使用。KKT求解器用于强制执行伴随弯曲和扭转力的不可伸长约束，而非线性Gauss-Seidel求解器用于闭环约束和碰撞约束。当牛顿迭代不足时，它也面临约束违反的问题。
+%\begin{figure}[H]
+%\centering
+%%
+%%\end{figure}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/KKT_ours_time_cost_cmp.pdf}
+  \caption{每个时间步计算成本的比较.}
+  \label{fig:kkt_timing}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/violation_inext_KKT.pdf}
+  \caption{不可伸长约束违反程度的比较.}
+  \label{fig:kkt_violation_a}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{sheet/pdf/violation_align_KKT.pdf}
+  \caption{对齐约束违反程度的比较.}
+  \label{fig:kkt_violation_b}
+  \end{subfigure}
+  \caption{\textbf{我们的方法与笛卡尔坐标下直接KKT方法的比较.}我们模拟重力作用下的螺旋线，如图~\ref{fig:visual_damping_penalty}所示。  我们的方法不仅比在笛卡尔坐标下构建KKT系统并求解花费更少的时间(a)，而且满足所有非线性内在约束（见(b)和(c)）。}
+  %% As shown in (a), our time cost is much lower than constructing KKT system and solving it in Cartesian coordinates. Furthermore, due to the linearization of constraints, solving KKT system could not satisfy the constraints perfectly even if the time cost is much higher than our method.}
+  \label{fig:compare_direct_method}
+  \vspace{-0.12in}
+\end{figure}
+\subsubsection{与Super-Helices方法的比较}
+与我们的链式表示一样，Super-Helices~\cite{bertails_super-helices_2006}可以通过构建缩减坐标来精确满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}中的约束模拟杆，并且文献~\cite{bertails_linear_2009}通过引入线性时间求解器改进了其性能。我们注意到，与我们基于分段线段的表示不同，Super-Helices使用基于高阶单元的表示来用更少的自由度模拟杆的弯曲形状。这种策略在模拟场景产生平滑变形时是合适的，但当发生复杂接触时，这种弯曲单元的表达能力会下降，需要引入更多自由度。
+%\begin{figure}[H]
+%  \centering
+%
+%\end{figure}
+此外，他们的方法不像我们的隐式时间步进方法那样无条件稳定~\cite{bertails_linear_2009}，因为$\ddot{\kappa}_{\mathcal{Q}}$的显式计算限制了时间步必须相对较小以抑制关于单元数量的稳定性问题：由一个弯曲单元组成的杆最多可以用$\Delta t = \SI{35}{ms}$模拟，而由40个弯曲单元组成的杆只能以大约$\Delta t = \SI{4}{ms}$模拟。然而，我们在他们的基准测试中模拟类似的场景（见图~\ref{fig:compare_to_super_helix}），使用$200$个线段和$\SI{250}{ms}$作为时间步获得了稳定的模拟结果，这得益于我们稳定的隐式时间步进。
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{super_helix/render1.notation.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node [above right, inner sep=0] (image) at (0, 0) {
+        \includegraphics[width=\textwidth]{redMax/render2.png}
+      };
+      \node [anchor=east,inner sep=0] at (0.3, 2.5) {$g$};
+      \node [anchor=south,inner sep=0] at (1.8, 3) {\tiny{第$0$帧}};
+      \node [anchor=south,inner sep=0] at (4.5, 3) {\tiny{第$1$帧}};
+      \node [anchor=south,inner sep=0] at (7.2, 3) {\tiny{第$2$帧}};
+      \node [anchor=south west,inner sep=0] at (0.7, 1.25) {\tiny{RedMax($\Delta t=0.6875\mathrm{s}$)}};
+      \node [anchor=south west,inner sep=0] at (0.7, 0.9) {\tiny{RedMax($\Delta t=0.71875\mathrm{s}$)}};
+      \node [anchor=south west,inner sep=0] at (0.7, 0.55) {\tiny{我们的方法($\Delta t=0.71875\mathrm{s}$)}};
+      \node [anchor=south west,inner sep=0] at (0.7, 0.23) {\tiny{我们的方法($\Delta t=1.3\mathrm{s}$)}};
+      % \draw[gray,step=0.2] (image.south west) grid (image.north east);
+      % \draw[black,step=1] (image.south west) grid (image.north east);
+    \end{tikzpicture}
+    \caption{我们的方法与扩展RedMax在重力作用下的螺旋线.}
+  \end{subfigure}
+  \caption{\color{black}\textbf{与Super-Helices和扩展RedMax的稳定性比较.}\textcolor{black}{我们使用二分法估计RedMax稳定模拟的最大时间步长。对于每个$g$，二分法的最后一次试验给出一个时间步长区间(a)，其起点（紫色曲线）和终点（橙色曲线）分别对应稳定和不稳定的模拟。}随着重力加速度的增加，RedMax变得越来越容易不稳定。在(b)中，我们展示了(a)中曲线的第一个采样点的模拟结果。我们的方法可以在更大的时间步下稳定地模拟杆。}
+  \label{fig:compare_to_super_helix}
+\end{figure}
+  %\begin{figure}[H]
+%\centering
+%  \includegraphics[width=\textwidth]{figs/redMax-timestep}
+%  \caption{Unstable RedMax timestep.}
+%  \label{fig:redMax_unstable}
+%\end{figure}
+\subsection{更多结果}
+除了对比实验中展示的结果外，我们还在一些复杂场景中进一步展示了我们方法的能力。
+XM|\textbf{打结.}如图~\ref{fig:demo_knot0}所示，从一个给定的结结构开始施加拉伸力（$\SI{200}{N}$），我们的方法可以模拟结随时间逐渐收紧的过程。当结收紧时，它承受沿中心线的大张力。由于我们的紧凑表示，杆（$E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，100个线段）完美地保持了不可伸长性。我们的带活动集方法的SQP框架在时间步长为$\SI{0.003}{s}$时以$\SI{25}{fps}$的速度很好地处理了自碰撞。
+  在图~\ref{fig:demo_knot0}中形成最小结后，我们继续将拉伸力增加到$\SI{20000}{N}$，结变得更紧，如图~\ref{fig:tightest_knot}所示。
+  %In this phase, we set the velocity as zero after each time step to help decrease the posibility of fail of DCD.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \node [above right, inner sep=0] (image) at (0,0) {
+      \includegraphics[width=\textwidth]{knot/tighter.png}
+    };
+    \node [anchor=west, inner sep=0] at (1.1, 0.2) {\footnotesize{$200\mathrm{N}$}};
+    
+\node [anchor=east, inner sep=0] at (3.4, 3.2) {\footnote{$200\mathrm{N}$}};
+    
+\node [anchor=east, inner sep=0] at (7.2, 3.2) {\footnote{$20000\mathrm{N}$}};
+    
+\node [anchor=west, inner sep=0] at (5.3, 0.2) {\footnote{$20000\mathrm{N}$}};
+    % \draw[gray,step=0.2] (image.south west) grid (image.north east);
+    % \draw[black,step=1] (image.south west) grid (image.north east);
+  \end{tikzpicture}
+  %\includegraphics[width=\textwidth]{figs/knot/no-shadow/render-40.png}
+  \caption{\color{black}\textbf{不同大小力作用下的打结.}我们可以通过更大的拉伸力模拟更紧的结.}
+  %\label{fig:tightest_knot}
+  \label{fig:tightest_knot}
+\end{figure}
+  \textbf{超螺旋形成.}\textcolor{black}{我们可以模拟Kirchhoff杆（$E = \SI{1000}{MPa}, G = \SI{100000}{MPa}, r = \SI{0.003}{m}, \rho = \SI{200}{\den}$，50个线段）的超螺旋形成，这是一种典型的将扭转能量转化为弯曲能量的现象（图~\ref{fig:demo_plectoneme}）。}
+杆的两端在x方向上被拉伸（$\SI{1}{N}$），并且只允许在x方向上自由移动。当扭转（$\SI{10}{rad/s}$）两端时，杆开始卷曲并形成超螺旋。
+%Notice that the ends could move freely in the tangent
+%direction (x-axis in the example) and no Dirichlet boundary conditions
+%are enforced to them in the tangent direction,
+%while \cite{bergou_discrete_2008, wen_cosserat_2020} fixed their
+%location at each time step, which can actually cause conflicts with
+%inextensible constraints.
+%% %Fig.~\ref{fig:plectoneme_range_x} shows the movement of the two ends.
+%% }
+%\begin{figure}[H]
+%  \centering
+%  \includegraphics[width=\textwidth]{figs/plectoneme/range_x.png}
+%  \caption{The
+%     demo of twist. \textcolor{black}{Do not need to be shown in paper. It is
+%     repetitive with Fig.~\ref{fig:visual_damping_penalty}. Just show it in video
+%     and compare it with penalty method also in the
+%     video.}} \todo[inline]{the color needs to be finely adjusted later...}
+%\end{figure}
+%\begin{figure}[H]
+% \centering
+%   \begin{subfigure}[b]{0.245\textwidth} \centering \includegraphics[width=\textwidth]{figs/plectoneme/frame200.png} \end{subfigure} \begin{subfigure}[b]{0.245\textwidth} \centering \includegraphics[width=\textwidth]{figs/plectoneme/frame260.png} \end{subfigure} \begin{subfigure}[b]{0.245\textwidth} \centering \includegraphics[width=\textwidth]{figs/plectoneme/frame700.png} \end{subfigure} \begin{subfigure}[b]{0.245\textwidth} \centering \includegraphics[width=\textwidth]{figs/plectoneme/frame1999.png} \end{subfigure} \  \caption{The
+%     demo of twist. \textcolor{black}{Do not need to be shown in paper. It is
+%     repetitive with Fig.~\ref{fig:visual_damping_penalty}. Just show it in video
+%     and compare it with penalty method also in the
+%     video.}} \  \todo[inline]{Needs rendering and adjusting camera. Add x axis.}
+%\end{figure}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{knot/knots-long.png} \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-40.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-120.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-195.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-273.png}
+  % \end{subfigure}
+  \caption{\textbf{打结.}我们的方法再现了打结过程，同时无论力有多大都能保持不可伸长性.}
+  \label{fig:demo_knot0}
+  %\todo[inline]{the color needs to be finely adjusted later...}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{knot/knots-long.png} \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-40.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-120.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-195.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \includegraphics[width=\textwidth]{figs/knot/no-shadow/render-273.png}
+  % \end{subfigure}
+  \caption{\textbf{超螺旋形成.}超螺旋形成展示了从扭转能量到弯曲能量的能量转化。在此过程中，杆的两端仅在x方向上自由移动.}
+  \label{fig:demo_plectoneme}
+  %\todo[inline]{Needs rendering and adjusting camera.}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth,height=0.25\textwidth]{plectoneme/plectoneme-long.png} 
+  \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/plectoneme/frame200.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/plectoneme/frame260.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \centering
+  %   \includegraphics[width=\textwidth]{figs/plectoneme/frame700.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.19\textwidth}
+  %   \includegraphics[width=\textwidth]{figs/plectoneme/frame1999.png}
+  % \end{subfigure}
+  \caption{\textbf{超螺旋形成.}超螺旋形成展示了从扭转能量到弯曲能量的能量转化。在此过程中，杆的两端仅在x方向上自由移动.}
+  \label{fig:demo_plectoneme_short}
+  %\todo[inline]{Needs rendering and adjusting camera.}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  % \begin{subfigure}[b]{0.245\textwidth}
+  %   \centering
+  %   \includegraphics[width=0.245\textwidth]{figs/pulley/with-shadow/render-0.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.245\textwidth}
+  %   \centering
+  %   \includegraphics[width=0.245\textwidth]{figs/pulley/with-shadow/render-10.png}
+  % \end{subfigure}
+  % \begin{subfigure}[b]{0.245\textwidth}
+  %   \centering
+  %   \includegraphics[width=0.245\textwidth]{figs/pulley/with-shadow/render-20.png}
+  % \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{pulley/pulley-long.png}
+  \end{subfigure}
+  \caption{\textbf{杆落在三个圆柱上.}该演示表明我们的方法能够处理与外部障碍物的接触.}
+  \label{fig:pulley}
+\end{figure}

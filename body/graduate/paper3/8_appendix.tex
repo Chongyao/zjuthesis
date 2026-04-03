@@ -1,0 +1,98 @@
+\appendix
+\section{Schur 补}
+\label{sec:schur-complement}
+
+容易看出，传统 CMS 中的界面模态来源于分块 Schur 补：
+\begin{equation}
+  \mathbf{L}^{-1,T} = \begin{bmatrix}
+    \mathbb{I} & & & -\mathbf{K}_{11}^{-1} \mathbf{K}_{1b}\\
+    &\ddots & & \vdots\\
+    &&\mathbb{I}& -\mathbf{K}_{mm}^{-1} \mathbf{K}_{mb}\\
+    &&&\mathbb{I}
+  \end{bmatrix}
+  \label{eq:schur}
+\end{equation}
+其可将矩阵对 $\left(\mathbf{K}, \mathbf{M} \right)$ 分块对角化为
+$\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
+\begin{equation}
+  \begin{bmatrix}
+    \mathbf{K}_{11} &&&&\\
+    &\ddots&&&\\
+    &&\mathbf{K}_{mm}&&\\
+    &&&&\tilde{\mathbf{K}}_{bb}
+  \end{bmatrix},\quad
+  \begin{bmatrix}
+    \mathbf{M}_{11} & & & \tilde{\mathbf{M}}_{1b}\\
+    &\ddots & & \vdots\\
+    & & \mathbf{M}_{mm} & \tilde{\mathbf{M}}_{mb}\\
+    \tilde{\mathbf{M}}_{b1} &\cdots &\tilde{\mathbf{M}}_{bm} &\tilde{\mathbf{M}}_{bb}
+  \end{bmatrix}.
+\end{equation}
+
+\section{积分误差分析的实验细节}
+\label{app:integrated-error-exp}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{frequency-vs-phase/integration.pdf}
+  \caption{\textbf{整体区域与积分子域。} 通过将子域 $[a,b]$ 中的 $a$ 从 $0$ 变化到 $L-l$ 进行积分，消除由特定子域选择带来的偏置。}
+  \label{fig:integration}
+\end{figure}
+
+本附录给出正文中积分误差数值实验的完整方法细节。该实验用于比较频率适配基与相位适配基在平均意义下的近似性能。
+
+\subsection{实验目标}
+实验目标是在位置无关的意义下，稳健评估局部基的近似效率。具体地，通过在全域内滑动分析窗口（子域）并对 $L_2$ 误差积分，消除单一固定划分可能引入的特殊共振效应，从而揭示两类基函数的真实基础性能差异。
+
+\subsection{实验方法}
+实验设置如下。
+
+\paragraph{全局问题}
+目标函数为区间 $[0,L]$ 上带 Dirichlet 边界条件的一维拉普拉斯全局特征模态：
+$f(x; n_{\text{global}})=\sin(n_{\text{global}}\pi x/L)$。
+
+\paragraph{滑动子域}
+在区间 $[a,a+l]$ 上定义长度固定为 $l$ 的子域。令 $a$ 从 $0$ 变化到 $L-l$，从而在全域内滑动窗口，如 \Cref{fig:integration} 所示。
+
+\paragraph{基函数集合}
+给定内部模态数 $M$，在区间 $[a,a+l]$ 上构造两组基。每组总函数数均为 $M+2$：
+\begin{itemize}
+  \item \textbf{频率适配基：}由 $M$ 个递增频率的正弦模态
+  $\{\sin(m\pi(x-a)/l)\}_{m=1}^{M}$ 与 2 个线性界面（Lagrange）模态组成。
+  \item \textbf{相位适配基：}由混合的正弦/余弦模态
+  $\{\sin(m\pi(x-a)/l),\cos(m\pi(x-a)/l)\}_{m=1}^{\lfloor M/2 \rfloor}$ 组成；当 $M$ 为奇数时再加入一个正弦模态，并同样加入 2 个线性界面模态。
+\end{itemize}
+
+\paragraph{误差计算}
+对每个窗口位置 $a$，将目标函数 $f(x)$ 投影到所选基函数集上，得到 $L_2$ 近似误差 $E(a)$。热图中汇报的最终指标为\textbf{积分平均误差}：
+\begin{equation}
+\bar{E}(n_{\text{global}}, M) = \frac{1}{L-l} \int_{0}^{L-l} E(a; n_{\text{global}}, M) \, da.
+\end{equation}
+
+\subsection{参数设置}
+用于生成正文积分误差结果的参数为：
+\begin{itemize}
+  \item 全局区域长度：$L=10.0$；
+  \item 滑动子域长度：$l=2.0$；
+  \item 全局模态最高阶：$n_{\text{global,max}}=8$；
+  \item 内部模态最大数：$M_{\text{max}}=12$。
+\end{itemize}
+所有积分均采用高精度 \texttt{scipy.integrate.quad} 数值积分实现。
+
+\section{可扩展性基准的代价分解}
+\label{sec:breakdown}
+强扩展与弱扩展实验的分阶段代价分解见下图。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
+  \caption{\textbf{强扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
+  \label{fig:strong-scaling-breakdown}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
+  \caption{\textbf{弱扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
+  \label{fig:weak-scaling-breakdown}
+\end{figure}

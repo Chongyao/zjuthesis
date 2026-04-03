@@ -1,0 +1,127 @@
+\section{多重划分的相位补足}\label{sec:phase-complement}
+
+在本节中，我们提出了一种通过利用多重划分来降低计算和内存开销并实现更高精度的方法。核心思想是使用来自不同划分的子结构特征模态。
+
+\subsection{一维拉普拉斯问题的分析}\label{subsec:1d-laplacian}
+
+在介绍我们的方法之前，我们对定义在 $[0,L]$ 上的一维拉普拉斯特征问题进行一个说明性分析。为简单起见，忽略界面模态。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{frequency-vs-phase/basis.pdf}
+  \includegraphics[width=\linewidth]{frequency-vs-phase/frequency-vs-phase.pdf}
+  \caption{\textbf{两组基函数的积分误差比较。} 我们比较了\Cref{eq:frequency-only}中的固定相位基（左上）和\Cref{eq:phase-complete-basis}中的\textbf{相位完备}基（右上）。下图显示，\textbf{相位完备}基的误差比固定相位基的误差小几个数量级（右下）。在某些特殊情况下误差甚至为零（中下）。}
+  \label{fig:integrated_error_comparison}
+\end{figure}
+
+对于定义在区间 $[a,b]$ 上的第 $i$ 个子结构（其中 $0 < a < b < L$），在 Dirichlet-Dirichlet 边界条件下的第 $j$ 个子结构特征模态为
+\begin{equation}
+  \begin{split}
+  \tilde{\mathbf{S}}^p_{i,j} &= \sin\left(j\pi t\right), t\in[0,1], j=1,2,\cdots.
+  \end{split}
+\label{eq:frequency-only}
+\end{equation}
+其中 $t=(x-a)/(b-a)$。这些模态中的一些绘制在\Cref{fig:integrated_error_comparison}的左上图板中。\textcolor{ExplainConclusion}{所有此类特征模态在区间边界处值为零；即每个 $\sin(\omega t+\phi)$ 函数的相位 $\phi$（相对于区间）为零。因此，当 $\psi\neq k\pi$ 时，$t\in[0,1]$ 上形如 $\sin(j\pi t+\psi)$ 的函数在边界处具有非零值，因此无法由这些基函数表示。简单地增加此类基函数的数量无法解决此问题。}
+
+然而，在用相同频率但不同相位的函数丰富基集后，
+\begin{equation}
+  \tilde{\mathbf{S}}^d_{i,j} = \sin\left(j\pi t+\phi\right), t\in[0,1], j=1,2,\cdots,
+  \label{eq:phase-complete-basis}
+\end{equation}
+其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。通过使用这两组具有相同频率但不同相位的函数（一个固定为 0，另一个固定为 $\phi$），可以利用三角函数积化和差恒等式表示任意相位 $\psi$ 的同频率函数 $\sin(j\pi t+\psi), t\in[0,1]$。因此，我们称这些额外的基函数对之前的基函数进行了\textbf{相位补足}，丰富后的基是\textbf{相位完备}的。直观地说，具有不同相位的基函数可以使用来自不同划分的偏移子结构来构造。
+
+为了验证相位完备基函数相较于传统 CMS 的固定相位基函数的有效性，我们计算了积分误差。\textcolor{ConclusionEvidence}{下图显示，使用相位完备基函数的误差显著低于使用固定相位基函数的误差。}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
+    \caption{$\mathcal{P}^p$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/partition-d.png}
+    \caption{$\mathcal{P}^d$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-1.png}
+    \caption{$\mathbf{S}^d_2$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/primal-eig.png}
+    \caption{$\mathbf{S}^p_2$}
+  
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-2.png}
+    \caption{$\mathbf{S}^d_3$}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{frequency-vs-phase/fixed-vs-complete-eig-error.pdf}
+  \end{subfigure}
+  \caption{\textbf{两个子空间的误差比较。}\textbf{上图：Primal-Dual 划分和子结构特征模态示例。} $\mathbf{S}^p_2$ 的相位与 $\mathbf{S}^d_3$ 和 $\mathbf{S}^d_2$ 的相位不同。\textbf{下图：误差比较。} 相位完备基 $[\mathbf{S}_\mathcal{I}^p, \mathbf{S}_\mathcal{I}^d]$ 的误差（中）显著低于（右）相位固定基 $\mathbf{S}_{\mathcal{I}}^p$ 的误差（左）。两种情况都使用了界面模态 $\mathbf{S}_b^p$。}
+  \label{fig:primal-dual-partition-example}
+\end{figure}
+
+\subsection{CMS 的多重划分}
+
+在实践中，我们使用多重划分生成相位完备基，特别是交错的划分。需要注意的是，我们的方法不限制划分数量为两个，但我们发现使用两个划分通常效果良好。因此，我们默认假设只有两个划分，并将其中一个称为\textit{primal}，另一个称为\textit{dual}。
+
+划分通常沿着模型最优包围盒的最长轴进行，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}通过将切割平面移动到 primal 子结构的质心来构造，从而最大化空间重叠。对于几何切片不足的复杂拓扑模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
+
+\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 primal-dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的示例。我们还在该图中绘制了具有相同频率但不同相位的子结构特征模态。
+
+我们将从 primal 划分和 dual 划分得到的缩减矩阵（由子结构特征模态和界面模态组装而成；见\Cref{eq:redmat}）分别记为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。我们的最终子空间由这些基张成，缩减变为
+\begin{equation}
+  \mathbf{u}= [\mathbf{S}^p, \mathbf{S}^d]
+  \begin{bmatrix}
+    \mathbf{z}^{p} \\
+    \mathbf{z}^{d}
+  \end{bmatrix}
+  \triangleq \mathbf{S} \mathbf{z}.
+    \label{eq:pd-subspace}
+\end{equation}
+
+最终的特征值问题通过 Galerkin 投影如\Cref{eq:reduced-matrix-pencil}所示进行缩减并求解。
+
+\Cref{fig:primal-dual-partition-example}的底行显示，在给定相同数量的缩减自由度的情况下，只要频带覆盖所需全局特征模态的范围（接近左下角），使用来自多重划分的相位完备基函数（中下）可以显著降低误差。当子结构特征模态数量增加时，相位完备基有效地降低了低频误差，而添加更多相位固定基倾向于只降低高频误差。
+
+\section{无 Schur 补和无特征求解的 IMR}\label{sec:interface-modes}
+
+CMS 的另一个显著成本来自界面模态的计算（\cref{sec:interface}）和缩减步骤（\cref{sec:reducing}），即 Schur 补。如图所示，当网格尺寸较大但子结构特征模态数量相对较少时，其成本（即 $t_{\text{sub-schur}}$）与求解子结构特征值问题相当。此外，Schur 补产生的稠密矩阵带来了极大的内存占用。
+
+\subsection{低频界面模态的近似}\label{subsec:approx-interface-modes}
+
+幸运的是，我们可以再次利用多重划分方案来显著缓解这一问题，从而得到一种高效的无需 Schur 补和特征求解的 IMR（SE-free IMR）。核心思想是用来自 dual 划分的子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）替换人工单位位移激励（\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$）。
+
+\begin{figure}[H]
+  \centering
+  % Using subfigure with explicit width control
+  \begin{subfigure}{1.0\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{interface-modes-example/dual-sub-eig-combined.png}
+    \caption{Dual 划分的子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$。}
+    \label{fig:imr-boundary-condition}
+  \end{subfigure}\vspace{1ex} % Add a little vertical space
+  \begin{subfigure}{1.0\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{interface-modes-example/SE-free-IMR-combined.png}
+    \caption{我们的无 Schur 补和特征求解 IMR 的结果 $\mathbf{S}_b^{p \leftarrow d}$。}
+    \label{fig:imr-ours}
+  \end{subfigure}\vspace{1ex}
+  \begin{subfigure}{1.0\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{interface-modes-example/gt-combined.png}
+    \caption{传统 IMR 的界面模态，从第 1 阶到第 10 阶模态。}
+    \label{fig:imr-tra}
+  \end{subfigure}
+  \caption{\textbf{无 Schur 补和特征求解的界面模态。} 由于 primal 界面位于 dual 子结构内部，我们提取 dual 低频特征模态 (a) 在界面处的值作为 Dirichlet 边界条件。我们的方法生成的界面模态 (b) 与传统 IMR (c) 非常相似，但消除了 Schur 补和后续稠密特征求解器的高昂成本。}
+  \label{fig:interface-modes-example}
+\end{figure}
+
+以 primal 界面模态为例，我们从 dual 划分的子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$ 中提取 primal 界面 $\partial \Omega_i^p$ 处的值作为激励位移（Dirichlet 边界条件）$\mathbf{S}_{bb}^{p\leftarrow d}$。然后，$\Omega_i^p$ 中内部自由度的静态响应通过下式计算
+\begin{equation}
+  \mathbf{S}_{b\mathcal{I}}^{p\leftarrow d} = -
+  (\mathbf{K}_{\mathcal{I}\mathcal{I}}^p)^{-1} \mathbf{K}_{\mathcal{I}b}^p
+  \mathbf{S}_{bb}^{p\leftarrow d}.
+  \label{eq:ours-response-solution}
+\end{equation}
+实际上，这只是将\Cref{eq:traditional-response}中的单位矩阵替换为矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$，其中 $\mathbf{U}_b^p$ 是选择所有界面 $\bigcup_i \partial \Omega_i^p$ 的选择矩阵。将激励和响应组装在一起，我们得到 SE-free IMR $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 是块对角的，因此可以跨块并行计算。\textcolor{ExplainConclusion}{矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 包含的列数\textbf{显著少于} $\mathbf{S}_{bb}=\mathbf{I}$，从而大幅减少了所需线性求解的次数和后续矩阵运算的维数。} 类似的步骤适用于 dual 划分。最终的基函数为 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。虽然可以仅使用一组界面模态（例如，仅使用 $\mathbf{S}_{b}^{p\leftarrow d}$）或进行额外的过滤来进一步压缩该基集，但我们将这些优化留待未来工作。在这里，我们包含所有生成的界面模态，以确保与已有方法进行稳健和公平的比较。最终的特征值问题通过 Galerkin 投影如\Cref{eq:reduced-matrix-pencil}所示进行缩减并求解。矩阵缩减通过利用\Cref{sec:fast-matrix-reducing}中这些矩阵的结构来加速。

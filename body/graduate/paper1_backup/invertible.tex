@@ -1,0 +1,94 @@
+% \iffalse
+% Without loss of generality, we assume that the system matrix
+% $\mathbf{H}$ of maximal coordinates is symmetric positive
+% definitive. (Otherwise, we can add $\alpha \I$ to ensure the positive
+% definitiveness.) Then its sub-block $\mathbf{H}_{\mathbf{p}}$ and
+% $\mathbf{H}_{\mathbf{q}}$ is also symmetric positive definitive.
+
+
+% Then, the linear systems on reduced coordinates can be rewritten as:
+% \[
+%   \begin{aligned}
+%   \mathbf{A} &=
+%   \begin{bmatrix}
+%     \J_{\mathbf{ps}}^{\top} &
+%     \J_{\mathbf{qs}}^{\top}
+%   \end{bmatrix}
+%   \begin{bmatrix}
+%     \mathbf{H}_{\mathbf{p}} & \mathbf{0} \\
+%     \mathbf{0} & \mathbf{H}_{\mathbf{q}}
+%   \end{bmatrix}
+%   \begin{bmatrix}
+%     \J_{\mathbf{ps}} \\
+%     \J_{\mathbf{qs}}
+%   \end{bmatrix}\\
+%   &=\J^{\top}_{\mathbf{ps}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{ps}} +
+%   \J^{\top}_{\mathbf{qs}} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{qs}}
+%   \end{aligned}
+% \]
+% With $\J_{\mathbf{qs}} =
+% \begin{bmatrix}
+%   \mathbf{0}, \J_{\mathbf{q\omega}}
+% \end{bmatrix}
+% $ and $\J_{\mathbf{ps}} =
+% \begin{bmatrix}
+%   \I, \J_{\mathbf{p\omega}}
+% \end{bmatrix}$
+% , we can find that:
+% \fi
+\textbf{正定性的证明：}
+\label{sec: invert}
+不失一般性，我们假设系统矩阵 $\mathbf{H}$ 是对称正定的。否则，我们可以添加 $\alpha \I$ 来确保其正定性。显然，其对角块 $\mathbf{H}_{\mathbf{p}}$ 和 $\mathbf{H}_{\mathbf{q}}$ 也是正定的。
+
+\textcolor{black}{基于公式~\ref{eq:preconditioner_structure}，我们的预处理子具有以下块结构：
+\begin{equation}
+  \begin{aligned}
+    \mathbf{P} & =\begin{bmatrix}
+                    \sum_{i=0}^{n}\mathbf{h}_{i} & \mathbf{0}                                                                                                                                                \\
+                    \mathbf{0}                   & \overbrace{\operatorname{blk-diag}(\J_{\p,\omega}^\top \mathbf{H}_\p \J_{\p,\omega})+ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q,\omega}}^{\mathbf{P}_{22}}
+                  \end{bmatrix}.
+  \end{aligned}
+\end{equation}
+}
+其中 $\mathbf{h}_{i}$ 是对角矩阵，其对角元素均大于 $\mathbf{0}$。
+
+显然，第一个对角块是正定的，因此 $\mathbf{P}$ 正定当且仅当 $\mathbf{P}_{22}$ 正定。
+
+根据~\Cref{eq:A}，我们指出 $\J_{\mathbf{p, s}}^{\top}\mathbf{H}_{\mathbf{p}}\J_{\mathbf{p, s}}$ 和 $\J_{\mathbf{q, s}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q, s}}$ 都至少是半正定的，因为：
+
+\begin{equation}
+  \forall \mathbf{v} \ne \mathbf{0}, \quad
+  \mathbf{v}^{\top}\J_{*}^{\top}\mathbf{H}_{*}\underbrace{\J_{*} \mathbf{v}}_{\mathbf{y}} = \mathbf{y}^{\top}
+  \mathbf{H}_{*}\mathbf{y} >= 0.
+\end{equation}
+因此，$\operatorname{blk-diag}\left(\J_{\p, \omega}^\top \mathbf{H}_{\p} \J_{\p,
+    \omega}\right)$ 仍然是半正定的。接下来，我们证明 $\J_{\mathbf{q,\omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q,\omega}}$ 是正定的。
+
+从 $\omega$ 到 $\mathbf{q}$ 的映射 $\mathcal{T}_{\mathbf{q,\omega}}$ 是局部单射映射，因此其雅可比矩阵 $\J_{\mathbf{q,\omega}}$ 列满秩。考虑到 $\mathbf{H_{\mathbf q}}$ 的正定性，
+我们可以将其分解为 $\mathbf{LL}^{\top}$，并且
+\begin{equation}
+  \begin{aligned}
+    \mathrm{rank}(\J_{\mathbf{q,\omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q,\omega}})
+     & =
+    \mathrm{rank}(\J_{\mathbf{q,\omega}}^{\top}\mathbf{LL}^{\top}\J_{\mathbf{q,\omega}}) \\
+     & =\mathrm{rank}(\mathbf{L}^{\top}\J_{\mathbf{q,\omega}})                           \\
+     & =\mathrm{rank}(\J_{\mathbf{q,\omega}})
+     & =\mathrm{dim}(\omega).
+  \end{aligned}
+\end{equation}
+
+因此，$\J_{\mathbf{q,\omega}}^{\top}\mathbf{H}_{\mathbf{q}}\J_{\mathbf{q,\omega}}$ 仍然是正定的。
+
+至此，我们的预处理子是正定的：
+\begin{equation}
+  \begin{aligned}
+    \mathbf{P} & =\left(\operatorname{blk-diag}\left(\J_{\p, \s}^\top
+    \mathbf{H}_{\p} \J_{\p, \s}\right) + \begin{bmatrix} \mathbf{0} &
+                \mathbf{0}    \\ \mathbf{0} & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q,
+                  \omega}\end{bmatrix}\right)                                                                                                                \\
+               & =\begin{bmatrix}
+                    \overbrace{\sum_{i=0}^{n}\mathbf{h}_{i}}^{\text{正定}} & \mathbf{0}                                                                                                               \\
+                    \mathbf{0}                                                          & \underbrace{\underbrace{\operatorname{blk-diag}(\J_{\p,\omega}^\top \mathbf{H}_\p \J_{\p,\omega})}_{\text{半正定}}+ \underbrace{\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q,\omega}}_{\text{正定}}}_{\text{正定}}
+                  \end{bmatrix}.
+  \end{aligned}
+\end{equation}
