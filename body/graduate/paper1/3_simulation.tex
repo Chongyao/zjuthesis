@@ -1,7 +1,45 @@
-% 第三章 - 仿真算法设计
-% 本章介绍基于紧凑表示的高效稳定仿真算法
+\section{基函数变换}
 
-\section{仿真算法}
+\subsection{向轴角链式空间的广义坐标变换}
+材料坐标系是一个旋转 $R\in SO(3)$，存在多种可能的表示方式。其李代数是一个 $3 \times 3$ 的斜对称矩阵，可以紧凑地表示为一个长度为三的向量，这也被称为轴角表示。我们选择用这样的表示 $\omega_i\in\mathcal{R}^3$ 来替换第 $i$ 个段上的四元数 $\q_i$。相应的单位四元数可以容易地从 $\omega_i$ 计算得到：
+\begin{equation}
+  \q_i = \mathcal{B}\left(\omega_i\right) = \left[\cos \frac{\left\|
+      \omega_i \right\|}{2}, \frac{\omega_i}{\left\| \omega_i \right\| }
+    \sin \frac{\left\| \omega_i \right\|}{2}\right]^\top.
+    \label{eq: omega2quaternion}
+\end{equation}
+当 $\left\| \omega_i \right\|$ 趋近于零时，我们应用洛必达法则来避免除零问题：
+\begin{equation}
+  \q_i = \Lim{\left\| \omega_i \right\| \rightarrow
+    0} \mathcal{B}\left(\omega_i\right)
+    = \left[1, \frac{\omega_i}{2} \right]^\top.
+    \label{eq: omega2quaternion2}
+\end{equation}
+这一选择消除了 \Cref{eq: unitq_cons} 中的单位四元数约束。
+
+{\color{black}常见的 $3\times 3$ 矩阵表示也可以根据罗德里格斯旋转公式通过指数映射轻松计算得到：}
+\begin{equation}
+\mathbf{m}_i
+= \operatorname{exp}\left( \mathbf{\omega}_i\right).
+\end{equation}
+现在采用图~\ref{fig:single-chain} 所示的链式表示，不可伸长杆上的非根顶点位置可以递归表示如下：
+\begin{equation}
+\p_{i+1}=\p_i+l_id(\mathbf{m}_i)=\p_i+l_id(\operatorname{exp}(\omega_i)), i=1,2,\cdots,n-1.
+\label{eq:w2p}
+\end{equation}
+这同时消除了 \Cref{eq: alignment_cons} 中的对齐约束和 \Cref{eq: inext_cons_d} 中的不可伸长约束。也可以通过四元数得到段对齐轴，即 $d(\mathcal{B}(\omega_i))$，但代价会更高。
+
+最后，我们使用笛卡尔坐标 $\p_c=\p_0$ 来表示根顶点的位置。
+
+\begin{figure}[H]
+  \centering
+  \centering
+  \includegraphics[width=0.75\textwidth]{single_chain_new.pdf}
+  \caption{\textbf{链式结构。} \textcolor{black}{我们提出了一种紧凑的链式结构，没有冗余自由度来表示不可伸长的 Cosserat 杆，即 Kirchhoff 杆。}}
+  \label{fig:single-chain}
+\end{figure}
+
+综合以上内容，我们使用根顶点处的 $\p_c \in \mathcal{R}^3$ 和第 $i$ 个段 $\mathbf{e}_i$ 上的 $\omega_i\in\mathcal{R}^3$ 来表示杆。回顾使用 $\p$ 和 $\q$ 中 $7n-4$ 个变量的传统表示方法，在~\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中有 $4(n-1)$ 个线性独立约束，因此实际上只有 $(7n-4)-4(n-1)=3n$ 个自由度。我们的表示方法 $\mathbf{s}=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$ 恰好有 $3n$ 个自由度，完美匹配非闭环不可伸长分段线性 Cosserat 杆的本质。\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中的所有等式约束都是不必要的，在采用我们的表示方法时它们已被自然满足。\textcolor{black}{实际上，我们的方法完美地建模了一类特殊的不可剪切且不可伸长的 Cosserat 杆，即 Kirchhoff 杆~\cite{dill1992kirchhoff}。}
 在传统表示方法下，隐式欧拉时间步进会导致如下非线性约束优化问题~\cite{martin2011example}：
 \begin{subequations}
   \begin{align}
@@ -23,11 +61,12 @@
 \vspace{-0.5cm}
 上述方程中，$V(\mathbf q)$ 为离散弯曲和扭转势能，$T_p(\mathbf p)$ 和 $T_q(\mathbf q)$ 分别为平动和转动动能。$G\left(\mathbf{p}\right)$ 为外力场（如重力）的势能。这些项的具体公式见附录~\ref{app:energies}，更多细节可参阅文献~\cite{spillmann_corde_2007,wen_cosserat_2020}。
 
-\Cref{eq:cons_origin_opt} 中的大量等式约束 $\mathbf{C_E}$ 来自~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。通过由~\cref{eq: omega2quaternion,eq: omega2quaternion2,eq:w2p} 和 $\p_c=\p_0$ 导出的变换 $\mathcal{T}$，用我们的紧凑表示替换传统表示，这些约束已被消除：
+\Cref{eq:cons_origin_opt} 中的大量等式约束 $\mathbf{C_E}$ 来自~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。通过由~\cref{eq: omega2quaternion,eq: omega2quaternion2,eq:w2p} 和 $\p_c=\p_0$ 导出的变换 $\mathcal{T}$，我们可直接用紧凑变量 $\mathbf{s}$ 参数化满足几何约束的杆构型：
 \begin{equation}
   \mathbf{x} = \mathcal{T}\left( \mathbf{s} \right).
 \end{equation}
 
+换言之，优化变量已经从带有显式距离、单位长度和对齐约束的传统空间，转移到天然满足这些约束的变换后坐标空间 $\mathbf{s}$ 中。因此，隐式时间步进在新表示下可被重写为一个仅需处理剩余边界条件与接触约束的优化问题。
 我们采用经典的主动集框架~\cite{nocedal1999numerical} 来处理剩余的等式约束（如狄利克雷边界条件约束）和通常来自碰撞的不等式约束 $\mathbf{C_I}$。具体而言，在主动集法的每次迭代中，我们求解如下问题：
 \begin{equation}
 \begin{gathered}
@@ -39,7 +78,7 @@
 \end{equation}
 约束 $\mathbf{C_{\mathcal A}}$ 根据当前碰撞情况和剩余等式约束进行更新。粗略地说，剩余等式约束始终在集合 $\mathbf{C_{\mathcal A}}$ 中，$\mathbf{C_I}$ 中的活动不等式约束（如活动碰撞）将被插入到集合 $\mathbf{C_{\mathcal A}}$ 中并作为等式约束处理。同时，$\mathbf{C_I}$ 中的非活动碰撞将在每次迭代中被移除。在每次迭代中，状态可以回溯到非穿透状态。伪代码见附录~\ref{app:active_set}.
 
-\subsection{SQP 框架}
+\subsection{新表示下的 SQP 求解框架}
 总体而言，我们遵循文献~\cite{pan_subspace_2015} 的方法，在序列二次规划（Sequential Quadratic Programming, SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。我们使用线搜索方法~\cite{nocedal1999numerical} 来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
 \begin{equation}
    \phi(\mathbf{s}, \mu) = E(\mathcal{T}(\mathbf{s})) + \frac{1}{\mu}\left\|\mathbf{C}_{\mathcal{A}} \right\|_{1}.
@@ -123,7 +162,7 @@
 
 和 RedMax~\cite{wang_redmax_2019} 一样，我们使用预条件共轭梯度（Preconditioned Conjugate Gradient, PCG）方法求解 $\mathbf{A}$ 的方程。这些方程的数量是 $\nabla_s\mathbf{C_{\mathcal A}}$ 的行数加上 $2$，会带来巨大的计算成本。注意，通过 PCG 求解线性系统的成本与矩阵向量乘法及其预条件器密切相关，我们充分利用 $\mathbf{A}$ 的结构，使两类操作的时间复杂度均为 $\mathcal{O}(n)$ 并加速收敛。详细分析见下一节。
 
-\subsection{$\mathcal{O}(n)$ 时间复杂度的矩阵 - 向量乘法}
+\subsection{\texorpdfstring{$\mathcal{O}(n)$}{O(n)} 时间复杂度的算子评估}
 \label{ssec:jacobian-patt}
 
 PCG 算法涉及频繁的矩阵 - 向量乘法操作，针对矩阵 $\mathbf{A} = \J^\top\mathbf{H}\J$。我们将证明，在我们的紧凑表示下，将 $\mathbf{H}, \J, \J^\top, \mathbf{A}$ 与向量相乘都可以在 $\mathcal{O}(n)$ 时间内实现。
