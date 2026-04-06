@@ -17,18 +17,18 @@
     \centering
     \includegraphics[width=0.4\textwidth]{body/graduate/intro/figures/local_basis.jpg}
     \includegraphics[width=0.4\textwidth]{body/graduate/intro/figures/global_basis.jpeg}
-    \caption{局部的拉格朗日插值基函数与全局特征基函数}
+    \caption{局部的拉格朗日插值基函数（左）与全局特征基函数（右）}
     \label{fig:local-and-global-basis}
 \end{figure}
-在计算机图形学以及基于有限元方法（Finite Element Method, FEM）的物理仿真中，最普遍的离散表征是基于网格拓扑的\textbf{局部插值基函数}（如线性拉格朗日形函数）。如图~\ref{fig:local-and-global-basis} 所示，对于三维空间中的连续形变场，我们仅在计算机中维护离散采样点（即网格节点）处的物理量。物体内部任意位置的状态则通过周围节点的基函数线性插值获得。这类基函数必须满足克罗内克（Kronecker delta）插值性质：
+在计算机图形学以及基于有限元方法（Finite Element Method, FEM）的物理仿真中，最普遍的离散表征是基于网格拓扑的\textbf{局部插值基函数}（如线性拉格朗日形函数~\cite{chen2018numerical}）。如图~\ref{fig:local-and-global-basis} 所示，对于三维空间中的连续形变场，我们仅在计算机中维护离散采样点（即网格节点）处的物理量。物体内部任意位置的状态则通过周围节点的基函数线性插值获得。最常见的是满足克罗内克（Kronecker delta）插值性质的拉格朗日基函数：
 \begin{equation}
     \phi_i(\mathbf{x}_j) = \delta_{ij} = \begin{cases} 1, & i = j \\ 0, & i \neq j \end{cases}
 \end{equation}
 局部基函数具备局部支撑性（Compact Support）、插值性与线性无关性。局部支撑性保证了系统矩阵的稀疏度，有助于提升计算效率。但在还原复杂物理场时，该特性要求划分大量网格节点，会导致系统矩阵规模显著增大。此外，这类基函数对几何映射较为敏感。若网格出现局部几何畸变（Degenerate Elements），基函数的梯度可能产生奇异性。这会显著推高全局系统矩阵的条件数，是影响仿真鲁棒性的关键因素。
 
-为了突破局部基函数带来的自由度灾难与刚度困境，另一种思路是采用\textbf{全局特征基函数}（Global Eigen-basis）。如图~\ref{fig:local-and-global-basis} 所示，特征基函数具有全局分布特性，能够以极少的广义坐标（低频模态）精准捕捉物体的宏观动态响应，从而在大幅压缩系统规模的同时，天然地规避了高频人造刚度带来的条件数问题。
+为了突破局部基函数带来的自由度灾难与刚度困境，另一种思路是采用\textbf{全局特征基函数}（Global Eigen-basis，~\cite{barbic2005real}）。如图~\ref{fig:local-and-global-basis} 所示，特征基函数具有全局分布特性，能够以极少的广义坐标（低频模态）精准捕捉物体的宏观动态响应，从而在大幅压缩系统规模的同时，天然地规避了高频人造刚度带来的条件数问题。
 
-然而，全局特征基函数同样面临着严峻的挑战：在面对百万级自由度的大规模系统时，直接在全局域上求解大规模特征值方程的计算成本极其高昂。如何在局部灵活性与全局降维优势之间取得平衡，避免昂贵的全局矩阵分解，成为了当前仿真领域亟待解决的核心命题之一。
+然而，全局特征基函数同样面临着严峻的挑战：在面对百万级自由度的大规模系统时，直接在全局域上求解大规模特征值方程的计算成本极其高昂。如何在局部灵活性与全局降维优势之间取得平衡，避免昂贵的全局矩阵分解，成为了当前仿真领域亟待解决的核心问题之一。
 
 \subsection{拉格朗日动力学离散与系统矩阵的病态性}
 
@@ -97,7 +97,7 @@
 
 当映射算子为线性时，变换退化为常数矩阵投影 $\mathbf{q} = \mathbf{U} \mathbf{z}$，此时雅可比矩阵 $\mathbf{J} = \mathbf{U}$ 且二阶导数项为零。有效刚度矩阵简化为 $\tilde{\mathbf{K}} = \mathbf{U}^T \mathbf{K} \mathbf{U}$。若精心构造投影矩阵 $\mathbf{U}$（例如提取系统的低频振动模态作为基向量），这种线性变换能够像低通滤波器一样，精准截断主导最大特征值 $\lambda_{max}$ 的高频“硬”模式，从源头上剥离高频刚度。
 
-在处理复杂的几何硬约束时，强行在笛卡尔坐标下引入惩罚刚度必然导致条件数趋于无穷。此时，非线性基函数变换 $\mathbf{q} = \mathcal{M}(\mathbf{z})$ 成为破局的关键。通过选取顺应几何约束的内部参数作为新自由度（如第二章中的关节角坐标），非线性映射 $\mathcal{M}$ 将这些硬约束内建于运动学表述中，直接展平了陡峭狭长的惩罚能量峡谷。有效刚度矩阵中的第二项 $\frac{\partial \mathbf{J}}{\partial \mathbf{z}} \times \mathbf{f}_{int}(\mathbf{q})$ 更是动态捕获了变换流形的曲率特征。
+在处理复杂的几何硬约束时，强行在笛卡尔坐标下引入惩罚刚度必然导致条件数趋于无穷。此时，线性乃至非线性基函数变换 $\mathbf{q} = \mathcal{M}(\mathbf{z})$ 成为破局的关键。通过选取顺应几何约束的内部参数作为新自由度（如第二章中的关节角坐标），非线性映射 $\mathcal{M}$ 将这些硬约束内建于运动学表述中，直接展平了陡峭狭长的惩罚能量峡谷。有效刚度矩阵中的第二项 $\frac{\partial \mathbf{J}}{\partial \mathbf{z}} \times \mathbf{f}_{int}(\mathbf{q})$ 更是动态捕获了变换流形的曲率特征。
 
 综上所述，无论是全局特征提取还是局部流形参数化，基函数变换的核心思想均为\textbf{使离散自由度顺应物理规律}。通过物理感知的基函数重构来代替纯代数预处理，是解决软硬耦合问题的一种极具潜力的有效途径。
 \section{软硬耦合下的病态系统与研究问题}
@@ -144,7 +144,7 @@
     \centering
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/good-mesh.png} 
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/bad-mesh.png} 
-    \caption{畸变网格单元的采样劣化：标准网格（左）与包含极度扁平单元的网格（右）对比图，后者极大地限制了计算的稳定性与精度。}
+    \caption{畸变网格单元的采样劣化：标准网格（左，来自~\cite{rangarajan2026cutvem}）与包含极度扁平单元的网格（右，来自~\cite{chen_multiscale_2021}）对比图，后者极大地限制了计算的稳定性与精度。}
     \label{fig:intro_sliver_mesh}
 \end{figure}
 在连续偏微分方程的高维求解或有限元物理模拟中，对复杂几何体或大变形拓扑的离散化是建立整个底层计算管线的基础。最常用的空间离散方法是通过由局部节点支撑的多项式形函数（如拉格朗日形函数）对连续场（如位移、应变等）进行采样与近似。然而，在面对高曲率的薄壁结构、复杂的交界面以及发生交互式切割等破坏性拓扑变化的动态场景时，由于空间采样点的极端不均匀分布，离散网格往往会不可避免地退化出各种形状极其恶劣的单元。其中，以三维空间下的扁平四面体单元最为典型且棘手，其四个顶点几乎共面，体积或内切与外接半径比极小~\cite{Tournois2009PerturbingSlivers, Cheng1999SliverExudation}。
@@ -153,7 +153,7 @@
     \centering
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/mesh_schematic.png}
     \includegraphics[width=0.6\textwidth]{body/graduate/intro/figures/condition_numbers.png}
-    \caption{网格畸变诱发的数值病态：畸变单元（左）导致单元和全局刚度矩阵条件数恶化。}
+    \caption{网格畸变诱发的数值病态：畸变单元（左）导致单元和全局刚度矩阵条件数恶化（来自~\cite{chen_multiscale_2021}）。}
     \label{fig:intro_sliver_condition}
 \end{figure}
 网格质量的劣化不仅影响几何表征，还会在离散系统中引入“极短空间距离”约束，引发软硬耦合病态性。从数值分析角度看，局部单元 $\Omega_e$ 的物理坐标 $\mathbf{x}$ 与参考坐标 $\boldsymbol{\xi}$ 映射由雅可比矩阵 $\mathbf{J}_e$ 描述。拉格朗日基函数 $\phi_i(\mathbf{x})$ 的梯度遵循链式法则：
@@ -197,9 +197,9 @@
 \begin{equation}
     \mathbf{K}_{ii} \mathbf{S}_i = \mathbf{M}_{ii} \mathbf{S}_i \Lambda_i
 \end{equation}
-由于这一过程完全解耦，CMS 实现了卓越的局部更新复用率与并行计算能力。然而，这种硬性的空间划分机制不可避免地在子结构界面 $\partial \Omega_i$ 之间施加了人为的固定边界约束（Dirichlet 边界）。这种固定边界的存在如同一个“极硬”的空间限制，它使得每个子结构内部独立提取出的局部模态 $\mathbf{S}_i$在边界处必须被迫归零。从信号分析的角度来看，这直接并彻底地锁死了内部基函数的频域相位，造成了严重的相位缺失。
+由于这一过程完全解耦，CMS 实现了卓越的局部更新复用率与并行计算能力。然而，这种硬性的空间划分机制不可避免地在子结构界面 $\partial \Omega_i$ 之间施加了人为的固定边界约束（Dirichlet 边界）。本应表征低频柔顺形态的模态 $\mathbf{S}_i$ 在边界处被迫归零，即在子结构边界上施加了虚假的刚性约束。从软硬耦合的角度来看，这使得子结构内部大量用于描述低频柔顺形态的”软”基函数，不恰当地包含了全局偏”硬”的约束成分；而真正需要的全局低频”软”响应，却因固定边界被切断，无法由这些局部低频模态直接表达。
 
-固定边界带来的相位缺失会产生软硬失配问题。子结构的局部基函数由于边界约束，难以直接拼合出真实的低频响应。为了弥补这种相位断层，系统通常需要提取大量高频内部模态进行拟合。这种方式可能引入显著的截断误差。随着子结构模态数量增加，降维效率可能下降，且如 \cref{fig:intro_schur_cost} 中 $t_{\text{sub-eig}}$ 曲线所示，其计算开销也会随之急剧增大。
+这种软硬失配使得子结构的局部低频基函数难以直接拼合出真实的全局低频响应。为了弥补这一局限，系统通常需要提取大量高频内部模态进行拟合，可能引入显著的截断误差。随着子结构模态数量增加，降维效率随之下降，且如 \cref{fig:intro_schur_cost} 中 $t_{\text{sub-eig}}$ 曲线所示，其计算开销也会随之急剧增大。
 
 此外，CMS 必须通过界面约束模态来缝合这些分散的子结构。在传统方法中，这首先需要求解基于界面自由度 $u_b$ 位移的静力平衡响应 $\mathbf{S}_{b\mathcal{I}}$。若将全局刚度矩阵按内部节点 $\mathcal{I}$ 与边界节点 $b$ 进行分块：
 \begin{equation}
@@ -213,7 +213,7 @@
 \begin{equation}
 \mathbf{S}_{b\mathcal{I}} = - \mathbf{K}_{\mathcal{I}\mathcal{I}}^{-1} \mathbf{K}_{\mathcal{I}b}
 \end{equation}
-随后，原始的超大维度物理向量 $\mathbf{u}$ 便可以通过上述局部独立提取的子结构模态与约束模态拼合而成的投影矩阵 $\mathbf{S}$ 进行空间降维，即 $\mathbf{u} \approx \mathbf{S}\mathbf{q}$：
+随后，原始的超大维度物理向量 $\mathbf{u}$ 通过上述投影矩阵 $\mathbf{S}$ 进行空间降维，即 $\mathbf{u} \approx \mathbf{S}\mathbf{q}$，其中投影矩阵的分块结构为：
 \begin{equation}
 \mathbf{S} =
 \begin{bmatrix}
@@ -221,10 +221,10 @@
 \mathbf{0} & \mathbf{I}
 \end{bmatrix}
 \end{equation}
-经过投影后，原先千万级别自由度的庞大特征值系统便被降维至由界面自由度与截断后的少数子结构内部自由度共同张成的缩减空间中：
+经过投影后，庞大的特征值系统被降维至由界面自由度与少数子结构内部自由度共同张成的缩减空间中：
 \begin{equation}
     \mathbf{S}^T \mathbf{K} \mathbf{S} \mathbf{q} = \lambda \mathbf{S}^T \mathbf{M} \mathbf{S} \mathbf{q}
 \end{equation}
-在文献中~\cite{aristidou2013dynamic}，界面模态的计算与上述大矩阵的 Galerkin 投影缩减过程通常被统称为 Schur 补。如 \cref{fig:intro_schur_cost} 中的虚线所示，Schur 补作为一项庞大的固定开销，在需要截断大量高频响应的大规模模态分析任务中成为了显著的计算负担。它不仅涉及多次矩阵前代与回代操作，还会产生极其稠密的缩减矩阵块，限制了超大规模系统的计算可扩展性。
+在文献中~\cite{aristidou2013dynamic}，界面约束模态的构造与上述 Galerkin 投影缩减过程通常被统称为 Schur 补。从软硬耦合的视角来看，Schur 补本质上是为界面自由度构造一系列局部 Green 函数，以近似捕捉边界处的静力响应。这一过程在界面层面重建了局部与全局模态之间的耦合，是算法层面软硬失配的另一种体现。如 \cref{fig:intro_schur_cost} 中的虚线所示，Schur 补本身是一项庞大的固定开销，涉及多次矩阵前代与回代操作，并会产生极其稠密的缩减矩阵块，在大规模模态分析任务中成为显著的计算负担。
 
-尽管如此，固定界面带来的相位缺失仍会影响模态的完备性。由于基底空间与真实的低频子空间存在偏差，通常需要引入更多高频模态来维持精度。此外，相关的矩阵运算可能增加计算规模并影响稀疏性。虽然 AMLS~\cite{Bennighof2004AMLS} 等方法试图在代数层面进一步缩减系统，但它们仍受限于底层的相位信息缺失与昂贵的边界操作。因此，要在超大规模的广义特征值问题上实现数量级的性能提升，亟需重新审视离散基空间的构造，寻找一种既能有效补足“软”相位信息，又能彻底绕过昂贵 Schur 补的重构机制。
+由于子结构基底难以完整表达真实的全局低频响应，系统通常需要引入更多高频模态来维持精度，同时相关的矩阵运算也会增加计算规模并影响稀疏性。虽然 AMLS~\cite{Bennighof2004AMLS} 等方法试图在代数层面进一步缩减系统，但它们仍受限于固定边界带来的局部/全局软硬失配与昂贵的界面操作。因此，要在超大规模的广义特征值问题上实现数量级的性能提升，亟需重新审视离散基空间的构造，寻找一种既能有效补足全局低频软响应、又能彻底绕过昂贵 Schur 补的重构机制。
