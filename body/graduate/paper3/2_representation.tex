@@ -1,0 +1,197 @@
+\section{背景知识：模态综合法与多重划分}
+
+给定一个离散化为 $n$ 个自由度的区域 $\Omega$，其刚度矩阵为 $\mathbf{K} \in \mathbb{R}^{n\times n}$，质量矩阵为 $\mathbf{M} \in \mathbb{R}^{n \times n}$。广义特征值问题
+\begin{equation} \mathbf{K} \mathbf{u}_l= \lambda_l \mathbf{M} \mathbf{u}_l
+  \label{eq:generalize-eigen-problem}
+\end{equation}
+给出特征值 $\lambda_l \in \mathbb{R}$ 和特征向量 $\mathbf{u}_l\in\mathbb{R}^{n}$ 的配对。模态分析通常只求解低频模态（即对应于较小 $\lambda_l$ 的模态）。
+
+\subsection{划分与子结构}
+
+要应用模态综合法，需要将区域划分为子结构。区域 $\Omega$ 的一个划分 $\mathcal{P}$ 是一组互不重叠的子结构 $\Omega_i, i=1, \cdots m$，满足 $\bigcup_i\Omega_i = \Omega$（示例见~\cref{fig:domain-partition}）。子结构之间的界面定义为 $\Gamma_{ij} = \Omega_i \cap \Omega_j$。划分 $\mathcal{P}$ 的界面定义为其并集 $\partial \mathcal{P} = \bigcup_{i,j} \Gamma_{ij}$。第 $i$ 个子结构的界面定义为 $\partial \Omega_i = \bigcup_{j} \Gamma_{ij}$。注意符号 $\partial$ 不是指外部区域边界。每个子结构 $\Omega_i$ 内部的自由度记为 $u_i \in \Omega_i\setminus\partial \Omega_i$（不包含界面），所有剩余自由度收集到向量 $u_b$ 中。不失一般性，我们假设自由度已重新排序，使得 $\mathbf{u} = [u_1^T, u_2^T, \cdots, u_m^T, u_b^T]^T$。此时 $\mathbf{K}$ 具有以下分块结构：
+\begin{equation}
+  \left[
+    \begin{array}{ccc|c}
+      \mathbf{K}_{11} & & & \mathbf{K}_{1b}\\
+      &\ddots & & \vdots\\
+      & & \mathbf{K}_{mm} & \mathbf{K}_{mb}\\\hline
+      \mathbf{K}_{b1} &\cdots
+    &\mathbf{K}_{bm} &\mathbf{K}_{bb}
+    \end{array}
+  \right]
+  \triangleq
+  \begin{bmatrix}
+    \mathbf{K}_{\mathcal{I}\mathcal{I}}&\mathbf{K}_{\mathcal{I}b}\\
+    \mathbf{K}_{b\mathcal{I}}&\mathbf{K}_{bb}
+  \end{bmatrix}.
+\end{equation}
+质量矩阵 $\mathbf{M}$ 具有相同的结构。
+
+\begin{figure}[H]
+  \centering
+  \newcommand{\PIC}[1]{\includegraphics[height=0.28\linewidth]{domain_definition/#1}}
+  \PIC{domain-def.png}
+  \PIC{inner_modes.png}
+  \PIC{interface_modes.png}
+  \caption{\textbf{划分、子结构特征模态和界面模态示例。} 区域 $\Omega$ 被划分为四个子结构（左图）。绘制了第 1 个子结构特征模态（中图）和一个界面模态（右图）。}
+  \label{fig:domain-partition}
+\end{figure}
+
+\subsection{Craig-Bampton (CB) 方法}
+
+我们简要介绍 CB 方法~\cite{craig1968coupling}，这是 CMS 的一种代表性实现，以概述典型的 CMS 算法流程。
+
+\paragraph{子结构特征模态}
+该方法首先通过求解下式，并行计算每个子结构的 $q_\mathcal{I}$ 个（截断后的）子结构特征模态 $\mathbf{S}_\mathcal{I}$：
+\begin{equation}
+  \mathbf{K}_{ii} \mathbf{S}_i = \mathbf{M}_{ii} \mathbf{S}_i \Lambda_i.
+  \label{eq:sub-eig}
+\end{equation}
+$\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathbf{M}$ 的子矩阵，与由 $\Omega_i$ 中单元组装而成的刚度和质量矩阵不同。上式描述了一个约束模态分析问题，即界面 $\partial \Omega_i$ 上的自由度被固定为零。
+
+\paragraph{界面模态}
+\label{sec:interface}
+随后，计算界面模态。这些模态由两部分组成：界面处的单位位移激励和子结构内部的响应，即 $\mathbf{S}_b=[\mathbf{S}_{b\mathcal{I}}^T, \mathbf{S}_{bb}^T]^T$。$\mathbf{S}_{bb} = \mathbf{I}$ 作为界面处的 Dirichlet 边界条件，而
+\begin{equation}
+  \mathbf{S}_{b\mathcal{I}} = - \mathbf{K}_{\mathcal{I} \mathcal{I}}^{-1}
+  \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{bb}= - \mathbf{K}_{\mathcal{I} \mathcal{I}}^{-1}
+  \mathbf{K}_{\mathcal{I}b} \mathbf{I}
+  \label{eq:traditional-response}
+\end{equation}
+是该边界条件下的静力平衡状态。由于 $\mathbf{K}_{\mathcal{I}\mathcal{I}}$ 是分块对角矩阵，上述方程也可以对每个子结构并行求解。
+
+\paragraph{缩减}
+\label{sec:reducing}
+有了所有子结构特征模态 $\mathbf{S}_i$ 和界面模态 $\mathbf{S}_b$（见~\cref{fig:domain-partition} 中的示意），原始自由度 $\mathbf{u}$ 通过由它们组装而成的缩减矩阵 $\mathbf{S}$ 缩减为 $\mathbf{z}$：
+\begin{equation}
+  \mathbf{u} =
+  \left[
+    \begin{array}{ccc|c}
+  \mathbf{S}_1 &&&\\
+      &\ddots && \mathbf{S}_{b\mathcal{I}}\\
+      &&\mathbf{S}_m &\\\hline
+      &&&\mathbf{S}_{bb}
+    \end{array}
+  \right]
+  \begin{bmatrix}
+  z_1 \\\vdots\\ z_m\\z_b
+  \end{bmatrix}
+  \triangleq
+  \begin{bmatrix}
+    \mathbf{S}_{\mathcal{I}} & \mathbf{S}_{b}
+  \end{bmatrix}\mathbf{z}
+  \triangleq \mathbf{S} \mathbf{z}.
+  \label{eq:redmat}
+\end{equation}
+
+应用 Galerkin 三重矩阵乘积后，原问题被缩减为一个自由度更少的特征值问题：
+\begin{equation}
+  \mathbf{S}^T\mathbf{K} \mathbf{S} \mathbf{z}_l =\lambda_l \mathbf{S}^T \mathbf{M} \mathbf{S} \mathbf{z}_l.
+  \label{eq:reduced-matrix-pencil}
+\end{equation}
+该问题可以高效求解。
+
+\subsection{计算代价分析}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{substructure_analysis/schur_vs_eig_timing_curves.pdf}
+  \caption{\textbf{传统 CMS 并行部分的计算代价分析。} 在一个正方形网格上，以 size$\times$size 个顶点离散。左图中，$t_{\text{sub-eig}}$ 随特征模态数量呈超线性增长；当子结构特征模态数量较少时，固定代价 $t_{\text{sub-schur}}$（红色虚线）与 $t_{\text{sub-eig}}$ 接近。}
+  \label{fig:breakdown-CMS}
+\end{figure}
+
+总体代价主要由两部分组成：
+\begin{itemize}
+    \item $t_{\text{sub-eig}}$：求解子结构特征值问题（\cref{eq:sub-eig}）。
+    \item $t_{\text{sub-schur}}$：\cref{eq:traditional-response}
+      需要对 $\mathbf{K}_{ii}$ 进行一次分解，随后进行 $n_{b,i}$ 次前代/回代，其中 $n_{b,i}$ 是 $\partial \Omega_i$ 的自由度数。接着是缩减过程中子结构级别的矩阵-矩阵乘法。
+\end{itemize}
+
+\Cref{fig:breakdown-CMS}（左）比较了 $t_{\text{sub-eig}}$（实线）与 $t_{\text{sub-schur}}$（虚线）。
+
+基于上述分析，我们提出一种方法，旨在：（1）使用少量但更有效的子结构特征模态；（2）绕开计算代价高、内存占用大的 Schur 补步骤。
+
+\subsection{多重划分的相位补足}\label{sec:phase-complement}
+
+在本节中，我们提出了一种通过利用多重划分来降低计算和内存开销并实现更高精度的方法。核心思想是使用来自不同划分的子结构特征模态。
+
+\subsubsection{一维拉普拉斯问题的分析}\label{subsec:1d-laplacian}
+
+在介绍我们的方法之前，我们对定义在 $[0,L]$ 上的一维拉普拉斯特征问题进行一个说明性分析。为简单起见，忽略界面模态。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{frequency-vs-phase/basis.pdf}
+  \includegraphics[width=\linewidth]{frequency-vs-phase/frequency-vs-phase.pdf}
+  \caption{\textbf{两组基函数的积分误差比较。} 我们比较了\Cref{eq:frequency-only}中的固定相位基（左上）和\Cref{eq:phase-complete-basis}中的\textbf{相位完备}基（右上）。下图显示，\textbf{相位完备}基的误差比固定相位基的误差小几个数量级（右下）。}
+  \label{fig:integrated_error_comparison}
+\end{figure}
+
+对于定义在区间 $[a,b]$ 上的第 $i$ 个子结构（其中 $0 < a < b < L$），在 Dirichlet-Dirichlet 边界条件下的第 $j$ 个子结构特征模态为
+\begin{equation}
+  \begin{split}
+  \tilde{\mathbf{S}}^p_{i,j} &= \sin\left(j\pi t\right), t\in[0,1], j=1,2,\cdots.
+  \end{split}
+\label{eq:frequency-only}
+\end{equation}
+其中 $t=(x-a)/(b-a)$。这些模态中的一些绘制在\Cref{fig:integrated_error_comparison}的左上图板中。\textcolor{ExplainConclusion}{所有此类特征模态在区间边界处值为零；即每个 $\sin(\omega t+\phi)$ 函数的相位 $\phi$（相对于区间）为零。因此，当 $\psi\neq k\pi$ 时，$t\in[0,1]$ 上形如 $\sin(j\pi t+\psi)$ 的函数在边界处具有非零值，因此无法由这些基函数表示。简单地增加此类基函数的数量无法解决此问题。}
+
+然而，在用相同频率但不同相位的函数丰富基集后，
+\begin{equation}
+  \tilde{\mathbf{S}}^d_{i,j} = \sin\left(j\pi t+\phi\right), t\in[0,1], j=1,2,\cdots,
+  \label{eq:phase-complete-basis}
+\end{equation}
+其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。通过使用这两组具有相同频率但不同相位的函数（一个固定为 0，另一个固定为 $\phi$），可以利用三角函数积化和差恒等式表示任意相位 $\psi$ 的同频率函数 $\sin(j\pi t+\psi), t\in[0,1]$。因此，我们称这些额外的基函数对之前的基函数进行了\textbf{相位补足}，丰富后的基是\textbf{相位完备}的。直观地说，具有不同相位的基函数可以使用来自不同划分的偏移子结构来构造。
+
+为了验证相位完备基函数相较于传统 CMS 的固定相位基函数的有效性，我们计算了积分误差。\textcolor{ConclusionEvidence}{下图显示，使用相位完备基函数的误差显著低于使用固定相位基函数的误差。}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
+    \caption{$\mathcal{P}^p$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/partition-d.png}
+    \caption{$\mathcal{P}^d$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-1.png}
+    \caption{$\mathbf{S}^d_2$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/primal-eig.png}
+    \caption{$\mathbf{S}^p_2$}
+  \end{subfigure}
+  \begin{subfigure}{0.19\linewidth}
+    \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-2.png}
+    \caption{$\mathbf{S}^d_3$}
+  \end{subfigure}
+  \begin{subfigure}{\linewidth}
+    \includegraphics[width=\linewidth]{frequency-vs-phase/fixed-vs-complete-eig-error.pdf}
+  \end{subfigure}
+  \caption{\textbf{两个子空间的误差比较。}\textbf{上图：Primal-Dual 划分和子结构特征模态示例。} $\mathbf{S}^p_2$ 的相位与 $\mathbf{S}^d_3$ 和 $\mathbf{S}^d_2$ 的相位不同。\textbf{下图：误差比较。} 相位完备基 $[\mathbf{S}_\mathcal{I}^p, \mathbf{S}_\mathcal{I}^d]$ 的误差（中）显著低于（右）相位固定基 $\mathbf{S}_{\mathcal{I}}^p$ 的误差（左）。}
+  \label{fig:primal-dual-partition-example}
+\end{figure}
+
+\subsubsection{CMS 的多重划分}
+
+在实践中，我们使用多重划分生成相位完备基，特别是交错的划分。需要注意的是，我们的方法不限制划分数量为两个，但我们发现使用两个划分通常效果良好。因此，我们默认假设只有两个划分，并将其中一个称为\textit{primal}，另一个称为\textit{dual}。
+
+划分通常沿着模型最优包围盒的最长轴进行，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}通过将切割平面移动到 primal 子结构的质心来构造，从而最大化空间重叠。对于几何切片不足的复杂拓扑模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
+
+\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 primal-dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的示例。
+
+我们将从 primal 划分和 dual 划分得到的缩减矩阵分别记为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。我们的最终子空间由这些基张成，缩减变为
+\begin{equation}
+  \mathbf{u}= [\mathbf{S}^p, \mathbf{S}^d]
+  \begin{bmatrix}
+    \mathbf{z}^{p} \\
+    \mathbf{z}^{d}
+  \end{bmatrix}
+  \triangleq \mathbf{S} \mathbf{z}.
+    \label{eq:pd-subspace}
+\end{equation}
+
+最终的特征值问题通过 Galerkin 投影如\Cref{eq:reduced-matrix-pencil}所示进行缩减并求解。
+
+\Cref{fig:primal-dual-partition-example}的底行显示，在给定相同数量的缩减自由度的情况下，只要频带覆盖所需全局特征模态的范围，使用来自多重划分的相位完备基函数可以显著降低误差。当子结构特征模态数量增加时，相位完备基有效地降低了低频误差，而添加更多相位固定基倾向于只降低高频误差。
