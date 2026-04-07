@@ -10,17 +10,19 @@ $\frac{\sum_{i=0}^{n-2}\|\p_{i+1} - \p_i\|}{\sum_{i=1}^{n-1}l_i} - 1$
 $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \right\|$
 作为对齐约束误差。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}
     \node [above right, inner sep=0] (image) at (0, 0) {
       \includegraphics[width=\textwidth]{helix_vs_penalty/render.png}
     };
-    \node [inner sep=0] at (5.4, 3.2) {$g$};
-    \node [anchor=west,inner sep=0] at (6, 1.78) {\small{Penalty-1e2}};
-    \node [anchor=west,inner sep=0] at (6, 1.3) {\small{Penalty-1e9}};
-    \node [anchor=west,inner sep=0] at (6, 0.9) {\small{KKT}};
-    \node [anchor=west,inner sep=0] at (6, 0.45) {\small{Ours}};
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+      \node [inner sep=0] at (0.9, 0.9) {$g$};
+      \node [anchor=west,inner sep=0] at (1.0, 0.5) {\small{Penalty-1e2}};
+      \node [anchor=west,inner sep=0] at (1.0, 0.36) {\small{Penalty-1e9}};
+      \node [anchor=west,inner sep=0] at (1.0, 0.25) {\small{KKT}};
+      \node [anchor=west,inner sep=0] at (1.0, 0.12) {\small{Ours}};
+    \end{scope}
   \end{tikzpicture}
   \caption{\textbf{重力作用下的螺旋线。} 我们模拟由 200 个线段构成的螺旋杆，每个时间步最多使用 5 次牛顿迭代。}
   \label{fig:visual_damping_penalty}
@@ -31,7 +33,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
 
 在第一组实验中，两方法均做 5 次牛顿迭代。图~\ref{fig:inext_penalty_a} 与图~\ref{fig:align_penalty} 表明，罚函数法难以在少量迭代下满足不可伸长与对齐约束，即精度不足；当权重偏小会出现明显拉伸，而权重增大又会在有限迭代下引入动力学伪影。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \begin{subfigure}[b]{\textwidth}
   \centering
   \includegraphics[width=0.49\textwidth]{sheet/pdf/violation_inext_1e2.pdf}
@@ -55,7 +57,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
 在第二组实验（图~\ref{fig:numeric_damping}）中，本文方法固定 5 次牛顿迭代，权重 1e9 的罚函数法使用不同迭代次数。动能按
 $T_{trans} = \frac{1}{2}\sum_i m_i v_i^2$ 与式~\ref{eq:T_q} 中 $T_{q,i}$ 求和得到。图~\ref{fig:damping_kinetic} 显示，罚函数法迭代次数增加时，其振动周期与相位逐渐逼近本文方法；图~\ref{fig:damping_amplitude} 显示，权重 1e9 且仅 5 次迭代时出现明显过阻尼。权重越大，该伪影越严重，原因之一是在有限牛顿步内更难达到充分收敛。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
   \centering
@@ -80,7 +82,7 @@ $T_{trans} = \frac{1}{2}\sum_i m_i v_i^2$ 与式~\ref{eq:T_q} 中 $T_{q,i}$ 求�
 $\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \|_{2}<\text{1e-5}$，罚函数法满足
 $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:time_comparison_penalty} 表明，本文方法以更少迭代、更低时间代价达到收敛；罚函数法随权重增大显著变慢。较小权重虽可提速，但会带来更大约束误差。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
   \centering
@@ -104,7 +106,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 \subsubsection{与直接 KKT 方法的比较}
 直接求解 KKT 系统虽无罚函数法的数值阻尼伪影，但计算代价高（图~\ref{fig:kkt_timing}），且在牛顿迭代不足时无法精确满足不可伸长与对齐约束（图~\ref{fig:kkt_violation_a}、图~\ref{fig:kkt_violation_b}）。相比之下，本文紧凑表示天然满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}，无需为这些内在约束额外付出计算。文献~\cite{deul_direct_2018} 亦包含 KKT 求解，但在每个牛顿步交替使用 KKT 与非线性 Gauss-Seidel，迭代不足时同样会出现约束违背。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
   \centering
@@ -130,7 +132,6 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
   \caption{\textbf{本文方法与笛卡尔坐标直接 KKT 方法比较。}
   在图~\ref{fig:visual_damping_penalty} 场景中，本文方法不仅耗时更低（a），且可严格满足非线性内在约束（b,c）。}
   \label{fig:compare_direct_method}
-  \vspace{-0.12in}
 \end{figure}
 
 \subsubsection{与 Super-Helices 的比较}
@@ -138,7 +139,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 
 此外，其方法并非如本文隐式时间步进般无条件稳定~\cite{bertails_linear_2009}：由于显式计算 $\ddot{\kappa}_{\mathcal{Q}}$，时间步上限会随单元数增多而明显降低——单曲线单元时最大约 $\SI{35}{ms}$，40 单元时仅约 $\SI{4}{ms}$。我们在其基准相似场景中（图~\ref{fig:compare_to_super_helix}）使用 200 个线段并取 $\SI{250}{ms}$ 时间步，仍能稳定仿真。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{super_helix/render1.notation.png}
   \caption{\textbf{拖动杆根部。}我们使用 200 个线段模拟该场景，参考长度 $1\mathrm{m}$，密度 $\SI{1}{\den}$，半径 $\SI{0.03}{m}$，杨氏模量 $\SI{1}{MPa}$，剪切模量 $\SI{1}{MPa}$，时间步长 $\Delta t=\SI{250}{ms}$。对顶部两个顶点施加位移
@@ -150,11 +151,11 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 （$E = \SI{0.2}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{1}{\den}$，20 线段）中，我们得到与其相近结果但更高性能：其论文报告约 $\SI{54}{fps}$（时间步约 $\SI{8}{ms}$），而我们在 $\SI{30}{ms}$ 时间步下达到 $\SI{344}{fps}$。若仅按单线程 CPU 主频粗略归一化（其 $\SI{2.1}{GHz}$，我们 $\SI{3.9}{GHz}$），仍有约 $3.43$ 倍加速，且该对比尚未计入更大稳定时间步的收益。
 
 \subsubsection{与 RedMax 的比较}
-RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于不可伸长杆。为公平比较，我们在附录~\ref{model_redMax} 中将其扩展到 Kirchhoff 杆：通过球形关节描述旋转场沿杆变化。与 Super-Helices 类似，这会使雅可比与质量矩阵更复杂。另一个关键差别是，RedMax 先坐标变换后时间离散，而本文方法反之；因此 RedMax 忽略了更多隐式力项，稳定性更弱。
+RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于不可伸长杆。为公平比较，我们在\ref{model_redMax}节中将其扩展到 Kirchhoff 杆：通过球形关节描述旋转场沿杆变化。与 Super-Helices 类似，这会使雅可比与质量矩阵更复杂。另一个关键差别是，RedMax 先坐标变换后时间离散，而本文方法反之；因此 RedMax 忽略了更多隐式力项，稳定性更弱。
 
 我们在图~\ref{fig:visual_damping_penalty} 相同场景下使用扩展 RedMax，并以二分法估计视觉稳定下的最大时间步。图~\ref{fig:timestep_limit} 显示：重力加速度越大，扩展 RedMax 越易失稳；本文方法可在更大时间步下稳定运行。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -185,6 +186,8 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
   \label{fig:timestep_limit}
 \end{figure}
 
+\inputbody{paper1/app_extended_redmax}
+
 \subsection{更多结果}
 除上述对比外，我们在更复杂场景展示方法能力。
 
@@ -202,8 +205,9 @@ $E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，
 如图~\ref{fig:pulley}，参数为
 $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、200 线段的杆落在三个圆柱上。由于本文方法数值阻尼较小，杆会先反弹一段时间后再稳定贴附。
 
-\begin{table*}[]
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|X|X|X|X|X|X|}
 \hline
 图号 & \#vert. & 平均碰撞对数 & 平均 KKT 系统数 & 平均梯度/海森评估耗时($\si{ms}$) & 平均预计算耗时($\si{ms}$) & 平均求解耗时($\si{ms}$) & 平均总耗时($\si{ms}$) \\
 \hline
@@ -213,26 +217,26 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
 图~\ref{fig:demo_plectoneme} & 51 & 8 & 7 & 2.392 & 0.375 & 13.089 & 20.160 \\ \hline
 图~\ref{fig:pulley} & 201 & 46 & 6 & 1.5613 & 1.56 & 12.172 & 36.888 \\ \hline
 图~\ref{fig:compare_to_super_helix} & 21 & 0 & 0 & 0.561 & 0.048 & 1.386 & 2.843 \\ \hline
-\end{tabular}
+\end{tabularx}
 \caption{\textbf{统计与性能。} 列出~\Cref{sec:cmp_res} 各实验在每个时间步中的平均碰撞对数、平均 KKT 系统数量与分项耗时。}
 \label{table:timing}
-\end{table*}
+\end{table}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{strand_helices/helices-long.png} \end{subfigure}
   \caption{\textbf{穿过弹簧的细杆。} 两个弹簧在滑动过程中相互碰撞，接触丰富，本文方法可稳定处理。}
   \label{fig:demo_hang}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{knot/knots-long.png} \end{subfigure}
   \caption{\textbf{打结。}本文方法能重现打结过程，并在大拉力下保持不可伸长性。\textcolor{black}{使用不同颜色区分杆表面不同侧面以增强可视化。}}
   \label{fig:demo_knot0}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}
     \node [above right, inner sep=0] (image) at (0,0) {
@@ -247,7 +251,7 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
   \label{fig:tightest_knot}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -257,7 +261,7 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
   \label{fig:demo_plectoneme}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
