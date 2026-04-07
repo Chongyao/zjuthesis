@@ -258,3 +258,4 @@ TSWLatexianTemp*
 .history
 
 .venv
+.sisyphus/boulder.json
