@@ -27,7 +27,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `zjuthesis.tex` is the main entry point. It holds the documentclass options that control almost everything: `Degree`, `MajorFormat`, `Type`, `Period`, `BlindReview`, `Language`, and `GradLevel`. The root file then dispatches into either the undergraduate or graduate assembly flow.
 - `zjuthesis.cls` is the core class. It declares the key-value options, loads `ctexrep`, imports global packages and paper-specific macro files, then wires in the path layer (`config/path.tex`), command layer (`config/commands.tex`), and formatting layer (`config/format/format.tex`).
-- `config/commands.tex` is the main indirection layer. `\inputpage` and `\inputbody` resolve files by degree / grad level / major format, preferring the most specific override and falling back to the generic file. If a change seems to have no effect, check whether a more specific file is shadowing the one you edited.
+- `config/commands.tex` is the main indirection layer. `\inputpage` and `\inputbody` resolve files by degree / grad level / major format with this priority (most specific wins):
+  - Graduate: `page/graduate/{GradLevel}/{MajorFormat}/file` → `page/graduate/{GradLevel}/file` → `page/graduate/file`
+  - Undergraduate: `page/undergraduate/{period}/major/{MajorFormat}/file` → `page/undergraduate/{period}/file`
+  - If a change seems to have no effect, check whether a more specific file is shadowing the one you edited.
 - `config/path.tex` centralizes shared resource lookup: the global `\graphicspath` and the bibliography source (`body/ref.bib`).
 - `config/format/general/*` contains the common layout, numbering, geometry, language, heading, caption, and reference behavior. `config/format/major/*` contains major-specific overrides; per `docs/develop.md`, major-specific package additions should live in that major’s own `packages.tex`, not in `config/packages.tex`.
 
@@ -35,8 +38,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository is not just the upstream template; it currently contains a dissertation assembled on top of it.
 
-- `body/graduate/content.tex` defines the chapter order for the current thesis: `intro`, `paper1`, `paper2`, `paper3`, then `conclusion`.
-- Each chapter directory has a `main.tex` that fans out into section files. For example, `body/graduate/intro/main.tex` pulls in the introduction subsections, and each `paper*/main.tex` pulls in its paper-specific sections.
+- `body/graduate/content.tex` defines the chapter order: `intro`, `paper1`, `paper2`, `paper3`, then `conclusion`.
+- Each chapter directory has a `main.tex` that fans out into section files (e.g., `body/graduate/intro/main.tex`, `body/graduate/paper1/main.tex`).
 - `body/graduate/post.tex` assembles the back matter (`post/ref`, `post/appendix`, and `post/cv` when not in blind review mode).
 - `page/graduate/**` contains cover pages, TOC, abstract, and other front matter. Which file is chosen depends on the same degree / grad level / major format resolution logic used by `\inputpage`.
 - Figures are split between the shared `figure/` directory and paper-local figure directories included via `config/path.tex`.
