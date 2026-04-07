@@ -1,5 +1,23 @@
 \cleardoublepage
 \chapternonum{摘要}
 
+物理仿真是计算机图形学与计算力学交叉领域的核心研究方向，在工业设计、虚拟现实及智能机器人等场景中具有广泛应用。然而，当模拟对象中存在物理属性或数值刚度极度失配的"软硬耦合"成分时，系统矩阵的特征值频谱分离会导致条件数显著上升，引发数值病态性问题。这种病态性会降低迭代求解器的收敛速度、迫使时间积分采用极小步长，并可能导致数值震荡或几何穿透等视觉瑕疵。
+
+本文围绕物理仿真中软硬耦合问题的基函数变换解构方法展开研究，针对三类典型的病态系统——本构导致的极端刚度失配、网格导致的局部几何退化、以及算法导致的虚假边界刚度——提出了一系列基于表示空间重构的解决方案。具体而言：针对不可伸长弹性细杆的动力学仿真，通过关节角广义坐标变换将极端拉伸硬约束内建于运动学表述中，实现了"零约束"的高效隐式动力学演化；针对畸变网格单元的数值奇异性，提出了算子感知的局部基函数隔离框架，通过Dirac-wavelet基函数在局部重新张成解空间，将人造的高频刚度从求解空间中剥离；针对大规模模态综合法中的算法病态性，通过多重交错划分策略与无Schur补的界面模态缩减方法，补足固定边界引入的全局低频相位缺失。
+
+实验结果表明，本文提出的基函数变换与空间重构方法能够有效改善软硬耦合系统的数值条件，显著提升仿真效率与稳定性，为物理仿真计算管线提供了新的设计范式。
+
+\bigskip
+\noindent \textbf{关键词}：物理仿真；软硬耦合；基函数变换；不可伸长细杆；畸变网格；模态综合法
+
 \cleardoublepage
 \chapternonum{Abstract}
+
+Physical simulation is a fundamental research direction at the intersection of computer graphics and computational mechanics, with wide applications in industrial design, virtual reality, and intelligent robotics. However, when the simulation object contains components with extreme mismatch in physical properties or numerical stiffness---a phenomenon known as "stiff-soft coupling"---the spectral separation of the system matrix eigenvalues leads to significantly increased condition numbers, causing numerical ill-conditioning. This ill-conditioning degrades the convergence rate of iterative solvers, forces time integration to adopt extremely small step sizes, and may result in visual artifacts such as numerical oscillations or geometric penetration.
+
+This dissertation investigates basis function transformation and deconstruction methods for stiff-soft coupling problems in physical simulation. Focusing on three typical types of ill-conditioned systems---extreme stiffness mismatch caused by material constitutive laws, local geometric degeneration caused by mesh discretization, and artificial boundary stiffness caused by algorithmic constraints---we propose a series of representation space reconstruction solutions. Specifically: for the dynamics simulation of inextensible elastic rods, we employ generalized coordinate transformation based on joint angles to embed extreme stretch constraints into the kinematic formulation, achieving efficient "constraint-free" implicit dynamic evolution; for numerical singularities in distorted mesh elements, we propose an operator-aware local basis function isolation framework that reconstructs the solution space using Dirac-wavelet basis functions, stripping artificial high-frequency stiffness from the solver space; for algorithmic ill-conditioning in large-scale component mode synthesis, we introduce a multi-level interlaced partitioning strategy combined with a Schur-complement-free interface modal reduction method to compensate for the missing global low-frequency phases introduced by fixed boundaries.
+
+Experimental results demonstrate that the proposed basis function transformation and space reconstruction methods can effectively improve the numerical conditioning of stiff-soft coupled systems, significantly enhancing simulation efficiency and stability, thereby providing a new design paradigm for physical simulation pipelines.
+
+\bigskip
+\noindent \textbf{Keywords}: physical simulation; stiff-soft coupling; basis function transformation; inextensible rods; distorted mesh; component mode synthesis
