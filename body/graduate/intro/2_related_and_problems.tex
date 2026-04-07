@@ -17,7 +17,7 @@
     \centering
     \includegraphics[width=0.4\textwidth]{body/graduate/intro/figures/local_basis.jpg}
     \includegraphics[width=0.4\textwidth]{body/graduate/intro/figures/global_basis.jpeg}
-    \caption{局部的拉格朗日插值基函数（左）与全局特征基函数（右）}
+    \caption{图 1.1 局部的拉格朗日插值基函数（左）与全局特征基函数（右）。}
     \label{fig:local-and-global-basis}
 \end{figure}
 在计算机图形学以及基于有限元方法（Finite Element Method, FEM）的物理仿真中，最普遍的离散表征是基于网格拓扑的\textbf{局部插值基函数}（如线性拉格朗日形函数~\cite{chen2018numerical}）。如图~\ref{fig:local-and-global-basis} 所示，对于三维空间中的连续形变场，我们仅在计算机中维护离散采样点（即网格节点）处的物理量。物体内部任意位置的状态则通过周围节点的基函数线性插值获得。最常见的是满足克罗内克（Kronecker delta）插值性质的拉格朗日基函数：
@@ -108,7 +108,7 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{body/graduate/intro/figures/rod_rep.png} 
-    \caption{一维细长弹性细杆离散表示对比：同时离散中心线和局部材料标架以刻画扭转屈曲的离散 Cosserat 杆模型。}
+    \caption{图 1.2 一维细长弹性细杆离散表示对比：同时离散中心线和局部材料标架以刻画扭转屈曲的离散 Cosserat 杆模型，改编自~\cite{spillmann_corde_2007}。}
     \label{fig:intro_rod_representation}
 \end{figure}
 
@@ -153,7 +153,7 @@
     \centering
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/mesh_schematic.png}
     \includegraphics[width=0.6\textwidth]{body/graduate/intro/figures/condition_numbers.png}
-    \caption{网格畸变诱发的数值病态：畸变单元（左）导致单元和全局刚度矩阵条件数恶化（来自~\cite{chen_multiscale_2021}）。}
+    \caption{网格畸变诱发的数值病态：畸变单元（左）导致单元和全局刚度矩阵条件数恶化。}
     \label{fig:intro_sliver_condition}
 \end{figure}
 网格质量的劣化不仅影响几何表征，还会在离散系统中引入“极短空间距离”约束，引发软硬耦合病态性。从数值分析角度看，局部单元 $\Omega_e$ 的物理坐标 $\mathbf{x}$ 与参考坐标 $\boldsymbol{\xi}$ 映射由雅可比矩阵 $\mathbf{J}_e$ 描述。拉格朗日基函数 $\phi_i(\mathbf{x})$ 的梯度遵循链式法则：
