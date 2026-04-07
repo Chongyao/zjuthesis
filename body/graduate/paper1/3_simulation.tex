@@ -39,7 +39,7 @@
   \label{fig:single-chain}
 \end{figure}
 
-综合以上内容，我们使用根顶点处的 $\p_c \in \mathcal{R}^3$ 和第 $i$ 个段 $\mathbf{e}_i$ 上的 $\omega_i\in\mathcal{R}^3$ 来表示杆。回顾使用 $\p$ 和 $\q$ 中 $7n-4$ 个变量的传统表示方法，在~\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中有 $4(n-1)$ 个线性独立约束，因此实际上只有 $(7n-4)-4(n-1)=3n$ 个自由度。我们的表示方法 $\mathbf{s}=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$ 恰好有 $3n$ 个自由度，完美匹配非闭环不可伸长分段线性 Cosserat 杆的本质。\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中的所有等式约束都是不必要的，在采用我们的表示方法时它们已被自然满足。\textcolor{black}{实际上，我们的方法完美地建模了一类特殊的不可剪切且不可伸长的 Cosserat 杆，即 Kirchhoff 杆~\cite{dill1992kirchhoff}。}
+综合以上内容，我们使用根顶点处的 $\p_c \in \mathcal{R}^3$ 和第 $i$ 个段 $\mathbf{e}_i$ 上的 $\omega_i\in\mathcal{R}^3$ 来表示杆。回顾使用 $\p$ 和 $\q$ 中 $7n-4$ 个变量的传统表示方法，在~\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中有 $4(n-1)$ 个线性独立约束，因此实际上只有 $(7n-4)-4(n-1)=3n$ 个自由度。我们的表示方法 $\mathbf{s}=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$ 恰好有 $3n$ 个自由度，自然匹配非闭环不可伸长分段线性 Cosserat 杆的本质。\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中的所有等式约束都是不必要的，在采用我们的表示方法时它们已被自然满足。\textcolor{black}{实际上，我们的方法有效地建模了一类特殊的不可剪切且不可伸长的 Cosserat 杆，即 Kirchhoff 杆~\cite{dill1992kirchhoff}。}
 在传统表示方法下，隐式欧拉时间步进会导致如下非线性约束优化问题~\cite{martin2011example}：
 \begin{subequations}
   \begin{align}
@@ -79,6 +79,7 @@
 \end{equation}
 约束 $\mathbf{C_{\mathcal A}}$ 根据当前碰撞情况和剩余等式约束进行更新。粗略地说，剩余等式约束始终在集合 $\mathbf{C_{\mathcal A}}$ 中，$\mathbf{C_I}$ 中的活动不等式约束（如活动碰撞）将被插入到集合 $\mathbf{C_{\mathcal A}}$ 中并作为等式约束处理。同时，$\mathbf{C_I}$ 中的非活动碰撞将在每次迭代中被移除。在每次迭代中，状态可以回溯到非穿透状态。伪代码见\ref{app:active_set}节。
 
+在建立这一优化问题形式之后，我们接下来将介绍如何在该新表示下采用高效的序列二次规划（SQP）方法进行求解。
 \subsection{新表示下的 SQP 求解框架}
 总体而言，我们遵循文献~\cite{pan_subspace_2015} 的方法，在序列二次规划（Sequential Quadratic Programming, SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。我们使用线搜索方法~\cite{nocedal1999numerical} 来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
 \begin{equation}
@@ -161,10 +162,11 @@
 \label{eq: solve_kkt}
 \end{equation}
 
-和 RedMax~\cite{wang_redmax_2019} 一样，我们使用预条件共轭梯度（Preconditioned Conjugate Gradient, PCG）方法求解 $\mathbf{A}$ 的方程。这些方程的数量是 $\nabla_s\mathbf{C_{\mathcal A}}$ 的行数加上 $2$，会带来巨大的计算成本。注意，通过 PCG 求解线性系统的成本与矩阵向量乘法及其预条件器密切相关，我们充分利用 $\mathbf{A}$ 的结构，使两类操作的时间复杂度均为 $\mathcal{O}(n)$ 并加速收敛。详细分析见下一节。
+和 RedMax~\cite{wang_redmax_2019} 一样，我们使用预条件共轭梯度（Preconditioned Conjugate Gradient, PCG）方法求解 $\mathbf{A}$ 的方程。这些方程的数量是 $\nabla_s\mathbf{C_{\mathcal A}}$ 的行数加上 $2$，会带来可观的计算成本。注意，通过 PCG 求解线性系统的成本与矩阵向量乘法及其预条件器密切相关，我们充分利用 $\mathbf{A}$ 的结构，使两类操作的时间复杂度均为 $\mathcal{O}(n)$ 并加速收敛。详细分析见下一节。
 
 \inputbody{paper1/app_active_set}
 
+为了在迭代求解中维持较高的效率，必须对涉及雅可比和黑塞矩阵的关键算子实现降复杂度计算。以下将详细阐述其线性时间复杂度的构造过程。
 \subsection{\texorpdfstring{$\mathcal{O}(n)$}{O(n)} 时间复杂度的算子评估}
 \label{ssec:jacobian-patt}
 

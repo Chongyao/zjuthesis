@@ -1,4 +1,4 @@
- \paragraph*{Kirchhoff 杆仿真的扩展 RedMax}\label{model_redMax}
+ \subsubsection{对比基线模型：扩展的 RedMax}\label{model_redMax}
 Kirchhoff 杆描述的是没有拉伸和剪切变形的杆，因此关节刚体仿真的方法可能适合近似它。为了实现这一点，我们只需要使用球面关节并利用其自由度来推导 Kirchhoff 模型的势能。我们用 $\Q$ 表示球面关节的自由度，并用 $\exp(\Q)$ 表示材料标架的变化。
 
 %% Actually, we only need to extend RedMax~\cite{wang_redmax_2019} for articulated rigid body in the specific spherical-joint case, which uses the exponential coordinates $\mathcal{Q} \in \mathcal{R}^3$ to express the change of the material frame by $\exp(\mathcal{Q})$.
