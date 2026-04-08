@@ -1,0 +1,7 @@
+Rc files read:
+  .latexmkrc
+Latexmk: This is Latexmk, John Collins, 15 June 2025. Version 4.87.
+Latexmk: Nothing to do for 'zjuthesis.tex'.
+Latexmk: All targets (out/zjuthesis.xdv out/zjuthesis.pdf) are up-to-date
+
+EXIT:0

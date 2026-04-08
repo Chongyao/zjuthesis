@@ -1,0 +1,2 @@
+- Broke down long sentences in the conclusion to improve readability while maintaining scientific precision.
+- Added explicit phrasing ('本构导致的软硬耦合') to the conclusion to smoothly transition and connect the chapter to the broader thesis context.
