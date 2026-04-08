@@ -105,17 +105,18 @@
 
 下面我们将从物理本构、空间离散到算法构造这三个层次，分别剖析物理仿真中最具代表性的三类软硬耦合病态系统（不可拉伸细杆、畸变网格单元以及大规模广义特征值问题）。在每一类问题中，我们将首先揭示其局部高频约束引发病态刚度的数学来源，随后回顾现有主流求解方案的局限性。
 
+% \subsection{由物理本构导致的软硬耦合}
+% 最常见的软硬耦合现象就是物理本构和参数分布带来的。典型的例子就是由不同材质组成的复合体， 不同材质之间有巨大刚度差异。 比如非均匀材料的弹性仿真，数值粗化是很常见的一类处理方式。 数值粗化往往构建一个分辨率更低的粗网网格\cite{chen2018numerical, chen2019material,ChenDdFEM2015}， 然后优化这个粗网格上的材料参数， 弹性张量或者基函数。 通过这种方式， 数值粗化方法能够在保持物理行为近似的前提下， 显著降低系统的自由度和条件数\Cref{fig:intro_coarsening}。 此类作为往往依赖于复杂的数值预计算，在局部xx， 在处理复杂几何或非线性行为时可能面临挑战。 此外， 粗化过程中引入的近似可能会导致仿真结果与原始细网格存在一定偏差， 需要在效率和准确性之间进行权衡。
+
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=\textwidth]{body/graduate/intro/figures/coarsening.png}
+%     \caption{数值粗化方法通过构建一个分辨率更低的粗网格来处理非均匀材料的弹性仿真。粗网格上的材料参数（如弹性张量）经过优化，以近似原始细网格上的物理行为\cite{chen2018numerical, chen2019material,ChenDdFEM2015}。}
+%     \label{fig:intro_coarsening}
+% \end{figure}
+
+% \subsubsection{不可拉伸弹性细杆}
 \subsection{由物理本构导致的软硬耦合}
-最常见的软硬耦合现象就是物理本构和参数分布带来的。典型的例子就是由不同材质组成的复合体， 不同材质之间有巨大刚度差异。 比如非均匀材料的弹性仿真，数值粗化是很常见的一类处理方式。 数值粗化往往构建一个分辨率更低的粗网网格\cite{chen2018numerical, chen2019material,ChenDdFEM2015}， 然后优化这个粗网格上的材料参数， 弹性张量或者基函数。 通过这种方式， 数值粗化方法能够在保持物理行为近似的前提下， 显著降低系统的自由度和条件数\Cref{fig:intro_coarsening}。 此类作为往往依赖于复杂的数值预计算，在局部xx， 在处理复杂几何或非线性行为时可能面临挑战。 此外， 粗化过程中引入的近似可能会导致仿真结果与原始细网格存在一定偏差， 需要在效率和准确性之间进行权衡。
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{body/graduate/intro/figures/coarsening.png}
-    \caption{数值粗化方法通过构建一个分辨率更低的粗网格来处理非均匀材料的弹性仿真。粗网格上的材料参数（如弹性张量）经过优化，以近似原始细网格上的物理行为\cite{chen2018numerical, chen2019material,ChenDdFEM2015}。}
-    \label{fig:intro_coarsening}
-\end{figure}
-
-\subsubsection{不可拉伸弹性细杆}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{body/graduate/intro/figures/rod_rep.png} 

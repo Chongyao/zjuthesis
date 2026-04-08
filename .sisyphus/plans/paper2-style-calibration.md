@@ -612,19 +612,19 @@ Critical Path: Task 1 -> Task 2 -> Task 4 -> Task 6 -> Task 7 -> Task 8 -> Task 
 
 ## Final Verification Wave
 
-- [ ] F1. **Plan Compliance Audit** — `oracle`
+- [x] F1. **Plan Compliance Audit** — `oracle`
   Verify that the executed revisions match this plan exactly: related-work structure untouched, contribution list reduced to two bullets, summary rewritten, and chapter-wide tone calibrated.
   Output: `VERDICT: APPROVE/REJECT`
 
-- [ ] F2. **Code/Build Quality Review** — `unspecified-high`
+- [x] F2. **Code/Build Quality Review** — `unspecified-high`
   Run `latexmk`. Confirm no paper2-specific regression was introduced and no malformed LaTeX was created by the rewriting pass.
   Output: `Build [PASS/FAIL] | VERDICT`
 
-- [ ] F3. **Real Manual QA** — `unspecified-high`
+- [x] F3. **Real Manual QA** — `unspecified-high`
   Read revised opening, middle section, results section, and summary. Confirm the prose is plain, rigorous, and restrained throughout.
   Output: `Tone [PASS/FAIL] | VERDICT`
 
-- [ ] F4. **Scope Fidelity Check** — `deep`
+- [x] F4. **Scope Fidelity Check** — `deep`
   Compare plan vs actual edits. Confirm the revision stayed within style/calibration scope and did not become a structural or technical redesign.
   Output: `Scope [CLEAN/N issues] | VERDICT`
 
