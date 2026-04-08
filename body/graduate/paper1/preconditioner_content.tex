@@ -1,6 +1,6 @@
 \subsection{混合预条件器}
 
-\begin{figure}[t]
+\begin{figure}[H]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -141,7 +141,7 @@ $且 $\J_{\mathbf{p, s}} =
 此外，我们的 PCG 求解器在实验设置下呈现出近乎线性的复杂度。在线性系统求解阶段，平均时间随段数增加近似线性增长（见图~\ref{fig:linear_increasing}）。因此，我们的方法关于段数表现出较好的可扩展性。需要注意的是，线性复杂性不适用于整个时间步，因为~\cref{eq: collision constraint} 中的碰撞约束在我们的简化表示下是非线性的，解决碰撞所需的牛顿迭代次数在不同帧之间可能不同。
 }
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{sheet/pdf/linear_increasing.pdf}
   \caption{\textbf{平均时间成本。}我们在图~\ref{fig:visual_damping_penalty} 中的重力作用下模拟螺旋线。我们的 PCG 求解线性系统使用几乎固定的迭代次数。每步的时间成本关于段数几乎是线性的。}
@@ -150,7 +150,7 @@ $且 $\J_{\mathbf{p, s}} =
 
 根据~\cref{eq:A}，$\mathbf{A}$ 是两部分的和。随着杨氏模量的增加，$\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 将占据越来越大的主导地位。因此，在这种情况下，使用完整 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 的预条件器可以更好地近似 $\mathbf A$，从而带来更好的收敛率（如图~\ref{A} 所示）。而简单的块对角预条件器丢弃了 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 中的许多大非零值，导致收敛率较差（如图~\ref{B} 所示）。
 
-\begin{figure}[t]
+\begin{figure}[H]
   \centering
   \vspace{1.2cm}
   \begin{subfigure}[b]{0.48\textwidth}
