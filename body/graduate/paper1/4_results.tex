@@ -104,7 +104,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 \end{figure}
 
 \subsubsection{与直接 KKT 方法的比较}
-直接求解 KKT 系统虽无罚函数法的数值阻尼伪影，但计算代价高（图~\ref{fig:kkt_timing}），且在牛顿迭代不足时无法精确满足不可伸长与对齐约束（图~\ref{fig:kkt_violation_a}、图~\ref{fig:kkt_violation_b}）。相比之下，本文紧凑表示天然满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}，无需为这些内在约束额外付出计算。文献~\cite{deul_direct_2018} 亦包含 KKT 求解，但在每个牛顿步交替使用 KKT 与非线性 Gauss-Seidel，迭代不足时同样会出现约束违背。
+直接求解 KKT 系统虽无罚函数法的数值阻尼伪影，但计算代价高（图~\ref{fig:kkt_timing}），且在牛顿迭代不足时无法精确满足不可伸长与对齐约束（图~\ref{fig:kkt_violation_a}、图~\ref{fig:kkt_violation_b}）。相比之下，本文的紧凑表示在参数化层面满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。在相同的实验设置下，这避免了对内在约束进行额外计算迭代所需的开销。文献~\cite{deul_direct_2018} 亦包含 KKT 求解，但在每个牛顿步交替使用 KKT 与非线性 Gauss-Seidel，迭代不足时同样会出现约束违背。
 
 \begin{figure}[htbp]
   \centering
