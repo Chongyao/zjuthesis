@@ -1,0 +1,36 @@
+% Gemini-3.1-Pro-High 改进版本
+\cleardoublepage
+\chapternonum{摘要}
+
+物理仿真是计算机图形学与计算力学交叉领域的核心研究方向，在工业设计、虚拟现实及具身智能等场景中扮演着不可或缺的基础设施角色。物理模拟的底层计算管线本质上是将连续时空的偏微分方程映射至离散的有限维子空间进行求解。然而，当模拟对象中存在物理属性或数值刚度极度失配的"软硬耦合"成分时，系统矩阵的特征值会产生严重的频谱分离并推高条件数，引发数值病态性问题。这种病态性不仅会大幅降低克雷洛夫子空间迭代求解器的收敛速度、迫使隐式时间积分采用极小步长，还易导致运动迟滞、数值震荡等瑕疵。传统的代数预处理方法由于缺乏对底层物理特性的直接感知，在极端病态场景中面临着近似效能下降的穿透瓶颈。
+
+为此，本文放弃在原始几何空间中盲目对抗局部高频的"硬"模态，提出了一种基于表示空间重构与基函数变换的系统性解构方法。核心思想在于：通过重新设计离散自由度及其伴生的基空间，使数值系统在底层具备更优异的物理感知特性，从源头上安全隔离引发数值崩溃的局部高频"硬"约束，同时精确保留和捕捉复杂的全局低频"软"响应。围绕物理仿真中三类典型的软硬耦合来源，本文开展了以下三个层面的具体研究：
+
+（1）\textbf{针对本构模型导致的极端刚度失配，研究了不可伸长弹性细杆的高效动力学仿真。}高频拉伸硬约束在离散系统中表现为极短的空间距离约束，本文引入基于关节角（Axis-angle）的链式广义坐标变换，将该拉伸约束内建于运动学表述中，实现了精确匹配弯扭软模态的"零约束"参数化。同时，结合重构后Hessian矩阵的非零模式设计了对称正定的混合预条件子，在隐式积分框架下实现了大时间步长与近线性的求解复杂度。
+
+（2）\textbf{针对空间离散导致的局部几何退化，研究了畸变有限元网格的数值奇异性隔离。}退化单元极小的雅可比行列式会引发高频的人造奇异刚度。本文提出了一种算子感知的局部基函数优化与隔离框架，通过将退化特征区域局部聚合为多面体，并引入Dirac-wavelet基函数重新张成解空间。该轻量级重构方法成功将全局刚度矩阵的最大特征值降低了约两个数量级，使共轭梯度法的收敛速度提升了约50\%。
+
+（3）\textbf{针对算法降维构造引入的附加软硬失配，研究了大规模模态综合法（CMS）的广义特征值求解困境。}传统空间划分在子结构界面引入的固定边界限制了降阶基底对全局低频响应的表达。本文提出了多重空间交错划分策略，利用错位边界自然补足全局低频相位的缺失。此外，推导了一种无Schur补的界面模态缩减（IMR）公式，利用局部静力平衡代替昂贵的稠密特征分解，彻底打破了分布式计算的通信壁垒，将低频特征值的求解精度提升了三个数量级。
+
+综上所述，本文提出的基函数变换与空间重构方法，在物理内生、离散诱导与算法附加三个层次有效改善了软硬耦合系统的数值条件。实验结果表明，该方法突破了传统代数预处理的局限，显著提升了大规模物理仿真的计算效率、精度与鲁棒性，为构建健壮的高性能物理仿真管线提供了全新的范式。
+
+\bigskip
+\noindent \textbf{关键词}：物理仿真；软硬耦合；基函数变换；不可伸长细杆；畸变网格；模态综合法
+
+\cleardoublepage
+\chapternonum{Abstract}
+
+Physical simulation is a core research direction at the intersection of computer graphics and computational mechanics, serving as an indispensable infrastructure in applications such as industrial design, virtual reality, and embodied artificial intelligence. The underlying computational pipeline of physical simulation essentially maps continuous spatio-temporal partial differential equations into a discrete finite-dimensional subspace for resolution. However, when the simulated object contains "stiff-soft coupling" components with extreme mismatches in physical properties or numerical stiffness, the eigenvalue spectrum of the system matrix experiences severe separation, pushing up the condition number and causing numerical ill-conditioning. This ill-conditioning drastically degrades the convergence rate of Krylov subspace iterative solvers, forces implicit time integration to adopt extremely small step sizes, and easily triggers visual artifacts such as motion hysteresis and numerical oscillations. Traditional algebraic preconditioning methods, lacking direct awareness of the underlying physical traits, face a bottleneck of declining approximation efficacy in extremely ill-conditioned scenarios.
+
+To this end, instead of blindly confronting local high-frequency "stiff" modes in the original geometric space, this dissertation proposes a systematic deconstruction methodology based on representation space reconstruction and basis function transformation. The core philosophy lies in redesigning discrete degrees of freedom and their associated basis spaces to endow the numerical system with superior physics-aware characteristics at the bottom level. This intrinsically isolates the local high-frequency "stiff" constraints that trigger numerical collapse, while accurately preserving and capturing the complex global low-frequency "soft" responses. Focusing on three typical sources of stiff-soft coupling in physical simulation, this dissertation conducts specific research at the following three levels:
+
+(1) \textbf{Addressing extreme stiffness mismatch caused by constitutive models, we investigate the efficient dynamic simulation of inextensible elastic rods.} High-frequency stretch constraints manifest as extremely short spatial distance constraints in discrete systems. By introducing a chain-like generalized coordinate transformation based on joint angles (axis-angle), we embed the stretch constraints into the kinematic formulation, achieving a "constraint-free" parameterization that exactly matches the bending and twisting soft modes. Additionally, by exploiting the non-zero pattern of the reconstructed Hessian matrix, a symmetric positive-definite (SPD) mixed preconditioner is designed, achieving large time steps and near-linear computational complexity within an implicit integration framework.
+
+(2) \textbf{Addressing local geometric degeneration caused by spatial discretization, we investigate the isolation of numerical singularities in distorted finite element meshes.} The infinitesimal Jacobian determinant of degenerate elements triggers high-frequency artificial singular stiffness. We propose an operator-aware local basis function optimization and isolation framework. By locally aggregating degenerate feature regions into polyhedrons and introducing Dirac-wavelet basis functions to re-span the solution space, this lightweight reconstruction method successfully reduces the maximum eigenvalue of the global stiffness matrix by approximately two orders of magnitude, boosting the convergence speed of the Conjugate Gradient (CG) method by about 50\%.
+
+(3) \textbf{Addressing the artificial stiff-soft mismatch introduced by algorithmic dimensionality reduction, we investigate the generalized eigenvalue dilemma in large-scale Component Mode Synthesis (CMS).} The fixed boundaries introduced by traditional spatial partitioning at substructure interfaces restrict the reduced basis from fully expressing global low-frequency responses. We propose a multi-level interlaced spatial partitioning strategy that naturally compensates for the missing global low-frequency phases using staggered boundaries. Furthermore, a Schur-complement-free Interface Modal Reduction (IMR) formulation is derived, leveraging local static equilibrium to replace expensive dense eigen-decomposition. This completely breaks the communication barriers in distributed computing and improves the solution accuracy of low-frequency eigenvalues by three orders of magnitude.
+
+In conclusion, the basis function transformation and space reconstruction methods proposed in this dissertation effectively improve the numerical condition of stiff-soft coupled systems across three levels: physics-intrinsic, discretization-induced, and algorithm-appended. Experimental results demonstrate that this methodology breaks through the limitations of traditional algebraic preconditioning, significantly enhancing the computational efficiency, accuracy, and robustness of large-scale physical simulations, thereby providing a novel paradigm for building robust and high-performance physical simulation pipelines.
+
+\bigskip
+\noindent \textbf{Keywords}: physical simulation; stiff-soft coupling; basis function transformation; inextensible rods; distorted mesh; component mode synthesis

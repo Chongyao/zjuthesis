@@ -1,0 +1,24 @@
+% GPT-5.4 改进版本
+\cleardoublepage
+\chapternonum{摘要}
+
+物理仿真是计算机图形学与计算力学交叉领域的核心研究方向，在工业设计、虚拟现实、机器人与具身智能等场景中具有重要应用。此类问题通常通过将连续偏微分方程离散化为有限维代数系统进行求解，但当系统中同时存在局部高频"硬"成分与全局低频"软"响应时，往往会出现由软硬耦合引发的谱分离与条件数恶化，进而导致迭代求解收敛缓慢、时间步长受限及数值稳定性下降。传统代数预处理方法主要在矩阵层面修补病态性，难以充分利用问题背后的物理结构。针对这一挑战，本文提出以\textbf{基函数变换}为核心的表示空间重构方法论，通过重新设计离散自由度及其伴生基空间，在表示层面隔离引发病态的局部高频刚度，同时保留决定宏观行为的全局低频响应。
+
+围绕三类典型软硬耦合问题，本文开展了系统研究。其一，针对\textbf{本构导致的软硬耦合}，研究不可伸长弹性细杆的动力学仿真，通过基于关节角的广义坐标变换将拉伸硬约束内建于运动学表述中，实现了"零约束"的隐式动力学演化，并结合混合预条件子提升了大步长下的求解效率。其二，针对\textbf{网格导致的软硬耦合}，研究包含畸变单元的有限元系统，提出算子感知的局部基函数优化与隔离框架，通过局部聚合与 Dirac-wavelet 基函数重构，将由几何退化诱发的人造高频刚度从求解空间中剥离。其三，针对\textbf{算法导致的软硬耦合}，面向大规模模态综合法中的广义特征值问题，提出多重交错划分策略以及无 Schur 补的界面模态缩减方法，以补足固定边界引入的低频相位缺失并突破高频刚性截断。
+
+实验结果表明，本文所提出的基函数变换与表示空间重构方法能够有效改善三类病态系统的数值条件，显著提升仿真的效率、稳定性与特征谱提取精度，为高性能物理仿真计算管线的设计提供了新的理论视角与方法基础。
+
+\bigskip
+\noindent \textbf{关键词}：物理仿真；软硬耦合；基函数变换；不可伸长细杆；畸变网格；模态综合法
+
+\cleardoublepage
+\chapternonum{Abstract}
+
+Physical simulation is a central research topic at the intersection of computer graphics and computational mechanics, with broad applications in industrial design, virtual reality, robotics, and embodied intelligence. Such problems are typically solved by discretizing continuous partial differential equations into finite-dimensional algebraic systems. However, when local high-frequency stiff components coexist with global low-frequency soft responses, severe spectral separation and large condition numbers often arise from stiff-soft coupling. This ill-conditioning slows iterative solvers, restricts time-step sizes, and degrades numerical stability. Traditional algebraic preconditioning mainly repairs the problem at the matrix level and cannot fully exploit the underlying physical structure. To address this limitation, this dissertation develops a representation-space reconstruction methodology centered on \textbf{basis function transformation}. By redesigning discrete degrees of freedom and their associated basis spaces, the proposed framework isolates the local high-frequency stiffness responsible for ill-conditioning while preserving the global low-frequency responses that dominate macroscopic behavior.
+
+This dissertation studies three representative classes of stiff-soft coupling problems. First, for \textbf{constitutive-induced coupling}, it investigates the dynamics of inextensible elastic rods. A generalized-coordinate transformation based on joint angles embeds the stretch-related hard constraints directly into the kinematic representation, enabling constraint-free implicit dynamics and improved efficiency under large time steps with a tailored mixed preconditioner. Second, for \textbf{mesh-induced coupling}, it considers finite element systems with distorted elements and proposes an operator-aware framework for local basis optimization and isolation. Through local aggregation and Dirac-wavelet basis reconstruction, the artificial high-frequency stiffness caused by geometric degeneration is stripped from the solver space. Third, for \textbf{algorithm-induced coupling}, it addresses large-scale generalized eigenvalue problems arising in component mode synthesis. A multi-level interlaced partitioning strategy and a Schur-complement-free interface modal reduction method are introduced to compensate for the missing low-frequency phase information caused by fixed boundaries and to overcome high-frequency rigid truncation.
+
+Experimental results show that the proposed basis-function transformation and representation-space reconstruction methods effectively improve the numerical conditioning of all three classes of ill-conditioned systems, significantly enhancing simulation efficiency, stability, and eigenspectrum accuracy. The dissertation therefore provides a new theoretical perspective and methodological foundation for the design of high-performance physical simulation pipelines.
+
+\bigskip
+\noindent \textbf{Keywords}: physical simulation; stiff-soft coupling; basis function transformation; inextensible rods; distorted mesh; component mode synthesis
