@@ -2,7 +2,7 @@
 我们在多组实验中评估了所提方法的性能。所有实验均在 AMD Core Ryzen 7-3800X 3.9GHz CPU、32GB 内存环境下完成。在无特别说明时，牛顿迭代（算法~\ref{alg: nonlinear_solver}）的终止条件为
 $\| \mathbf b + \nabla_{\mathbf{s}} \mathbf{C}_{\mathcal A}^\top \mathbf\lambda \|_{2} < \text{1e-5}$ 或达到 5 次迭代；实际中通常满足前者即终止。对于每个线性系统，PCG 在残差 $L_2$ 范数小于 1e-7 时停止。
 
-\subsection{对比实验}
+% 原 \subsection{对比实验} 已删除以压缩标题层级
 \label{sec:cmp_res}
 我们将本文方法与多种基线比较：罚函数法、笛卡尔坐标下直接 KKT 法、Super-Helices~\cite{bertails_super-helices_2006,bertails_linear_2009}，以及基于 RedMax~\cite{wang_redmax_2019} 的扩展方案。为量化约束违背，我们定义
 $\frac{\sum_{i=0}^{n-2}\|\p_{i+1} - \p_i\|}{\sum_{i=1}^{n-1}l_i} - 1$
@@ -28,7 +28,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
   \label{fig:visual_damping_penalty}
 \end{figure}
 
-\subsubsection{与罚函数方法的比较}
+\subsection{与罚函数方法的比较}
 在罚函数法实验中，我们将能量 $E(\mathcal{T}(s))$ 替换为包含不可伸长与对齐罚项的 $E(\mathbf{x})$，并在图~\ref{fig:visual_damping_penalty} 场景中仿真。两罚项权重相同。每个时间步均求解关于 $E(\mathbf{x})$ 的无约束优化问题。
 
 在第一组实验中，两方法均做 5 次牛顿迭代。图~\ref{fig:inext_penalty_a} 与图~\ref{fig:align_penalty} 表明，罚函数法难以在少量迭代下满足不可伸长与对齐约束，即精度不足；当权重偏小会出现明显拉伸，而权重增大又会在有限迭代下引入动力学伪影。
@@ -103,7 +103,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
   \label{fig:time_comparison_penalty}
 \end{figure}
 
-\subsubsection{与直接 KKT 方法的比较}
+\subsection{与直接 KKT 方法的比较}
 直接求解 KKT 系统虽无罚函数法的数值阻尼伪影，但计算代价高（图~\ref{fig:kkt_timing}），且在牛顿迭代不足时无法精确满足不可伸长与对齐约束（图~\ref{fig:kkt_violation_a}、图~\ref{fig:kkt_violation_b}）。相比之下，本文的紧凑表示在参数化层面满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。在相同的实验设置下，这避免了对内在约束进行额外计算迭代所需的开销。文献~\cite{deul_direct_2018} 亦包含 KKT 求解，但在每个牛顿步交替使用 KKT 与非线性 Gauss-Seidel，迭代不足时同样会出现约束违背。
 
 \begin{figure}[htbp]
@@ -134,7 +134,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
   \label{fig:compare_direct_method}
 \end{figure}
 
-\subsubsection{与 Super-Helices 的比较}
+\subsection{与 Super-Helices 的比较}
 与我们的链式表示类似，Super-Helices~\cite{bertails_super-helices_2006} 通过缩减坐标同样可精确满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}，并由~\cite{bertails_linear_2009} 提供线性时间求解器。不同之处在于，Super-Helices 采用高阶曲线单元，在平滑变形场景下可用更少自由度表示形状；但在复杂接触下其表达能力下降，需引入更多自由度。
 
 此外，其方法并非如本文隐式时间步进般无条件稳定~\cite{bertails_linear_2009}：由于显式计算 $\ddot{\kappa}_{\mathcal{Q}}$，时间步上限会随单元数增多而明显降低——单曲线单元时最大约 $\SI{35}{ms}$，40 单元时仅约 $\SI{4}{ms}$。我们在其基准相似场景中（图~\ref{fig:compare_to_super_helix}）使用 200 个线段并取 $\SI{250}{ms}$ 时间步，仍能稳定仿真。
@@ -150,7 +150,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 在与图~\ref{fig:compare_to_super_helix} 相似场景
 （$E = \SI{0.2}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{1}{\den}$，20 线段）中，我们得到与其相近结果但更高性能：其论文报告约 $\SI{54}{fps}$（时间步约 $\SI{8}{ms}$），而我们在 $\SI{30}{ms}$ 时间步下达到 $\SI{344}{fps}$。若仅按单线程 CPU 主频粗略归一化（其 $\SI{2.1}{GHz}$，我们 $\SI{3.9}{GHz}$），仍有约 $3.43$ 倍加速，且该对比尚未计入更大稳定时间步的收益。
 
-\subsubsection{与 RedMax 的比较}
+\subsection{与 RedMax 的比较}
 RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于不可伸长杆。为公平比较，我们在\ref{model_redMax}节中将其扩展到 Kirchhoff 杆：通过球形关节描述旋转场沿杆变化。与 Super-Helices 类似，这会使雅可比与质量矩阵更复杂。另一个关键差别是，RedMax 先坐标变换后时间离散，而本文方法反之；因此 RedMax 忽略了更多隐式力项，稳定性更弱。
 
 我们在图~\ref{fig:visual_damping_penalty} 相同场景下使用扩展 RedMax，并以二分法估计视觉稳定下的最大时间步。图~\ref{fig:timestep_limit} 显示：重力加速度越大，扩展 RedMax 越易失稳；本文方法可在更大时间步下稳定运行。
