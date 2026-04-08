@@ -1,17 +1,17 @@
 \section{基函数变换}
 
-如前所述，某些局部的病态单元对全局刚度矩阵的最大特征值有显著贡献。各向同性弹性密度函数 $\rho(F)$ 的单元刚度矩阵为：
+如前所述，某些局部的病态单元会对全局刚度矩阵的最大特征值产生较大影响。各向同性弹性密度函数 $\rho(F)$ 的单元刚度矩阵为：
 \begin{equation}
   \mathbf{K}^e  = \mathbf{G}^T \mathbf{K}_F \mathbf{G}
 \end{equation}
 其中 $\mathbf{K}_f = \FPP{^2\rho}{F^2}$ 与本构定律和材料参数相关，而 $\mathbf{G}$ 是由基函数梯度导出的梯度算子矩阵。对于四面体单元的传统线性拉格朗日基，沿两个不同边界点 $d=\mathbf{X}_a- \mathbf{X}_b$ 的最小方向导数为 $\nabla_{d}\varphi_i =
 \frac{\varphi_i(\mathbf{X}_a) - \varphi_i (\mathbf{X}_b)}{\mathbf{X}_a -
   \mathbf{X}_b} = \frac{1 - 0}{\mathbf{X}_a - \mathbf{X}_b},
-\mathbf{X}_a,\mathbf{X}_b \in \partial T $，当 $\mathbf{X}_a$ 和 $\mathbf{X}_b$ 非常接近时，该值可能变得任意大。这直接导致迹 $\operatorname{tr}(\mathbf{K}^e)$ 很大，意味着 $\mathbf{K}^e$ 的特征值很大。\Cref{fig:thin-elements} 展示了典型的扁平单元及其最刚性的特征向量，这是该问题的结果。
+\mathbf{X}_a,\mathbf{X}_b \in \partial T $，当 $\mathbf{X}_a$ 和 $\mathbf{X}_b$ 距离极短时，该值会显著增大。这直接导致迹 $\operatorname{tr}(\mathbf{K}^e)$ 很大，意味着 $\mathbf{K}^e$ 的最大特征值较大。\Cref{fig:thin-elements} 展示了典型的扁平单元及其最刚性的特征向量。
 
 一个常见的解决方案是将这样的单元与其邻居聚类形成一个聚合多面体，确保 $\mathbf{X_a}- \mathbf{X}_b$ 不会太小。聚合后，必须在这个新的多面体上定义基函数。虽然已有成熟的方法如虚单元法~\cite{MENGOLINI2019995}和调和基函数~\cite{Dasgupta2003}可用于多面体基函数，但它们在一致性和多材料单元 patch 应用方面存在挑战。
 
-因此，我们提出了一种基于小波的多面体基函数方法，利用现有的基函数和自适应 h-细化层次结构。\Cref{fig:refinement_adjoint_coarsening_demo} 展示了一个简单的两层示例：一个具有明显病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱与重新网格化的网格（左下）接近。实际上，病态单元种类繁多，其周围环境复杂。本节介绍了一种用于构建网格层次结构的数值适应方法和相应的基函数优化策略。
+因此，我们提出了一种基于算子感知的局部基空间重构与隔离方法，利用现有的基函数和自适应 h-细化层次结构。\Cref{fig:refinement_adjoint_coarsening_demo} 展示了一个简单的两层示例：一个具有病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱分布与重新网格化的网格（左下）较为接近。实际上，病态单元及其周围环境具有多样性。本节介绍了一种用于构建网格层次结构的数值适应方法和相应的基函数优化策略。
 
 \begin{figure}[t]
   \includegraphics[width=0.32\linewidth]{figures/sliver_tet_top_at_center.png}
@@ -38,17 +38,17 @@
 其中 $q$ 表示 h-细化迭代的总次数。我们设 $\mathcal{M}^{h+}\equiv\mathcal{M}^q$ 为最终细化网格。我们还定义用于最终计算的网格 $\mathcal{M}^H = \{\mathcal{V}^H, \mathcal{P}^H \}$，由多面体单元组成。大多数多面体是输入网格的原始四面体单元，由 $|\mathcal{P}^H \cap \mathcal{T}^h| \cong
 |\mathcal{T}^h|$ 表示。$n^H$ 个顶点 $\mathcal{V}^H$ 与 $\mathcal{V}^h$ 相同，除非存在 \Cref{sec:strong_links} 中解释的"强链接"：$\mathcal{V}^H (\subset | = ) \mathcal{V}^h$。在 $\mathcal{M}^H$ 上使用的基函数表示为 $\{\varphi_i^H\}_{i=1\dots n^H}$。
 
-从根本上说，我们的方法是一种局部数值粗化策略，旨在优化基函数，从而降低全局刚度矩阵的条件数。$\mathcal{M}^{h+}$ 处的函数空间被分解为算子适应基函数 $\varphi^H = \mathbb{C}^H\varphi^h$ 及其互补小波基函数 $\psi^H = \mathbf{W}^H \varphi^h$，分别张成两个函数空间 $\mathbb{V}^H$ 和 $\mathbb{W}^H$：
+我们的方法可视为一种局部数值粗化策略，旨在通过优化基函数降低全局刚度矩阵的条件数。$\mathcal{M}^{h+}$ 处的函数空间被分解为算子适应基函数 $\varphi^H = \mathbb{C}^H\varphi^h$ 及其互补小波基函数 $\psi^H = \mathbf{W}^H \varphi^h$，分别张成两个函数空间 $\mathbb{V}^H$ 和 $\mathbb{W}^H$：
 \begin{equation}
   \mathbb{V}^{h+} = \mathbb{V}^H \oplus \mathbb{W}^H.
   \label{eq:two-level-functiaonal-space}
 \end{equation}
 
-总之，我们首先通过若干步自适应 h-细化从 $\mathcal{M}^h$ 生成 $\mathcal{M}^{h+}$。然后通过单元聚合结合算子适应基函数优化从 $\mathcal{M}^{h+}$ 导出 $\mathcal{M}^H$。我们的目标是实现使用 $\varphi^H$ 时全局刚度矩阵的条件数显著小于使用 $\varphi^h$ 时，理想情况下具有相同数量的自由度或仅边际减少。
+总之，我们首先通过若干步自适应 h-细化从 $\mathcal{M}^h$ 生成 $\mathcal{M}^{h+}$。然后通过单元聚合结合算子适应基函数优化从 $\mathcal{M}^{h+}$ 导出 $\mathcal{M}^H$。我们的目标是降低使用 $\varphi^H$ 时全局刚度矩阵的条件数，并尽量使自由度数量不变或仅小幅减少。
 
 为了在实践中有效实现这种层次结构，出现了三个关键问题：
 \begin{itemize}
-\item 应该聚合哪些特定单元以实现全局刚度矩阵最大特征值的最大程度降低？
+\item 应优先聚合哪些单元以降低全局刚度矩阵的最大特征值？
 \item 任意细化策略能否在聚合步骤中有效使用？
 \item 如何优化这些多面体上的基函数？
 \end{itemize}
@@ -75,7 +75,7 @@ c_{ij}\mathbb{I}_{3\times3}$，标量系数 $c_{ij}^k$ 是重心坐标。需要�
   \end{split}
   \label{eq:opt_basis}
 \end{equation}
-$\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约束确保刚体运动不变性和满足调和位移，这些使用 $\mathcal{P}_i$ 周围的一环邻域计算；更多细节可在~\cite{chen2018numerical, heFast2023} 中找到。虽然这种优化本质上耦合了细化和粗化，但其非线性和不连续性质，特别是当顶点放置在不同位置（例如边或面上）时网格拓扑和单元数量的变化，带来了显著挑战。为了简化这个复杂的优化问题，我们采用交替策略。
+$\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约束确保刚体运动不变性和满足调和位移，这些使用 $\mathcal{P}_i$ 周围的一环邻域计算；更多细节可在~\cite{chen2018numerical, heFast2023} 中找到。虽然这种优化本质上耦合了细化和粗化，但其非线性和不连续性质，特别是当顶点放置在不同位置（例如边或面上）时网格拓扑和单元数量的变化，带来了优化挑战。为了简化这个复杂的优化问题，我们采用交替策略。
 
 \paragraph{细化}
 我们通过直接最小化细化 patch 的迹来优化 $z$
@@ -95,7 +95,7 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 
 \subsection{候选选择}\label{sec:selection}
 
-本节概述了我们用于识别主要影响全局刚度矩阵最大特征值的候选单元的选择规则。为简单起见，我们假设同质情况，所有材料具有相同的系数。为了减少全局刚度矩阵 $\mathbf{K}^H$ 的最大特征值（为简洁起见，后续内容中省略上标 H），我们考虑两个关键不等式：
+本节概述了我们用于识别对全局刚度矩阵最大特征值影响较大的候选单元的选择规则。为简单起见，我们假设同质情况，所有材料具有相同的系数。为了减少全局刚度矩阵 $\mathbf{K}^H$ 的最大特征值（为简洁起见，后续内容中省略上标 H），我们考虑两个关键不等式：
 
 第一个来自 Gershgorin 圆盘定理：$ \max_i K_{ii} \le
 \lambda_{\max} \left( K \right) \le \max_i (K_{ii} + \sum_{j\neq i} |K_{ij} |)$。
@@ -108,14 +108,14 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
   e = \arg \min_{e} \lambda_{e,\max}
   \label{eq:elewise_eigmax}
 \end{equation}
-前一个界也可以通过单元评估分解为：$K_{ii} + \sum_{j \neq i} | K_{ij} |=\sum_e \left( K^{e}_{ii} + \sum_{j\neq i} |K^{e}_{ij}| \right)$。然后我们选择对最大行和贡献最显著的单元：
+前一个界也可以通过单元评估分解为：$K_{ii} + \sum_{j \neq i} | K_{ij} |=\sum_e \left( K^{e}_{ii} + \sum_{j\neq i} |K^{e}_{ij}| \right)$。然后我们选择对最大行和贡献最大的单元：
 \begin{equation}
   e = \arg \max_e ( K_{ii}^e + \sum_{j \neq i} | K_{ij}^e |) \quad \text{s.t.} \quad i = \arg \max_{i} (K_{ii} + \sum_{j \neq i} |K_{ij}| ).
 \label{eq:rowsum_max}
 \end{equation}
 当单元是聚合产生的多面体时，我们递归地将任一排序函数应用于它，将其视为局部网格，以找到进一步细化的特定候选四面体。
 
-尽管采用了这种层次结构构建和基函数优化，最大特征值的上界在单级细化后并不总是显著降低。设 $y^k$ 表示 $k$ 层细化后 $\mathbf{K}$ 的上界。如果相对变化 $\frac{\tilde{y}^{k+1} -
+尽管采用了这种层次结构构建和基函数优化，最大特征值的上界在单级细化后并不总是大幅降低。设 $y^k$ 表示 $k$ 层细化后 $\mathbf{K}$ 的上界。如果相对变化 $\frac{\tilde{y}^{k+1} -
   y^k}{y^k}$ 低于阈值 $t$（我们默认设置为 0.1），则我们继续下一节中概述的特定步骤。
 
 \subsection{强链接}\label{sec:strong_links}
@@ -127,14 +127,14 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
   \vspace{-0.5cm}
 \end{figure}
 
-我们讨论的方法有效地"软化"了大多数数值刚性（薄）单元。然而，一个特定的挑战出现在"强链接"中——即两个顶点位置极其接近的情况，如 \Cref{fig:strong-link-demo} 所示的四面体化微结构单元中。由于我们使用拉格朗日基，这种近距离在这些顶点之间产生了极高的基函数梯度，类似于代数多重网格中的强链接。最大特征值对应的特征向量然后直接反映这些紧密耦合顶点之间的运动。关键是，无论我们如何 h-细化网格，由于我们预设了所有顶点，这种"强链接"在多面体单元中持续存在。
+我们讨论的方法能够缓解大多数数值刚性较强单元带来的影响。然而，当两个顶点距离极短时仍需专门处理，如 \Cref{fig:strong-link-demo} 所示的四面体化微结构单元中。在使用拉格朗日基时，极短距离在这些顶点之间产生了显著增大的基函数梯度，类似于代数多重网格中的强链接。最大特征值对应的特征向量通常反映这些紧密耦合顶点之间的相对运动。需要指出的是，无论我们如何 h-细化网格，由于我们预设了所有顶点，这种"强链接"在多面体单元中持续存在，从而带来离散化软硬耦合问题。
 
 为了应对这一挑战，我们采用"Dirac-细化"策略，详见~\cite{chen2019material, chen_multiscale_2021}。这涉及将"强链接"对中一个顶点对应的基函数从 $\mathbf{V}^H$ 策略性地移动到小波分量中。为了决定选择哪个顶点，我们使用 \Cref{eq:rowsum_max} 的准则，选择对最大行和贡献更大的顶点。该操作将原始的两层函数空间分解（定义在
 \Cref{eq:two-level-functiaonal-space}）扩展为更精细的三层层次结构：
 \begin{equation}
   \mathbb{V}^{h+} = \mathbb{V}^H \oplus \mathbb{W}^H \oplus \mathbb{W}^{h}.
 \end{equation}
-在这个扩展的分解中，$\mathbb{W}^H$ 由与精心选择的"强链接"顶点子集相关的基函数构建。相反，$\mathbb{W}^h$ 包含来自细化过程中新引入顶点的基函数。这些基函数的优化遵循 \Cref{eq:opt_basis} 中概述的程序。关键是，小波函数的支撑区域由所选"强链接"顶点的一环邻域定义。这意味着我们聚合这些"强链接"顶点周围的单元以创建多面体，然后优化位于多面体边界的基函数。重要的是要记住，任何移除顶点的 $z$ 坐标已从初始输入网格中确定。
+在这个扩展的分解中，$\mathbb{W}^H$ 由所选的"强链接"顶点子集相关的基函数构建。相反，$\mathbb{W}^h$ 包含来自细化过程中新引入顶点的基函数。这些基函数的优化遵循 \Cref{eq:opt_basis} 中概述的程序。小波函数的支撑区域由所选"强链接"顶点的一环邻域定义。这意味着我们聚合这些"强链接"顶点周围的单元以创建多面体，然后优化位于多面体边界的基函数。需要注意的是，任何移除顶点的 $z$ 坐标已从初始输入网格中确定。
 
 这种变换导致最终线性系统具有块对角形式：
 \begin{equation}
@@ -143,6 +143,6 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 \end{equation}
 其中 $n^H \gg n^w$。这个小波变换显著降低了最大特征值，我们可以证明 $\lambda_{\max}(\mathbf{K}^H) <
 \lambda_{\max}(\mathbf{K})$。因此，条件数在我们的实验中也降低了，鉴于大多数时候 $\lambda_{\min}(\mathbf{K^H}) \cong
-\lambda_{\min}(\mathbf{K})$。这种块对角结构的一个显著优势是能够独立求解 $\mathbf{K}^H$ 和 $\mathbf{B}$ 的线性系统。
+\lambda_{\min}(\mathbf{K})$。这种块对角结构的一个特点是能够独立求解 $\mathbf{K}^H$ 和 $\mathbf{B}$ 的线性系统。
 
 关键的是，没有这一额外步骤，拉格朗日基 $\Phi^H$ 的数量和位置将与输入基（在网格 $\mathcal{M}^h$ 上）$\Phi^h$ 相同。有了这一步骤，原始频谱被分成两个。\Cref{fig:strong-link-demo} 显示了频谱随迭代的变化。如果没有这种专门处理，细化和基函数优化过程在第一步就停滞了。这是因为该微结构示例中 $\mathbf{K}$ 的最大特征值由这个强链接主导。
