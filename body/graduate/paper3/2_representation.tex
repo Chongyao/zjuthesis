@@ -91,6 +91,39 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 \end{equation}
 该问题可以高效求解。
 
+在计算具有以下结构的缩减刚度矩阵和质量矩阵时：
+\begin{equation}
+  \begin{bmatrix}
+    \Lambda_{1} &&&&\\
+    &\ddots&&&\\
+    &&\Lambda_{m}&&\\
+    &&&&\tilde{\mathbf{K}}_{bb}
+  \end{bmatrix},
+  \begin{bmatrix}
+    \mathbf{I}_{1} & & & \tilde{\mathbf{M}}_{1b}\\
+    &\ddots & & \vdots\\
+    & & \mathbf{I}_{m} & \tilde{\mathbf{M}}_{mb}\\
+    \tilde{\mathbf{M}}_{b1} &\cdots &\tilde{\mathbf{M}}_{bm} &\tilde{\mathbf{M}}_{bb}
+  \end{bmatrix},
+\end{equation}
+会涉及大量的大型矩阵-矩阵乘法：
+\begin{equation}
+  \begin{split}
+    \tilde{\mathbf{K}}_{bb} &= \mathbf{K}_{bb} - \sum_i{\textcolor{blue}{\mathbf{K}_{bi}}
+      \textcolor{red}{\mathbf{K}_{ii}^{-1} \mathbf{K}_{ib}}}\\
+    \tilde{\mathbf{M}}_{ib} &= \textcolor{blue}{\mathbf{M}_{ib} -
+    \mathbf{M}_{ii}} \textcolor{red}{\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}}\\
+    \tilde{\mathbf{M}}_{bb} &= \mathbf{M}_{bb} - \sum_i{\color{blue} (\textcolor{red}{\mathbf{K}_{bi}
+\mathbf{K}_{ii}^{-1}} \mathbf{M}_{ib} + \mathbf{M}_{bi} \textcolor{red}{\mathbf{K}_{ii}^{-1}
+\mathbf{K}_{ib}})}\\
+&\quad\quad\quad+\sum_i \textcolor{red}
+    {\mathbf{K}_{bi}\mathbf{K}_{ii}^{-1}}\textcolor{blue}{\mathbf{M}_{ii}}
+\textcolor{red}{\mathbf{K}_{ii}^{-1} \mathbf{K}_{ib}}.
+  \end{split}
+  \label{eq:reducing}
+\end{equation}
+尽管像 $\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$ 这样的项已经在 $\mathbf{S}_{b\mathcal{I}}$ 中被预计算，且许多矩阵乘法（彩色文本）可以并行执行，但其计算代价依然高昂。事实上，在某些文献~\cite{aristidou2013dynamic}中，界面模态计算（\Cref{eq:traditional-response}）和缩减过程（\Cref{eq:reducing}）统称为 Schur 补。
+
 \subsection{计算代价分析}
 
 \begin{figure}[H]
@@ -175,13 +208,13 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 
 \subsubsection{CMS 的多重划分}
 
-实际应用中，我们通过多重划分（尤其是交错划分）生成相位完备基。尽管本方法不限制划分数量，但实验表明双重划分已能取得良好效果。因此，后文默认采用两个划分，分别命名为 \textit{primal} 划分和 \textit{dual} 划分。
+实际应用中，我们通过多重划分（尤其是交错划分）生成相位完备基。尽管本方法不限制划分数量，但实验表明双重划分已能取得良好效果。因此，后文默认采用两个划分，分别命名为 \textit{Primal} 划分和 \textit{Dual} 划分。
 
-划分过程通常沿模型最优包围盒的最长轴展开，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}则将切割平面平移至 primal 子结构的质心处，从而最大化空间重叠。对于复杂拓扑或几何切片困难的模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
+划分过程通常沿模型最优包围盒的最长轴展开，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}则将切割平面平移至 Primal 子结构的质心处，从而最大化空间重叠。对于复杂拓扑或几何切片困难的模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
 
-\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 primal-dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 示例。
+\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 Primal-Dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 示例。
 
-设 primal 划分和 dual 划分生成的缩减矩阵分别为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。最终子空间由这些基联合张成，整体缩减形式变为
+设 Primal 划分和 Dual 划分生成的缩减矩阵分别为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。最终子空间由这些基联合张成，整体缩减形式变为
 \begin{equation}
   \mathbf{u}= [\mathbf{S}^p, \mathbf{S}^d]
   \begin{bmatrix}

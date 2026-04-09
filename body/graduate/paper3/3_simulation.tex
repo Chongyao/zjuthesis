@@ -30,11 +30,11 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
     \tilde{\mathbf{M}}_{b1} &\cdots &\tilde{\mathbf{M}}_{bm} &\tilde{\mathbf{M}}_{bb}
   \end{bmatrix}.
 \end{equation}
-在计算缩减后的刚度矩阵和质量矩阵时，需要执行大量的大规模矩阵乘法，这占据了 Schur 补的主要计算开销。
+在计算缩减后的刚度矩阵和质量矩阵时，需要执行大量的大规模矩阵乘法，这占据了 Schur 补的主要计算开销。值得注意的是，如果直接将多重划分的策略与传统 CMS 相结合，每次应用新的划分都需要重新执行整个 Schur 补缩减过程。这会导致本已高昂的界面计算成本成倍增加，从而严重损害整体效率。因此，我们必须找到一种绕过传统 Schur 补的界面模态生成方法。
 
 \subsection{低频界面模态的近似}\label{subsec:approx-interface-modes}
 
-为消除 Schur 补带来的庞大计算负担，我们结合多重划分策略，提出了一种高效的无 Schur 补和特征求解的 IMR（SE-free IMR）。其核心思路在于：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而是采用 dual 划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
+为消除 Schur 补带来的庞大计算负担，我们结合多重划分策略，提出了一种高效的无 Schur 补和特征求解的 IMR（SE-free IMR）。其核心思路在于：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而是采用 Dual 划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
 
 \begin{figure}[H]
   \centering
@@ -60,14 +60,14 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
   \label{fig:interface-modes-example}
 \end{figure}
 
-以 primal 界面模态为例。我们从 dual 划分子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$ 中提取出位于 primal 界面 $\partial \Omega_i^p$ 上的分量，将其作为激励位移（Dirichlet 边界条件），记为 $\mathbf{S}_{bb}^{p\leftarrow d}$。随后，子结构 $\Omega_i^p$ 内部自由度的静力响应由下式计算得到：
+以 Primal 界面模态为例。我们从 Dual 划分子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$ 中提取出位于 Primal 界面 $\partial \Omega_i^p$ 上的分量，将其作为激励位移（Dirichlet 边界条件），记为 $\mathbf{S}_{bb}^{p\leftarrow d}$。随后，子结构 $\Omega_i^p$ 内部自由度的静力响应由下式计算得到：
 \begin{equation}
   \mathbf{S}_{b\mathcal{I}}^{p\leftarrow d} = -
   (\mathbf{K}_{\mathcal{I}\mathcal{I}}^p)^{-1} \mathbf{K}_{\mathcal{I}b}^p
   \mathbf{S}_{bb}^{p\leftarrow d}.
   \label{eq:ours-response-solution}
 \end{equation}
-该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中 $\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到 SE-free IMR 基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于 dual 划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。
+该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中 $\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到 SE-free IMR 基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于 dual 划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。尽管在理论上，我们可以通过仅使用单套界面模态（例如，只使用 $\mathbf{S}_{b}^{p\leftarrow d}$）或进行额外的过滤来进一步压缩这一基底集合，但为了保证与现有方法的公平对比并增强求解的鲁棒性，本文保留了所有生成的界面模态。针对这一基底压缩空间的优化将作为未来的工作方向。
 
 \subsection{实现细节}\label{sec:implementation}
 
@@ -83,7 +83,7 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
 
 \subsubsection{正则化} \label{sec:regularization}
 
-在我们的方法中，组合 primal 和 dual 的子结构基（$\mathbf{S}^p_{\mathcal{I}}$ 和 $\mathbf{S}^d_{\mathcal{I}}$）可能引入线性相关性。引入界面模态后，基向量间的线性相关风险进一步增加。这导致投影后的缩减广义特征值问题可能具有秩亏的刚度矩阵和质量矩阵，常规求解器无法直接处理。
+在我们的方法中，组合 primal 和 dual 的子结构基（$\mathbf{S}^p_{\mathcal{I}}$ 和 $\mathbf{S}^d_{\mathcal{I}}$）可能引入线性相关性。引入界面模态后，由于这些模态具有不同划分的混合特征，基向量间的线性相关风险进一步增加。这导致投影后的缩减广义特征值问题可能具有秩亏的刚度矩阵和质量矩阵。更重要的是，在弹性力学等物理问题中，由于刚度矩阵和质量矩阵是从同一物理对象的离散化中派生出来的，它们通常共享相同的零空间（例如刚体平移或旋转等未受约束的自由度）。当缩减子空间过大或包含共线/近似共线的基向量时，缩减后的 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 的公共零空间会被放大，形成严格意义上的奇异矩阵束。常规特征值求解器（如 Lanczos 方法或基于 Arnoldi 的方法）需要对 $\hat{\mathbf{K}}$ 或 $\hat{\mathbf{M}}$（或其组合）进行求逆或分解；当矩阵束变得奇异时，这些分解会因主元过小或为零而彻底失败。
 
 虽然理论上可以通过奇异值分解 (SVD) 或正交化算法（配合适当的截断阈值）提取一组线性无关的极大线性无关组，但对于大规模系统而言，其计算成本难以承受。更重要的是，正交化过程会破坏原始基向量的块稀疏结构，生成难以高效存储和计算的密集基。
 
@@ -147,6 +147,6 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
 \paragraph{互补划分}
 如\Cref{sec:phase-complement}所述，子结构界面的位置决定了其内部特征模态的固有相位。当 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的界面在某处相交时，会出现关键的缺陷：在相交区域周围，$\mathbf{S}_i^p$ 和 $\mathbf{S}^d_j$ 会受到相同的局部零边界约束，导致这两个基向量在交界处退化为单一相位，丧失了相位完备性。为修复这一局部缺陷，我们在交汇点处显式引入辅助子结构。具体而言，对于每一个交汇点，我们在图上提取其 $\gamma$ 阶邻域的顶点，将其聚合为一个独立的补充子结构。通过递增参数 $\gamma$，我们使新子结构的规模逐渐增长，直至其包含的顶点数与周围的主子结构（$\Omega_i^p$ 或 $\Omega_j^d$）的最大顶点数相当。这些覆盖交汇点的辅助子结构共同构成了互补划分。
 
-我们利用\Cref{eq:sub-eig} 为每个互补子结构计算局部特征模态，并将其收集至矩阵 $\mathbf{S}^c$ 中。由于实验证明仅需互补内部特征模态便足以弥补相位缺陷，因此我们并未为这部分子结构引入界面模态。至此，完整的投影子空间扩展为三部分：$\mathbf{S} = [\mathbf{S}^p, \mathbf{S}^d, \mathbf{S}^c]$。
-
+我们利用\Cref{eq:sub-eig} 为每个互补子结构计算子结构特征模态，并将其收集至矩阵 $\mathbf{S}^c$ 中。由于实验证明仅需互补内部特征模态便足以弥补相位缺陷，因此我们并未为这部分子结构引入界面模态。至此，完整的投影子空间扩展为三部分：$\mathbf{S} = [\mathbf{S}^p, \mathbf{S}^d, \mathbf{S}^c]$。
 \Cref{fig:laplacian-metis-error-time} 证实，如果不引入互补划分来填补交汇点处的相位缺陷，多重划分方法的精度无法超越传统 CMS。然而，一旦加入这些轻量级的辅助子结构，该方法便能在相近的总计算预算内，实现几个数量级的误差下降。
+
