@@ -194,40 +194,16 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
 \textbf{穿过弹簧的细杆。}
 一根杆（$E = \SI{20}{MPa},G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，30 线段）一端固定、另一端在滑槽中运动，并穿过两个弹簧（每个弹簧参数 $E = \SI{2}{MPa}, G = \SI{2}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，各 150 线段），如图~\ref{fig:demo_hang}。时间步 $\SI{0.003}{s}$ 下，每帧约 16 个碰撞接触，仿真速度约 $\SI{20}{fps}$。
 
-\textbf{打结。}
-如图~\ref{fig:demo_knot0}，在 $\SI{200}{N}$ 拉力下，结逐步收紧并承受中心线方向大张力。杆参数为
-$E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，100 线段。凭借紧凑表示，杆严格保持不可伸长；采用活动集的 SQP 在时间步 $\SI{0.003}{s}$ 下可达 $\SI{25}{fps}$。在最小结形成后继续将拉力增至 $\SI{20000}{N}$，可得到更紧结（图~\ref{fig:tightest_knot}）。
-
-\textbf{超螺旋形成。}
-我们模拟 Kirchhoff 杆（$E = \SI{1000}{MPa}, G = \SI{100000}{MPa}, r = \SI{0.003}{m}, \rho = \SI{200}{\den}$，50 线段）的超螺旋形成（图~\ref{fig:demo_plectoneme}），展示扭转能向弯曲能的转换。杆两端沿 $x$ 方向受拉（$\SI{1}{N}$）且仅允许沿 $x$ 方向自由移动；施加端部扭转速度 $\SI{10}{rad/s}$ 后，杆发生起皱并形成超螺旋。
-
-\textbf{杆落在三个圆柱上。}
-如图~\ref{fig:pulley}，参数为
-$E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、200 线段的杆落在三个圆柱上。由于本文方法数值阻尼较小，杆会先反弹一段时间后再稳定贴附。
-
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{|l|X|X|X|X|X|X|X|}
-\hline
-图号 & \#vert. & 平均碰撞对数 & 平均 KKT 系统数 & 平均梯度/海森评估耗时($\si{ms}$) & 平均预计算耗时($\si{ms}$) & 平均求解耗时($\si{ms}$) & 平均总耗时($\si{ms}$) \\
-\hline
-图~\ref{fig:visual_damping_penalty} & 201 & 0 & 1 & 2.22 & 0.264 & 1.333 & 5.917 \\ \hline
-图~\ref{fig:demo_hang} & 333 & 16 & 7 & 4.421 & 0.947 & 40 & 52.69 \\ \hline
-图~\ref{fig:demo_knot0} & 100 & 15 & 8 & 2.037 & 0.287 & 38 & 43 \\ \hline
-图~\ref{fig:demo_plectoneme} & 51 & 8 & 7 & 2.392 & 0.375 & 13.089 & 20.160 \\ \hline
-图~\ref{fig:pulley} & 201 & 46 & 6 & 1.5613 & 1.56 & 12.172 & 36.888 \\ \hline
-图~\ref{fig:compare_to_super_helix} & 21 & 0 & 0 & 0.561 & 0.048 & 1.386 & 2.843 \\ \hline
-\end{tabularx}
-\caption{\textbf{统计与性能。} 列出~\Cref{sec:cmp_res} 各实验在每个时间步中的平均碰撞对数、平均 KKT 系统数量与分项耗时。}
-\label{table:timing}
-\end{table}
-
 \begin{figure}[H]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{strand_helices/helices-long.png} \end{subfigure}
   \caption{\textbf{穿过弹簧的细杆。} 两个弹簧在滑动过程中相互碰撞，接触丰富，本文方法可稳定处理。}
   \label{fig:demo_hang}
 \end{figure}
+
+\textbf{打结。}
+如图~\ref{fig:demo_knot0}，在 $\SI{200}{N}$ 拉力下，结逐步收紧并承受中心线方向大张力。杆参数为
+$E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，100 线段。凭借紧凑表示，杆严格保持不可伸长；采用活动集的 SQP 在时间步 $\SI{0.003}{s}$ 下可达 $\SI{25}{fps}$。在最小结形成后继续将拉力增至 $\SI{20000}{N}$，可得到更紧结（图~\ref{fig:tightest_knot}）。
 
 \begin{figure}[H]
 \centering
@@ -251,6 +227,9 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
   \label{fig:tightest_knot}
 \end{figure}
 
+\textbf{超螺旋形成。}
+我们模拟 Kirchhoff 杆（$E = \SI{1000}{MPa}, G = \SI{100000}{MPa}, r = \SI{0.003}{m}, \rho = \SI{200}{\den}$，50 线段）的超螺旋形成（图~\ref{fig:demo_plectoneme}），展示扭转能向弯曲能的转换。杆两端沿 $x$ 方向受拉（$\SI{1}{N}$）且仅允许沿 $x$ 方向自由移动；施加端部扭转速度 $\SI{10}{rad/s}$ 后，杆发生起皱并形成超螺旋。
+
 \begin{figure}[H]
   \centering
   \begin{subfigure}[b]{\textwidth}
@@ -261,6 +240,10 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
   \label{fig:demo_plectoneme}
 \end{figure}
 
+\textbf{杆落在三个圆柱上。}
+如图~\ref{fig:pulley}，参数为
+$E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、200 线段的杆落在三个圆柱上。由于本文方法数值阻尼较小，杆会先反弹一段时间后再稳定贴附。
+
 \begin{figure}[H]
   \centering
   \begin{subfigure}[b]{\textwidth}
@@ -270,3 +253,20 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
   \caption{\textbf{杆落在三个圆柱上。}该示例展示了本文方法处理外部障碍接触的能力。}
   \label{fig:pulley}
 \end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|X|X|X|X|X|X|}
+\hline
+图号 & \#vert. & 平均碰撞对数 & 平均 KKT 系统数 & 平均梯度/海森评估耗时($\si{ms}$) & 平均预计算耗时($\si{ms}$) & 平均求解耗时($\si{ms}$) & 平均总耗时($\si{ms}$) \\
+\hline
+图~\ref{fig:visual_damping_penalty} & 201 & 0 & 1 & 2.22 & 0.264 & 1.333 & 5.917 \\ \hline
+图~\ref{fig:demo_hang} & 333 & 16 & 7 & 4.421 & 0.947 & 40 & 52.69 \\ \hline
+图~\ref{fig:demo_knot0} & 100 & 15 & 8 & 2.037 & 0.287 & 38 & 43 \\ \hline
+图~\ref{fig:demo_plectoneme} & 51 & 8 & 7 & 2.392 & 0.375 & 13.089 & 20.160 \\ \hline
+图~\ref{fig:pulley} & 201 & 46 & 6 & 1.5613 & 1.56 & 12.172 & 36.888 \\ \hline
+图~\ref{fig:compare_to_super_helix} & 21 & 0 & 0 & 0.561 & 0.048 & 1.386 & 2.843 \\ \hline
+\end{tabularx}
+\caption{\textbf{统计与性能。} 列出~\Cref{sec:cmp_res} 各实验在每个时间步中的平均碰撞对数、平均 KKT 系统数量与分项耗时。}
+\label{table:timing}
+\end{table}
