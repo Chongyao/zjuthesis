@@ -1,25 +1,9 @@
 \section{基函数变换}
 
-如前所述，某些局部的病态单元会对全局刚度矩阵的最大特征值产生较大影响。各向同性弹性密度函数 $\rho(F)$ 的单元刚度矩阵为：
-\begin{equation}
-  \mathbf{K}^e  = \mathbf{G}^T \mathbf{K}_F \mathbf{G}
-\end{equation}
-其中 $\mathbf{K}_f = \FPP{^2\rho}{F^2}$ 与本构定律和材料参数相关，而 $\mathbf{G}$ 是由基函数梯度导出的梯度算子矩阵。对于四面体单元的传统线性拉格朗日基，沿两个不同边界点 $d=\mathbf{X}_a- \mathbf{X}_b$ 的最小方向导数为 $\nabla_{d}\varphi_i =
-\frac{\varphi_i(\mathbf{X}_a) - \varphi_i (\mathbf{X}_b)}{\mathbf{X}_a -
-  \mathbf{X}_b} = \frac{1 - 0}{\mathbf{X}_a - \mathbf{X}_b},
-\mathbf{X}_a,\mathbf{X}_b \in \partial T $，当 $\mathbf{X}_a$ 和 $\mathbf{X}_b$ 距离极短时，该值会显著增大。这直接导致迹 $\operatorname{tr}(\mathbf{K}^e)$ 很大，意味着 $\mathbf{K}^e$ 的最大特征值较大。\Cref{fig:thin-elements} 展示了典型的扁平单元及其最刚性的特征向量。
-
-一个常见的解决方案是将这样的单元与其邻居聚类形成一个聚合多面体，确保 $\mathbf{X_a}- \mathbf{X}_b$ 不会太小。聚合后，必须在这个新的多面体上定义基函数。虽然已有成熟的方法如虚单元法~\cite{MENGOLINI2019995}和调和基函数~\cite{Dasgupta2003}可用于多面体基函数，但它们在一致性和多材料单元 patch 应用方面存在挑战。
+一个常见的解决方案是将这样的单元与其邻居聚类形成一个聚合多面体，确保 $\mathbf{X_a}- \mathbf{X}_b$ 不会太小。聚合后，必须在这个新的多面体上定义基函数。虽然已有成熟的方法如虚单元法~\cite{MENGOLINI2019995}和调和基函数~\cite{Dasgupta2003}可用于多面体基函数，但它们在位移场的一致性， 和多材料单元 patch 应用方面存在挑战， 并且线性虚单元法的精度在多面体边界形状复杂时如果使用也不高而高阶虚单元法的积分也比较困难。
 
 因此，我们提出了一种基于算子感知的局部基空间重构与隔离方法，利用现有的基函数和自适应 h-细化层次结构。\Cref{fig:refinement_adjoint_coarsening_demo} 展示了一个简单的两层示例：一个具有病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱分布与重新网格化的网格（左下）较为接近。实际上，病态单元及其周围环境具有多样性。本节介绍了一种用于构建网格层次结构的数值适应方法和相应的基函数优化策略。
 
-\begin{figure}[t]
-  \includegraphics[width=0.32\linewidth]{figures/sliver_tet_top_at_center.png}
-  \includegraphics[width=0.32\linewidth]{figures/sliver_tet_top_at_edge.png}
-  \includegraphics[width=0.32\linewidth]{figures/sliver_tet_like_quad.png}
-  \caption{\textbf{扁平四面体及其最刚性特征向量。}最刚性特征向量（对应最大特征值）沿单元两个边界之间的短路径拉伸单元。}
-  \label{fig:thin-elements}
-\end{figure}
 
 \begin{figure}[h]
   \centering
