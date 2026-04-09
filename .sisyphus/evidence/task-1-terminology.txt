@@ -1,0 +1,31 @@
+# Terminology Baseline: Primal-Dual Modes (Paper 3)
+
+| English Term | Chinese Translation (Used in Thesis) | Notes |
+|---|---|---|
+| Component Mode Synthesis (CMS) | 模态综合法 (CMS) | Found in AGENTS.md, 1_intro.tex |
+| Interface Mode Reduction (IMR) | 界面模态缩减法 (IMR) / IMR | Found in 1_intro.tex, 4_results.tex |
+| Phase complement | 相位补足 | Found in 1_intro.tex, 2_representation.tex |
+| Schur complement | Schur 补 | Found in 1_intro.tex, 3_simulation.tex, 4_results.tex |
+| Adaptive shifting | 自适应位移 | Found in 5_1_alg_adaptive_shifting.tex, 4_results.tex |
+| Primal partition | Primal 划分 / primal 划分 | Found in 3_simulation.tex, 4_results.tex |
+| Dual partition | Dual 划分 / dual 划分 | Found in 3_simulation.tex, 4_results.tex |
+| Multiple partitions / Interleaved partitioning strategy | 交错划分策略 / 多重划分 | Found in 1_intro.tex, 2_representation.tex, 4_results.tex |
+| Substructure | 子结构 | Found in 1_intro.tex, 2_representation.tex |
+| Interface | 界面 | Found in 1_intro.tex, 2_representation.tex |
+| Substructure eigenmodes / local feature mode | 局部特征模态 / 子结构特征模态 | Found in 1_intro.tex, 2_representation.tex |
+| Interface modes | 界面模态 | Found in 1_intro.tex, 2_representation.tex |
+| Domain decomposition method (DDM) | 区域分解法 (DDM) | Found in 1_intro.tex |
+| Fixed-interface normal modes | 固定界面正规模态 | Found in 1_intro.tex |
+| Static constraint modes | 静态约束模态 | Found in 1_intro.tex |
+| Complementary partition | 互补划分 | Found in 3_simulation.tex |
+| Soft-hard coupling | 软硬耦合 | Found in 1_intro.tex, 5_conclusion.tex |
+| Dimensionality reduction feature subspace / Reduced characteristic subspace | 降维特征子空间 / 降维特征空间 | Found in 1_intro.tex, 5_conclusion.tex |
+| Schur- and eigen-free | 无 Schur 补和特征求解 | Found in 1_intro.tex, 5_conclusion.tex |
+
+## Mathematical / LaTeX Macros Mapping
+
+| LaTeX Macro | Chinese Meaning | Notes |
+|---|---|---|
+| `\FPP{f}{x}` | 偏导 / 偏导数 | Partial derivative |
+| `\DET{A}` | 行列式 | Determinant (Note: Must use `\DET{A}`, avoid `\DETtext`) |
+| `\DOT{x}` | 内积 | Inner product |
