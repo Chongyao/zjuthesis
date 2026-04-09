@@ -1,4 +1,29 @@
-\section{无 Schur 补和特征求解的 IMR}\label{sec:interface-modes}
+\section{基函数变换}\label{sec:interface-modes}
+
+
+\subsubsection{CMS 的多重划分}
+
+实际应用中，我们通过多重划分（尤其是交错划分）生成相位完备基。尽管本方法不限制划分数量，但实验表明双重划分已能取得良好效果。因此，后文默认采用两个划分，分别命名为 \textit{Primal} 划分和 \textit{Dual} 划分。
+
+划分过程通常沿模型最优包围盒的最长轴展开，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}则将切割平面平移至 Primal 子结构的质心处，从而最大化空间重叠。对于复杂拓扑或几何切片困难的模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
+
+\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 Primal-Dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 示例。
+
+设 Primal 划分和 Dual 划分生成的缩减矩阵分别为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。最终子空间由这些基联合张成，整体缩减形式变为
+\begin{equation}
+  \mathbf{u}= [\mathbf{S}^p, \mathbf{S}^d]
+  \begin{bmatrix}
+    \mathbf{z}^{p} \\
+    \mathbf{z}^{d}
+  \end{bmatrix}
+  \triangleq \mathbf{S} \mathbf{z}.
+    \label{eq:pd-subspace}
+\end{equation}
+
+随后，通过 Galerkin 投影将最终的特征值问题缩减并求解，形式如\Cref{eq:reduced-matrix-pencil}所示。
+
+\Cref{fig:primal-dual-partition-example}底行表明：在缩减自由度数量相同的前提下，只要频带覆盖了所需的全局特征模态范围，采用多重划分提供的相位完备基能显著降低误差。随着子结构特征模态数量的增加，相位完备基持续且有效地降低了低频误差；相比之下，单纯增加相位固定基仅能改善高频误差。
+
 
 CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}）及相应的缩减过程（\cref{sec:reducing}），即 Schur 补运算。如图所示，当网格尺寸较大但子结构特征模态较少时，该部分的耗时（$t_{\text{sub-schur}}$）甚至与求解子结构特征值问题相当。此外，Schur 补生成的稠密矩阵会占用极大的内存空间。
 
