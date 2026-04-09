@@ -16,24 +16,7 @@
 
 大规模工程结构的低频模态分析是一个典型的特征值问题。标准的整体式方法将特征求解器直接应用于完整、未划分的系统矩阵。典型求解器包括 Krylov 子空间方法（如 Lanczos 或 Arnoldi）\cite{Hernandez2005SLEPc, Qiu2015Spectra}、Jacobi-Davidson（JD）方法\cite{Sleijpen2000JD}以及局部最优块预处理共轭梯度法（LOBPCG）\cite{knyazev2001lobpcg}。这类方法随着模型规模的增加，计算成本变得极高。它们不仅消耗巨大的内存，更为关键的是，需要在迭代过程（如平移反演或预处理步骤）中进行重复的线性求解。
 
-\subsubsection{模态综合法}
-
-上述计算瓶颈促使了基于区域分解的技术的发展，例如模态综合法（CMS）\cite{seshu1997substructuring, William1985CMS, bourquin1992component}。具有里程碑意义的 Craig-Bampton（CB）方法\cite{craig1968coupling}已被广泛应用于几乎所有的商业有限元软件中\cite{Vysok2017CurrentCO}。它通过两组模态——固定界面正规模态和静态约束模态——构造了一个缩减基。然而，对于现代高保真有限元模型，CB 方法面临着关键的扩展性瓶颈。随着子结构特征模态数量的增加，它们的计算变得非常缓慢，特别是当网格尺寸较大时。此外，界面的自由度数量将变得极为庞大\cite{KRATTIGER2019Riview}。这引入了两个主要缺点：首先，最终的“降维”模型仍然太大而无法高效求解；其次，通过 Schur 补计算约束模态变得极其昂贵，往往主导了总的求解时间，特别是在子结构特征模态数量较少时。
-
-为了缓解这些问题，研究者们提出了多种策略。界面模态缩减法（IMR）旨在减少界面问题本身的规模\cite{Kuether2017InterfaceReduction}，而诸如自动化多级子结构法（AMLS）等层次化方法则将分解过程递归应用\cite{Bennighof2004AMLS, Boo2016ErrorEstimation, Papalukopoulos2006Dynamics}。其他方法，例如近似模态综合法（ACMS），通过多尺度或调和函数重构了基函数\cite{hetmaniuk2010special, hetmaniuk2014error, Heinlein2015ACMS, Madureira2025SACMS, giammatteo2024extension}。
-
-\subsubsection{界面模态缩减法}
-
-由于界面系统往往规模庞大且矩阵稠密，通常需要通过特征分解在全局或局部对其进行进一步的缩减。
-\citet{Castanier20101Characteristic} 提出在界面全局组装后，直接对凝聚后的系统矩阵求解特征值问题。这种方法被称为系统级缩减，且效率不高。当界面比较简单，能够被分离为几个独立的界面时，可以在这些独立界面及其相邻子结构上局部计算全局 Schur 补\citep{Cheon2023Enhanced,KRATTIGER2019Riview}。这种方法被称为混合级界面模态缩减。当界面复杂且包含许多交叉点时，则对基于子结构凝聚的界面矩阵（它是全局凝聚界面矩阵的块对角矩阵部分）进行特征分解\cite{HONG2013403, Kuether2017Model}。通过这种方式求解出的界面模态需要对共享界面进行额外的相容性处理，并且可能会遇到精度问题。此外，在耦合具有非协调网格界面的相邻子结构时，\citet{BATTIATO2018187} 提出了 Gram-Schmidt 界面模态来处理这一情况。
-
-\subsubsection{划分与区域分解法}
-
-与区域分解法（DDM）\cite{Smith1997DDM} 类似，模态综合法（CMS）采用分而治之的策略将计算域划分为多个不重叠的子域。例如，FETI-DP 方法\cite{Farhat2001FETIDP} 利用拉格朗日乘子（dual-primal）来强制子域边界上的位移连续性。
-
-重叠区域分解法，如 Schwarz 方法，是 Krylov 求解器的标准预处理器\cite{M2AN_2005__39_4_693_0, Marco2024Overlap}，尽管它们在处理材料不均匀性时会遇到困难。GenEO 框架\cite{NicoleSpillaneSolve2013,Ryadh2015Schwarz,Spillane2025GenEO} 通过在重叠区域中进行谱富集克服了这一点。在计算机图形学领域，并行的加性 Schwarz 方法的实现已经优化了可变形体的仿真\cite{Wu:2022:GBM}。然而，这些工作完全集中在对线性系统进行求解。目前还没有工作利用重叠区域来直接计算全局特征值。
-
-目前存在多种不同的划分策略。一种直接的方法是基于网格空间坐标的几何划分。其他方法利用主成分分析（PCA）对顶点进行聚类\cite{HUANG2006927}，或依赖于图划分算法，如 METIS\cite{Karypis1995graph, Karypis1997METIS} 和 CHACO\cite{Hendrickson2011}。后者通常分析质量和刚度矩阵的稀疏模式，以识别弱耦合的自由度集合。在工业应用中，由于各个部件通常独立制造且具有不同的固有频率，系统经常根据其物理装配部件进行划分\cite{Vysok2017CurrentCO}。在本文中，我们不关注于优化划分策略；相反，我们采用了基于网格几何形状的简单几何划分方法。
+本章相关工作的核心脉络可概括为三类。第一类是整体式的大规模特征值求解方法，包括 Lanczos、Arnoldi、Jacobi-Davidson 以及 LOBPCG 等，它们在精度上具有优势，但随着模型规模增大，重复线性求解与全局矩阵分解的代价迅速上升。第二类是以模态综合法（CMS）为代表的区域分解框架，其中 Craig-Bampton 方法是工业界最常见的代表；针对其界面自由度过大与 Schur 补代价高昂的问题，研究者进一步提出了界面模态缩减法（IMR）、自动化多级子结构法（AMLS）以及近似模态综合法（ACMS）等改进思路。第三类则是更一般的划分与区域分解技术，例如 FETI-DP、Schwarz、GenEO 以及基于 METIS 的图划分方法等，它们为大规模并行求解提供了重要基础。本文不再展开这些方法的细节推导，因为相关背景已在后续“背景知识”部分系统介绍；在此仅强调：现有方法普遍仍受限于固定划分下的基函数表达能力以及界面处理成本，这正是本文方法试图突破的关键问题。
 
 \subsection{本章方法与贡献}
 
