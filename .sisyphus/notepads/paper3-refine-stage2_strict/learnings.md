@@ -1,0 +1,15 @@
+- Successfully moved mechanism explanation to `\subsection{本章方法与贡献}` in `1_intro.tex`.
+- Replaced redundant phase explanation with rigorous terminology matching original CMS/IMR concepts.
+- Validated compilation passes.
+- **Structural Relocation in LaTeX**: When migrating content across subsections in a LaTeX file, it is important to extract the full logical block (e.g., the explanation of phase deficiency, complementary bases, and the new IMR structure) and carefully insert it at the target location (like `\subsection{本章方法与贡献}`). 
+- **Preserving Original Tags**: Pay attention to preserving annotations like `\textcolor{IsConclusion}{...}` and `\textcolor{ExplainConclusion}{...}` as they serve specific review or formatting purposes.
+- **Tone and Terminology**: Converting "slogan-like" explanations into rigorous, plain Chinese ("严谨、朴实") requires careful reading and rephrasing of key concepts such as "Schur 补", "交错划分", "相位互补", and "静力平衡问题".
+- Correctly moved method and mechanism explanations to `\subsection{本章方法与贡献}` section in `1_intro.tex` for paper3.
+- Translated 'Schur complement' as 'Schur 补', 'Interface Mode Reduction' as '界面模态缩减法 (IMR)', and 'Component Modes Synthesis' as '模态综合法 (CMS)' strictly.
+- Maintained the rigorous, plain Chinese style required, preserving structural textcolor macros.
+- Re-positioned Phase-Complementary mechanism explanation from related work section to the method contributions block.
+- Ensured wording was rigorus, plain Chinese, and removed any remaining slogan-like wording.
+- Calibrated paper3 intro P1-P7 against English original.
+- Adjusted terms: '交错划分', '界面模态缩减法 (IMR)', 'Schur 补', '模态综合法 (CMS)', '固定界面正规模态', '静态约束模态'.
+- Tone is plain and rigorous. Avoided words like '极其', '严重', '超高效', '严峻的'.
+- Checked `latexmk` output to ensure the changes did not break the build.

@@ -276,3 +276,4 @@
 #BR|- Possible causes: Issue may have been fixed by previous agent runs, or was in a different file
 #MM|- Workaround: Using latexmk with -f flag forces compilation past errors, produces 107-page PDF
 #QQ|- Note: Without -f, compilation stops at 46 pages due to LaTeX errors (unclosed figure somewhere)
+- Created style guidelines for Paper 3 translation focusing on '严谨、朴实' (Rigorous & Plain). Found massive AI-slop over-translations in 1_intro.tex (e.g. 逆转乾坤, 浩瀚天堑) compared to the calm English original.

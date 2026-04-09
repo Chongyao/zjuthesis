@@ -39,30 +39,30 @@
 
 \subsection{Craig-Bampton (CB) 方法}
 
-我们简要介绍 CB 方法~\cite{craig1968coupling}，这是 CMS 的一种代表性实现，以概述典型的 CMS 算法流程。
+本节简要介绍 CMS 的代表性实现 CB 方法~\cite{craig1968coupling}，以此概述典型 CMS 的算法流程。
 
 \paragraph{子结构特征模态}
-该方法首先通过求解下式，并行计算每个子结构的 $q_\mathcal{I}$ 个（截断后的）子结构特征模态 $\mathbf{S}_\mathcal{I}$：
+该方法首先并行计算每个子结构的 $q_\mathcal{I}$ 个（截断后的）子结构特征模态 $\mathbf{S}_\mathcal{I}$。其求解方程如下：
 \begin{equation}
   \mathbf{K}_{ii} \mathbf{S}_i = \mathbf{M}_{ii} \mathbf{S}_i \Lambda_i.
   \label{eq:sub-eig}
 \end{equation}
-$\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathbf{M}$ 的子矩阵，与由 $\Omega_i$ 中单元组装而成的刚度和质量矩阵不同。上式描述了一个约束模态分析问题，即界面 $\partial \Omega_i$ 上的自由度被固定为零。
+$\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathbf{M}$ 的子矩阵，与由 $\Omega_i$ 中单元组装而成的刚度和质量矩阵不同。上述方程实质上描述了一个约束模态分析问题：固定界面 $\partial \Omega_i$ 上的自由度为零。
 
 \paragraph{界面模态}
 \label{sec:interface}
-随后，计算界面模态。这些模态由两部分组成：界面处的单位位移激励和子结构内部的响应，即 $\mathbf{S}_b=[\mathbf{S}_{b\mathcal{I}}^T, \mathbf{S}_{bb}^T]^T$。$\mathbf{S}_{bb} = \mathbf{I}$ 作为界面处的 Dirichlet 边界条件，而
+随后计算界面模态。这些模态由两部分组成：界面处的单位位移激励和子结构内部的响应，即 $\mathbf{S}_b=[\mathbf{S}_{b\mathcal{I}}^T, \mathbf{S}_{bb}^T]^T$。$\mathbf{S}_{bb} = \mathbf{I}$ 表示界面处的 Dirichlet 边界条件，而
 \begin{equation}
   \mathbf{S}_{b\mathcal{I}} = - \mathbf{K}_{\mathcal{I} \mathcal{I}}^{-1}
   \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{bb}= - \mathbf{K}_{\mathcal{I} \mathcal{I}}^{-1}
   \mathbf{K}_{\mathcal{I}b} \mathbf{I}
   \label{eq:traditional-response}
 \end{equation}
-是该边界条件下的静力平衡状态。由于 $\mathbf{K}_{\mathcal{I}\mathcal{I}}$ 是分块对角矩阵，上述方程也可以对每个子结构并行求解。
+是该边界条件下的静力平衡状态。由于 $\mathbf{K}_{\mathcal{I}\mathcal{I}}$ 是分块对角矩阵，上述方程同样支持在各个子结构上并行求解。
 
 \paragraph{缩减}
 \label{sec:reducing}
-有了所有子结构特征模态 $\mathbf{S}_i$ 和界面模态 $\mathbf{S}_b$（见~\cref{fig:domain-partition} 中的示意），原始自由度 $\mathbf{u}$ 通过由它们组装而成的缩减矩阵 $\mathbf{S}$ 缩减为 $\mathbf{z}$：
+计算得到所有子结构特征模态 $\mathbf{S}_i$ 和界面模态 $\mathbf{S}_b$ 后（示意图见~\cref{fig:domain-partition}），可将它们组装为缩减矩阵 $\mathbf{S}$。随后，原始自由度 $\mathbf{u}$ 通过 $\mathbf{S}$ 缩减为 $\mathbf{z}$：
 \begin{equation}
   \mathbf{u} =
   \left[
@@ -84,7 +84,7 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
   \label{eq:redmat}
 \end{equation}
 
-应用 Galerkin 三重矩阵乘积后，原问题被缩减为一个自由度更少的特征值问题：
+应用 Galerkin 三重矩阵乘积后，原问题缩减为一个自由度更少的特征值问题：
 \begin{equation}
   \mathbf{S}^T\mathbf{K} \mathbf{S} \mathbf{z}_l =\lambda_l \mathbf{S}^T \mathbf{M} \mathbf{S} \mathbf{z}_l.
   \label{eq:reduced-matrix-pencil}
@@ -117,7 +117,7 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 
 \subsubsection{一维拉普拉斯问题的分析}\label{subsec:1d-laplacian}
 
-在介绍我们的方法之前，我们对定义在 $[0,L]$ 上的一维拉普拉斯特征问题进行一个说明性分析。为简单起见，忽略界面模态。
+在介绍具体方法前，本节以定义在 $[0,L]$ 上的一维拉普拉斯特征问题为例进行说明。为简化讨论，此处忽略界面模态。
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{frequency-vs-phase/basis.pdf}
@@ -133,16 +133,16 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
   \end{split}
 \label{eq:frequency-only}
 \end{equation}
-其中 $t=(x-a)/(b-a)$。这些模态中的一些绘制在\Cref{fig:integrated_error_comparison}的左上图板中。\textcolor{ExplainConclusion}{所有此类特征模态在区间边界处值为零；即每个 $\sin(\omega t+\phi)$ 函数的相位 $\phi$（相对于区间）为零。因此，当 $\psi\neq k\pi$ 时，$t\in[0,1]$ 上形如 $\sin(j\pi t+\psi)$ 的函数在边界处具有非零值，因此无法由这些基函数表示。简单地增加此类基函数的数量无法解决此问题。}
+其中 $t=(x-a)/(b-a)$。\Cref{fig:integrated_error_comparison}左上图展示了部分特征模态。\textcolor{ExplainConclusion}{此类特征模态在区间边界处的值均为零；即每个 $\sin(\omega t+\phi)$ 函数相对于区间的相位 $\phi$ 恒为零。因此，当 $\psi\neq k\pi$ 时，$t\in[0,1]$ 上形如 $\sin(j\pi t+\psi)$ 的函数在边界处存在非零值，这些基函数无法表示该类函数。单纯增加此类基函数的数量也无法解决该问题。}
 
 然而，在用相同频率但不同相位的函数丰富基集后，
 \begin{equation}
   \tilde{\mathbf{S}}^d_{i,j} = \sin\left(j\pi t+\phi\right), t\in[0,1], j=1,2,\cdots,
   \label{eq:phase-complete-basis}
 \end{equation}
-其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。通过使用这两组具有相同频率但不同相位的函数（一个固定为 0，另一个固定为 $\phi$），可以利用三角函数积化和差恒等式表示任意相位 $\psi$ 的同频率函数 $\sin(j\pi t+\psi), t\in[0,1]$。因此，我们称这些额外的基函数对之前的基函数进行了\textbf{相位补足}，丰富后的基是\textbf{相位完备}的。直观地说，具有不同相位的基函数可以使用来自不同划分的偏移子结构来构造。
+其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。这两组函数频率相同但相位不同（一组相位为 0，另一组相位为 $\phi$）。根据三角函数积化和差公式，它们可以线性组合出任意相位 $\psi$ 的同频函数 $\sin(j\pi t+\psi), t\in[0,1]$。我们将这些额外引入的基函数称为对原基函数的\textbf{相位补足}，扩展后的基集则是\textbf{相位完备}的。直观上，不同划分生成的偏移子结构恰好能提供不同相位的基函数。
 
-为了验证相位完备基函数相较于传统 CMS 的固定相位基函数的有效性，我们计算了积分误差。\textcolor{ConclusionEvidence}{下图显示，使用相位完备基函数的误差显著低于使用固定相位基函数的误差。}
+为验证相位完备基函数相较于传统 CMS 固定相位基的优势，我们分析了积分误差。\textcolor{ConclusionEvidence}{下图显示，相位完备基的误差显著低于固定相位基。}
 
 \begin{figure}[H]
   \centering
@@ -175,13 +175,13 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 
 \subsubsection{CMS 的多重划分}
 
-在实践中，我们使用多重划分生成相位完备基，特别是交错的划分。需要注意的是，我们的方法不限制划分数量为两个，但我们发现使用两个划分通常效果良好。因此，我们默认假设只有两个划分，并将其中一个称为\textit{primal}，另一个称为\textit{dual}。
+实际应用中，我们通过多重划分（尤其是交错划分）生成相位完备基。尽管本方法不限制划分数量，但实验表明双重划分已能取得良好效果。因此，后文默认采用两个划分，分别命名为 \textit{primal} 划分和 \textit{dual} 划分。
 
-划分通常沿着模型最优包围盒的最长轴进行，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}通过将切割平面移动到 primal 子结构的质心来构造，从而最大化空间重叠。对于几何切片不足的复杂拓扑模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
+划分过程通常沿模型最优包围盒的最长轴展开，以利用结构的纵横比。\textbf{Primal 划分}建立初始的子分割，而\textbf{Dual 划分}则将切割平面平移至 primal 子结构的质心处，从而最大化空间重叠。对于复杂拓扑或几何切片困难的模型，我们采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
 
-\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 primal-dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的示例。
+\Cref{fig:primal-dual-partition-example}展示了一个二维矩形区域的 primal-dual 划分 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 示例。
 
-我们将从 primal 划分和 dual 划分得到的缩减矩阵分别记为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。我们的最终子空间由这些基张成，缩减变为
+设 primal 划分和 dual 划分生成的缩减矩阵分别为 $\mathbf{S}^p$ 和 $\mathbf{S}^d$。最终子空间由这些基联合张成，整体缩减形式变为
 \begin{equation}
   \mathbf{u}= [\mathbf{S}^p, \mathbf{S}^d]
   \begin{bmatrix}
@@ -192,6 +192,6 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
     \label{eq:pd-subspace}
 \end{equation}
 
-最终的特征值问题通过 Galerkin 投影如\Cref{eq:reduced-matrix-pencil}所示进行缩减并求解。
+随后，通过 Galerkin 投影将最终的特征值问题缩减并求解，形式如\Cref{eq:reduced-matrix-pencil}所示。
 
-\Cref{fig:primal-dual-partition-example}的底行显示，在给定相同数量的缩减自由度的情况下，只要频带覆盖所需全局特征模态的范围，使用来自多重划分的相位完备基函数可以显著降低误差。当子结构特征模态数量增加时，相位完备基有效地降低了低频误差，而添加更多相位固定基倾向于只降低高频误差。
+\Cref{fig:primal-dual-partition-example}底行表明：在缩减自由度数量相同的前提下，只要频带覆盖了所需的全局特征模态范围，采用多重划分提供的相位完备基能显著降低误差。随着子结构特征模态数量的增加，相位完备基持续且有效地降低了低频误差；相比之下，单纯增加相位固定基仅能改善高频误差。

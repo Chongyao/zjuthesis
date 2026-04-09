@@ -1,40 +1,40 @@
-\section{无 Schur 补的界面模态缩减}\label{sec:interface-modes}
+\section{无 Schur 补和特征求解的 IMR}\label{sec:interface-modes}
 
-CMS 的另一个显著成本来自界面模态的计算（\cref{sec:interface}）和缩减步骤（\cref{sec:reducing}），即 Schur 补。如图所示，当网格尺寸较大但子结构特征模态数量相对较少时，其成本（即 $t_{\text{sub-schur}}$）与求解子结构特征值问题相当。此外，Schur 补产生的稠密矩阵带来了极大的内存占用。
+CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}）及相应的缩减过程（\cref{sec:reducing}），即 Schur 补运算。如图所示，当网格尺寸较大但子结构特征模态较少时，该部分的耗时（$t_{\text{sub-schur}}$）甚至与求解子结构特征值问题相当。此外，Schur 补生成的稠密矩阵会占用极大的内存空间。
 
 \subsection{Schur 补的数学结构}\label{sec:schur-complement}
 
-容易看出，传统 CMS 中的界面模态来源于分块 Schur 补：
+传统 CMS 中的界面模态本质上来源于分块 Schur 补变换矩阵：
 \begin{equation}
   \mathbf{L}^{-1,T} = \begin{bmatrix}
-    \mathbb{I} \u0026 \u0026 \u0026 -\mathbf{K}_{11}^{-1} \mathbf{K}_{1b}\\
-    \u0026\ddots \u0026 \u0026 \vdots\\
-    \u0026\u0026\mathbb{I}\u0026 -\mathbf{K}_{mm}^{-1} \mathbf{K}_{mb}\\
-    \u0026\u0026\u0026\mathbb{I}
+    \mathbb{I} & & & -\mathbf{K}_{11}^{-1} \mathbf{K}_{1b}\\
+    &\ddots & & \vdots\\
+    &&\mathbb{I}& -\mathbf{K}_{mm}^{-1} \mathbf{K}_{mb}\\
+    &&&\mathbb{I}
   \end{bmatrix}
   \label{eq:schur}
 \end{equation}
-其可将矩阵对 $\left(\mathbf{K}, \mathbf{M} \right)$ 分块对角化为
+该变换将原始矩阵对 $\left(\mathbf{K}, \mathbf{M} \right)$ 分块对角化为 $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
 $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
 \begin{equation}
   \begin{bmatrix}
-    \mathbf{K}_{11} \u0026\u0026\u0026\u0026\\
-    \u0026\ddots\u0026\u0026\u0026\\
-    \u0026\u0026\mathbf{K}_{mm}\u0026\u0026\\
-    \u0026\u0026\u0026\u0026\tilde{\mathbf{K}}_{bb}
+    \mathbf{K}_{11} &&&&\\
+    &\ddots&&&\\
+    &&\mathbf{K}_{mm}&&\\
+    &&&&\tilde{\mathbf{K}}_{bb}
   \end{bmatrix},\quad
   \begin{bmatrix}
-    \mathbf{M}_{11} \u0026 \u0026 \u0026 \tilde{\mathbf{M}}_{1b}\\
-    \u0026\ddots \u0026 \u0026 \vdots\\
-    \u0026 \u0026 \mathbf{M}_{mm} \u0026 \tilde{\mathbf{M}}_{mb}\\
-    \tilde{\mathbf{M}}_{b1} \u0026\cdots \u0026\tilde{\mathbf{M}}_{bm} \u0026\tilde{\mathbf{M}}_{bb}
+    \mathbf{M}_{11} & & & \tilde{\mathbf{M}}_{1b}\\
+    &\ddots & & \vdots\\
+    & & \mathbf{M}_{mm} & \tilde{\mathbf{M}}_{mb}\\
+    \tilde{\mathbf{M}}_{b1} &\cdots &\tilde{\mathbf{M}}_{bm} &\tilde{\mathbf{M}}_{bb}
   \end{bmatrix}.
 \end{equation}
-当计算缩减刚度和质量矩阵时，存在许多大规模矩阵-矩阵乘法，这构成了 Schur 补的主要计算代价。
+在计算缩减后的刚度矩阵和质量矩阵时，需要执行大量的大规模矩阵乘法，这占据了 Schur 补的主要计算开销。
 
 \subsection{低频界面模态的近似}\label{subsec:approx-interface-modes}
 
-为了显著缓解 Schur 补带来的计算负担，我们再次利用多重划分方案，从而得到一种高效的无需 Schur 补和特征求解的 IMR（SE-free IMR）。核心思想是用来自 dual 划分的子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）替换人工单位位移激励（\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$）。
+为消除 Schur 补带来的庞大计算负担，我们结合多重划分策略，提出了一种高效的无 Schur 补和特征求解的 IMR（SE-free IMR）。其核心思路在于：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而是采用 dual 划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
 
 \begin{figure}[H]
   \centering
@@ -60,40 +60,40 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
   \label{fig:interface-modes-example}
 \end{figure}
 
-以 primal 界面模态为例，我们从 dual 划分的子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$ 中提取 primal 界面 $\partial \Omega_i^p$ 处的值作为激励位移（Dirichlet 边界条件）$\mathbf{S}_{bb}^{p\leftarrow d}$。然后，$\Omega_i^p$ 中内部自由度的静态响应通过下式计算
+以 primal 界面模态为例。我们从 dual 划分子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$ 中提取出位于 primal 界面 $\partial \Omega_i^p$ 上的分量，将其作为激励位移（Dirichlet 边界条件），记为 $\mathbf{S}_{bb}^{p\leftarrow d}$。随后，子结构 $\Omega_i^p$ 内部自由度的静力响应由下式计算得到：
 \begin{equation}
   \mathbf{S}_{b\mathcal{I}}^{p\leftarrow d} = -
   (\mathbf{K}_{\mathcal{I}\mathcal{I}}^p)^{-1} \mathbf{K}_{\mathcal{I}b}^p
   \mathbf{S}_{bb}^{p\leftarrow d}.
   \label{eq:ours-response-solution}
 \end{equation}
-实际上，这只是将\Cref{eq:traditional-response}中的单位矩阵替换为矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$，其中 $\mathbf{U}_b^p$ 是选择所有界面 $\bigcup_i \partial \Omega_i^p$ 的选择矩阵。将激励和响应组装在一起，我们得到 SE-free IMR $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 是块对角的，因此可以跨块并行计算。\textcolor{ExplainConclusion}{矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 包含的列数\textbf{显著少于} $\mathbf{S}_{bb}=\mathbf{I}$，从而大幅减少了所需线性求解的次数和后续矩阵运算的维数。} 类似的步骤适用于 dual 划分。最终的基函数为 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。
+该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中 $\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到 SE-free IMR 基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于 dual 划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。
 
 \subsection{实现细节}\label{sec:implementation}
 
-为了将上述理论付诸实践，我们在此介绍若干实现细节，包括缩减矩阵束的正则化、缩减矩阵的快速计算、SE-free 界面模态计算中的预缩减，以及 MPI/OpenMP 实现。
+为将上述理论应用于实际计算，本节将讨论若干关键实现细节，包括缩减矩阵束的正则化、缩减矩阵的快速组装算法、SE-free IMR 计算中的预缩减技术，以及混合 MPI/OpenMP 并行框架。
 
 \subsubsection{奇异矩阵束与正则化背景} \label{sec:regularization-background}
 
-矩阵束 $\mathbf{K} - \lambda \mathbf{M}$ 若对所有 $\lambda$ 均有 $\DET{\mathbf{K} - \lambda \mathbf{M}} = 0$，则称为奇异矩阵束；这种情况发生在 $\mathbf{K}$ 和 $\mathbf{M}$ 共享公共零空间时。Kronecker 标准型 (KCF) \cite{gantmakher2000theory, Van1979Kronecker, Berger2012QuasiKroneckerFrom} 揭示了此类矩阵束可分解为正则部分和不适定的奇异部分。因此，任意小的扰动都可能导致计算谱产生大的、不连续的变化 \cite{Hochstenbach2019SolvingSingular, Kressner2024AnalysisOfeigenvalue}。
+对于矩阵束 $\mathbf{K} - \lambda \mathbf{M}$，若存在 $\lambda$ 使得 $\DET{\mathbf{K} - \lambda \mathbf{M}} \equiv 0$，则称其为奇异矩阵束。当刚度矩阵 $\mathbf{K}$ 与质量矩阵 $\mathbf{M}$ 具有公共的零空间时，便会出现这种情形。根据 Kronecker 标准型 (KCF) 理论 \cite{gantmakher2000theory, Van1979Kronecker, Berger2012QuasiKroneckerFrom}，这类矩阵束可分解为非奇异的正则部分与不适定的奇异部分。由于奇异部分的干扰，任意微小的数值扰动都可能导致计算得到的特征谱发生剧烈且不连续的跳跃 \cite{Hochstenbach2019SolvingSingular, Kressner2024AnalysisOfeigenvalue}。
 
-为处理这一问题，主要思路是"压缩"奇异结构。直接方法的基石是阶梯算法 \cite{Demmel1993TheGS, Van1979Kronecker}，如 GUPTRI 实现 \cite{Demmel1993TheGS}。虽然理论上完备，但这些直接方法存在两个主要缺陷：(1) 由于重复的奇异值分解 (SVD)，计算复杂度为 $\mathcal{O}(n^3)$；(2) 在有限精度算术中依赖数值上不适定的秩判定，错误可能破坏整个计算 \cite{Edelman2000StaircaseFailures}。其他方法修改了如 Lanczos 等迭代方法以处理奇异性 \cite{Lin2021ShiftInvertLanczos, karl2024ShiftInvertArnoldi}。
+处理奇异矩阵束的主流思路是"压缩"并隔离其奇异结构。基于直接法的阶梯算法（Staircase algorithm）\cite{Demmel1993TheGS, Van1979Kronecker}（例如 GUPTRI 库 \cite{Demmel1993TheGS}）在此方面奠定了理论基础。然而，这类直接法在实际应用中面临两大挑战：一是算法依赖于反复的奇异值分解 (SVD)，导致时间复杂度高达 $\mathcal{O}(n^3)$；二是在浮点运算环境中，基于数值容差的矩阵秩判定属于典型的不适定问题，判定误差极易导致整个求解过程崩溃 \cite{Edelman2000StaircaseFailures}。为规避直接法的缺陷，研究者也尝试改造 Lanczos 等迭代求解器以适应奇异性 \cite{Lin2021ShiftInvertLanczos, karl2024ShiftInvertArnoldi}。
 
-此外，正则化方法将奇异矩阵束扰动为附近的、适定的正则矩阵束 \cite{Fernando2008FirstOrder, Hochstenbach2019SolvingSingular}。求解后，必须从"伪"特征值中筛选出"真实"特征值。然而，这些先进方法通常仍需要秩判定步骤来指导扰动，这也可能是 $\mathcal{O}(n^3)$ 量级的 \cite{Hochstenbach2019SolvingSingular, karl2024ShiftInvertArnoldi}。
+另一种策略是正则化方法。该方法通过引入微小扰动，将奇异矩阵束转化为邻近的、适定的正则矩阵束 \cite{Fernando2008FirstOrder, Hochstenbach2019SolvingSingular}。在求解正则化系统后，需要进一步设计过滤机制，从混合谱中剔除"伪"特征值以保留"真实"特征值。然而，现有的高级正则化方案在确定最佳扰动形式时，往往仍需进行耗时的秩判定操作，其时间复杂度依旧达到 $\mathcal{O}(n^3)$ 量级 \cite{Hochstenbach2019SolvingSingular, karl2024ShiftInvertArnoldi}。
 
 \subsubsection{正则化} \label{sec:regularization}
 
-需要注意的是，来自 $\mathbf{S}^p_{\mathcal{I}}$ 和 $\mathbf{S}^d_{\mathcal{I}}$ 的组合子结构基可能呈现线性相关性。引入界面模态会进一步增加这种可能性。因此，得到的缩减广义特征值问题可能涉及秩亏的刚度矩阵和质量矩阵，这无法由常见的求解器求解。
+在我们的方法中，组合 primal 和 dual 的子结构基（$\mathbf{S}^p_{\mathcal{I}}$ 和 $\mathbf{S}^d_{\mathcal{I}}$）可能引入线性相关性。引入界面模态后，基向量间的线性相关风险进一步增加。这导致投影后的缩减广义特征值问题可能具有秩亏的刚度矩阵和质量矩阵，常规求解器无法直接处理。
 
-可以使用奇异值分解或其他方法（配合适当的阈值）从中提取线性无关的基，但对于大规模问题而言，其代价过高。此外，这样得到的基很可能是密集的，而非块稀疏的。
+虽然理论上可以通过奇异值分解 (SVD) 或正交化算法（配合适当的截断阈值）提取一组线性无关的极大线性无关组，但对于大规模系统而言，其计算成本难以承受。更重要的是，正交化过程会破坏原始基向量的块稀疏结构，生成难以高效存储和计算的密集基。
 
-我们提出通过缩放单位矩阵来正则化缩减后的刚度矩阵和质量矩阵：
+因此，我们提出一种轻量级的正则化方案，即直接在缩减后的刚度和质量矩阵对角线上添加微小的单位矩阵缩放项：
 \begin{equation}
   (\mathbf{S}^T \mathbf{K} \mathbf{S} + \mu \mathbf{I}) x = \lambda
   (\mathbf{S}^T \mathbf{M} \mathbf{S} + \sigma \mathbf{I})x.
   \label{eq:final-eig}
 \end{equation}
-参数 $\mu$ 和 $\sigma$ 应当足够小，使这种扰动对"真实"特征值和特征向量的影响较小，但又应足够大，使特征值求解器能够给出结果。
+参数 $\mu$ 和 $\sigma$ 的选取至关重要：它们应当足够小，以免对原系统的"真实"特征值和特征向量产生显著扰动；同时又必须足够大，以确保扰动后的矩阵满秩，使特征值求解器能稳定运行。
 
 \begin{wrapfigure}[6]{c}{2cm}
   \vspace*{-0.6cm}
@@ -101,16 +101,16 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
  \includegraphics[width=2.5cm]{mu_and_sigma/mu_and_sigma_plot.pdf}
 \end{wrapfigure}
 
-\textcolor{ConclusionEvidence}{插图展示了误差对 $\mu$ 的敏感性。结果表明，在适当选择 $\mu$ 和 $\sigma$ 的情况下，该方法可以达到与计算代价高昂的正交化技术相当的精度。} 在实践中，我们使用\Cref{alg:adaptive-shifting} 来寻找合适的 $\mu$ 和 $\sigma$。
+\textcolor{ConclusionEvidence}{插图展示了计算误差对扰动参数 $\mu$ 的敏感性。结果表明，当 $\mu$ 和 $\sigma$ 选取适当时，这种简单的对角扰动方案能够达到与高成本正交化技术相当的计算精度。} 在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting}）来动态确定最优的 $\mu$ 和 $\sigma$。
 
 \inputbody{paper3/5_1_alg_adaptive_shifting}
 
 \subsubsection{快速缩减矩阵组装}\label{sec:fast-matrix-reducing}
 
-缩减系统矩阵 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 的构建计算量很大，但我们通过利用基的正交性和平衡性质显著加速了这一过程。
-首先，子结构特征模态 $\mathbf{S}_\mathcal{I}^{p/d}$ 自然地对角化局部块，将 $\mathbf{K}$ 和 $\mathbf{M}$ 分别投影为对角特征值矩阵 $\mathbf{\Lambda}$ 和单位矩阵 $\mathbf{I}$。
-其次，更为关键的是，SE-free 界面模态 $\mathbf{S}_b$ 满足静力平衡方程 $\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} + \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$。
-因此，涉及这些模态的刚度投影项在内部区域 $\mathcal{I}$ 上恒为零。这一性质将理论上密集的矩阵-矩阵乘法转化为仅限于边界自由度的稀疏操作，大幅降低了组装 $\hat{\mathbf{K}}$ 的计算代价。
+构建缩减系统矩阵 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 通常需要密集的矩阵运算。但我们深入挖掘了基向量的正交性和静力平衡特性，极大地加速了该组装过程。
+首先，子结构特征模态 $\mathbf{S}_\mathcal{I}^{p/d}$ 本身是局部块特征值问题的解，因此它们天然地将各自子结构的局部刚度和质量矩阵对角化，分别投影为对角特征值矩阵 $\mathbf{\Lambda}$ 和单位矩阵 $\mathbf{I}$。
+其次，更为核心的是，SE-free 界面模态 $\mathbf{S}_b$ 严格满足静力平衡条件：$\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} + \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$。
+这一数学性质导致涉及界面模态和内部模态的刚度投影交叉项在内部区域 $\mathcal{I}$ 上恒等于零。得益于此，原本理论上密集的稠密矩阵乘法被退化为仅涉及边界自由度的稀疏矩阵运算，从根本上削减了组装缩减刚度矩阵 $\hat{\mathbf{K}}$ 的算力消耗。
 
 \begin{figure}[H]
   \centering
@@ -119,35 +119,34 @@ $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
   \input{body/graduate/paper3/figures/matrix_structure.pdf_tex}
   }
   \caption{\textbf{缩减矩阵的稀疏结构。}
-    （左）缩减刚度矩阵。**"消失的投影"**表示计算中被跳过的交叉项。由于 SE-free 模态满足静力平衡，中间乘积给出 $\mathbf{K} \mathbf{S}_b = [\mathbf{0}^T, \mathbf{f}_b^T]^T$。
-    （右）缩减质量矩阵，反映了几何重叠模式。}
+    （左）缩减刚度矩阵。图中**“消失的投影”**标注了计算中被跳过的零交叉项。由于 SE-free 界面模态满足静力平衡，中间乘积退化为 $\mathbf{K} \mathbf{S}_b = [\mathbf{0}^T, \mathbf{f}_b^T]^T$。
+    （右）缩减质量矩阵，其非零块模式直接反映了 Primal 和 Dual 子结构间的几何重叠关系。}
   \label{fig:reduced-matrix-structure}
 \end{figure}
 
 \subsubsection{混合 MPI/OpenMP 框架}
 
-我们实现了混合 MPI/OpenMP 并行模型，以最大化分布式内存集群上的可扩展性。
-我们将每个子结构（来自 Primal $\mathcal{P}^p$ 和 Dual $\mathcal{P}^d$ 划分）视为分配给 MPI 进程的计算单元，局部密集线性代数任务由 OpenMP 线程加速。
-构建通信图时，边仅连接几何重叠的 Primal 和 Dual 子结构。
+为在分布式内存集群上实现最大化的计算可扩展性，我们开发了基于混合 MPI/OpenMP 架构的并行计算框架。
+我们将来自 Primal 划分 $\mathcal{P}^p$ 和 Dual 划分 $\mathcal{P}^d$ 的每个子结构视为独立的计算单元，将其分配给不同的 MPI 进程管理。进程内部的局部稠密线性代数运算则通过 OpenMP 线程级并行进行加速。
+在构建进程间的通信拓扑时，图的边仅连接在几何空间上发生重叠的 Primal 和 Dual 子结构。
 进程间通信仅限于两个特定阶段：
 \begin{enumerate}
-    \item \textbf{基生成阶段：}进程交换由重叠邻居的固定界面特征模态导出的边界轮廓数据。该数据量很小（仅边界数据），便于 SE-free 界面模态的构建。
-    \item \textbf{组装阶段：}进程通信以聚合缩减矩阵。
-    值得注意的是，由于上一节所述的简化刚度组装，$\hat{\mathbf{K}}$ 的通信开销可以忽略不计。
-    主要的通信代价来自质量矩阵 $\hat{\mathbf{M}}$ 的投影。
+    \item \textbf{基生成阶段：}进程间仅需交换由重叠邻居计算得出的、作用于固定界面的子结构特征模态数据。由于该数据仅包含边界轮廓自由度，通信量极小，这为后续快速构建 SE-free 界面模态提供了高效的数据支撑。
+    \item \textbf{组装阶段：}进程需要通过通信来聚合局部的缩减矩阵以形成全局缩减矩阵。
+    如前所述，得益于平衡特性导致的稀疏性，$\hat{\mathbf{K}}$ 的组装通信开销几乎可以忽略。
+    因此，网络通信的主要瓶颈集中在质量矩阵 $\hat{\mathbf{M}}$ 的投影计算上。
 \end{enumerate}
 
 \subsubsection{基于 METIS 的划分}\label{sec:metis-partition}
 
-迄今为止讨论的划分都是轴向对齐的。对于复杂几何形状，基于图的划分工具如 METIS~\cite{Karypis1997METIS} 更为可取。
+在此前讨论中，模型划分均基于坐标轴对齐的网格。然而，面对几何形态复杂的实际模型，直接采用 METIS~\cite{Karypis1997METIS} 等图划分工具是更稳健的选择。
 
 \paragraph{Primal-Dual 划分的生成}
-我们采用两阶段加权策略来生成所需的不同的划分。我们通过 METIS 以默认设置生成 Primal 划分 $\mathcal{P}^p$。为了生成不同的划分，我们增加属于 $\mathcal{P}^p$ 界面的边的权重。
+为生成满足要求的两种差异化划分，我们设计了两阶段边权重调节策略。首先，调用 METIS 默认算法生成基准的 Primal 划分 $\mathcal{P}^p$。随后，为了引导算法生成存在显著空间错位的 Dual 划分，我们人为提高图中所有属于 $\mathcal{P}^p$ 界面边的权重，迫使第二次划分（Dual 划分）主动避开原有的切割边界。
 
 \paragraph{互补划分}
-如\Cref{sec:phase-complement}所述，界面位置决定了子结构特征模态的相位。一个关键问题出现在 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的界面相交处：在这些交汇点，$\mathbf{S}_i^p$ 和 $\mathbf{S}^d_j$ 共享相同的相位约束，局部地将基退化为单一相位。为缓解这一问题，我们引入覆盖这些交汇点的辅助子结构。对于每个交汇点，我们将 $\gamma$-环顶点邻域聚合为一个新的子结构。参数 $\gamma$ 逐步增加，直到新子结构的顶点数达到 $\Omega_i^p$ 和 $\Omega_j^d$ 的最大顶点数。我们将这些重叠的子结构收集为互补划分。
+如\Cref{sec:phase-complement}所述，子结构界面的位置决定了其内部特征模态的固有相位。当 $\mathcal{P}^p$ 和 $\mathcal{P}^d$ 的界面在某处相交时，会出现关键的缺陷：在相交区域周围，$\mathbf{S}_i^p$ 和 $\mathbf{S}^d_j$ 会受到相同的局部零边界约束，导致这两个基向量在交界处退化为单一相位，丧失了相位完备性。为修复这一局部缺陷，我们在交汇点处显式引入辅助子结构。具体而言，对于每一个交汇点，我们在图上提取其 $\gamma$ 阶邻域的顶点，将其聚合为一个独立的补充子结构。通过递增参数 $\gamma$，我们使新子结构的规模逐渐增长，直至其包含的顶点数与周围的主子结构（$\Omega_i^p$ 或 $\Omega_j^d$）的最大顶点数相当。这些覆盖交汇点的辅助子结构共同构成了互补划分。
 
-对于每个子结构，我们按照\Cref{eq:sub-eig} 计算子结构特征模态，并将它们组装到 $\mathbf{S}^c$ 中。此外，我们不添加这些子结构的界面模态，因为我们在实验中发现仅添加子结构特征模态已足够。现在子空间扩展为 $\mathbf{S} =
-[\mathbf{S}^p, \mathbf{S}^d, \mathbf{S}^c]$。
+我们利用\Cref{eq:sub-eig} 为每个互补子结构计算局部特征模态，并将其收集至矩阵 $\mathbf{S}^c$ 中。由于实验证明仅需互补内部特征模态便足以弥补相位缺陷，因此我们并未为这部分子结构引入界面模态。至此，完整的投影子空间扩展为三部分：$\mathbf{S} = [\mathbf{S}^p, \mathbf{S}^d, \mathbf{S}^c]$。
 
-如\Cref{fig:laplacian-metis-error-time} 所示，若没有这些互补划分来解决交汇点的相位缺陷，我们的方法无法超越传统 CMS。然而，通过引入这些辅助子结构，它在相当的计算预算下实现了显著更低的误差。
+\Cref{fig:laplacian-metis-error-time} 证实，如果不引入互补划分来填补交汇点处的相位缺陷，多重划分方法的精度无法超越传统 CMS。然而，一旦加入这些轻量级的辅助子结构，该方法便能在相近的总计算预算内，实现几个数量级的误差下降。

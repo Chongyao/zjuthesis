@@ -62,8 +62,7 @@
 其中 $N_e$ 为已计算特征值数量。
 
 \paragraph{性能评估：误差--时间曲线}
-我们采用 \textbf{Error-Time} 曲线评估整体效率。与单次迭代中的收敛曲线不同，这里每个点都对应一次\textbf{完整且独立}的 CMS 运行。CMS 中精度与代价的主要控制参数是每个子结构的内部模态数量 $q_{\mathcal{I}}$。我们通过逐步增加 $q_{\mathcal{I}}$ 进行多次独立运行，将误差（$\epsilon_{\text{ev}}$）对总时间（$t_{\text{cms}}$）作图。曲线越靠左下，表示在同等时间预算下误差更低。
-
+我们将误差（$\epsilon_{\text{ev}}$）对总时间（$t_{\text{cms}}$）绘制成曲线。曲线越靠左下，表示在同等时间预算下误差更低。
 \subsection{可扩展性}
 \label{sec:scaling}
 可扩展性是 HPC 的核心指标。我们使用\textbf{强扩展}（固定问题规模，增加处理器数量）与\textbf{弱扩展}（问题规模与处理器数量同比增长）两类标准指标。现代集群通常采用 MPI（跨节点）+ OpenMP（节点内）两级并行模型，总并行度为 $p_c\times p_f$。
@@ -90,8 +89,7 @@ $q_{\mathcal{I}}^\star$ 见 \Cref{fig:critical-qb}。\textcolor{ConclusionEviden
 
 \textcolor{IsConclusion}{此外，分解结果清楚表明，传统 CMS 的串行界面步骤（Schur 补）会随问题规模增大而在内存占比上持续上升，这正是其内存可扩展性变差的直接原因。}
 
-\Cref{fig:scaling-balance} 进一步显示，本文方法在强/弱扩展场景下的时间与内存均衡性均约为 $0.9$；传统 C-B 方法则明显下降，特别是内存均衡性接近 $0.6$。
-
+\Cref{fig:scaling-balance} 显示，本文方法在强、弱扩展场景下的时间与内存均衡性均约为 $0.9$。传统 CB-CMS 方法则明显下降，特别是内存均衡性接近 $0.6$。
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{critical-qb/combined_scaling.pdf}
@@ -198,8 +196,7 @@ $q_{\mathcal{I}}^\star$ 见 \Cref{fig:critical-qb}。\textcolor{ConclusionEviden
 
 \subsubsection{时间 vs. 准确模态数量}
 为进一步量化实用价值，我们统计在给定阈值 $\epsilon_{\text{target}}$ 下达到目标准确模态数 $q_t$ 所需总时间 $t_{\text{cms}}$。
-\textcolor{ConclusionEvidence}{如 \Cref{fig:comp-timing-vs-nev} 所示，MP-CMS 在绝大多数目标 $q_t$ 上均快于 CB-CMS、CMS-IMR 与 AMLS，尤其在大规模模态需求时优势更明显。}
-
+\textcolor{ConclusionEvidence}{如 \Cref{fig:comp-timing-vs-nev} 所示，MP-CMS 在绝大多数目标 $q_t$ 上均快于 CB-CMS、CMS-IMR 与 AMLS，且在大规模模态需求时优势更加显著。}
 \begin{figure}[H]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
