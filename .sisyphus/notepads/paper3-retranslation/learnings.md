@@ -1,0 +1,22 @@
+- Use precise academic language and carefully adhere to the provided terminology (e.g., 模态综合法, 界面模态缩减法).
+- In Introduction section, preserved the thesis's specific transition paragraph discussing dimensionality reduction feature subspace before proceeding with the paper translation.
+- Extracted Section 1 and Section 2.1-2.3 from `primal-dual_modes` paper source, omitting Section 2.4 (Singular matrix pencil).
+- Retained original LaTeX citation `\cite{...}` commands as they successfully resolve through biber/latexmk.
+## Learnings
+- The translation for 'Component Mode Synthesis (CMS)' is '模态综合法 (CMS)'.
+- The translation for 'Multiple partitions' is '交错划分策略 / 多重划分'.
+- The translation for 'Substructure' is '子结构'.
+- The translation for 'Interface' is '界面'.
+- The translation for 'Substructure eigenmodes' is '局部特征模态 / 子结构特征模态'.
+- The translation for 'Interface modes' is '界面模态'.
+- The translation for 'Primal partition' is 'Primal 划分 / primal 划分'.
+- The translation for 'Dual partition' is 'Dual 划分 / dual 划分'.
+- Omit lines 137-174 of 3.0-background.tex (dense matrix multiplication derivations) as decided in the background analysis.
+- The LaTeX macro for determinant is `\DET{A}` (avoid `\DETtext`).
+- Ensure figure paths remain the same as the original source.
+- Successfully translated Schur complement and Implementation details for paper3/3_simulation.tex
+- In Paper3 Section 4_results.tex, retranslated evaluation and scaling sections exactly according to structural boundaries.
+- Used `\begin{table}[H]` instead of `\begin{table*}[H]` for the statistics table to prevent referencing issues and better match the two-column paper conversion to single-column thesis.
+- Translated `\caption` and `\label` elements correctly matching original conventions while using academic style phrasing.
+- Fixed garbled translation-ese in `\subsection{积分误差分析的实验细节}` by referencing `7.0-appendix.tex`.
+- Removed exaggerated, hype-like wording in Falcon 9 performance section, ensuring rigorous dissertation style.

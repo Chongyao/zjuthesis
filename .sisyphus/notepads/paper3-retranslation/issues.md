@@ -1,0 +1,1 @@
+- LaTeX compilation throws warnings about undefined references initially (`Farhat2001FETIDP`, `MUMPS:1`, `MUMPS:2`). These references were added to the thesis `body/ref.bib` during the global paper migration, so latexmk rerunning biber resolves them.
