@@ -185,18 +185,15 @@
 \subsection{大规模模态分析中的广义特征值求解困境}
 \begin{figure}[htbp]
   \centering
-  \newcommand{\PIC}[1]{\includegraphics[height=0.28\linewidth]{body/graduate/paper3/figures/domain_definition/#1}}
-  \PIC{domain-def.png}
-  \PIC{inner_modes.png}
-  \PIC{interface_modes.png}
-  \caption{传统模态综合法（CMS）中的空间划分与模态提取。区域被划分为多个子结构（左）。在单一划分下，独立提取的子结构低频特征模态（中）和界面模态（右）在应对全域响应时存在天然局限。}
+  \includegraphics[width=0.72\linewidth]{body/graduate/intro/figures/CMS.png}
+  \caption{模态综合法中子结构划分与界面缩减的示意图。整体结构首先被划分为若干子结构，再在局部模态提取与界面缩减的基础上组装为缩减后的全局模型。图引自 Gibanica 等~\cite{GIBANICA2017348}。}
   \label{fig:intro_cms_partition}
 \end{figure}
 在结构动力学分析、声学模拟以及计算机图形学的形变控制中，提取大规模工程模型的固有振动频率与其对应的变形模式是一项决定性任务。这一问题在数学上被公式化为求解规模巨大的无阻尼广义特征值问题 $\mathbf{K}\mathbf{u} = \lambda\mathbf{M}\mathbf{u}$。在几乎所有的物理系统中，起主导作用并决定整体结构宏观动态响应的往往是对应于较小特征值的前几十至上百个低频（即“软”）模态。因此，大规模模态分析的核心挑战，本质上是一个从千万甚至上亿自由度系统中，如何高效且高保真地提取并降维出一个能够精确捕捉全局低频“软”响应的超大规模特征子空间问题。
 
 然而，利用整体求解器提取软子空间时，刚度的显著落差可能影响计算效率。目前主流的方法包括 Lanczos 或 Arnoldi 等迭代算法~\cite{knyazev2001lobpcg}。在处理超大规模模型时，矩阵的高条件数会减缓低频空间的逼近过程。此外，这类方法通常需要在迭代中不断进行进行超大规模的的方程求解和预处理操作，对内存和可扩展性提出了挑战，也较难直接复用局部修改的结果。
 
-为了打破全局巨型矩阵带来的扩展性瓶颈，工业界与学术界广泛采用了基于区域分解思想的降维技术——模态综合法（Component Mode Synthesis, CMS）~\cite{craig1968coupling,seshu1997substructuring,Vysok2017CurrentCO}。这类方法将庞大的物理域划分为多个互不重叠的小子结构，在每个子结构内部提取少量局部模态，再通过界面条件将它们综合为全局近似空间。以最经典的固定界面 Craig--Bampton 方法为例，其核心思想可概括为：先在每个子结构内部求解固定边界下的局部特征模态
+为了打破全局巨型矩阵带来的扩展性瓶颈，工业界与学术界广泛采用了基于区域分解思想的降维技术——模态综合法（Component Mode Synthesis, CMS）~\cite{craig1968coupling,seshu1997substructuring,Vysok2017CurrentCO,GIBANICA2017348}。其基本思想是将整体结构划分为若干子结构，在各子结构内部构造局部模态，再通过界面条件进行组装，如 \Cref{fig:intro_cms_partition} 所示。以最经典的固定界面 Craig--Bampton 方法为例，其核心思想可概括为：先在每个子结构内部求解固定边界下的局部特征模态
 \begin{equation}
     \mathbf{K}_{ii} \mathbf{S}_i = \mathbf{M}_{ii} \mathbf{S}_i \Lambda_i,
 \end{equation}
