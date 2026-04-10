@@ -21,7 +21,6 @@
   }
   \caption{\textbf{模型统计数据。}我们用 $\gamma$ 表示纵横比。}
   \label{p2:tab:statistics}
-  \vspace{-1cm}
 \end{table}
 
 \subsection{基准测试}
@@ -74,12 +73,14 @@
 
 \subsection{应用}
 
-为了减小线性弹性的人工效应，
-\begin{wrapfigure}[6]{r}{2cm}
-    \vspace{-1em}
-    \includegraphics[width=0.8\linewidth]{figpdf/warp.pdf}
-\end{wrapfigure}
-我们使用 \cite{HuangRS2011,pan_subspace_2015} 提出的旋转-应变坐标，配合泊松重建对结果进行后处理变形。该策略也在 \cite{chen2019material} 中采用。
+为了减小线性弹性的人工效应，我们使用 \cite{HuangRS2011,pan_subspace_2015} 提出的旋转-应变坐标，配合泊松重建对结果进行后处理变形。该策略也在 \cite{chen2019material} 中采用。\Cref{fig:warp-simulation} 展示了这一变形后处理示例。
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.8\linewidth]{figpdf/warp.pdf}
+  \caption{\textbf{Warp 变形后处理示例。}我们使用旋转-应变坐标与泊松重建对线性弹性结果进行后处理，以获得更自然的变形外观。}
+  \label{fig:warp-simulation}
+\end{figure}
 
 \paragraph{切割仿真}
 病态单元在切割仿真中较为常见，如 \Cref{fig:cut-simulation} 所示。生成切割网格的一种常见且直接的方法是行进四面体方法，它根据顶点处的标量场值将每个四面体分割成多个新四面体。在此切割过程中，单元数量增加，并伴随病态四面体数量上升（\Cref{p2:tab:statistics}），特别是在切割面附近。我们以准静态方式模拟此切割过程。使用基于算子感知的局部基空间重构与隔离技术，刚度矩阵的最大特征值降低了一个数量级。该方法使共轭梯度求解耗时减少约 $32\%$，而预计算成本约占原始共轭梯度时间的 $1\%$。
