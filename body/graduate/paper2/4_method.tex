@@ -12,32 +12,6 @@
   \label{fig:refinement_adjoint_coarsening_demo}
 \end{figure}
 
-\subsection{基于细化的层次结构}
-
-给定一个四面体网格 $\mathcal{M}^h = \{\mathcal{V}^h, \mathcal{T}^h\}$，具有 $n^h$ 个顶点和 $m^h$ 个四面体单元，对应于规范线性基函数 $\{\varphi^h_i\}_{i=1\dots n^h}$。我们的层次结构在细化过程中动态生成。与之前假设现有层次网格作为输入的多层方法~\cite{chen2018numerical, chen2019material}不同，我们的构造通过递归局部细化过程动态构建层次结构。从网格 $\mathcal{M}^k = \{\mathcal{V}^{k}, \mathcal{T}^k\}$ 开始，单步局部细化将其转换为 $\mathcal{M}^{k+1} = \{\mathcal{V}^{k+1},
-\mathcal{T}^{k+1}\}$。我们定义 $\mathcal{M}^0 \equiv \mathcal{M}^h$。默认情况下，输入网格的所有顶点在此过程中保留：
-\begin{equation}
-  \mathcal{V}^0 \subset \mathcal{V}^1 \subset \cdots \subset \mathcal{V}^q
-\end{equation}
-其中 $q$ 表示 h-细化迭代的总次数。我们设 $\mathcal{M}^{h+}\equiv\mathcal{M}^q$ 为最终细化网格。我们还定义用于最终计算的网格 $\mathcal{M}^H = \{\mathcal{V}^H, \mathcal{P}^H \}$，由多面体单元组成。大多数多面体是输入网格的原始四面体单元，由 $|\mathcal{P}^H \cap \mathcal{T}^h| \cong
-|\mathcal{T}^h|$ 表示。$n^H$ 个顶点 $\mathcal{V}^H$ 与 $\mathcal{V}^h$ 相同，除非存在 \Cref{sec:strong_links} 中解释的"强链接"：$\mathcal{V}^H (\subset | = ) \mathcal{V}^h$。在 $\mathcal{M}^H$ 上使用的基函数表示为 $\{\varphi_i^H\}_{i=1\dots n^H}$。
-
-我们的方法可视为一种局部数值粗化策略，旨在通过优化基函数降低全局刚度矩阵的条件数。$\mathcal{M}^{h+}$ 处的函数空间被分解为算子适应基函数 $\varphi^H = \mathbb{C}^H\varphi^h$ 及其互补小波基函数 $\psi^H = \mathbf{W}^H \varphi^h$，分别张成两个函数空间 $\mathbb{V}^H$ 和 $\mathbb{W}^H$：
-\begin{equation}
-  \mathbb{V}^{h+} = \mathbb{V}^H \oplus \mathbb{W}^H.
-  \label{eq:two-level-functiaonal-space}
-\end{equation}
-
-总之，我们首先通过若干步自适应 h-细化从 $\mathcal{M}^h$ 生成 $\mathcal{M}^{h+}$。然后通过单元聚合结合算子适应基函数优化从 $\mathcal{M}^{h+}$ 导出 $\mathcal{M}^H$。我们的目标是降低使用 $\varphi^H$ 时全局刚度矩阵的条件数，并尽量使自由度数量不变或仅小幅减少。
-
-为了在实践中有效实现这种层次结构，出现了三个关键问题：
-\begin{itemize}
-\item 应优先聚合哪些单元以降低全局刚度矩阵的最大特征值？
-\item 任意细化策略能否在聚合步骤中有效使用？
-\item 如何优化这些多面体上的基函数？
-\end{itemize}
-
-\subsection{基函数优化}
 
 两个层级基函数之间的关系最初由细化过程中的几何插值定义：
 \begin{equation}
@@ -69,13 +43,108 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 \end{equation}
 具体来说，我们分别为边细化求解六种情况，为面细化求解四种情况。对于面细化，两个四面体被分成六个，如 \Cref{fig:refinement_adjoint_coarsening_demo} 所示。对于边细化，受影响边的所有一环四面体被分成两个。然后我们按这些十种情况的最大特征值排序，选择产生最小值的配置。虽然可以使用涉及层级 $k+1$ 中额外新顶点的更复杂细化策略，我们将其留待未来工作。
 
-\begin{wrapfigure}[6]{r}{3cm}
-    \vspace{-0.4\intextsep}
-    \hspace*{-.75\columnsep}
-    \includegraphics[width=1.2\linewidth]{figures/split-zjx/F4.0523a.png}
-\end{wrapfigure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\linewidth]{figures/split-zjx/F4.0523a.png}
+\end{figure}
 
 一旦 $z$ 确定，\Cref{eq:opt_basis} 中的优化就变成了标准的二次规划（Quadratic Programming, QP）问题。由于我们总是将新顶点保留在 patch 内，边界顶点保持拉格朗日性质，避免了多面体边界处的任何不连续性问题。也可以通过遵循~\cite{chen2019material} 并将基函数投影到刚体运动约束流形上来优化基函数，尽管这与我们的方法相比差异很小。
+
+\subsection{显示强链接以及隐式强链接}
+上述基于细分的基函数优化会尝试添加一个新的离散定点。这些顶点的位置由 \Cref{eq:harmonic_refinement_trace} 定义的优化问题确定。当优化出的定点恰好就是原始输入网格中的一个顶点时，我们称之为"显示强链接"。在这种情况下，优化过程会将该顶点的基函数从 $\mathbb{V}^H$ 移动到 $\mathbb{W}^H$，以隔离这个强链接。另一方面，如果优化出的定点不对应于输入网格中的任何顶点，我们称之为"隐式强耦链接"。这种情况下，　我们的基于细分的基函数优化本质是在把包含＂隐式强链接＂的单元细分更多的可能包含为＂显式强链接＂　的四面体单元如图\Cref{fig:strong-link-implicit-to-explicit}所示。
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{example-image-a}
+    \caption{\textbf{隐式强链接细分后转为显式强链接。}}
+    \label{fig:strong-link-implicit-to-explicit}  
+\end{figure}
+
+
+\subsection{基于细化的层次结构}
+下面我们介绍根据上述基于细化的基函数优化构建层次结构的方法。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[x=0.95cm,y=0.95cm]
+    % unified styles (kept local to match repo convention)
+    \definecolor{hierobox}{RGB}{245,246,250}
+    \definecolor{hieroline}{RGB}{70,70,70}
+    \definecolor{hierotext}{RGB}{40,40,40}
+
+    % main boxes
+    \node[
+      draw=hieroline,
+      fill=hierobox,
+      thick,
+      rounded corners=2pt,
+      minimum width=2.75cm,
+      minimum height=1.08cm,
+      font=\normalsize
+    ] (MH) at (0,0) {$\mathcal{M}^H$};
+
+    \node[
+      draw=hieroline,
+      fill=hierobox,
+      thick,
+      rounded corners=2pt,
+      minimum width=2.75cm,
+      minimum height=1.08cm,
+      font=\normalsize
+    ] (Mh) at (4.9,0) {$\mathcal{M}^{h}$};
+
+    \node[
+      draw=hieroline,
+      fill=hierobox,
+      thick,
+      rounded corners=2pt,
+      minimum width=2.75cm,
+      minimum height=1.08cm,
+      font=\normalsize
+    ] (Mhp) at (13.1,0) {$\mathcal{M}^{h+}$};
+
+    % above labels
+    \node[font=\small\bfseries, text=hierotext, align=center] at (0,1.15) {多面体四面体混合网格\\无强链接};
+    \node[font=\small\bfseries, text=hierotext, align=center] at (4.9,1.15) {输入四面体网格\\隐式强链接 + 显式强链接};
+    \node[font=\small\bfseries, text=hierotext, align=center] at (13.1,1.15) {细分后的四面体网格\\仅有显式强链接};
+
+    % refinement arrow
+    \draw[-{Stealth[length=2.8mm]}, thick, draw=hieroline] ([xshift=0.12cm]Mh.east) -- ([xshift=-0.12cm]Mhp.west)
+      node[midway, above=0.30cm, align=center, font=\small, text=hierotext] {细分：隐式强链接细分后\\转化为显式强链接};
+
+    % basis optimization arrow from below
+    \draw[-{Stealth[length=2.8mm]}, thick, draw=hieroline]
+      (Mhp.south west) to[out=232, in=308]
+      node[pos=0.52, below=1.18cm, align=center, font=\small, text=hierotext] {基函数优化：消除所有强链接}
+      (MH.south east);
+  \end{tikzpicture}
+  \caption{基于细化的层次结构示意图。输入网格 $\mathcal{M}^{h}$ 通过局部细分生成 $\mathcal{M}^{h+}$，使隐式强链接转化为显式强链接；随后通过基函数优化导出最终计算网格 $\mathcal{M}^{H}$，并消除所有强链接。}
+  \label{fig:paper2-hierarchy-overview}
+\end{figure}
+
+
+给定一个四面体网格 $\mathcal{M}^h = \{\mathcal{V}^h, \mathcal{T}^h\}$，具有 $n^h$ 个顶点和 $m^h$ 个四面体单元，对应于规范线性基函数 $\{\varphi^h_i\}_{i=1\dots n^h}$。我们的层次结构在细化过程中动态生成。与之前假设现有层次网格作为输入的多层方法~\cite{chen2018numerical, chen2019material}不同，我们的构造通过递归局部细化过程动态构建层次结构。从网格 $\mathcal{M}^k = \{\mathcal{V}^{k}, \mathcal{T}^k\}$ 开始，单步局部细化将其转换为 $\mathcal{M}^{k+1} = \{\mathcal{V}^{k+1},
+\mathcal{T}^{k+1}\}$。我们定义 $\mathcal{M}^0 \equiv \mathcal{M}^h$。默认情况下，输入网格的所有顶点在此过程中保留：
+\begin{equation}
+  \mathcal{V}^0 \subset \mathcal{V}^1 \subset \cdots \subset \mathcal{V}^q
+\end{equation}
+其中 $q$ 表示 h-细化迭代的总次数。我们设 $\mathcal{M}^{h+}\equiv\mathcal{M}^q$ 为最终细化网格。我们还定义用于最终计算的网格 $\mathcal{M}^H = \{\mathcal{V}^H, \mathcal{P}^H \}$，由多面体单元组成。大多数多面体是输入网格的原始四面体单元，由 $|\mathcal{P}^H \cap \mathcal{T}^h| \cong
+|\mathcal{T}^h|$ 表示。$n^H$ 个顶点 $\mathcal{V}^H$ 与 $\mathcal{V}^h$ 相同，除非存在 \Cref{sec:strong_links} 中解释的"强链接"：$\mathcal{V}^H (\subset | = ) \mathcal{V}^h$。在 $\mathcal{M}^H$ 上使用的基函数表示为 $\{\varphi_i^H\}_{i=1\dots n^H}$。
+
+我们的方法可视为一种局部数值粗化策略，旨在通过优化基函数降低全局刚度矩阵的条件数。$\mathcal{M}^{h+}$ 处的函数空间被分解为算子适应基函数 $\varphi^H = \mathbb{C}^H\varphi^h$ 及其互补小波基函数 $\psi^H = \mathbf{W}^H \varphi^h$，分别张成两个函数空间 $\mathbb{V}^H$ 和 $\mathbb{W}^H$：
+\begin{equation}
+  \mathbb{V}^{h+} = \mathbb{V}^H \oplus \mathbb{W}^H.
+  \label{eq:two-level-functiaonal-space}
+\end{equation}
+
+总之，我们首先通过若干步自适应 h-细化从 $\mathcal{M}^h$ 生成 $\mathcal{M}^{h+}$。然后通过单元聚合结合算子适应基函数优化从 $\mathcal{M}^{h+}$ 导出 $\mathcal{M}^H$。我们的目标是降低使用 $\varphi^H$ 时全局刚度矩阵的条件数，并尽量使自由度数量不变或仅小幅减少。
+
+% 为了在实践中有效实现这种层次结构，出现了三个关键问题：
+% \begin{itemize}
+% \item 应优先聚合哪些单元以降低全局刚度矩阵的最大特征值？
+% \item 任意细化策略能否在聚合步骤中有效使用？
+% \item 如何优化这些多面体上的基函数？
+% \end{itemize}
+
 
 \subsection{候选选择}\label{sec:selection}
 
