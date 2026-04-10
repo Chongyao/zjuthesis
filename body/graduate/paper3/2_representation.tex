@@ -21,11 +21,7 @@
 
 基于上述分析，我们提出一种方法，旨在：（1）使用少量但更有效的子结构特征模态；（2）绕开计算代价高、内存占用大的 Schur 补步骤。
 
-\subsection{单一划分的表达缺陷与多重划分的相位补足}\label{sec:phase-complement}
-
-在本节中，我们提出了一种通过利用多重划分来降低计算和内存开销并实现更高精度的方法。核心思想是使用来自不同划分的子结构特征模态。
-
-\subsubsection{一维拉普拉斯问题下单一划分的表达缺陷}\label{subsec:1d-laplacian}
+\subsection{单一划分的表达缺陷}\label{sec:phase-complement}
 
 在介绍具体方法前，本节以定义在 $[0,L]$ 上的一维拉普拉斯特征问题为例进行说明。为简化讨论，此处忽略界面模态。
 \begin{figure}[H]
@@ -45,41 +41,32 @@
 \end{equation}
 其中 $t=(x-a)/(b-a)$。\Cref{fig:integrated_error_comparison}左上图展示了部分特征模态。\textcolor{ExplainConclusion}{此类特征模态在区间边界处的值均为零；即每个 $\sin(\omega t+\phi)$ 函数相对于区间的相位 $\phi$ 恒为零。因此，当 $\psi\neq k\pi$ 时，$t\in[0,1]$ 上形如 $\sin(j\pi t+\psi)$ 的函数在边界处存在非零值，这些基函数无法表示该类函数。单纯增加此类基函数的数量也无法解决该问题。}
 
-然而，在用相同频率但不同相位的函数丰富基集后，
+\subsection{Schur 补的数学结构}\label{sec:schur-complement}
+
+传统 CMS 中的界面模态本质上来源于分块 Schur 补变换矩阵：
 \begin{equation}
-  \tilde{\mathbf{S}}^d_{i,j} = \sin\left(j\pi t+\phi\right), t\in[0,1], j=1,2,\cdots,
-  \label{eq:phase-complete-basis}
+  \mathbf{L}^{-1,T} = \begin{bmatrix}
+    \mathbb{I} & & & -\mathbf{K}_{11}^{-1} \mathbf{K}_{1b}\\
+    &\ddots & & \vdots\\
+    &&\mathbb{I}& -\mathbf{K}_{mm}^{-1} \mathbf{K}_{mb}\\
+    &&&\mathbb{I}
+  \end{bmatrix}
+  \label{eq:schur}
 \end{equation}
-其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。这两组函数频率相同但相位不同（一组相位为 0，另一组相位为 $\phi$）。根据三角函数积化和差公式，它们可以线性组合出任意相位 $\psi$ 的同频函数 $\sin(j\pi t+\psi), t\in[0,1]$。我们将这些额外引入的基函数称为对原基函数的\textbf{相位补足}，扩展后的基集则是\textbf{相位完备}的。直观上，不同划分生成的偏移子结构恰好能提供不同相位的基函数。
-
-为验证相位完备基函数相较于传统 CMS 固定相位基的优势，我们分析了积分误差。\textcolor{ConclusionEvidence}{下图显示，相位完备基的误差显著低于固定相位基。}
-
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}{0.19\linewidth}
-    \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
-    \caption{$\mathcal{P}^p$}
-  \end{subfigure}
-  \begin{subfigure}{0.19\linewidth}
-    \includegraphics[width=\linewidth]{pd-partition-demo/partition-d.png}
-    \caption{$\mathcal{P}^d$}
-  \end{subfigure}
-  \begin{subfigure}{0.19\linewidth}
-    \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-1.png}
-    \caption{$\mathbf{S}^d_2$}
-  \end{subfigure}
-  \begin{subfigure}{0.19\linewidth}
-    \includegraphics[width=\linewidth]{pd-partition-demo/primal-eig.png}
-    \caption{$\mathbf{S}^p_2$}
-  \end{subfigure}
-  \begin{subfigure}{0.19\linewidth}
-    \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-2.png}
-    \caption{$\mathbf{S}^d_3$}
-  \end{subfigure}
-  \begin{subfigure}{\linewidth}
-    \includegraphics[width=\linewidth]{frequency-vs-phase/fixed-vs-complete-eig-error.pdf}
-  \end{subfigure}
-  \caption{\textbf{两个子空间的误差比较。}\textbf{上图：Primal-Dual 划分和子结构特征模态示例。} $\mathbf{S}^p_2$ 的相位与 $\mathbf{S}^d_3$ 和 $\mathbf{S}^d_2$ 的相位不同。\textbf{下图：误差比较。} 相位完备基 $[\mathbf{S}_\mathcal{I}^p, \mathbf{S}_\mathcal{I}^d]$ 的误差（中）显著低于（右）相位固定基 $\mathbf{S}_{\mathcal{I}}^p$ 的误差（左）。}
-  \label{fig:primal-dual-partition-example}
-\end{figure}
-
+该变换将原始矩阵对 $\left(\mathbf{K}, \mathbf{M} \right)$ 分块对角化为 $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
+$\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
+\begin{equation}
+  \begin{bmatrix}
+    \mathbf{K}_{11} &&&&\\
+    &\ddots&&&\\
+    &&\mathbf{K}_{mm}&&\\
+    &&&&\tilde{\mathbf{K}}_{bb}
+  \end{bmatrix},\quad
+  \begin{bmatrix}
+    \mathbf{M}_{11} & & & \tilde{\mathbf{M}}_{1b}\\
+    &\ddots & & \vdots\\
+    & & \mathbf{M}_{mm} & \tilde{\mathbf{M}}_{mb}\\
+    \tilde{\mathbf{M}}_{b1} &\cdots &\tilde{\mathbf{M}}_{bm} &\tilde{\mathbf{M}}_{bb}
+  \end{bmatrix}.
+\end{equation}
+在计算缩减后的刚度矩阵和质量矩阵时，需要执行大量的大规模矩阵乘法，这占据了 Schur 补的主要计算开销。值得注意的是，如果直接将多重划分的策略与传统 CMS 相结合，每次应用新的划分都需要重新执行整个 Schur 补缩减过程。这会导致本已高昂的界面计算成本成倍增加，从而严重损害整体效率。因此，我们必须找到一种绕过传统 Schur 补的界面模态生成方法。

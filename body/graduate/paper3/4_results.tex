@@ -1,26 +1,6 @@
 \section{实验结果与分析}
 \label{sec:results}
 
-本文方法的整体流程如 \Cref{alg:pd-cms} 所示，实现细节见 \Cref{sec:implementation}。我们在三类平台上进行测试：用于扩展性基准的桌面工作站、用于单机对比的计算服务器，以及用于超大规模模型的超算集群。
-
-\begin{algorithm}[t]
-  \caption{多重划分 CMS}
-  \label{alg:pd-cms}
-  \begin{algorithmic}[1]
-    \REQUIRE $nev_{\text{blk}},nev_{\text{target}}$
-    \STATE \COMMENT{\textbf{并行运行}以获取 $\mathbf{S}_{\mathcal{I}}^p,\mathbf{S}_{\mathcal{I}}^d$：}
-    \FOR{each substructure in $\mathcal{P}^p$ and $\mathcal{P}^d$}
-      \STATE 求解子结构局部特征值问题 \cref{eq:sub-eig}
-    \ENDFOR
-    \STATE \COMMENT{\textbf{并行运行}以获取 $\mathbf{S}_b^p,\mathbf{S}_b^d$：}
-    \FOR{each substructure in $\mathcal{P}^p$ and $\mathcal{P}^d$}
-      \STATE 求解子结构边界问题 \cref{eq:ours-response-solution} 并组装
-    \ENDFOR
-    \STATE $\mathbf{S} \leftarrow [\mathbf{S}^p_\mathcal{I},\mathbf{S}^p_b,\mathbf{S}_{\mathcal{I}}^d,\mathbf{S}_{b}^d]$
-    \STATE 使用 \cref{alg:adaptive-shifting} 的自适应位移过程求解最终降维系统
-  \end{algorithmic}
-\end{algorithm}
-
 我们首先在标准二维矩形区域（四边形网格）上验证方法的基础数值行为。随后在两类场景上比较该方法与其他方法：三角表面网格上的拉普拉斯问题，以及四面体体网格上的弹性问题。进一步地，我们在超算集群上将该方法应用于超大规模模型，以验证方法的效率。最后，我们展示了当网格局部发生改动时快速更新特征模态的能力（这是 CMS 方法固有优势的体现）。所有计算平台与模型的统计信息列于 \Cref{tab:statistics}。
 
 \begin{table}[H]
