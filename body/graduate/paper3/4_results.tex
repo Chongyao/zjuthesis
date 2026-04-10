@@ -7,6 +7,7 @@
   \caption{\textbf{实验所用模型统计。} $q_t$ 表示需计算的全局特征模态数量；* 表示变量。}
   \label{tab:statistics}
   \centering
+  \resizebox{\textwidth}{!}{%
   \begin{tabular}{|c|c|c|c|c|}
     \hline
     平台 & 模型 & \#V & \#E & $q_t$  \\
@@ -27,7 +28,8 @@
     \makecell{超算集群（19 节点）\\AMD 2$\times$7H12 64-core @ 2.6GHz, 512GB RAM\\100Gb IB 高速网络}
     & Falcon 9（\Cref{fig:teaser}） & 10M & 30M & 3000 \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
 \subsection{精度与性能评估}

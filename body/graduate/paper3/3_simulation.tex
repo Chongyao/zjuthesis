@@ -144,13 +144,14 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 \end{equation}
 参数 $\mu$ 和 $\sigma$ 的选取至关重要：它们应当足够小，以免对原系统的"真实"特征值和特征向量产生显著扰动；同时又必须足够大，以确保扰动后的矩阵满秩，使特征值求解器能稳定运行。
 
-\begin{wrapfigure}[6]{c}{2cm}
-  \vspace*{-0.6cm}
-  \hspace*{-0.45cm}
- \includegraphics[width=2.5cm]{mu_and_sigma/mu_and_sigma_plot.pdf}
-\end{wrapfigure}
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.28\linewidth]{mu_and_sigma/mu_and_sigma_plot.pdf}
+  \caption{\textbf{正则化参数对误差的影响。} 图中展示了计算误差对扰动参数 $\mu$ 的敏感性。结果表明，当 $\mu$ 和 $\sigma$ 选取适当时，这种简单的对角扰动方案能够达到与高成本正交化技术相当的计算精度。}
+  \label{fig:mu-and-sigma-sensitivity}
+\end{figure}
 
-\textcolor{ConclusionEvidence}{插图展示了计算误差对扰动参数 $\mu$ 的敏感性。结果表明，当 $\mu$ 和 $\sigma$ 选取适当时，这种简单的对角扰动方案能够达到与高成本正交化技术相当的计算精度。} 在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting}）来动态确定最优的 $\mu$ 和 $\sigma$。
+在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting}）来动态确定最优的 $\mu$ 和 $\sigma$。
 
 \inputbody{paper3/5_1_alg_adaptive_shifting}
 
