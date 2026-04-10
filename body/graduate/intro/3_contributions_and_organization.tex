@@ -35,11 +35,13 @@
         draw=solColor!80, 
         fill=solColor!5, 
         thick,
-        minimum width=3.8cm, % 三个立柱平分宽度
-        minimum height=4cm,  % 立柱高度
+        rounded corners=2pt,
+        minimum width=3.8cm, 
+        minimum height=1.55cm,
         align=center,
-        text width=3.5cm,    % 限制文本宽度以自动换行
-        inner sep=5pt,
+        text width=3.35cm,
+        inner xsep=6pt,
+        inner ysep=4pt,
         font=\small
     },
     % 3. 底层横向矩形样式
@@ -88,8 +90,8 @@
 
 % 3. 底层：核心思路 (总)
 % 计算三个立柱的中心对齐位置
-\node (coupling) [bottomBox, below=1.2cm of prob2] {存在软硬耦合的基函数};
-\node (transform) [bottomBox, below=1.8cm of coupling] {基函数变换};
+\node (coupling) [bottomBox, below=1.0cm of prob2, minimum width=8.4cm, minimum height=0.9cm] {存在软硬耦合的基函数};
+\node (transform) [bottomBox, below=1.35cm of coupling, minimum width=6.6cm, minimum height=0.9cm] {基函数变换};
 
 % ==========================================================
 % 第二步：绘制连接箭头

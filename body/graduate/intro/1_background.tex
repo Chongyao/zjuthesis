@@ -6,21 +6,37 @@
 
 在物理模拟的计算管线中，核心环节是将连续的偏微分方程转化为离散的代数系统，这一过程通常通过空间离散化完成。全局系统的组装过程涉及复杂的几何拓扑处理，并直接影响后续求解器的计算效率与数值鲁棒性，如\Cref{fig:numerical_simulation_process} 所示。
 
+\definecolor{solColor}{RGB}{70,110,190}
+\definecolor{coreColor}{RGB}{40,130,90}
+
 \begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}[semithick]
+    \begin{tikzpicture}[
+        semithick,
+        baseBox/.style={
+            rectangle,
+            rounded corners=3pt,
+            thick,
+            align=center,
+            inner sep=6pt,
+            text depth=0pt
+        },
+        mainBox/.style={baseBox, draw=solColor!80, fill=solColor!8, minimum width=3.9cm, minimum height=1.5cm},
+        basisBox/.style={baseBox, draw=coreColor!80, fill=coreColor!10, minimum width=4.2cm, minimum height=1.5cm},
+        flowArrow/.style={->, thick, draw=gray!80}
+    ]
         % 主框
-        \node[draw, rounded corners, align=center, minimum width=3.9cm, minimum height=1.5cm] (continuous) at (0,0) {连续形式\\偏微分方程\\建模物理过程};
-        \node[draw, rounded corners, align=center, minimum width=3.9cm, minimum height=1.5cm] (discrete) at (8,0) {离散方程\\数值算法求解};
-        \node[draw, rounded corners, align=center, minimum width=4.2cm, minimum height=1.3cm] (basis) at (4,-2.7) {空间自由度表达\\基函数};
+        \node[mainBox] (continuous) at (0,0) {连续形式\\偏微分方程\\建模物理过程};
+        \node[mainBox] (discrete) at (8,0) {离散方程\\数值算法求解};
+        \node[basisBox] (basis) at (4,-2.7) {空间自由度表达\\基函数};
 
         % 中间箭头
-        \draw[->] (continuous.east) -- (discrete.west) node[midway, below] {网格离散};
+        \draw[flowArrow] (continuous.east) -- (discrete.west) node[midway, below, text=gray!70!black, font=\small] {网格离散};
 
         % 从基函数框指向上方两个框与中间标签
-        \draw[->] (basis.north) .. controls (3.0,-2.0) and (1.5,-1.35) .. (continuous.south);
-        \draw[->] (basis.north) -- (4,-0.42);
-        \draw[->] (basis.north) .. controls (5.0,-2.0) and (6.5,-1.35) .. (discrete.south);
+        \draw[flowArrow] (basis.north) .. controls (3.0,-2.0) and (1.5,-1.35) .. (continuous.south);
+        \draw[flowArrow] (basis.north) -- (4,-0.42);
+        \draw[flowArrow] (basis.north) .. controls (5.0,-2.0) and (6.5,-1.35) .. (discrete.south);
     \end{tikzpicture}
     \caption{数值模拟过程与网格离散示意图}
     \label{fig:numerical_simulation_process}
