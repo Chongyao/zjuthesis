@@ -259,3 +259,4 @@ TSWLatexianTemp*
 
 .venv
 .sisyphus/boulder.json
+.opencode/package-lock.json
