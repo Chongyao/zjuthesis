@@ -35,8 +35,8 @@ c_{ij}\mathbb{I}_{3\times3}$，标量系数 $c_{ij}^k$ 是重心坐标。需要�
 \end{equation}
 $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约束确保刚体运动不变性和满足调和位移，这些使用 $\mathcal{P}_i$ 周围的一环邻域计算；更多细节可在~\cite{chen2018numerical, heFast2023} 中找到。虽然这种优化本质上耦合了细化和粗化，但其非线性和不连续性质，特别是当顶点放置在不同位置（例如边或面上）时网格拓扑和单元数量的变化，带来了优化挑战。为了简化这个复杂的优化问题，我们采用交替策略。
 
-\paragraph{细化}
-我们通过直接最小化细化 patch 的迹来优化 $z$
+\paragraph{网格细分}
+我们通过直接最小化细分后四面体块的迹来优化 $z$
 \begin{equation}
     \min_{z}  \sum_{j, \Omega_{\mathcal{T}_j^{k+1}} \subset \Omega_{\mathcal{P}}} \trace{A^{k+1}_j (z)} \quad \text{s.t} \Vol{E^{h+}_i} > 0,\forall i \in E^{h+}.
   \label{eq:harmonic_refinement_trace}
@@ -50,11 +50,13 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 
 一旦 $z$ 确定，\Cref{eq:opt_basis} 中的优化就变成了标准的二次规划（Quadratic Programming, QP）问题。由于我们总是将新顶点保留在 patch 内，边界顶点保持拉格朗日性质，避免了多面体边界处的任何不连续性问题。也可以通过遵循~\cite{chen2019material} 并将基函数投影到刚体运动约束流形上来优化基函数，尽管这与我们的方法相比差异很小。
 
-\subsection{显示强链接以及隐式强链接}
-上述基于细分的基函数优化会尝试添加一个新的离散定点。这些顶点的位置由 \Cref{eq:harmonic_refinement_trace} 定义的优化问题确定。当优化出的定点恰好就是原始输入网格中的一个顶点时，我们称之为"显示强链接"。在这种情况下，优化过程会将该顶点的基函数从 $\mathbb{V}^H$ 移动到 $\mathbb{W}^H$，以隔离这个强链接。另一方面，如果优化出的定点不对应于输入网格中的任何顶点，我们称之为"隐式强耦链接"。这种情况下，　我们的基于细分的基函数优化本质是在把包含＂隐式强链接＂的单元细分更多的可能包含为＂显式强链接＂　的四面体单元如图\Cref{fig:strong-link-implicit-to-explicit}所示。
+\subsection{显式强链接以及隐式强链接}
+上述基于细分的基函数优化会尝试添加一个新的离散定点。这些顶点的位置由 \Cref{eq:harmonic_refinement_trace} 定义的优化问题确定。当优化出的定点恰好就是原始输入网格中的一个顶点时，我们称之为"显示强链接"。在这种情况下，优化过程会将该顶点的基函数从 $\mathbb{V}^H$ 移动到 $\mathbb{W}^H$，以隔离这个强链接。另一方面，如果优化出的定点不对应于输入网格中的任何顶点，我们称之为"隐式强耦链接"。这种情况下，我们的基于细分的基函数优化本质是在把包含＂隐式强链接＂的单元细分更多的可能包含为＂显式强链接＂的四面体单元如图\Cref{fig:strong-link-implicit-to-explicit}所示。我们发现, 包含显示强链接的四面体往往包含两个离的极尽的顶点。通过我们之前的基函数优化, 本质是将其中一个顶点的位置由其一环领域的顶点插值计算获得, 从而使得该顶点的基函数在 $\mathbb{W}^H$ 中, 以此来隔离这个强链接。而该物理感知的插值矩阵就是我们优化基函数所获得的矩阵基函数系数。
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{example-image-a}
+    \includegraphics[width=0.33\linewidth]{figures/subdivide/foot_at_center.png}
+    \includegraphics[width=0.33\linewidth]{figures/subdivide/foot_at_edge.png}
+    \includegraphics[width=0.33\linewidth]{figures/subdivide/like_quad.png}
     \caption{\textbf{隐式强链接细分后转为显式强链接。}}
     \label{fig:strong-link-implicit-to-explicit}  
 \end{figure}
