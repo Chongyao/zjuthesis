@@ -70,7 +70,7 @@
 
 \begin{center}
     \bfseries \zihao{-2}
-    \begin{tabularx}{.8\textwidth}{>{\fangsong}l X<{\centering}}
+    \begin{tabularx}{1.0\textwidth}{>{\fangsong}l X<{\centering}}
         % If titles are too long for one row, please manually hardcode them in
         % multiple lines, as the english title example here.
         \ifthenelse{\equal{\TitleLines}{1}}
@@ -136,12 +136,12 @@
         {%
             申请人姓名： & \uline{\hfill} \\
             指导教师：   & \uline{\hfill} \\
-            合作导师：   &  \uline{\hfill} \\
+            % 合作导师：   &  \uline{\hfill} \\
         }
         {%
             申请人姓名： & \uline{\hfill \StudentName \hfill} \\
             指导教师：   & \uline{\hfill \AdvisorName \hfill} \\
-            合作导师：   &  \uline{\hfill \ColaboratorName \hfill} \\
+            % 合作导师：   &  \uline{\hfill \ColaboratorName \hfill} \\
         }
         \ifthenelse{\equal{\Type}{design}}
         {%
