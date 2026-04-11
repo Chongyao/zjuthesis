@@ -12,18 +12,19 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}
-    \node [above right, inner sep=0] (image) at (0, 0) {
-      \includegraphics[width=\textwidth]{helix_vs_penalty/render.png}
-    };
-    \begin{scope}[x={(image.south east)},y={(image.north west)}]
-      \node [inner sep=0] at (0.9, 0.9) {$g$};
-      \node [anchor=west,inner sep=0] at (1.0, 0.5) {\small{Penalty-1e2}};
-      \node [anchor=west,inner sep=0] at (1.0, 0.36) {\small{Penalty-1e9}};
-      \node [anchor=west,inner sep=0] at (1.0, 0.25) {\small{KKT}};
-      \node [anchor=west,inner sep=0] at (1.0, 0.12) {\small{Ours}};
-    \end{scope}
-  \end{tikzpicture}
+  % \begin{tikzpicture}
+  %   \node [above right, inner sep=0] (image) at (0, 0) {
+  %     \includegraphics[width=\textwidth]{helix_vs_penalty/render.png}
+  %   };
+    % \begin{scope}[x={(image.south east)},y={(image.north west)}]
+    %   \node [inner sep=0] at (0.5, 0.7) {$g$};
+    %   \node [anchor=west,inner sep=0] at (0.7, 0.5) {\small{Penalty-1e2}};
+    %   \node [anchor=west,inner sep=0] at (0.7, 0.36) {\small{Penalty-1e9}};
+    %   \node [anchor=west,inner sep=0] at (0.7, 0.25) {\small{KKT}};
+    %   \node [anchor=west,inner sep=0] at (0.7, 0.12) {\small{Ours}};
+    % \end{scope}
+  % \end{tikzpicture}
+  \includegraphics[width=\textwidth]{helix_vs_penalty/final.pdf}
   \caption{\textbf{重力作用下的螺旋线。} 我们模拟由 200 个线段构成的螺旋杆，每个时间步最多使用 5 次牛顿迭代。}
   \label{fig:visual_damping_penalty}
 \end{figure}
@@ -165,19 +166,20 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
 
   \begin{subfigure}[b]{\textwidth}
     \centering
-    \begin{tikzpicture}
-      \node [above right, inner sep=0] (image) at (0, 0) {
-        \includegraphics[width=\textwidth]{redMax/render2.png}
-      };
-      \node [anchor=east,inner sep=0] at (0.3, 2.5) {$g$};
-      \node [anchor=south,inner sep=0] at (1.8, 3) {\tiny{第$0$帧}};
-      \node [anchor=south,inner sep=0] at (4.5, 3) {\tiny{第$1$帧}};
-      \node [anchor=south,inner sep=0] at (7.2, 3) {\tiny{第$2$帧}};
-      \node [anchor=south west,inner sep=0] at (0.7, 1.25) {\tiny{RedMax($\Delta t=0.6875\mathrm{s}$)}};
-      \node [anchor=south west,inner sep=0] at (0.7, 0.9) {\tiny{RedMax($\Delta t=0.71875\mathrm{s}$)}};
-      \node [anchor=south west,inner sep=0] at (0.7, 0.55) {\tiny{我们的方法($\Delta t=0.71875\mathrm{s}$)}};
-      \node [anchor=south west,inner sep=0] at (0.7, 0.23) {\tiny{我们的方法($\Delta t=1.3\mathrm{s}$)}};
-    \end{tikzpicture}
+    % \begin{tikzpicture}
+    %   \node [above right, inner sep=0] (image) at (0, 0) {
+    %     \includegraphics[width=\textwidth]{redMax/render2.png}
+    %   };
+    %   \node [anchor=east,inner sep=0] at (0.3, 2.5) {$g$};
+    %   \node [anchor=south,inner sep=0] at (1.8, 3) {\tiny{第$0$帧}};
+    %   \node [anchor=south,inner sep=0] at (4.5, 3) {\tiny{第$1$帧}};
+    %   \node [anchor=south,inner sep=0] at (7.2, 3) {\tiny{第$2$帧}};
+    %   \node [anchor=south west,inner sep=0] at (0.7, 1.25) {\tiny{RedMax($\Delta t=0.6875\mathrm{s}$)}};
+    %   \node [anchor=south west,inner sep=0] at (0.7, 0.9) {\tiny{RedMax($\Delta t=0.71875\mathrm{s}$)}};
+    %   \node [anchor=south west,inner sep=0] at (0.7, 0.55) {\tiny{我们的方法($\Delta t=0.71875\mathrm{s}$)}};
+    %   \node [anchor=south west,inner sep=0] at (0.7, 0.23) {\tiny{我们的方法($\Delta t=1.3\mathrm{s}$)}};
+    % \end{tikzpicture}
+    \includegraphics[width=\textwidth]{redMax/final.pdf}
     \caption{扩展 RedMax 与本文方法在重力螺旋场景下对比。}
   \end{subfigure}
 
