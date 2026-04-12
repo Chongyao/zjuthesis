@@ -18,9 +18,9 @@
   \varphi^k_i (X) = \sum_{j=1}^{n^k} \mathbf{C}_{ij}^k \varphi_{j}^{k+1}(X;z).
 \end{equation}
 其中 $z \in \mathcal{R}^3$ 是新添加顶点的位置，$\mathbf{C}^k$ 是一个 $3n^k \times 3 n^{k+1}$ 矩阵，其中 $\mathbf{C}_{ij} =
-c_{ij}\mathbb{I}_{3\times3}$，标量系数 $c_{ij}^k$ 是重心坐标。需要注意的是，与 \cite{chen2019material} 中给定网格层次结构的系数 $c_{ij}^k$ 固定不同，在我们的方法中，由于 h-细化过程尚未完全指定，这些系数必须确定。鉴于我们的目标是局部操作而非全局优化，每一步 h-细化仅针对单个四面体单元及其直接邻居。选择该候选四面体单元的方法详见 \Cref{sec:selection}。假设当前层级 $\mathcal{M}^k$ 中的候选四面体单元已确定，我们的任务就变成了优化局部区域 $\mathcal{P}_i^H = \cup_j\mathcal{T}^k_j$ 的基函数，该局部区域（patch）由聚合多个四面体形成。
+c_{ij}\mathbb{I}_{3\times3}$，标量系数 $c_{ij}^k$ 是重心坐标。需要注意的是，与 Chen 等人~\cite{chen2019material}中给定网格层次结构的系数 $c_{ij}^k$ 固定不同，在我们的方法中，由于 h-细化过程尚未完全指定，这些系数必须确定。鉴于我们的目标是局部操作而非全局优化，每一步 h-细化仅针对单个四面体单元及其直接邻居。选择该候选四面体单元的方法详见 \Cref{sec:selection}。假设当前层级 $\mathcal{M}^k$ 中的候选四面体单元已确定，我们的任务就变成了优化局部区域 $\mathcal{P}_i^H = \cup_j\mathcal{T}^k_j$ 的基函数，该局部区域（patch）由聚合多个四面体形成。
 
-在 \cite{chen2019material, chen2018numerical} 中，他们通过最小化 Galerkin 刚度矩阵的迹 $\operatorname{tr}\left(\mathbf{C} \mathbf{K}^{k+1} \mathbf{C}^T\right)$ 来优化矩阵值基函数。考虑到
+Chen 等人~\cite{chen2019material, chen2018numerical}通过最小化 Galerkin 刚度矩阵的迹 $\operatorname{tr}\left(\mathbf{C} \mathbf{K}^{k+1} \mathbf{C}^T\right)$ 来优化矩阵值基函数。考虑到
 \begin{equation}
   \mathbf{K}^{k+1}_{\mathcal{P}_i}(z) = \int_{\Omega_{\mathcal{P}_i}}\varphi^{k+1}(X;z) \mathcal{L} \varphi^{k+1, T}(X;z)  dX,
 \end{equation}
@@ -33,7 +33,7 @@ c_{ij}\mathbb{I}_{3\times3}$，标量系数 $c_{ij}^k$ 是重心坐标。需要�
   \end{split}
   \label{eq:opt_basis}
 \end{equation}
-$\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约束确保刚体运动不变性和满足调和位移，这些使用 $\mathcal{P}_i$ 周围的一环邻域计算；更多细节可在~\cite{chen2018numerical, heFast2023} 中找到。虽然这种优化本质上耦合了细化和粗化，但其非线性和不连续性质，特别是当顶点放置在不同位置（例如边或面上）时网格拓扑和单元数量的变化，带来了优化挑战。为了简化这个复杂的优化问题，我们采用交替策略。
+$\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约束确保刚体运动不变性和满足调和位移，这些使用 $\mathcal{P}_i$ 周围的一环邻域计算；更多细节可在文献~\cite{chen2018numerical, heFast2023}中找到。虽然这种优化本质上耦合了细化和粗化，但其非线性和不连续性质，特别是当顶点放置在不同位置（例如边或面上）时网格拓扑和单元数量的变化，带来了优化挑战。为了简化这个复杂的优化问题，我们采用交替策略。
 
 \paragraph{网格细分}
 我们通过直接最小化细分后四面体块的迹来优化 $z$
@@ -50,7 +50,7 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
     \label{fig:local-mesh-subdivision}
 \end{figure}
 
-一旦 $z$ 确定，\Cref{eq:opt_basis} 中的优化就变成了标准的二次规划（Quadratic Programming, QP）问题。由于我们总是将新顶点保留在局部区域（patch）内，边界顶点保持拉格朗日性质，避免了多面体边界处的任何不连续性问题。也可以通过遵循~\cite{chen2019material} 并将基函数投影到刚体运动约束流形上来优化基函数，尽管这与我们的方法相比差异很小。
+一旦 $z$ 确定，\Cref{eq:opt_basis} 中的优化就变成了标准的二次规划（Quadratic Programming, QP）问题。由于我们总是将新顶点保留在局部区域（patch）内，边界顶点保持拉格朗日性质，避免了多面体边界处的任何不连续性问题。也可以通过遵循 Chen 等人~\cite{chen2019material}的方法并将基函数投影到刚体运动约束流形上来优化基函数，尽管这与我们的方法相比差异很小。
 
 \subsection{显式强连接与隐式强连接}
 
