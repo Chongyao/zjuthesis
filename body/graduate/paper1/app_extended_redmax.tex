@@ -1,21 +1,21 @@
  \noindent\textbf{对比基线模型：扩展的 RedMax。}\label{model_redMax}
-Kirchhoff 杆描述的是没有拉伸和剪切变形的杆，因此关节刚体仿真的方法可能适合近似它。为了实现这一点，我们只需要使用球面关节并利用其自由度来推导 Kirchhoff 模型的势能。我们用 $\Q$ 表示球面关节的自由度，并用 $\exp(\Q)$ 表示材料标架的变化。
+Kirchhoff 杆描述的是没有拉伸和剪切变形的杆，因此关节刚体仿真的方法可能适合近似它。为了实现这一点，只需要使用球面关节并利用其自由度来推导 Kirchhoff 模型的势能。用 $\Q$ 表示球面关节的自由度，并用 $\exp(\Q)$ 表示材料标架的变化。
 
 %% Actually, we only need to extend RedMax~\cite{wang_redmax_2019} for articulated rigid body in the specific spherical-joint case, which uses the exponential coordinates $\mathcal{Q} \in \mathcal{R}^3$ to express the change of the material frame by $\exp(\mathcal{Q})$.
 
 %% Given a rod with material coordinates of  $u \in [0, L]$ , we express the position of centerline by $\mathbf{x}(u)$, the material frame  by $\mathbf{m}(u)$ and the curvature by $\kappa (u)$.
 
-与 Super-Helices 类似，我们用 $n$ 个分段常数基函数对 $\kappa$ 进行离散化。我们将关节（点）的材料坐标设为 $u_i \in [u_0, u_{n-1}]$，其中 $u_0 = 0$ 且 $u_{n-1} = L$，则
+与 Super-Helices 类似，用 $n$ 个分段常数基函数对 $\kappa$ 进行离散化。将关节（点）的材料坐标设为 $u_i \in [u_0, u_{n-1}]$，其中 $u_0 = 0$ 且 $u_{n-1} = L$，则
 \begin{equation}
   \kappa(u) = \kappa_j,  \quad   \frac{u_{j-1} + u_j}{2} \leq u \leq \frac{u_j + u_{j+1}}{2},
 \end{equation}
 其中 $j=1,2,\cdots,n-2$。基函数的跨度是每个关节的 Voronoi 空间。
 
-现在我们需要用 $\Q$ 来计算 $\kappa$。根据曲率的定义，给定旋转的变化 $\exp(\Q)$，曲率 $\kappa = \frac{\log(\exp(\Q))}{l} = \frac{\Q}{l}$。由于这种变化只发生在关节处，$l=0$ 会导致 $\kappa$ 无穷大。我们将这个旋转变化平均到关节的 Voronoi 空间，这样就可以得到关节的曲率 $\kappa_j$，通过 $\kappa_j = \frac{\Q}{l_j}$，其中 $l_j = \frac{u_{j+1} - u_{j-1}}{2}$。
+现在需要用 $\Q$ 来计算 $\kappa$。根据曲率的定义，给定旋转的变化 $\exp(\Q)$，曲率 $\kappa = \frac{\log(\exp(\Q))}{l} = \frac{\Q}{l}$。由于这种变化只发生在关节处，$l=0$ 会导致 $\kappa$ 无穷大。将这个旋转变化平均到关节的 Voronoi 空间，这样就可以得到关节的曲率 $\kappa_j$，通过 $\kappa_j = \frac{\Q}{l_j}$，其中 $l_j = \frac{u_{j+1} - u_{j-1}}{2}$。
 
 %% Not that we have not discretize $[u_0, \frac{u_0 + u_1}{2}]$ and $[\frac{u_{n-2} + u_{n-1}}{2}, u_{n-1}]$. For simplicity, we add them to the nearest Voronoi space, so  $l_1 = \frac{u_{2} - u_{0}}{2} + \frac{u_{1} - u_{0}}{2} = \frac{u_1 + u_2}{2} - u_0$ and $l_{n-2} = \frac{u_{n-1} - u_{n-3}}{2} + \frac{u_{n-1} - u_{n-2}}{2} = u_{n-1} - \frac{u_{n-2} + u_{n-3}}{2}$.
 
-现在我们可以通过以下方式建模势能
+现在可以通过以下方式建模势能
 \begin{equation}
   U=\frac{1}{2}\int_0^L \left\| \kappa(u) - \overline{\epsilon}\right\|_{\mathbf{K}}^2 du,
 \end{equation}
@@ -37,7 +37,7 @@ Kirchhoff 杆描述的是没有拉伸和剪切变形的杆，因此关节刚体�
 \iffalse
 \subsection{与长度相关的内在约束的零空间}\label{sec: nullspace_length_cons}
 虽然零空间的选择不尽相同，但它们起着相同的作用。
-我们给出其中一个的具体形式
+下面给出其中一个的具体形式
 \begin{equation}
   \mathbf{N}_r = \begin{bmatrix} \mathbf{N}_{r,1} & \mathbf{N}_{r,2} & \cdots & \mathbf{N}_{r,k} &\cdots &\mathbf{N}_{r, n-2} \end{bmatrix}
 \end{equation}

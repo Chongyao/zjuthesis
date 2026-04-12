@@ -1,4 +1,4 @@
-\subsection{混合预条件器}
+\subsection{混合预条件子}
 
 \begin{figure}[H]
   \centering
@@ -22,16 +22,16 @@
     \label{fig:compute}
   \end{subfigure}
 
-  \caption{\textbf{我们的预条件器与其他预条件器比较。}
-  我们在重力作用下的螺旋线场景中，对不同预条件器运行 100 个时间步，并在每个时间步最多进行 5 次牛顿迭代。
-  我们预条件器的构造开销略高（a）；但在线性系统求解阶段，PCG 迭代次数（b）与总耗时（c）均明显小于对角或块对角预条件器。随着线段数增加，该优势更为明显。}
+  \caption{\textbf{本文预条件子与其他预条件子比较。}
+  在重力作用下的螺旋线场景中，对不同预条件子运行 100 个时间步，并在每个时间步最多进行 5 次牛顿迭代。
+  本文预条件子的构造开销略高（a）；但在线性系统求解阶段，PCG 迭代次数（b）与总耗时（c）均明显小于对角或块对角预条件子。随着线段数增加，该优势更为明显。}
   \label{fig:compare_preconditioner}
   \vspace{-0.12in}
 \end{figure}
 
-合适的预条件器对性能非常关键。研究人员通常使用 $\mathbf{A}$ 的对角线或块对角线部分来构造预条件器，因为其简单且构造成本低。例如，RedMax~\cite{wang_redmax_2019} 采用块对角线策略来构造他们的预条件器。然而，我们注意到这种常见方法在当前问题上未必理想，而下面的预条件器通常能带来更好的收敛性。
+合适的预条件子对性能非常关键。研究人员通常使用 $\mathbf{A}$ 的对角线或块对角线部分来构造预条件子，因为其简单且构造成本低。例如，RedMax~\cite{wang_redmax_2019} 采用块对角线策略来构造他们的预条件子。然而，本文注意到这种常见方法在当前问题上未必理想，而下面的预条件子通常能带来更好的收敛性。
 
-具体来说，我们链式结构中的 $\mathbf{A}$ 可以表示为：
+具体来说，链式结构中的 $\mathbf{A}$ 可以表示为：
 \begin{equation}
   \begin{aligned}
     \mathbf{A} & = \J^{\top} \mathbf{H} \J =
@@ -53,7 +53,7 @@
   \label{eq:A}
 \end{equation}
 
-进一步分析后，我们注意到 $\mathbf{A}$ 具有如下结构：
+进一步分析后，可以注意到 $\mathbf{A}$ 具有如下结构：
 \begin{equation}
   \begin{aligned}
     \J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}} & =
@@ -83,14 +83,14 @@ $且 $\J_{\mathbf{p, s}} =
     \I, \J_{\mathbf{p, \omega}}
   \end{bmatrix}$。
 
-显然，\cref{eq:JTHJ} 中的 $ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 具有块三对角结构。受此启发，我们选择提取 $\J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}$ 的完整块三对角部分和 $\J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}}$ 的对角线部分来构造我们的混合预条件器 $\mathbf P$，以尽可能保留变换 $\mathcal T$ 后的信息：
+显然，\cref{eq:JTHJ} 中的 $ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 具有块三对角结构。受此启发，本文选择提取 $\J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}$ 的完整块三对角部分和 $\J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}}$ 的对角线部分来构造混合预条件子 $\mathbf P$，以尽可能保留变换 $\mathcal T$ 后的信息：
 \begin{equation}
   \setlength{\arraycolsep}{0.5pt}
   \mathbf{P} =\left(\operatorname{blk-diag}\left(\J_{\p, \s}^\top \mathbf{H}_{\p} \J_{\p, \s}\right) + \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0}  & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega} \end{bmatrix}\right).
   \label{eq:preconditioner_structure}
 \end{equation}
 
-这样的混合预条件器具有较好的性质：它是对称正定矩阵，且构造和应用都可在线性时间 $\mathcal{O}(n)$ 内完成。
+这样的混合预条件子具有较好的性质：它是对称正定矩阵，且构造和应用都可在线性时间 $\mathcal{O}(n)$ 内完成。
 
 \inputbody{paper1/app_invertible_proof}
 
@@ -119,7 +119,7 @@ $且 $\J_{\mathbf{p, s}} =
 \end{equation}
 结果矩阵 $\mathbf A \mathbf B \mathbf C$ 的 $(i, j)$ 块为 $\mathbf{A}_{i} \mathbf{B}_{ij} \mathbf{C}_{j}$。根据这一性质，在矩阵 $\mathbf A$、$\mathbf B$ 和 $\mathbf C$ 都已知的情况下，可以在线性时间内构造其块三对角或块对角线部分。
 
-回到我们的预条件器，$\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 天然满足这种结构，因为 $\J_{\mathbf{q, \omega}}$ 是块对角矩阵 (\cref{eq:Jqs_pattern})。利用~\cref{eq:JTHJ} 中展示的乘法结合律，$\J_{\p,\s}^\top \mathbf{H}_\p \J_{\p, \s}$ 很容易转换为~\cref{eq:bmb_multiplication} 的结构。因此，我们的问题转化为如何在线性时间内得到 $\bar{\mathbf{H}}_{\mathbf{p}}$。幸运的是，$\mathbf{H}_{\mathbf{p}}$ 是集中块对角矩阵：
+回到本文预条件子，$\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 天然满足这种结构，因为 $\J_{\mathbf{q, \omega}}$ 是块对角矩阵 (\cref{eq:Jqs_pattern})。利用~\cref{eq:JTHJ} 中展示的乘法结合律，$\J_{\p,\s}^\top \mathbf{H}_\p \J_{\p, \s}$ 很容易转换为~\cref{eq:bmb_multiplication} 的结构。因此，问题转化为如何在线性时间内得到 $\bar{\mathbf{H}}_{\mathbf{p}}$。幸运的是，$\mathbf{H}_{\mathbf{p}}$ 是集中块对角矩阵：
 \begin{equation}
   \bar{\mathbf{H}}_{\mathbf{p}} = \UpperTri \mathbf{H}_{\mathbf{p}} \LowerTri =
   \begin{bmatrix}
@@ -130,25 +130,25 @@ $且 $\J_{\mathbf{p, s}} =
     \mathbf{h}_{n}                & \mathbf{h}_{n}                & \mathbf{h}_{n}                & \cdots & \mathbf{h}_{n} \\
   \end{bmatrix}.
 \end{equation}
-其中 $\mathbf{h}_{i}$ 是 $\mathbf{H}_{\mathbf{p}}$ 的第 $i$ 个对角块。因此，$\bar{\mathbf{H}}_{\mathbf{p}}$ 只有 $n$ 个不同的非零块，可以像前缀和一样在线性时间内计算。总之，我们的预条件器只有 $\mathcal{O}(n)$ 个非零块，我们可以针对每个块显式构造。
+其中 $\mathbf{h}_{i}$ 是 $\mathbf{H}_{\mathbf{p}}$ 的第 $i$ 个对角块。因此，$\bar{\mathbf{H}}_{\mathbf{p}}$ 只有 $n$ 个不同的非零块，可以像前缀和一样在线性时间内计算。总之，该预条件子只有 $\mathcal{O}(n)$ 个非零块，可以针对每个块显式构造。
 
-\textbf{$\mathcal{O}(n)$ 时间求解：} 由于预条件器具有标准的块三对角结构，我们使用 Thomas 算法~\cite{thomas1949elliptic} 在 $\mathcal{O}(n)$ 时间内求解。
+\textbf{$\mathcal{O}(n)$ 时间求解：} 由于预条件子具有标准的块三对角结构，使用 Thomas 算法~\cite{thomas1949elliptic} 在 $\mathcal{O}(n)$ 时间内求解。
 
-虽然我们的预条件器构造相较对角或块对角预条件器更复杂，但这种针对性设计的预条件器在速度上通常可以带来数量级上的提升（见图~\ref{fig:compare_preconditioner}）。
-我们还将 PCG 方法与通过矩阵分解直接构造 $\mathbf A^{-1}$ 的方式进行了比较：由于 $\mathbf A$ 的稠密结构，矩阵分解阶段（图~\ref{fig:pre}）与矩阵-向量乘法阶段（图~\ref{fig:compute}）都会消耗更多时间。
+虽然本文的预条件子构造相较对角或块对角预条件子更复杂，但这种针对性设计的预条件子在速度上通常可以带来数量级上的提升（见图~\ref{fig:compare_preconditioner}）。
+还将 PCG 方法与通过矩阵分解直接构造 $\mathbf A^{-1}$ 的方式进行了比较：由于 $\mathbf A$ 的稠密结构，矩阵分解阶段（图~\ref{fig:pre}）与矩阵-向量乘法阶段（图~\ref{fig:compute}）都会消耗更多时间。
 
 {\color{black}
-此外，我们的 PCG 求解器在实验设置下呈现出近乎线性的复杂度。在线性系统求解阶段，平均时间随段数增加近似线性增长（见图~\ref{fig:linear_increasing}）。因此，我们的方法关于段数表现出较好的可扩展性。需要注意的是，线性复杂性不适用于整个时间步，因为~\cref{eq: collision constraint} 中的碰撞约束在我们的简化表示下是非线性的，解决碰撞所需的牛顿迭代次数在不同帧之间可能不同。
+此外，PCG 求解器在实验设置下呈现出近乎线性的复杂度。在线性系统求解阶段，平均时间随段数增加近似线性增长（见图~\ref{fig:linear_increasing}）。因此，本文方法关于段数表现出较好的可扩展性。需要注意的是，线性复杂性不适用于整个时间步，因为~\cref{eq: collision constraint} 中的碰撞约束在本文的简化表示下是非线性的，解决碰撞所需的牛顿迭代次数在不同帧之间可能不同。
 }
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{sheet/pdf/linear_increasing.pdf}
-  \caption{\textbf{平均时间成本。}我们在图~\ref{fig:visual_damping_penalty} 中的重力作用下模拟螺旋线。我们的 PCG 求解线性系统使用几乎固定的迭代次数。每步的时间成本关于段数几乎是线性的。}
+  \caption{\textbf{平均时间成本。}在图~\ref{fig:visual_damping_penalty} 中的重力作用下模拟螺旋线。PCG 求解线性系统使用几乎固定的迭代次数。每步的时间成本关于段数几乎是线性的。}
   \label{fig:linear_increasing}
 \end{figure}
 
-根据~\cref{eq:A}，$\mathbf{A}$ 是两部分的和。随着杨氏模量的增加，$\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 将占据越来越大的主导地位。因此，在这种情况下，使用完整 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 的预条件器可以更好地近似 $\mathbf A$，从而带来更好的收敛率（如图~\ref{A} 所示）。而简单的块对角预条件器丢弃了 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 中的许多大非零值，导致收敛率较差（如图~\ref{B} 所示）。
+根据~\cref{eq:A}，$\mathbf{A}$ 是两部分的和。随着杨氏模量的增加，$\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 将占据越来越大的主导地位。因此，在这种情况下，使用完整 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 的预条件子可以更好地近似 $\mathbf A$，从而带来更好的收敛率（如图~\ref{A} 所示）。而简单的块对角预条件子丢弃了 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 中的许多大非零值，导致收敛率较差（如图~\ref{B} 所示）。
 
 \begin{figure}[H]
   \centering
@@ -156,17 +156,17 @@ $且 $\J_{\mathbf{p, s}} =
   \begin{subfigure}[b]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sheet/pdf/pcg_mu_our.pdf}
-    \caption{我们的预条件器}
+    \caption{本文预条件子}
     \label{A}
   \end{subfigure}
   \centering
   \begin{subfigure}[b]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sheet/pdf/pcg_mu_blk.pdf}
-    \caption{块对角预条件器}
+    \caption{块对角预条件子}
     \label{B}
   \end{subfigure}
 
-  \caption{\textbf{PCG 迭代次数与杨氏模量的关系。} 随着杨氏模量的增加，我们预条件器的优势会更加明显。}
+  \caption{\textbf{PCG 迭代次数与杨氏模量的关系。} 随着杨氏模量的增加，本文预条件子的优势会更加明显。}
   \label{fig:PCG_iter_Young}
 \end{figure}
