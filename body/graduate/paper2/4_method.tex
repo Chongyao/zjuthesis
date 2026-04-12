@@ -67,21 +67,19 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
     \label{fig:strong-link-implicit-to-explicit}
 \end{figure}
 
-从层次结构构建的角度看，强连接的处理可分为两个连续阶段：首先通过局部 h-细化将输入网格中的隐式强连接转化为细化网格中的显式强连接；随后在由 $\mathcal{M}^{h+}$ 到 $\mathcal{M}^{H}$ 的基函数重构过程中，将这些显式强连接对应的高频模态隔离到互补空间中。下面我们将这一过程统一纳入基于细化的层次结构构建框架中加以描述。
+从层次结构构建的角度看，强连接处理可以理解为两个连续步骤。首先，通过局部 h-细化将输入网格中的隐式强连接转化为细化网格中的显式强连接；随后，在细化得到的网格上继续进行局部基函数优化，并根据是否允许进一步移除显式强连接，构造不同严格程度的最终表示空间。下面我们将这一过程统一纳入基于细化的层次结构框架中加以描述。
 
 \subsection{基于细化的层次结构与强连接处理}
 
-下面我们将上述过程统一描述为从 $\mathcal{M}^{h}$ 到 $\mathcal{M}^{h+}$ 再到 $\mathcal{M}^{H}$ 的两阶段流程。第一阶段通过局部 h-细化将输入网格中的隐式强连接显式化；第二阶段在细化网格上进行单元聚合与基函数优化，并对仍然存在的显式强连接进行隔离，从而得到最终用于计算的网格与函数空间。
+上文已经说明，输入网格 $\mathcal{M}^{h}$ 中的病态结构并不一定都会直接表现为顶点级别可识别的强连接。对于其中一类情形，局部高频刚性成分虽然已经在离散谱中表现出来，但其几何来源尚未在原始顶点连接关系上明确暴露。本文将这类结构称为隐式强连接。为使其能够被后续局部基函数构造直接识别，我们首先在局部区域上引入递归 h-细化，构造细化后的中间网格 $\mathcal{M}^{h+}$。这一过程的主要作用，是将原始网格中的隐式强连接转化为细化网格上可识别的显式强连接。
 
 \begin{figure}[htbp]
   \centering
   \begin{tikzpicture}[x=0.95cm,y=0.95cm]
-    % unified styles (kept local to match repo convention)
     \definecolor{hierobox}{RGB}{245,246,250}
     \definecolor{hieroline}{RGB}{70,70,70}
     \definecolor{hierotext}{RGB}{40,40,40}
 
-    % main boxes
     \node[
       draw=hieroline,
       fill=hierobox,
@@ -112,70 +110,60 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
       font=\normalsize
     ] (Mhp) at (13.1,0) {$\mathcal{M}^{h+}$};
 
-    % above labels
     \node[font=\small\bfseries, text=hierotext, align=center] at (0,1.15) {多面体四面体混合网格\\无强连接};
     \node[font=\small\bfseries, text=hierotext, align=center] at (4.9,1.15) {输入四面体网格\\隐式强连接 + 显式强连接};
     \node[font=\small\bfseries, text=hierotext, align=center] at (13.1,1.15) {细分后的四面体网格\\仅有显式强连接};
 
-    % refinement arrow
     \draw[-{Stealth[length=2.8mm]}, thick, draw=hieroline] ([xshift=0.12cm]Mh.east) -- ([xshift=-0.12cm]Mhp.west)
       node[midway, above=0.30cm, align=center, font=\small, text=hierotext] {隐式强连接细分后\\转化为显式强连接};
 
-    % basis optimization arrow from below
     \draw[-{Stealth[length=2.8mm]}, thick, draw=hieroline]
       (Mhp.south west) to[out=232, in=308]
       node[pos=0.52, below=1.18cm, align=center, font=\small, text=hierotext] {基函数优化与强连接隔离}
       (MH.south east);
   \end{tikzpicture}
-  \caption{基于细化的层次结构示意图。输入网格 $\mathcal{M}^{h}$ 通过局部细分生成 $\mathcal{M}^{h+}$，使隐式强连接转化为显式强连接；随后通过基函数优化与强连接隔离构造最终计算网格 $\mathcal{M}^{H}$。}
+  \caption{基于细化的层次结构示意图。输入网格 $\mathcal{M}^{h}$ 通过局部细分生成 $\mathcal{M}^{h+}$，使隐式强连接转化为显式强连接；随后通过局部基函数优化与强连接处理构造最终计算网格 $\mathcal{M}^{H}$。}
   \label{fig:paper2-hierarchy-overview}
 \end{figure}
 
-给定一个四面体网格 $\mathcal{M}^h = \{\mathcal{V}^h, \mathcal{T}^h\}$，其包含 $n^h$ 个顶点和 $m^h$ 个四面体单元，对应于标准线性基函数 $\{\varphi_i^h\}_{i=1\dots n^h}$。我们的层次结构并非预先给定，而是在处理病态单元的过程中通过递归局部细化动态生成。具体而言，从当前层级网格 $\mathcal{M}^k = \{\mathcal{V}^{k}, \mathcal{T}^{k}\}$ 出发，一步局部细化将其转换为 $\mathcal{M}^{k+1} = \{\mathcal{V}^{k+1}, \mathcal{T}^{k+1}\}$，并定义 $\mathcal{M}^0 \equiv \mathcal{M}^h$。默认情况下，输入网格中的所有顶点在细化过程中均被保留，因此有
+给定输入四面体网格 $\mathcal{M}^{h}=\{\mathcal{V}^{h},\mathcal{T}^{h}\}$，其包含 $n^h$ 个顶点和 $m^h$ 个四面体单元。本文的层次结构并非预先给定，而是在处理病态单元的过程中通过递归局部细化动态生成。具体而言，从当前层级网格 $\mathcal{M}^{k}=\{\mathcal{V}^{k},\mathcal{T}^{k}\}$ 出发，一步局部细化将其转换为 $\mathcal{M}^{k+1}=\{\mathcal{V}^{k+1},\mathcal{T}^{k+1}\}$，并定义 $\mathcal{M}^{0}\equiv\mathcal{M}^{h}$。默认情况下，输入网格中的原始顶点在细化过程中始终被保留，因此有
 \begin{equation}
-  \mathcal{V}^0 \subset \mathcal{V}^1 \subset \cdots \subset \mathcal{V}^q
+  \mathcal{V}^{0}\subset\mathcal{V}^{1}\subset\cdots\subset\mathcal{V}^{q}
 \end{equation}
-其中 $q$ 表示 h-细化的总迭代次数。我们将最终细化后的网格记为 $\mathcal{M}^{h+}\equiv\mathcal{M}^q$。
+其中 $q$ 表示局部 h-细化的总步数。最终细化后的网格记为 $\mathcal{M}^{h+}\equiv\mathcal{M}^{q}$。
 
-在此基础上，我们进一步构造最终计算所使用的网格 $\mathcal{M}^{H}=\{\mathcal{V}^{H},\mathcal{P}^{H}\}$，其中 $\mathcal{P}^{H}$ 由多面体单元组成。大多数多面体实际上对应于输入网格中的原始四面体，因此通常有 $|\mathcal{P}^{H}\cap \mathcal{T}^{h}| \cong |\mathcal{T}^{h}|$。顶点集 $\mathcal{V}^{H}$ 在一般情况下与 $\mathcal{V}^{h}$ 相同；只有在存在 \Cref{sec:strong_links} 中将要讨论的显式强连接时，我们才会将其中部分顶点对应的局部高频模态从主计算空间中移出，此时有 $\mathcal{V}^{H}\subseteq\mathcal{V}^{h}$。最终定义在 $\mathcal{M}^{H}$ 上的基函数记为 $\{\varphi_i^{H}\}_{i=1\dots n^{H}}$。
+在细化得到的网格 $\mathcal{M}^{h+}$ 上，用户可以有两种不同的处理选择。第一种是强行保留所有输入顶点，仅在细化网格上继续进行局部基函数优化。此时，优化后的基函数仍以原始输入顶点对应的表示空间为主，只是在细化后显式暴露出来的强连接附近，通过局部空间重构减弱这些高频模态对主求解空间的污染。第二种是允许进一步移除显式强连接。当某些显式强连接仍然显著主导全局刚度矩阵的最大特征值时，我们仍然采用相同的局部基函数优化思想，在对应强连接顶点的一环邻域上重新构造局部表示空间，并将其中一个显式强连接顶点对应的自由度降掉。这样可以进一步削弱这类局部高频刚性模态对主计算空间的影响。
 
-从空间分解的角度看，若暂不考虑对显式强连接的额外隔离，则细化网格 $\mathcal{M}^{h+}$ 上的函数空间可以分解为主计算空间与其互补空间之和，即
+因此，最终计算网格 $\mathcal{M}^{H}=\{\mathcal{V}^{H},\mathcal{P}^{H}\}$ 可被理解为在上述第二种选择下得到的结果，其中 $\mathcal{P}^{H}$ 由多面体单元组成，而顶点集满足 $\mathcal{V}^{H}\subseteq\mathcal{V}^{h}$。若选择保留所有输入顶点，则方法主要体现为细化后空间上的局部基函数优化；若允许进一步移除显式强连接，则可在相同的局部优化框架下得到更稳定的最终计算空间，并进一步降低主系统的最大特征值与条件数。
+
+从空间分解的角度看，细化后的函数空间可写为主计算空间与其互补空间之和，即
 \begin{equation}
   \mathbb{V}^{h+} = \mathbb{V}^H \oplus \mathbb{W}^H.
   \label{eq:two-level-functiaonal-space}
 \end{equation}
-其中，$\mathbb{V}^{H}$ 由算子适应基函数 $\varphi^{H}=\mathbb{C}^{H}\varphi^{h}$ 张成，表示最终保留在主计算系统中的低频/主导模态；$\mathbb{W}^{H}$ 则表示与局部细化和基函数重构相对应的互补空间。换言之，$\mathcal{M}^{h}\rightarrow\mathcal{M}^{h+}$ 的过程负责将隐式强连接显式化，而 $\mathcal{M}^{h+}\rightarrow\mathcal{M}^{H}$ 的过程则负责在空间层面重构这些局部病态结构对整体系统的影响。
-
-总之，我们首先通过若干步自适应 h-细化从 $\mathcal{M}^{h}$ 生成 $\mathcal{M}^{h+}$，使原本隐藏在病态单元内部的强耦合以显式强连接的形式暴露出来；随后通过单元聚合和算子适应基函数优化，从 $\mathcal{M}^{h+}$ 导出最终的计算网格 $\mathcal{M}^{H}$。这一过程的目标是在尽量保持自由度数量不变或仅小幅减少的前提下，降低使用 $\varphi^{H}$ 时全局刚度矩阵的最大特征值与条件数。
+无论是选择强行保留所有输入顶点，还是允许进一步移除显式强连接，经过局部基函数优化后，最终线性系统都可以写成块对角形式：
+\begin{equation}
+  \begin{bmatrix}\mathbb{C}^{H}\\ \mathbf{W}^{H}\end{bmatrix} \mathbf{K}^{h+} \begin{bmatrix}\mathbb{C}^{H,T} & \mathbf{W}^{H,T}\end{bmatrix} = \begin{bmatrix} \mathbf{K}^{H} & \bold{0}\\ \bold{0} & \mathbf{B}^{H} \end{bmatrix}
+  \label{eq:block-diagonal}
+\end{equation}
+其中，主计算块 $\mathbf{K}^{H}$ 保留更平滑、更适合求解的低频部分，而互补块 $\mathbf{B}^{H}$ 则承接与局部高频刚性模态相关的成分。当允许进一步移除显式强连接时，这一分解会更强地削弱显式强连接对主系统最大特征值的影响。
 
 \subsubsection{显式强连接的隔离}\label{sec:strong_links}
 
-经过上述局部细分后，输入网格中的隐式强连接已经在 $\mathcal{M}^{h+}$ 上转化为显式强连接。然而，对于这些仍然主导全局刚度矩阵最大特征值的显式强连接，仅靠局部细分和单元聚合仍不足以完全消除其影响，因而还需要在从 $\mathcal{M}^{h+}$ 到 $\mathcal{M}^{H}$ 的基函数重构过程中执行额外的隔离操作。
+经过上述局部细分后，输入网格中的隐式强连接已经在 $\mathcal{M}^{h+}$ 上转化为显式强连接。与此同时，原始网格中天然存在的显式强连接在细化过程中也会继续被保留下来。因此，从 $\mathcal{M}^{h+}$ 开始，后续处理的重点在于：是仅在保留全部输入顶点的前提下进行局部基函数优化，还是允许进一步移除仍然主导全局刚度矩阵最大特征值的显式强连接。
 
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{plot_figures/Fig56/Fig56.0524.png}
-  \caption{\textbf{显式强连接及其隔离效果。}左：一个典型的微结构模型，经 Tetgen 离散化为四面体网格后，其中部分单元包含一对距离极近的顶点，从而形成显式强连接。右上：$\mathbf{K}^H$ 与小波块 $\mathbf{B}^H$ 的频谱随迭代的变化。右下：是否进行强连接隔离时的收敛比率比较。}
+  \caption{\textbf{显式强连接及其隔离效果。}左：一个典型的微结构模型，经 Tetgen 离散化为四面体网格后，其中部分单元包含一对距离极近的顶点，从而形成显式强连接。右上：$\mathbf{K}^H$ 与互补块 $\mathbf{B}^H$ 的频谱随迭代的变化。右下：是否进行强连接隔离时的收敛比率比较。}
   \label{fig:strong-link-demo}
 \end{figure}
 
 这类显式强连接对应于两个顶点之间极短的几何距离。在拉格朗日基函数下，这会在相应顶点之间产生异常增大的基函数梯度，使局部刚度矩阵出现强烈的高频刚性分量，如 \Cref{fig:strong-link-demo} 所示。与一般病态单元不同，这种由顶点极近引起的强耦合并不会随着单纯的 h-细化自动消失；相反，由于输入顶点被保留在整个细化过程中，其影响会持续传递到后续的层次结构中。
 
-为此，我们采用“狄拉克细化（Dirac refinement）”策略~\cite{chen2019material, chen_multiscale_2021}，将强连接对中一个顶点对应的局部高频模态从主计算空间中移出，并并入互补空间。为了确定应优先处理哪一个顶点，我们仍使用 \Cref{eq:rowsum_max} 的准则，选择对最大行和贡献更大的顶点。这样一来，原本的两层空间分解便自然扩展为更细的三层结构：
-\begin{equation}
-  \mathbb{V}^{h+} = \mathbb{V}^H \oplus \mathbb{W}^H \oplus \mathbb{W}^{h}.
-\end{equation}
-其中，$\mathbb{V}^{H}$ 表示最终保留的主计算空间；$\mathbb{W}^{H}$ 由被识别并隔离的显式强连接顶点相关的基函数构成；$\mathbb{W}^{h}$ 则包含局部细化过程中新增顶点所对应的基函数。前者负责承接原始输入网格中由显式强连接引起的局部高频模态，后者负责承接细化过程中引入的局部补充自由度。对这些基函数的优化仍遵循 \Cref{eq:opt_basis} 中给出的局部优化过程，而小波函数的支撑区域则由相应强连接顶点的一环邻域确定。
+为进一步减弱这类显式强连接对主系统的影响，我们仍然采用与前文一致的局部基函数优化思想，在对应强连接顶点的一环邻域上重新构造局部表示空间，并将其中一个显式强连接顶点对应的自由度降掉。这样一来，在保持局部构造方式不变的前提下，可以进一步降低显式强连接主导的高频刚性模态对主计算空间的污染，并改善主系统的最大特征值与条件数。
 
-在这种分解下，最终线性系统可以写成块对角形式：
-\begin{equation}
-  \begin{bmatrix}\mathbb{C}^H\\ \mathbf{W}^H \end{bmatrix} \mathbf{K}^{h+} \begin{bmatrix} \mathbb{C}^{H,T} & \mathbf{W}^{H, T}\end{bmatrix} = \begin{bmatrix} \mathbf{K}^H & \bold{0}\\ \bold{0} & \mathbf{B}^H \end{bmatrix}
-  \label{eq:block-diagonal}
-\end{equation}
-其中通常有 $n^H \gg n^w$。这意味着由显式强连接主导的高频刚性分量被集中到较小的互补块 $\mathbf{B}^H$ 中，而主计算块 $\mathbf{K}^H$ 的最大特征值则显著降低。由于在大多数实验中 $\lambda_{\min}(\mathbf{K}^H)\cong \lambda_{\min}(\mathbf{K})$，因此这种分解通常能够显著改善条件数并加速迭代求解过程。
-
-换言之，细分步骤的作用是将原本隐藏在病态几何内部的强耦合显式化，而强连接隔离步骤则进一步将这些已经显式化的局部高频模态从主计算空间中剥离出来。二者共同构成了从 $\mathcal{M}^{h}$ 到 $\mathcal{M}^{h+}$ 再到 $\mathcal{M}^{H}$ 的完整层次结构构建过程。
-
+图~3.6 对比的正是是否进一步移除显式强连接时的差异：左图给出了含显式强连接的典型微结构模型，右上展示移除前后主计算块与互补块的频谱变化，右下比较是否移除显式强连接时的收敛比率。由此，细分步骤负责将隐式强连接显式化，而后续的局部基函数优化则负责根据是否允许移除显式强连接，构造不同严格程度的最终表示空间。二者共同构成了本文的基于细化的层次结构与强连接处理框架。
 \subsection{候选选择}\label{sec:selection}
 
 为了在上述两阶段流程中优先处理对全局刚度矩阵谱性质影响最大的局部区域，本节给出候选四面体单元的选择准则。其目标不是重新定义层次结构本身，而是为局部细分、单元聚合以及后续的强连接隔离提供一个统一的排序依据，从而在每一步都优先处理最值得改进的病态区域。为简单起见，我们首先考虑同质情形，即所有材料具有相同的系数。为了降低全局刚度矩阵 $\mathbf{K}^{H}$ 的最大特征值（为简洁起见，以下省略上标 $H$），我们采用两个互补的不等式作为排序基础：
