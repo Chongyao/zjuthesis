@@ -11,7 +11,7 @@
 
 为验证相位完备基函数相较于传统 CMS 固定相位基的优势，我们分析了积分误差。\textcolor{ConclusionEvidence}{下图显示，相位完备基的误差显著低于固定相位基。}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
@@ -68,16 +68,16 @@
   \label{alg:pd-cms}
   \begin{algorithmic}[1]
     \REQUIRE $nev_{\text{blk}},nev_{\text{target}}$
-    \STATE \COMMENT{\textbf{并行运行}以获取 $\mathbf{S}_{\mathcal{I}}^p,\mathbf{S}_{\mathcal{I}}^d$：}
+    \STATE \COMMENT{\textbf{并行}计算内部模态}
     \FOR{each substructure in $\mathcal{P}^p$ and $\mathcal{P}^d$}
       \STATE 求解子结构局部特征值问题 \cref{eq:sub-eig}
     \ENDFOR
-    \STATE \COMMENT{\textbf{并行运行}以获取 $\mathbf{S}_b^p,\mathbf{S}_b^d$：}
+    \STATE \COMMENT{\textbf{并行}计算界面模态}
     \FOR{each substructure in $\mathcal{P}^p$ and $\mathcal{P}^d$}
       \STATE 求解子结构边界问题 \cref{eq:ours-response-solution} 并组装
     \ENDFOR
-    \STATE $\mathbf{S} \leftarrow [\mathbf{S}^p_\mathcal{I},\mathbf{S}^p_b,\mathbf{S}_{\mathcal{I}}^d,\mathbf{S}_{b}^d]$
-    \STATE 使用 \cref{alg:adaptive-shifting} 的自适应位移过程求解最终降维系统
+    \STATE $\mathbf{S} \leftarrow [\mathbf{S}^p_\mathcal{I},\mathbf{S}^p_b,\mathbf{S}_{\mathcal{I}}^d,\mathbf{S}_b^d]$
+    \STATE 用 \cref{alg:adaptive-shifting} 求解最终降维系统
   \end{algorithmic}
 \end{algorithm}
 
@@ -87,20 +87,20 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 
 为消除 Schur 补带来的庞大计算负担，我们结合多重划分策略，提出了一种高效的无 Schur 补和特征求解的 IMR（SE-free IMR）。其核心思路在于：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而是采用 Dual 划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \begin{subfigure}{1.0\linewidth}
     \centering
     \includegraphics[width=\linewidth]{interface-modes-example/dual-sub-eig-combined.png}
     \caption{Dual 划分的子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$。}
     \label{fig:imr-boundary-condition}
-  \end{subfigure}\vspace{1ex}
+  \end{subfigure}
   \begin{subfigure}{1.0\linewidth}
     \centering
     \includegraphics[width=\linewidth]{interface-modes-example/SE-free-IMR-combined.png}
     \caption{我们的无 Schur 补和特征求解 IMR 的结果 $\mathbf{S}_b^{p \leftarrow d}$。}
     \label{fig:imr-ours}
-  \end{subfigure}\vspace{1ex}
+  \end{subfigure}
   \begin{subfigure}{1.0\linewidth}
     \centering
     \includegraphics[width=\linewidth]{interface-modes-example/gt-combined.png}
@@ -115,7 +115,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 \begin{equation}
   \mathbf{S}_{b\mathcal{I}}^{p\leftarrow d} = -
   (\mathbf{K}_{\mathcal{I}\mathcal{I}}^p)^{-1} \mathbf{K}_{\mathcal{I}b}^p
-  \mathbf{S}_{bb}^{p\leftarrow d}.
+  \mathbf{S}_{bb}^{p\leftarrow d}
   \label{eq:ours-response-solution}
 \end{equation}
 该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中 $\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到 SE-free IMR 基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于 dual 划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。尽管在理论上，我们可以通过仅使用单套界面模态（例如，只使用 $\mathbf{S}_{b}^{p\leftarrow d}$）或进行额外的过滤来进一步压缩这一基底集合，但为了保证与现有方法的公平对比并增强求解的鲁棒性，本文保留了所有生成的界面模态。针对这一基底压缩空间的优化将作为未来的工作方向。
@@ -139,7 +139,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 因此，我们提出一种轻量级的正则化方案，即直接在缩减后的刚度和质量矩阵对角线上添加微小的单位矩阵缩放项：
 \begin{equation}
   (\mathbf{S}^T \mathbf{K} \mathbf{S} + \mu \mathbf{I}) x = \lambda
-  (\mathbf{S}^T \mathbf{M} \mathbf{S} + \sigma \mathbf{I})x.
+  (\mathbf{S}^T \mathbf{M} \mathbf{S} + \sigma \mathbf{I})x
   \label{eq:final-eig}
 \end{equation}
 参数 $\mu$ 和 $\sigma$ 的选取至关重要：它们应当足够小，以免对原系统的"真实"特征值和特征向量产生显著扰动；同时又必须足够大，以确保扰动后的矩阵满秩，使特征值求解器能稳定运行。
@@ -162,7 +162,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 其次，更为核心的是，SE-free 界面模态 $\mathbf{S}_b$ 严格满足静力平衡条件：$\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} + \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$。
 这一数学性质导致涉及界面模态和内部模态的刚度投影交叉项在内部区域 $\mathcal{I}$ 上恒等于零。得益于此，原本理论上密集的稠密矩阵乘法被退化为仅涉及边界自由度的稀疏矩阵运算，从根本上削减了组装缩减刚度矩阵 $\hat{\mathbf{K}}$ 的算力消耗。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \tiny
   \color{black}{
@@ -176,7 +176,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 
 \subsubsection{混合 MPI/OpenMP 框架}
 
-为在分布式内存集群上实现最大化的计算可扩展性，我们开发了基于混合 MPI/OpenMP 架构的并行计算框架。
+为在分布式内存集群上实现最大的计算可扩展性，我们开发了基于混合 MPI 与 OpenMP 架构的并行计算框架。
 我们将来自 Primal 划分 $\mathcal{P}^p$ 和 Dual 划分 $\mathcal{P}^d$ 的每个子结构视为独立的计算单元，将其分配给不同的 MPI 进程管理。进程内部的局部稠密线性代数运算则通过 OpenMP 线程级并行进行加速。
 在构建进程间的通信拓扑时，图的边仅连接在几何空间上发生重叠的 Primal 和 Dual 子结构。
 进程间通信仅限于两个特定阶段：

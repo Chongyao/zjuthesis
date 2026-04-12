@@ -3,7 +3,7 @@
 
 我们首先在标准二维矩形区域（四边形网格）上验证方法的基础数值行为。随后在两类场景上比较该方法与其他方法：三角表面网格上的拉普拉斯问题，以及四面体体网格上的弹性问题。进一步地，我们在超算集群上将该方法应用于超大规模模型，以验证方法的效率。最后，我们展示了当网格局部发生改动时快速更新特征模态的能力（这是 CMS 方法固有优势的体现）。所有计算平台与模型的统计信息列于 \Cref{tab:statistics}。
 
-\begin{table}[H]
+\begin{table}[tbp]
   \caption{\textbf{实验所用模型统计。} $q_t$ 表示需计算的全局特征模态数量；* 表示变量。}
   \label{tab:statistics}
   \centering
@@ -80,31 +80,30 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \subsubsection{结果}
 临界数量 $q_{\mathcal{I}}^\star$ 如 \Cref{fig:critical-qb} 所示。\textcolor{ConclusionEvidence}{得益于相位补足，本文方法仅需要少量子结构特征模态，而传统 CMS 则需要数百个。}
 
-\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，但速度快了两个数量级。然而，本文方法的峰值内存扩展性表现得显著更好。附录详细分析了每个阶段的代价。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则彻底消除了这一瓶颈，使得内存使用仅取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，本文方法对需要大量计算节点的大规模问题极其有效。
+\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。附录详细分析了每个阶段的代价。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
 
 \Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} （见附录 \Cref{sec:breakdown}）提供了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统 CMS 的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统 CMS 中的串行界面步骤（Schur 补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
 
-\Cref{fig:scaling-balance} 突出显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都取得了出色的均衡性（约 $0.9$）。相比之下，传统 C-B 方法表现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性有限。
-
-\begin{figure}[H]
+\Cref{fig:scaling-balance} 显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都保持了较好的均衡性（约 $0.9$）。相比之下，传统 C-B 方法呈现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性相对受限。
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{critical-qb/combined_scaling.pdf}
-  \caption{\textbf{子结构特征模态的临界数量。} 本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 远小于传统 CMS 方法。}
+  \caption{\textbf{子结构特征模态的临界数量。} 本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 小于传统 CMS 方法。}
   \label{fig:critical-qb}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
-  \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_total_breakdown.pdf}
-  \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_peak_memory_line.pdf}
-  \caption{\textbf{强弱扩展下的时间与内存代价。} 本文方法的速度约快两个数量级。此外，与传统 CMS 相比，本文方法在实现更低内存开销的同时，也表现出更出色的内存可扩展性。}
+  \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_total_breakdown.pdf}
+  \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_peak_memory_line.pdf}
+  \caption{\textbf{强弱扩展下的时间与内存代价。} 相比于传统 CMS，本文方法在保持更低内存开销的同时，展现了更好的内存可扩展性。}
   \label{fig:scaling}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_balance_line.pdf}
-  \caption{\textbf{强弱扩展中并行部分的均衡性。} 相比于传统 CMS，本文方法在时间开销和内存开销上展现出更好的均衡性。这表明本文方法具有更优的并行计算适应性。}
+  \caption{\textbf{强弱扩展中并行部分的均衡性。} 相比于传统 CMS，本文方法在时间开销和内存开销上保持了较好的均衡性。这反映了本文方法具备较好的并行计算适应性。}
   \label{fig:scaling-balance}
 \end{figure}
 
@@ -120,15 +119,15 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 我们使用误差-时间曲线来评估计算效率，其中 x 轴表示总计算挂钟时间，y 轴表示 $\epsilon_{\text{ev}}$。
 
 \paragraph{轴对齐划分下的拉普拉斯问题}
-\Cref{fig:laplacian-aa-error-time} 比较了四种方法在断路器模型（breaker）2D 拉普拉斯问题上的表现。传统的 \textbf{CB-CMS} 由于稠密 Schur 补存在高昂的初始开销。尽管 \textbf{CMS-IMR} 和 \textbf{AMLS} 降低了这一开销（AMLS 通过多级递归），但它们在基函数生成方面仍需要大量计算。相反，\textcolor{ConclusionEvidence}{我们的 \textbf{MP-CMS} 在相同计算预算下达到了最低误差，比单级和多级基准方法都优秀了 $1$--$2$ 个数量级。至关重要的是，这表明尽管维护两种划分带来了一定开销，但由于相位丰富的基函数极为有效，达到指定精度所需的总子空间维度要显著小于传统方法，从而能够缩短整体求解时间。}
+\Cref{fig:laplacian-aa-error-time} 比较了四种方法在断路器模型（breaker）2D 拉普拉斯问题上的表现。传统的 \textbf{CB-CMS} 由于稠密 Schur 补存在高昂的初始开销。尽管 \textbf{CMS-IMR} 和 \textbf{AMLS} 降低了这一开销（AMLS 通过多级递归），但它们在基函数生成方面仍需要大量计算。相反，\textcolor{ConclusionEvidence}{我们的 \textbf{MP-CMS} 在相同计算预算下达成了更小的误差，相较于单级和多级基准方法呈现出精度的提升。这表明尽管维护两种划分带来了一定开销，但由于相位丰富的基函数作用，达到指定精度所需的总子空间维度小于传统方法，进而缩短了整体求解时间。}
 
 \paragraph{METIS 划分下的拉普拉斯问题}
 \Cref{fig:laplacian-metis-error-time} 展示了在不规则子域上的表现。尽管 METIS 优化了界面规模，使 \textbf{CMS-IMR} 与 \textbf{AMLS} 受益，但 MP-CMS 仍保持优势。在误差-时间空间中，Dual 划分策略在该情况下生成了比 AMLS 递归子结构更加有效的基。
 
 \paragraph{轴对齐划分下的弹性问题}
-\Cref{fig:elasticity-aa-error-time} 突出了在 3D 弹性问题上的性能。MP-CMS 仍然优于 CB-CMS、CMS-IMR 和 AMLS。
+\Cref{fig:elasticity-aa-error-time} 给出了在 3D 弹性问题上的性能表现。MP-CMS 保持了与前述实验一致的计算效率。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}{0.8\linewidth}
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/primal-partition.png}
@@ -139,15 +138,15 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/eig-47.png}
         \subcaption{左：Primal 与 Dual 划分。右：第 1 阶、第 25 阶、第 47 阶全局特征模态。}
     \end{subfigure}
-    \vspace{3mm}
+
     \begin{subfigure}{\linewidth}
         \includegraphics[width=\linewidth]{comparison-figures/breaker/breaker_comparison.pdf}
     \end{subfigure}
-    \caption{\textbf{轴对齐划分下针对拉普拉斯问题的对比。} 在采用简单轴对齐划分的拉普拉斯问题上，本文方法优于各类 CMS 方法。}
+    \caption{\textbf{轴对齐划分下针对拉普拉斯问题的对比。} 在采用简单轴对齐划分的拉普拉斯问题上，本文方法表现出较好的求解效率。}
     \label{fig:laplacian-aa-error-time}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}{\linewidth}
       \includegraphics[width=0.189\linewidth]{comparison-figures/cat/primal-partition.png}
@@ -159,7 +158,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
       \subcaption{左：采用不同边权重生成的包含 4 个子结构的 METIS 划分。右：第 1 阶、第 25 阶、第 47 阶全局特征模态。}
       \label{fig:metis-pd-partition}
     \end{subfigure}
-    \vspace{3mm}
+
     \begin{subfigure}{\linewidth}
       \centering
       \includegraphics[width=0.333\linewidth]{comparison-figures/cat/comp-2.png}%
@@ -169,15 +168,15 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
       \subcaption{当 $\mathcal{P}^p$ 的界面（棕线）与 $\mathcal{P}^d$ 的界面（红线）出现交叉时，需要引入额外的子结构（蓝色区域）以补充相位完备的子结构特征模态。}
       \label{fig:metis-c-partition}
     \end{subfigure}
-    \vspace{3mm}
+
     \begin{subfigure}{\linewidth}
       \includegraphics[width=\linewidth]{comparison-figures/cat/cat_comparison.pdf}
     \end{subfigure}
-    \caption{\textbf{采用 METIS 划分针对拉普拉斯问题的对比。} 顶部第一排左侧两幅图展示了划分情况。本文方法保持了效率优势，在同等时间代价下达到了更低误差。若未加入互补子结构（图中 PD-NC 曲线），误差则处于较高水平，由此验证了互补子结构的必要性。}
+    \caption{\textbf{采用 METIS 划分针对拉普拉斯问题的对比。} 顶部第一排左侧两幅图展示了划分情况。本文方法保持了效率表现，在同等时间代价下取得了更小的误差。若未加入互补子结构（图中 PD-NC 曲线），误差则处于较高水平，由此验证了互补子结构的必要性。}
     \label{fig:laplacian-metis-error-time}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \begin{subfigure}{\linewidth}
     \centering
@@ -189,19 +188,19 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
     \includegraphics[height=0.52\linewidth]{comparison-figures/board/eig-199.png}
     \subcaption{左：分别为 4 和 5 个子结构的轴对齐划分。右：第 7 阶、第 103 阶、第 199 阶全局特征模态。}
   \end{subfigure}
-  \vspace{3mm}
+
   \begin{subfigure}{\linewidth}
     \includegraphics[width=\linewidth]{comparison-figures/board/board_comparison.pdf}
   \end{subfigure}
-  \caption{\textbf{轴对齐划分下针对弹性问题的对比。} 在弹性问题上，本文方法优于其它方法。其以相同的时间代价实现了三个数量级的精度提升，或在达到同等精度时速度提升了三个数量级。此外，得益于高质量的降维特征子空间，本文方法在达到相同全局精度所需提取的子结构特征模态数量大大降低。}
+  \caption{\textbf{轴对齐划分下针对弹性问题的对比。} 在弹性问题上，本文方法的误差水平低于其它方法；在达到同等精度要求时，其所需的计算时间更短。此外，得益于高质量的降维特征子空间，本文方法在达到相同全局精度所需提取的子结构特征模态数量大幅减少。}
   \label{fig:elasticity-aa-error-time}
 \end{figure}
 
 \subsubsection{时间 vs. 准确模态数量}
 为了进一步量化实践中的优势，我们基于累积相对误差 $\epsilon_{\text{ev}}$（\Cref{eq:error-ev}），计算了在给定误差阈值（$\epsilon_{\text{target}}$）内求解出目标数量（$q_t$）全局特征模态所需的总时间（$t_{\text{cms}}$）。所有三种方法的对比结果详见 \Cref{fig:comp-timing-vs-nev}。
-\textcolor{ConclusionEvidence}{本方法 MP-CMS 在求解目标 $q_t$ 时，持续比 CB-CMS 与 CMS-IMR 拥有更快的速度。这表明本文方法不仅速度快，而且在给定时间预算内能解出更多高精度模态。当期望获得大量全局模态（较大的 $q_t$）时，这种优势尤为明显。}
+\textcolor{ConclusionEvidence}{实验表明，本方法 MP-CMS 在求解目标 $q_t$ 时的计算耗时少于 CB-CMS 与 CMS-IMR。这意味着，在相同的计算时间预算内，本文方法能够获得更多满足精度要求的特征模态，并且当目标模态数量（$q_t$）较大时，这一优势更为明显。}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
  \caption{\textbf{综合效率对比：时间 vs. 准确模态数。} 曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。本文方法（MP-CMS）能在获取同一目标值 $q_t$ 的情况下始终快于 CB-CMS （"traditional CMS"）、AMLS 以及 CMS-IMR（"IMR"）。}
@@ -216,7 +215,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 其次，我们在包含了晶格微结构的 3D 弹性问题上验证该方法的效率，如 \Cref{fig:micro-local-update} 所示。此处的修改是参数化的：将最左侧晶胞替换为更粗壮的几何体，借以增强局部刚度。通过全面利用缓存数据，本文方法比起从头进行一轮完整的 MP-CMS 结算获得了 $5.4\times$ 的速度提升。同时，即使相较于高度优化的 Spectra 求解器（借助 CHOLMOD 处理线性求解），它也同样达成了 $2.24\times$ 的加速，凸显了增量更新策略的优越性。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \begin{tabular}{@{} m{1.5em} c c @{}}
     & \textbf{Primal} & \textbf{Dual} \\[1ex]
@@ -235,7 +234,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \label{fig:pcb-local-update}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \begin{tikzpicture}
     \node[anchor=north west, inner sep=0] (img) at (0,0) {%
@@ -260,10 +259,10 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 计算耗时分布如 \Cref{fig:teaser} 所示。在降维刚度矩阵与质量矩阵的过程中，本文通过优化 MPI 任务分发最大程度减少了等待时间。在 88 分钟的总运行时间中，节点间数据传输的通信开销仅为 4.3 秒，占比极小。这表明本文方法保留了 CMS 类方法通信开销低的优势。相比之下，若不使用界面模态缩减技术，传统 CB-CMS 方法在处理同等规模问题时，单节点内存需求将高达约 2.82 TB，远超现有的 512 GB 内存限制。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{teaser/teaser.pdf}
-  \caption{\textbf{Falcon 9 模型的大规模 MPI 并行计算。} 实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 CB-CMS 单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟仅收敛 949 阶特征模态；而本文方法成功计算出全部 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
+  \caption{\textbf{Falcon 9 模型的大规模 MPI 并行计算。} 实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 CB-CMS 单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟收敛 949 阶特征模态；而本文方法计算出 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
   \label{fig:teaser}
 \end{figure}
 
@@ -273,7 +272,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \subsection{积分误差分析的实验细节}
 \label{app:integrated-error-exp}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{frequency-vs-phase/integration.pdf}
   \caption{\textbf{完整域和积分子域。} 我们通过滑动区间起点 $a$ 自 $0$ 遍历到 $L-l$ 的方式，对子域 $[a, b]$ 积分处理，以破除针对性选择特定子域引发偏差的可能性。}
@@ -300,7 +299,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 \paragraph{误差计算} 对于每一个窗口位置 $a$，将目标函数投影到所选的基函数集合上，从而计算出 $L_2$ 近似误差 $E(a)$。正文热图中最终报告的度量指标为\textbf{积分平均误差} $\bar{E}$，其计算公式为：
 \begin{equation}
-\bar{E}(n_{\text{global}}, M) = \frac{1}{L-l} \int_{0}^{L-l} E(a; n_{\text{global}}, M) \, da
+\bar{E}(n_{\text{global}}, M) = \frac{1}{L-l} \int_{0}^{L-l} E(a; n_{\text{global}}, M) \, da.
 \end{equation}
 
 \subsubsection{参数设置}
@@ -317,16 +316,16 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \label{sec:breakdown}
 \Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
-    \includegraphics[width=0.85\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
+    \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
   \caption{\textbf{强扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
   \label{fig:strong-scaling-breakdown}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
-    \includegraphics[width=0.85\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
+    \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
   \caption{\textbf{弱扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
   \label{fig:weak-scaling-breakdown}
 \end{figure}
