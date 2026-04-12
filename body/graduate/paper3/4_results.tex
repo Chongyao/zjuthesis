@@ -60,7 +60,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 模态综合法（CMS）与这种架构极其契合。将其分解为独立子结构提供了一种粗粒度、高度并行（\textit{embarrassingly parallel}）的任务分配方式，非常适合 MPI，其中每个节点（或节点组）处理一个或多个子结构。此外，每个子结构内的计算密集型任务——如局部特征值求解（\Cref{eq:sub-eig}），以及传统 CMS 中的 Schur 补步骤（\Cref{eq:traditional-response}）——主要在共享内存内的局部数据上进行计算，可以利用节点多个核心间的细粒度 OpenMP 并行来有效加速。这种自然映射使得 CMS 成为利用分布式内存资源的绝佳策略。
 
 \subsubsection{MPI 环境模拟与性能指标}
-尽管本文方法适用于大规模分布式内存集群，受限于资源，我们的实验通过\textbf{模拟}这种并行环境来进行，这与 SMPI 类似~\cite{Degomme2017SMPI, Basu1990Model}。我们顺序执行每个（共 $m$ 个）子结构任务（局部特征求解、无 Schur 补（SE-free）IMR 计算等），并记录其挂钟时间 $T_i$ 与峰值内存 $M_i$。据此，我们估计以下并行性能指标：
+尽管本文方法适用于大规模分布式内存集群，受限于资源，我们的实验通过\textbf{模拟}这种并行环境来进行，这与仿真消息传递接口（Simulated Message Passing Interface, SMPI）等模拟框架~\cite{Degomme2017SMPI, Basu1990Model}中的做法类似。我们顺序执行每个（共 $m$ 个）子结构任务（局部特征求解、无 Schur 补（SE-free）IMR 计算等），并记录其挂钟时间 $T_i$ 与峰值内存 $M_i$。据此，我们估计以下并行性能指标：
 \begin{itemize}
     \item \textbf{估计并行总时间}（$T_{\text{parallel}}$）：由最慢的任务决定，$T_{\text{parallel}} \approx \max_{i=1,\dots,m} (T_i)$。
     \item \textbf{峰值节点内存}（$M_{\text{peak}}$）：由最消耗内存的任务决定，$M_{\text{peak}} = \max_{i=1,\dots,m} (M_i)$。
