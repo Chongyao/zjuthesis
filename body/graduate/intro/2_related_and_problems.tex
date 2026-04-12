@@ -117,6 +117,7 @@
 
 % \subsubsection{不可拉伸弹性细杆}
 \subsection{由物理本构导致的软硬耦合}
+由物理本构与参数分布导致的软硬耦合广泛存在于各类物理模拟问题中。例如，非均匀材料中的局部高刚度夹杂、各向异性本构在不同方向上的显著响应差异，以及受强运动学约束的细长结构，都会使系统在某些变形方向上表现出极高的能量代价，而在另一些方向上保持相对柔顺。此类由物理行为本身决定的刚度失配，在离散后往往表现为显著的频谱拉宽，并进一步诱发时间积分与迭代求解中的数值病态。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{body/graduate/intro/figures/rod_rep.png} 
@@ -124,7 +125,7 @@
     \label{fig:intro_rod_representation}
 \end{figure}
 
-在计算机图形学与计算力学中，一维细长弹性体（如毛发、纱线级布料、手术缝合线等）的动力学仿真是一个基础且充满挑战的课题。与传统的质点-弹簧模型仅追踪离散质点的位置不同，为了准确重现真实细长物体在扭转作用下产生的屈曲和打结等复杂非线性现象，离散 Cosserat 杆模型（Discrete Cosserat Rods）或 Kirchhoff 杆模型被广泛采用~\cite{pai2002strands,spillmann_corde_2007}。这类模型不仅需要追踪一维中心线的空间演化，还必须在中心线的每一点附着一个正交的材料标架，以此来完整刻画物体内部的弯曲与扭转状态\Cref{fig:intro_rod_representation}。
+在这类由物理本构导致的软硬耦合问题中，不可拉伸的一维细长弹性体（如毛发、纱线级布料、手术缝合线等）的动力学仿真是一个典型问题。与传统的质点-弹簧模型仅追踪离散质点的位置不同，为了准确重现真实细长物体在扭转作用下产生的屈曲和打结等复杂非线性现象，离散 Cosserat 杆模型（Discrete Cosserat Rods）或 Kirchhoff 杆模型被广泛采用~\cite{pai2002strands,spillmann_corde_2007}。这类模型不仅需要追踪一维中心线的空间演化，还必须在中心线的每一点附着一个正交的材料标架，以此来完整刻画物体内部的弯曲与扭转状态\Cref{fig:intro_rod_representation}。
 
 \begin{figure}[htbp]
     \centering
