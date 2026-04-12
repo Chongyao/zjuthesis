@@ -1,7 +1,7 @@
 \section{经典模态综合法的数学基础}
 
 给定一个离散化为 $n$ 个自由度的区域 $\Omega$，其刚度矩阵为 $\mathbf{K} \in \mathbb{R}^{n\times n}$，质量矩阵为 $\mathbf{M} \in \mathbb{R}^{n \times n}$。广义特征值问题
-\begin{equation} \mathbf{K} \mathbf{u}_l= \lambda_l \mathbf{M} \mathbf{u}_l
+\begin{equation} \mathbf{K} \mathbf{u}_l= \lambda_l \mathbf{M} \mathbf{u}_l,
   \label{eq:generalize-eigen-problem}
 \end{equation}
 给出特征值 $\lambda_l \in \mathbb{R}$ 和特征向量 $\mathbf{u}_l\in\mathbb{R}^{n}$ 的配对。模态分析通常只求解低频模态（即对应于较小 $\lambda_l$ 的模态）。
@@ -27,7 +27,7 @@
 \end{equation}
 质量矩阵 $\mathbf{M}$ 具有相同的结构。
 
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \newcommand{\PIC}[1]{\includegraphics[height=0.28\linewidth]{domain_definition/#1}}
   \PIC{domain-def.png}
@@ -55,7 +55,7 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
 \begin{equation}
   \mathbf{S}_{b\mathcal{I}} = - \mathbf{K}_{\mathcal{I} \mathcal{I}}^{-1}
   \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{bb}= - \mathbf{K}_{\mathcal{I} \mathcal{I}}^{-1}
-  \mathbf{K}_{\mathcal{I}b} \mathbf{I}
+  \mathbf{K}_{\mathcal{I}b} \mathbf{I},
   \label{eq:traditional-response}
 \end{equation}
 是该边界条件下的静力平衡状态。由于 $\mathbf{K}_{\mathcal{I}\mathcal{I}}$ 是分块对角矩阵，上述方程同样支持在各个子结构上并行求解。

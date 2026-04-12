@@ -51,3 +51,15 @@ This repository is not just the upstream template; it currently contains a disse
 - The GitHub Actions workflows build many template variants in Docker and generate PDF diff artifacts; if you need to understand “what counts as a regression test” in this repo, start with `.github/workflows/build_test.yml`, `.github/workflows/pr_test.yml`, and the scripts under `script/ci/github-action/`.
 - If you are touching the EE undergraduate format, read `config/format/major/ee/README.md` first. It includes extra submission checklist items and a platform-specific font workaround.
 - `body/graduate/paper2/main.tex` is explicitly marked as an in-progress refactor placeholder, so expect that chapter to be less stable than the surrounding structure.
+
+## Writing and structural editing guidance
+- Diagnose **structure before wording**. In this repository, many thesis-writing issues are not factual mistakes or bad sentences, but paragraphs appearing in the wrong order.
+- Treat paragraph order as part of the logic, not as presentation polish. A section can contain correct content and still read poorly if the information appears in the wrong sequence.
+- Before editing, label each paragraph by function: background, harm/importance, source classification, bullet-list item, post-list summary, method scope, limitation, outlook, or closing summary.
+- Prefer **reader-order logic** over author-order logic. Typical good sequence is: why the issue matters → where it comes from → which representative cases are studied → what the grouped takeaway is.
+- After any bullet list, check whether an immediate summary paragraph is missing or misplaced. Bullet lists in this thesis often need a directly following synthesis paragraph.
+- At the end of a chapter, check the final two paragraphs explicitly. Often the right fix is to swap a limitations/outlook paragraph with a stronger closing-summary paragraph, not to rewrite both from scratch.
+- When a sentence contains a cue like “如图1.1所示”, make the next clause land immediately on what the figure shows. Do not let figure cues hang while discussing something else first.
+- When diagnosing awkward writing, ask: **Why is this paragraph here, and why here rather than earlier or later?** If the answer is unclear, the primary problem is likely placement.
+- For revision tasks, use a two-step workflow: (1) analyze and, if needed, reorder paragraph blocks; (2) only then polish wording and terminology.
+- Do not assume “all necessary information is present” means “the discourse structure is correct”. Coverage and ordering are separate checks.

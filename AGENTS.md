@@ -44,6 +44,13 @@ zjuthesis/
 - Output to `out/` directory
 - Each paper has own `figures/` subdirectory with `\graphicspath`
 
+## WRITING WORKFLOW
+- Diagnose **structure before wording**. In this thesis, many problems are not wrong content but wrong paragraph / section order.
+- Before rewriting prose, identify each paragraph's role: problem, harm, source classification, method scope, chapter preview, limitation, or closing summary.
+- Prefer **reader-order logic** over author-order logic: usually explain why the issue matters before classifying its sources; summarize immediately after bullet lists; use the strongest summary paragraph to close a chapter.
+- When a paragraph feels awkward, ask: **Why is this paragraph here, and why here rather than earlier or later?** If that answer is weak, the issue is often placement, not wording.
+- High-risk zones for ordering mistakes: paragraphs immediately after bullet lists, and the final two paragraphs of a chapter or section.
+- For structural editing requests, first propose or perform paragraph reordering; only then do sentence-level polishing.
 ## ANTI-PATTERNS (THIS PROJECT)
 - **NEVER** use `xelatex` alone — references won't compile; use `latexmk`
 - **NEVER** delete `.latexmkrc` on Overleaf without replacing build config
