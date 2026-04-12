@@ -1,29 +1,10 @@
 \section{软硬耦合分析}
 
-
-\subsection{计算代价分析}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{substructure_analysis/schur_vs_eig_timing_curves.pdf}
-  \caption{\textbf{传统 CMS 并行部分的计算代价分析。} 在一个正方形网格上，以 size$\times$size 个顶点离散。左图中，$t_{\text{sub-eig}}$ 随特征模态数量呈超线性增长；当子结构特征模态数量较少时，固定代价 $t_{\text{sub-schur}}$（红色虚线）与 $t_{\text{sub-eig}}$ 接近。}
-  \label{fig:breakdown-CMS}
-\end{figure}
-
-总体代价主要由两部分组成：
-\begin{itemize}
-    \item $t_{\text{sub-eig}}$：求解子结构特征值问题（\cref{eq:sub-eig}）。
-    \item $t_{\text{sub-schur}}$：\cref{eq:traditional-response}
-      需要对 $\mathbf{K}_{ii}$ 进行一次分解，随后进行 $n_{b,i}$ 次前代/回代，其中 $n_{b,i}$ 是 $\partial \Omega_i$ 的自由度数。接着是缩减过程中子结构级别的矩阵-矩阵乘法。
-\end{itemize}
-
-\Cref{fig:breakdown-CMS}（左）比较了 $t_{\text{sub-eig}}$（实线）与 $t_{\text{sub-schur}}$（虚线）。
-
-基于上述分析，我们提出一种方法，旨在：（1）使用少量但更有效的子结构特征模态；（2）绕开计算代价高、内存占用大的 Schur 补步骤。
+本节聚焦分析传统模态综合法在大规模特征值问题中的两类核心困难。一方面，单一划分与固定界面假设会限制局部基函数对全局低频柔顺响应的表达能力；另一方面，界面耦合过程中引入的 Schur 补又会带来高昂的计算与存储负担。前者体现为表达层面的“软”失配，后者则体现为算法层面的“硬”代价。
 
 \subsection{单一划分的表达缺陷}\label{sec:phase-complement}
 
-在介绍具体方法前，本节以定义在 $[0,L]$ 上的一维拉普拉斯特征问题为例进行说明。为简化讨论，此处忽略界面模态。
+为说明单一划分在表达层面的局限性，本节考虑定义在 $[0,L]$ 上的一维拉普拉斯特征问题。为简化讨论，此处忽略界面模态。
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{frequency-vs-phase/basis.pdf}
@@ -41,32 +22,13 @@
 \end{equation}
 其中 $t=(x-a)/(b-a)$。\Cref{fig:integrated_error_comparison}左上图展示了部分特征模态。\textcolor{ExplainConclusion}{此类特征模态在区间边界处的值均为零；即每个 $\sin(\omega t+\phi)$ 函数相对于区间的相位 $\phi$ 恒为零。因此，当 $\psi\neq k\pi$ 时，$t\in[0,1]$ 上形如 $\sin(j\pi t+\psi)$ 的函数在边界处存在非零值，这些基函数无法表示该类函数。单纯增加此类基函数的数量也无法解决该问题。}
 
-\subsection{Schur 补的数学结构}\label{sec:schur-complement}
+从软硬耦合的角度看，这里的困难并不只是近似误差增大，而是固定界面这一算法假设直接改变了局部基函数的表达性质。子结构特征模态必须在边界处为零，这使得局部基函数天然携带受限的相位结构。对于真正的全局低频模态而言，即便局部基已经覆盖了足够高的频带，它们仍然可能无法有效表达跨子结构延拓的柔顺响应。于是，算法不得不继续引入更多高频内部模态来弥补这一表达缺口，从而导致降维效率迅速下降。
 
-传统 CMS 中的界面模态本质上来源于分块 Schur 补变换矩阵：
-\begin{equation}
-  \mathbf{L}^{-1,T} = \begin{bmatrix}
-    \mathbb{I} & & & -\mathbf{K}_{11}^{-1} \mathbf{K}_{1b}\\
-    &\ddots & & \vdots\\
-    &&\mathbb{I}& -\mathbf{K}_{mm}^{-1} \mathbf{K}_{mb}\\
-    &&&\mathbb{I}
-  \end{bmatrix}
-  \label{eq:schur}
-\end{equation}
-该变换将原始矩阵对 $\left(\mathbf{K}, \mathbf{M} \right)$ 分块对角化为 $\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
-$\left(\tilde{\mathbf{K}}, \tilde{\mathbf{M}} \right)$：
-\begin{equation}
-  \begin{bmatrix}
-    \mathbf{K}_{11} &&&&\\
-    &\ddots&&&\\
-    &&\mathbf{K}_{mm}&&\\
-    &&&&\tilde{\mathbf{K}}_{bb}
-  \end{bmatrix},\quad
-  \begin{bmatrix}
-    \mathbf{M}_{11} & & & \tilde{\mathbf{M}}_{1b}\\
-    &\ddots & & \vdots\\
-    & & \mathbf{M}_{mm} & \tilde{\mathbf{M}}_{mb}\\
-    \tilde{\mathbf{M}}_{b1} &\cdots &\tilde{\mathbf{M}}_{bm} &\tilde{\mathbf{M}}_{bb}
-  \end{bmatrix}.
-\end{equation}
-在计算缩减后的刚度矩阵和质量矩阵时，需要执行大量的大规模矩阵乘法，这占据了 Schur 补的主要计算开销。值得注意的是，如果直接将多重划分的策略与传统 CMS 相结合，每次应用新的划分都需要重新执行整个 Schur 补缩减过程。这会导致本已高昂的界面计算成本成倍增加，从而严重损害整体效率。因此，我们必须找到一种绕过传统 Schur 补的界面模态生成方法。
+\subsection{界面耦合的 Schur 补代价}\label{sec:schur-complement}
+
+在传统 CMS 中，界面耦合一旦通过 Schur 补进入计算流程，就会成为大规模模态分析中的一类典型“硬”代价来源。
+在计算缩减后的刚度矩阵和质量矩阵时，需要执行大量的大规模矩阵乘法，这占据了 Schur 补的主要计算开销。值得注意的是，如果直接将多重划分的策略与传统 CMS 相结合，每次应用新的划分都需要重新执行整个 Schur 补缩减过程。这会导致本已高昂的界面计算成本成倍增加，从而严重损害整体效率。
+
+其次，界面耦合本身又引入了另一类“硬”代价。传统 CMS 依赖 Schur 补来生成界面响应模态，而这一过程需要对每个子结构执行反复的分解、前代与回代，并伴随大量矩阵--矩阵乘法。随着界面自由度增长，这些操作不仅在时间上变得昂贵，也在内存上迅速膨胀。更重要的是，这一开销并不会因为目标模态数较少而自然消失：在实际并行计算中，Schur 补往往会成为一项近乎固定的附加负担，从而显著削弱区域分解原本应当带来的可扩展性优势。
+
+因此，从软硬耦合的视角看，传统 CMS 至少面临两个相互关联的问题：其一，单一划分下的固定相位假设使得局部“软”模态难以充分表达全局低频响应；其二，界面耦合过程中的 Schur 补又在人为层面引入了高昂而偏“硬”的计算与存储负担。前者表现为表达能力的不足，后者表现为界面处理成本的急剧上升。也就是说，大规模模态分析中的软硬失配并非单一因素所致，而是由表达受限与界面耦合代价共同构成的复合问题。仅仅继续增加子结构模态数量，或单独优化现有的界面处理流程，都难以从根本上消除这一失配；要真正缓解这一问题，仍需进一步审视降维特征子空间与界面模态的构造方式。
