@@ -5,7 +5,7 @@
 因此，我们提出了一种基于算子感知的局部基空间重构与隔离方法，利用现有的基函数和自适应 h-细化层次结构。\Cref{fig:refinement_adjoint_coarsening_demo} 展示了一个简单的两层示例：一个具有病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱分布与重新网格化的网格（左下）较为接近。实际上，病态单元及其周围环境具有多样性。本节介绍了一种用于构建网格层次结构的数值适应方法和相应的基函数优化策略。
 
 
-\begin{figure}[h]
+\begin{figure}[tbp]
   \centering
   \includegraphics{figpdf/demo.pdf}
   \caption{\textbf{两层聚合示例。}一个具有明显病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱与重新网格化的网格（左下）接近。}
@@ -43,7 +43,7 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 \end{equation}
 具体来说，我们分别为边细化求解六种情况，为面细化求解四种情况。对于面细化，两个四面体被分成六个，如 \Cref{fig:refinement_adjoint_coarsening_demo} 所示。对于边细化，受影响边的所有一环四面体被分成两个。然后我们按这些十种情况的最大特征值排序，选择产生最小值的配置。虽然可以使用涉及层级 $k+1$ 中额外新顶点的更复杂细化策略，我们将其留待未来工作。
 
-\begin{figure}[h]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.4\linewidth]{figures/split-zjx/F4.0523a.png}
     \caption{\textbf{局部网格细分示意。}对于候选四面体及其局部邻域，我们分别考虑边细分与面细分等不同情形，并比较细分后局部四面体块的数值性质，从中选择更优的细分配置。}
@@ -58,7 +58,7 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 
 从离散结构上看，基于细分的基函数优化本质上是将包含隐式强连接的病态单元局部细分为若干更小的四面体单元，使原本隐藏在单元内部的强耦合逐步显化为顶点之间可识别的显式强连接，如 \Cref{fig:strong-link-implicit-to-explicit} 所示。显式强连接对应的四面体通常具有两个距离极近的顶点；在后续的基函数优化中，我们将其中一部分局部高频模态从主计算空间中分离出来，从而隔离这类强耦合对整体离散系统的影响。与此同时，反映局部物理结构特性的插值关系则由优化得到的矩阵基函数系数给出。
 
-\begin{figure}
+\begin{figure}[tbp]
     \centering
     \includegraphics[height=0.20\textwidth]{figures/subdivide/foot_at_center.png}
     \includegraphics[height=0.20\textwidth]{figures/subdivide/foot_at_edge.png}
@@ -152,7 +152,7 @@ $\mathcal{P}_i$ 的下标表示域已被省略以简洁起见。所提供的约�
 
 经过上述局部细分后，输入网格中的隐式强连接已经在 $\mathcal{M}^{h+}$ 上转化为显式强连接。与此同时，原始网格中天然存在的显式强连接在细化过程中也会继续被保留下来。因此，从 $\mathcal{M}^{h+}$ 开始，后续处理的重点在于：是仅在保留全部输入顶点的前提下进行局部基函数优化，还是允许进一步移除仍然主导全局刚度矩阵最大特征值的显式强连接。
 
-\begin{figure}
+\begin{figure}[tbp]
   \centering
   \includegraphics[width=0.7\linewidth]{plot_figures/Fig56/Fig56.0524.png}
   \caption{\textbf{显式强连接及其隔离效果。}左：一个典型的微结构模型，经 Tetgen 离散化为四面体网格后，其中部分单元包含一对距离极近的顶点，从而形成显式强连接。右上：$\mathbf{K}^H$ 与互补块 $\mathbf{B}^H$ 的频谱随迭代的变化。右下：是否进行强连接隔离时的收敛比率比较。}
