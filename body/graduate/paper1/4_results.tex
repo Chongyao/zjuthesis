@@ -105,7 +105,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 \end{figure}
 
 \subsection{与直接 KKT 方法的比较}
-直接求解 KKT 系统虽无罚函数法的数值阻尼伪影，但计算代价高（图~\ref{fig:kkt_timing}），且在牛顿迭代不足时无法精确满足不可伸长与对齐约束（图~\ref{fig:kkt_violation_a}、图~\ref{fig:kkt_violation_b}）。相比之下，本文的紧凑表示在参数化层面满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。在相同的实验设置下，这避免了对内在约束进行额外计算迭代所需的开销。文献~\cite{deul_direct_2018} 亦包含 KKT 求解，但在每个牛顿步交替使用 KKT 与非线性 Gauss-Seidel，迭代不足时同样会出现约束违背。
+直接求解 KKT 系统虽无罚函数法的数值阻尼伪影，但计算代价高（图~\ref{fig:kkt_timing}），且在牛顿迭代不足时无法精确满足不可伸长与对齐约束（图~\ref{fig:kkt_violation_a}、图~\ref{fig:kkt_violation_b}）。相比之下，本文的紧凑表示在参数化层面满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}。在相同的实验设置下，这避免了对内在约束进行额外计算迭代所需的开销。Deul 等人~\cite{deul_direct_2018}的方法亦包含 KKT 求解，但在每个牛顿步交替使用 KKT 与非线性 Gauss-Seidel，迭代不足时同样会出现约束违背。
 
 \begin{figure}[H]
   \centering
@@ -136,7 +136,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 \end{figure}
 
 \subsection{与 Super-Helices 的比较}
-与本文的链式表示类似，Super-Helices~\cite{bertails_super-helices_2006} 通过缩减坐标同样可精确满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}，并由~\cite{bertails_linear_2009} 提供线性时间求解器。不同之处在于，Super-Helices 采用高阶曲线单元，在平滑变形场景下可用更少自由度表示形状；但在复杂接触下其表达能力下降，需引入更多自由度。
+与本文的链式表示类似，Super-Helices~\cite{bertails_super-helices_2006}通过缩减坐标同样可精确满足~\cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons}，并由 Thomas 算法~\cite{bertails_linear_2009}提供线性时间求解器。不同之处在于，Super-Helices 采用高阶曲线单元，在平滑变形场景下可用更少自由度表示形状；但在复杂接触下其表达能力下降，需引入更多自由度。
 
 此外，其方法并非如本文隐式时间步进般无条件稳定~\cite{bertails_linear_2009}：由于显式计算 $\ddot{\kappa}_{\mathcal{Q}}$，时间步上限会随单元数增多而明显降低——单曲线单元时最大约 $\SI{35}{ms}$，40 单元时仅约 $\SI{4}{ms}$。在其基准相似场景中（图~\ref{fig:compare_to_super_helix}）使用 200 个线段并取 $\SI{250}{ms}$ 时间步，仍能稳定仿真。
 
