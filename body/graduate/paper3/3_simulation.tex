@@ -73,11 +73,11 @@
   \begin{algorithmic}[1]
     \REQUIRE $nev_{\text{blk}},nev_{\text{target}}$
     \STATE \COMMENT{\textbf{并行}计算内部模态}
-    \FOR{each substructure in $\mathcal{P}^p$ and $\mathcal{P}^d$}
+    \FOR{$\mathcal{P}^p$ 与 $\mathcal{P}^d$ 中的每个子结构}
       \STATE 求解子结构局部特征值问题 \cref{eq:sub-eig}
     \ENDFOR
     \STATE \COMMENT{\textbf{并行}计算界面模态}
-    \FOR{each substructure in $\mathcal{P}^p$ and $\mathcal{P}^d$}
+    \FOR{$\mathcal{P}^p$ 与 $\mathcal{P}^d$ 中的每个子结构}
       \STATE 求解子结构边界问题 \cref{eq:ours-response-solution} 并组装
     \ENDFOR
     \STATE $\mathbf{S} \leftarrow [\mathbf{S}^p_\mathcal{I},\mathbf{S}^p_b,\mathbf{S}_{\mathcal{I}}^d,\mathbf{S}_b^d]$
