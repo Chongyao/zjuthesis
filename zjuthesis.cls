@@ -30,6 +30,7 @@
 \DeclareStringOption[doctor]{GradLevel}
 \DeclareStringOption{ColaboratorName}
 \DeclareStringOption[false]{BlindReview}
+\DeclareStringOption[false]{ShowCVInBlindReview}
 \DeclareStringOption[false]{PrintFilePath}
 \DeclareStringOption[true]{TwoSide}
 \DeclareBoolOption[false]{TrueBlankPage}
@@ -45,6 +46,7 @@
 \wlog{Type: {\Type}}
 \wlog{Period: {\Period}}
 \wlog{BlindReview: {\BlindReview}}
+\wlog{ShowCVInBlindReview: {\ShowCVInBlindReview}}
 \wlog{Language: {\Language}}
 \wlog{GradLevel: {\GradLevel}}
 \wlog{PrintFilePath: {\PrintFilePath}}
