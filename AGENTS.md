@@ -45,7 +45,7 @@ zjuthesis/
 - Each paper has own `figures/` subdirectory with `\graphicspath`
 
 ## WRITING WORKFLOW
-- Diagnose **structure before wording**. In this thesis, many problems are not wrong content but wrong paragraph / section order.
+- Diagnose **structure before wording**. Many writing problems come from weak paragraph / section order rather than from sentence-level wording.
 - Before rewriting prose, identify each paragraph's role: problem, harm, source classification, method scope, chapter preview, limitation, or closing summary.
 - Prefer **reader-order logic** over author-order logic: usually explain why the issue matters before classifying its sources; summarize immediately after bullet lists; use the strongest summary paragraph to close a chapter.
 - When a paragraph feels awkward, ask: **Why is this paragraph here, and why here rather than earlier or later?** If that answer is weak, the issue is often placement, not wording.
@@ -54,19 +54,10 @@ zjuthesis/
 ## ANTI-PATTERNS (THIS PROJECT)
 - **NEVER** use `xelatex` alone — references won't compile; use `latexmk`
 - **NEVER** delete `.latexmkrc` on Overleaf without replacing build config
-- **NEVER** skip paper migration translation rules in `.sisyphus/plans/`
-- **NEVER** use `\DET` macro directly — conflict exists; use `\DETtext` (paper1) or `\DET{arg}` (paper3)
 - **NEVER** modify `zjuthesis.cls` core options without updating `config/commands.tex` paths
 - **NEVER** use `algorithm2e` package — use `algorithm` + `algorithmic` syntax (`\IF{}...\ENDIF`, `\COMMENT{}`, `\RETURN`)
-- **NEVER** skip any mathematical derivation when translating papers (per .sisyphus/plans)
-- **NEVER** use one-sentence summaries for paper content (migrate_paper*.md explicit rule)
 - **NEVER** use empty `[]` as figure placement — use `[tbp]` or `[H]`
 - **NEVER** place major-specific packages in `config/packages.tex` — use major's local `packages.tex`
-
-## UNIQUE STYLES
-- TikZ-based matrix operators: `\LowerTri`, `\UpperTri`, `\Diag`, `\TriDiag` (paper1)
-- Custom partial derivative: `\FPP{f}{x}` (paper3), `\FPPmathbf{J}{q}` (paper1)
-- Macro collision handled via renamed `\DETtext` vs `\DET`
 
 ## COMMANDS
 ```bash
@@ -86,4 +77,3 @@ script/utils/word_count.sh
 ## NOTES
 - TeXLive 2019+ required for Chinese font handling (no copy乱码)
 - Each paper dir has AGENTS.md with paper-specific details
-- `.sisyphus/plans/` contains migration plans for paper1 and paper3
