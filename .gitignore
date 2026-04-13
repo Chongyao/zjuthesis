@@ -260,3 +260,7 @@ TSWLatexianTemp*
 .venv
 .sisyphus/boulder.json
 .opencode/package-lock.json
+
+# local patch snapshots
+/diff.patch
+/diff_paper3.patch
