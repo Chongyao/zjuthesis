@@ -1,7 +1,7 @@
 \section{实验结果与分析}
 \label{sec:results}
 
-我们首先在标准二维矩形区域（四边形网格）上验证方法的基础数值行为。随后在两类场景上比较该方法与其他方法：三角表面网格上的拉普拉斯问题，以及四面体体网格上的弹性问题。进一步地，我们在超算集群上将该方法应用于超大规模模型，以验证方法的效率。最后，我们展示了当网格局部发生改动时快速更新特征模态的能力（这是 CMS 方法固有优势的体现）。所有计算平台与模型的统计信息列于 \Cref{tab:statistics}。
+我们首先在标准二维矩形区域（四边形网格）上验证方法的基础数值行为。随后在两类场景上比较该方法与其他方法：三角表面网格上的拉普拉斯问题，以及四面体体网格上的弹性问题。进一步地，我们在超算集群上将该方法应用于超大规模模型，以验证方法的效率。最后，我们展示了当网格局部发生改动时快速更新特征模态的能力（这是模态综合法固有优势的体现）。所有计算平台与模型的统计信息列于 \Cref{tab:statistics}。
 
 \begin{table}[tbp]
   \caption{\textbf{实验所用模型统计。} $q_t$ 表示需计算的全局特征模态数量；* 表示变量。}
@@ -26,7 +26,7 @@
     & Wing（\Cref{fig:elasticity-aa-error-time}） & 40K & 140K & 200 \\
     \hline
     \makecell{超算集群（19 节点）\\AMD 2$\times$7H12 64-core @ 2.6GHz, 512GB RAM\\100Gb IB 高速网络}
-    & Falcon 9（\Cref{fig:teaser}） & 10M & 30M & 3000 \\
+    & 猎鹰 9 号（\Cref{fig:teaser}） & 10M & 30M & 3000 \\
     \hline
   \end{tabular}%
   }
@@ -46,9 +46,9 @@
 其中 $N_e$ 为已计算特征值的数量。该指标直接量化了计算特征值相对于真实值的精确度。
 
 \paragraph{性能评估：误差--时间曲线}
-我们使用\textbf{误差--时间曲线}评估整体效率。与迭代方法的收敛图（随着同一次运行内部迭代次数增加，误差降低）不同，我们曲线上的每个点都代表一次\textbf{完整、独立}的 CMS 运行。
+我们使用\textbf{误差--时间曲线}评估整体效率。与迭代方法的收敛图（随着同一次运行内部迭代次数增加，误差降低）不同，我们曲线上的每个点都代表一次\textbf{完整、独立}的模态综合法运行。
 
-CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特征模态数 $q_{\mathcal{I}}$ 控制。为生成该曲线，我们通过系统地增加每次运行的 $q_{\mathcal{I}}$ 来执行多次计算。然后，将结果误差（$\epsilon_{\text{ev}}$）绘制为对应总计算时间（$t_{\text{cms}}$）的函数。
+模态综合法中精度与计算代价的权衡主要由每个子结构计算的内部特征模态数 $q_{\mathcal{I}}$ 控制。为生成该曲线，我们通过系统地增加每次运行的 $q_{\mathcal{I}}$ 来执行多次计算。然后，将结果误差（$\epsilon_{\text{ev}}$）绘制为对应总计算时间（$t_{\text{cms}}$）的函数。
 
 如果一条曲线越靠左下，说明该方法越高效，这表示在给定的总计算时间（即给定的 $q_{\mathcal{I}}$ 选择）下，其能实现更低的误差。在实际应用中，用户通常会根据所需精度或计算预算选择单个 $q_{\mathcal{I}}$，这对应于该曲线上的一点。
 
@@ -57,10 +57,10 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 可扩展性是高性能计算（HPC）的首要指标。两项标准指标包括：\textbf{强扩展}（衡量在固定问题规模下增加处理器数量带来的加速比）\cite{Rodgers1985Improvements}，以及\textbf{弱扩展}（衡量在问题规模与处理器数量同比例增加时，保持单处理器性能的能力）\cite{Gustafson1988Reevaluating, McCool2012Performance}。现代 HPC 集群通常采用两级嵌套并行模型，结合跨 $p_c$ 个计算节点的 MPI（消息传递接口）通信与节点内利用 OpenMP 在 $p_f$ 个 CPU 核心上实现的共享内存并行，实现总并行度为 $p_c \times p_f$~\cite{2010LiHybridMPI/OpenMPPpower-awareCcomputing, rabenseifner2009hybrid, Jammer2022Towards, Cappello2000MPI}。
 
-模态综合法（CMS）与这种架构极其契合。将其分解为独立子结构提供了一种粗粒度、高度并行（\textit{embarrassingly parallel}）的任务分配方式，非常适合 MPI，其中每个节点（或节点组）处理一个或多个子结构。此外，每个子结构内的计算密集型任务——如局部特征值求解（\Cref{eq:sub-eig}），以及传统 CMS 中的 Schur 补步骤（\Cref{eq:traditional-response}）——主要在共享内存内的局部数据上进行计算，可以利用节点多个核心间的细粒度 OpenMP 并行来有效加速。这种自然映射使得 CMS 成为利用分布式内存资源的绝佳策略。
+模态综合法与这种架构极其契合。将其分解为独立子结构提供了一种粗粒度、任务间近乎天然并行的任务分配方式，非常适合 MPI，其中每个节点（或节点组）处理一个或多个子结构。此外，每个子结构内的计算密集型任务——如局部特征值求解（\Cref{eq:sub-eig}），以及传统模态综合法中的舒尔补步骤（\Cref{eq:traditional-response}）——主要在共享内存内的局部数据上进行计算，可以利用节点多个核心间的细粒度 OpenMP 并行来有效加速。这种自然映射使得模态综合法成为利用分布式内存资源的绝佳策略。
 
 \paragraph{MPI 环境模拟与性能指标}
-尽管本文方法适用于大规模分布式内存集群，受限于资源，我们的实验通过\textbf{模拟}这种并行环境来进行，这与仿真消息传递接口（Simulated Message Passing Interface, SMPI）等模拟框架~\cite{Degomme2017SMPI, Basu1990Model}中的做法类似。我们顺序执行每个（共 $m$ 个）子结构任务（局部特征求解、无 Schur 补（SE-free）IMR 计算等），并记录其挂钟时间 $T_i$ 与峰值内存 $M_i$。据此，我们估计以下并行性能指标：
+尽管本文方法适用于大规模分布式内存集群，受限于资源，我们的实验通过\textbf{模拟}这种并行环境来进行，这与仿真消息传递接口（Simulated Message Passing Interface, SMPI）等模拟框架~\cite{Degomme2017SMPI, Basu1990Model}中的做法类似。我们顺序执行每个（共 $m$ 个）子结构任务（局部特征求解、无舒尔补界面模态缩减计算等），并记录其挂钟时间 $T_i$ 与峰值内存 $M_i$。据此，我们估计以下并行性能指标：
 \begin{itemize}
     \item \textbf{估计并行总时间}（$T_{\text{parallel}}$）：由最慢的任务决定，$T_{\text{parallel}} \approx \max_{i=1,\dots,m} (T_i)$。
     \item \textbf{峰值节点内存}（$M_{\text{peak}}$）：由最消耗内存的任务决定，$M_{\text{peak}} = \max_{i=1,\dots,m} (M_i)$。
@@ -75,20 +75,20 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 用于强扩展的网格是一个 $1.0 \times 1.5$ 尺寸的矩形网格，通过 $1000 \times 1000$ 个顶点和四边形单元进行离散化（类似于图例中所示）。用于弱扩展的网格是一个 $1.0 \times 1.0$ 的矩形网格。高度方向（y 轴）有 $202$ 个顶点，宽度方向有 $200 \times (m^p \times 2 + 1) + 2$ 个顶点，这随着计算节点的数量而变化。
 
-本文方法采用两种划分：一种具有 $m^p$ 个子结构，另一种具有 $m^d = m^p + 1$ 个子结构。计算节点总数为 $2m^p + 1$。传统的 CB-CMS 将网格划分为 $2m^p + 1$ 个子结构，利用相同数量的计算节点。
+本文方法采用两种划分：一种具有 $m^p$ 个子结构，另一种具有 $m^d = m^p + 1$ 个子结构。计算节点总数为 $2m^p + 1$。传统的 Craig--Bampton 模态综合法将网格划分为 $2m^p + 1$ 个子结构，利用相同数量的计算节点。
 
 \paragraph{结果}
-临界数量 $q_{\mathcal{I}}^\star$ 如 \Cref{fig:critical-qb} 所示。\textcolor{ConclusionEvidence}{得益于相位补足，本文方法仅需要少量子结构特征模态，而传统 CMS 则需要数百个。}
+临界数量 $q_{\mathcal{I}}^\star$ 如 \Cref{fig:critical-qb} 所示。\textcolor{ConclusionEvidence}{得益于相位补足，本文方法仅需要少量子结构特征模态，而传统模态综合法则需要数百个。}
 
-\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
+\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 Craig--Bampton 模态综合法相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。这证实了我们的分析：传统模态综合法的峰值内存由稠密界面矩阵（舒尔补）主导，其大小随界面规模呈平方级增长；而本文的多重划分模态综合法则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受对偶基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
 
-\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 进一步给出了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统 CMS 的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统 CMS 中的串行界面步骤（Schur 补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
+\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 进一步给出了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统模态综合法的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统模态综合法中的串行界面步骤（舒尔补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
 
-\Cref{fig:scaling-balance} 显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都保持了较好的均衡性（约 $0.9$）。相比之下，传统 C-B 方法呈现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性相对受限。
+\Cref{fig:scaling-balance} 显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都保持了较好的均衡性（约 $0.9$）。相比之下，传统 Craig--Bampton 模态综合法呈现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性相对受限。
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{critical-qb/combined_scaling.pdf}
-  \caption{\textbf{子结构特征模态的临界数量。} 本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 小于传统 CMS 方法。}
+  \caption{\textbf{子结构特征模态的临界数量。} 本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 小于传统模态综合法。}
   \label{fig:critical-qb}
 \end{figure}
 
@@ -96,35 +96,35 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \centering
   \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_total_breakdown.pdf}
   \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_peak_memory_line.pdf}
-  \caption{\textbf{强弱扩展下的时间与内存代价。} 相比于传统 CMS，本文方法在保持更低内存开销的同时，展现了更好的内存可扩展性。}
+  \caption{\textbf{强弱扩展下的时间与内存代价。} 相比于传统模态综合法，本文方法在保持更低内存开销的同时，展现了更好的内存可扩展性。}
   \label{fig:scaling}
 \end{figure}
 
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_balance_line.pdf}
-  \caption{\textbf{强弱扩展中并行部分的均衡性。} 相比于传统 CMS，本文方法在时间开销和内存开销上保持了较好的均衡性。这反映了本文方法具备较好的并行计算适应性。}
+  \caption{\textbf{强弱扩展中并行部分的均衡性。} 相比于传统模态综合法，本文方法在时间开销和内存开销上保持了较好的均衡性。这反映了本文方法具备较好的并行计算适应性。}
   \label{fig:scaling-balance}
 \end{figure}
 
 \subsection{方法对比}
-本节中，我们对提出的方法——\textbf{多重划分且无 Schur 补界面模态缩减（MP-CMS）} 进行全面的性能评估。我们在单机环境下将其与三种经典方法进行对比：传统的\textbf{包含完整 Schur 补的单划分 CMS（CB-CMS）}、\textbf{带界面模态缩减的单划分 CMS（CMS-IMR）} 以及\textbf{自动化多级子结构方法（AMLS）}~\cite{Gao2008AMLS}。分析主要集中在两点：
+本节中，我们对提出的方法——\textbf{多重划分模态综合法}进行全面的性能评估。我们在单机环境下将其与三种经典方法进行对比：传统的\textbf{Craig--Bampton 模态综合法}、\textbf{带界面模态缩减的单划分模态综合法}以及\textbf{自动多层子结构法}~\cite{Gao2008AMLS}。分析主要集中在两点：
 \begin{enumerate}
     \item \textbf{误差-时间效率：} 我们分析针对固定的目标特征模态数量（$q_t$）达到特定精度所需的计算时间，展示本文方法带来的效率提升。
-    \item \textbf{可扩展能力（时间 vs. 准确模态数量）：} 我们检验计算成本与准确解析的模态数之间的关系，验证本文方法在不同目标需求下的优越性。
+    \item \textbf{可扩展能力（时间与准确模态数量关系）：} 我们检验计算成本与准确解析的模态数之间的关系，验证本文方法在不同目标需求下的优越性。
 \end{enumerate}
 实验涵盖 2D 表面拉普拉斯问题和 3D 弹性问题，利用了轴对齐与 METIS 两种划分策略。
 
 我们使用误差-时间曲线来评估计算效率，其中 x 轴表示总计算挂钟时间，y 轴表示 $\epsilon_{\text{ev}}$。
 
 \paragraph{轴对齐划分下的拉普拉斯问题}
-\Cref{fig:laplacian-aa-error-time} 比较了四种方法在断路器模型（breaker）2D 拉普拉斯问题上的表现。传统的 \textbf{CB-CMS} 由于稠密 Schur 补存在高昂的初始开销。尽管 \textbf{CMS-IMR} 和 \textbf{AMLS} 降低了这一开销（AMLS 通过多级递归），但它们在基函数生成方面仍需要大量计算。相反，\textcolor{ConclusionEvidence}{我们的 \textbf{MP-CMS} 在相同计算预算下达成了更小的误差，相较于单级和多级基准方法呈现出精度的提升。这表明尽管维护两种划分带来了一定开销，但由于相位丰富的基函数作用，达到指定精度所需的总子空间维度小于传统方法，进而缩短了整体求解时间。}
+\Cref{fig:laplacian-aa-error-time} 比较了四种方法在断路器模型（breaker）2D 拉普拉斯问题上的表现。传统的\textbf{Craig--Bampton 模态综合法}由于稠密舒尔补存在高昂的初始开销。尽管\textbf{带界面模态缩减的单划分模态综合法}和\textbf{自动多层子结构法}降低了这一开销（后者通过多级递归），但它们在基函数生成方面仍需要大量计算。相反，\textcolor{ConclusionEvidence}{本文提出的\textbf{多重划分模态综合法}在相同计算预算下达成了更小的误差，相较于单级和多级基准方法呈现出精度的提升。这表明尽管维护两种划分带来了一定开销，但由于相位丰富的基函数作用，达到指定精度所需的总子空间维度小于传统方法，进而缩短了整体求解时间。}
 
 \paragraph{METIS 划分下的拉普拉斯问题}
-\Cref{fig:laplacian-metis-error-time} 展示了在不规则子域上的表现。尽管 METIS 优化了界面规模，使 \textbf{CMS-IMR} 与 \textbf{AMLS} 受益，但 MP-CMS 仍保持优势。在误差-时间空间中，Dual 划分策略在该情况下生成了比 AMLS 递归子结构更加有效的基。
+\Cref{fig:laplacian-metis-error-time} 展示了在不规则子域上的表现。尽管 METIS 优化了界面规模，使\textbf{带界面模态缩减的单划分模态综合法}与\textbf{自动多层子结构法}受益，但本文的多重划分模态综合法仍保持优势。在误差-时间空间中，对偶划分策略在该情况下生成了比自动多层子结构法递归子结构更加有效的基。
 
 \paragraph{轴对齐划分下的弹性问题}
-\Cref{fig:elasticity-aa-error-time} 给出了在 3D 弹性问题上的性能表现。MP-CMS 保持了与前述实验一致的计算效率。
+\Cref{fig:elasticity-aa-error-time} 给出了在 3D 弹性问题上的性能表现。本文的多重划分模态综合法保持了与前述实验一致的计算效率。
 
 \begin{figure}[tbp]
     \centering
@@ -135,7 +135,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/eig-1.png}
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/eig-25.png}
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/eig-47.png}
-        \subcaption{左：Primal 与 Dual 划分。右：第 1 阶、第 25 阶、第 47 阶全局特征模态。}
+        \subcaption{左：原始划分与对偶划分。右：第 1 阶、第 25 阶、第 47 阶全局特征模态。}
     \end{subfigure}
 
     \begin{subfigure}{\linewidth}
@@ -195,41 +195,41 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \label{fig:elasticity-aa-error-time}
 \end{figure}
 
-\paragraph{时间 vs. 准确模态数量}
+\paragraph{时间与准确模态数量关系}
 为了进一步量化实践中的优势，我们基于累积相对误差 $\epsilon_{\text{ev}}$（\Cref{eq:error-ev}），计算了在给定误差阈值（$\epsilon_{\text{target}}$）内求解出目标数量（$q_t$）全局特征模态所需的总时间（$t_{\text{cms}}$）。所有三种方法的对比结果详见 \Cref{fig:comp-timing-vs-nev}。
-\textcolor{ConclusionEvidence}{实验表明，本方法 MP-CMS 在求解目标 $q_t$ 时的计算耗时少于 CB-CMS 与 CMS-IMR。这意味着，在相同的计算时间预算内，本文方法能够获得更多满足精度要求的特征模态，并且当目标模态数量（$q_t$）较大时，这一优势更为明显。}
+\textcolor{ConclusionEvidence}{实验表明，本文提出的多重划分模态综合法在求解目标 $q_t$ 时的计算耗时少于 Craig--Bampton 模态综合法与带界面模态缩减的单划分模态综合法。这意味着，在相同的计算时间预算内，本文方法能够获得更多满足精度要求的特征模态，并且当目标模态数量（$q_t$）较大时，这一优势更为明显。}
 
 \begin{figure}[tbp]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
- \caption{\textbf{综合效率对比：时间 vs. 准确模态数。} 曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。本文方法（MP-CMS）能在获取同一目标值 $q_t$ 的情况下始终快于 CB-CMS （"traditional CMS"）、AMLS 以及 CMS-IMR（"IMR"）。}
+ \caption{\textbf{综合效率对比：时间与准确模态数关系。} 曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。本文方法能在获取同一目标值 $q_t$ 的情况下始终快于 Craig--Bampton 模态综合法、自动多层子结构法以及带界面模态缩减的单划分模态综合法。}
  \label{fig:comp-timing-vs-nev}
 \end{figure}
 
 \subsection{局部更新与超大规模应用}
 \paragraph{可重用性}
-与全局整体求解器（如 Lanczos 或 HSIM~\cite{Nasikun2022HSIM}）处理任何系统微扰都需要彻底重算的特性不同，本方法利用其内在的模块化特性实现了高效的局部更新。这种能力在“设计-仿真-反馈”循环中颇具价值。当一个子结构 $\Omega_i$ 被标记为已修改（不论是因为几何结构改变、材质更替或是拓扑编辑）时，仅需要重新计算很少量的一组基向量：（1）$\Omega_i$ 自身的子结构特征模态；（2）以 $\Omega_i$ 充当激励源或响应域相关的无 Schur 补界面模态。尽管 Dual 划分策略可能要求重新计算两条划分中的重叠子结构，但相较于直接求解器对全局重构（$O(N)$），此过程在本质上依然是局部的计算（$O(1)$）。因此，在全局组装步骤中，降维矩阵 $\mathbf{S}^T \mathbf{K} \mathbf{S}$ 和 $\mathbf{S}^T \mathbf{M} \mathbf{S}$ 中仅对应被更新模态的特定行列需要予以更新，而大部分数据都可以直接从预计算的缓存中取用。
+与全局整体求解器（如 Lanczos 方法或 HSIM~\cite{Nasikun2022HSIM}）处理任何系统微扰都需要彻底重算的特性不同，本方法利用其内在的模块化特性实现了高效的局部更新。这种能力在“设计-仿真-反馈”循环中颇具价值。当一个子结构 $\Omega_i$ 被标记为已修改（不论是因为几何结构改变、材质更替或是拓扑编辑）时，仅需要重新计算很少量的一组基向量：（1）$\Omega_i$ 自身的子结构特征模态；（2）以 $\Omega_i$ 充当激励源或响应域相关的无舒尔补界面模态。尽管对偶划分策略可能要求重新计算两条划分中的重叠子结构，但相较于直接求解器对全局重构（$O(N)$），此过程在本质上依然是局部的计算（$O(1)$）。因此，在全局组装步骤中，降维矩阵 $\mathbf{S}^T \mathbf{K} \mathbf{S}$ 和 $\mathbf{S}^T \mathbf{M} \mathbf{S}$ 中仅对应被更新模态的特定行列需要予以更新，而大部分数据都可以直接从预计算的缓存中取用。
 
 我们通过两个场景展示此能力。首先，\Cref{fig:pcb-local-update} 演示了拓扑修改——删除印刷电路板（PCB）网格的一部分。在此场景中，局部更新方案避免了冗余计算，较之于对修改后模型进行完全重算，实现了大约 $2\times$ 的速度提升。
 
-其次，我们在包含了晶格微结构的 3D 弹性问题上验证该方法的效率，如 \Cref{fig:micro-local-update} 所示。此处的修改是参数化的：将最左侧晶胞替换为更粗壮的几何体，借以增强局部刚度。通过全面利用缓存数据，本文方法比起从头进行一轮完整的 MP-CMS 结算获得了 $5.4\times$ 的速度提升。同时，即使相较于高度优化的 Spectra 求解器（借助 CHOLMOD 处理线性求解），它也同样达成了 $2.24\times$ 的加速，凸显了增量更新策略的优越性。
+其次，我们在包含了晶格微结构的 3D 弹性问题上验证该方法的效率，如 \Cref{fig:micro-local-update} 所示。此处的修改是参数化的：将最左侧晶胞替换为更粗壮的几何体，借以增强局部刚度。通过全面利用缓存数据，本文方法比起从头进行一轮完整的多重划分模态综合法计算获得了 $5.4\times$ 的速度提升。同时，即使相较于高度优化的 Spectra 求解器（借助 CHOLMOD 处理线性求解），它也同样达成了 $2.24\times$ 的加速，凸显了增量更新策略的优越性。
 
 \begin{figure}[tbp]
   \centering
   \begin{tabular}{@{} m{1.5em} c c @{}}
-    & \textbf{Primal} & \textbf{Dual} \\[1ex]
+    & \textbf{原始划分} & \textbf{对偶划分} \\[1ex]
 
-    \rotatebox{90}{\textbf{Origin}} &
+    \rotatebox{90}{\textbf{原始网格}} &
     \includegraphics[width=0.45\linewidth, valign=m]{local_update/pcb_origin_primal.png} &
     \includegraphics[width=0.45\linewidth, valign=m]{local_update/pcb_origin_dual.png} \\
 
-    \rotatebox{90}{\textbf{Modified}} &
+    \rotatebox{90}{\textbf{修改后网格}} &
     \includegraphics[width=0.45\linewidth, valign=m]{local_update/pcb_updated_primal.png} &
     \includegraphics[width=0.45\linewidth, valign=m]{local_update/pcb_updated_dual.png} \\
   \end{tabular}
 
   \includegraphics[width=\linewidth]{local_update/PCB_np4_neig100/benchmark_comparison.pdf}
-  \caption{\textbf{PCB 模型：划分与局部更新的性能。} 顶部：原始网格（第一行）和被删除了部分 PCB 网格的修改后网格（第二行）的 Primal 与 Dual 划分。底部：耗时对比图显示，通过采用局部更新机制，总计算耗时从 20.02\,s 削减到了 15.60\,s。}
+  \caption{\textbf{PCB 模型：划分与局部更新的性能。} 顶部：原始网格（第一行）和被删除了部分 PCB 网格的修改后网格（第二行）的原始与对偶划分。底部：耗时对比图显示，通过采用局部更新机制，总计算耗时从 20.02\,s 削减到了 15.60\,s。}
   \label{fig:pcb-local-update}
 \end{figure}
 
@@ -247,21 +247,21 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
     \draw[red, line width=.5pt] (img.north west) rectangle ([xshift=0.05\linewidth]img.south west);
   \end{tikzpicture}
   \includegraphics[width=\linewidth]{local_update/micro_long/benchmark_neig100_comparison.pdf}
-  \caption{\textbf{微结构模型：划分与局部更新的性能。} 顶部：原始网格（第一行）和修改后网格（第二行，部分微观结构更换为更粗体结构）的 Primal 与 Dual 划分；特征向量的比较（第三行）。底部：耗时对比图显示，对比完整重算过程，局部更新取得了大概 $2.24\times$ 的加速。}
+  \caption{\textbf{微结构模型：划分与局部更新的性能。} 顶部：原始网格（第一行）和修改后网格（第二行，部分微观结构更换为更粗体结构）的原始与对偶划分；特征向量的比较（第三行）。底部：耗时对比图显示，对比完整重算过程，局部更新取得了大概 $2.24\times$ 的加速。}
   \label{fig:micro-local-update}
 \end{figure}
 
 \paragraph{超大规模模型上的性能}
 先前的结果已验证了本文方法的计算精度与可扩展性~\Cref{sec:scaling}。本节进一步在分布式内存并行环境（MPI/OpenMP）中测试其在超大规模模型上的性能，并重点关注通信效率。超算集群的硬件配置见 \Cref{tab:statistics}。
 
-实验采用空心壳状结构的猎鹰 9 号（Falcon 9）火箭模型，其被离散为 1000 万个顶点（约 3000 万个自由度）。模型在 Primal 划分下分为 9 个子结构，在 Dual 划分下分为 10 个子结构，共占用 19 个计算节点。每个子结构提取 100 阶子结构特征模态，用于求解整体的前 3000 阶全局特征模态。
+实验采用空心壳状结构的猎鹰 9 号火箭模型，其被离散为 1000 万个顶点（约 3000 万个自由度）。模型在原始划分下分为 9 个子结构，在对偶划分下分为 10 个子结构，共占用 19 个计算节点。每个子结构提取 100 阶子结构特征模态，用于求解整体的前 3000 阶全局特征模态。
 
-计算耗时分布如 \Cref{fig:teaser} 所示。在降维刚度矩阵与质量矩阵的过程中，本文通过优化 MPI 任务分发最大程度减少了等待时间。在 88 分钟的总运行时间中，节点间数据传输的通信开销仅为 4.3 秒，占比极小。这表明本文方法保留了 CMS 类方法通信开销低的优势。相比之下，若不使用界面模态缩减技术，传统 CB-CMS 方法在处理同等规模问题时，单节点内存需求将高达约 2.82 TB，远超现有的 512 GB 内存限制。
+计算耗时分布如 \Cref{fig:teaser} 所示。在降维刚度矩阵与质量矩阵的过程中，本文通过优化 MPI 任务分发最大程度减少了等待时间。在 88 分钟的总运行时间中，节点间数据传输的通信开销仅为 4.3 秒，占比极小。这表明本文方法保留了模态综合法类方法通信开销低的优势。相比之下，若不使用界面模态缩减技术，传统 Craig--Bampton 模态综合法在处理同等规模问题时，单节点内存需求将高达约 2.82 TB，远超现有的 512 GB 内存限制。
 
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{teaser/teaser.pdf}
-  \caption{\textbf{Falcon 9 模型的大规模 MPI 并行计算。} 实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 CB-CMS 单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟收敛 949 阶特征模态；而本文方法计算出 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
+  \caption{\textbf{猎鹰 9 号火箭模型的大规模 MPI 并行计算。} 实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 Craig--Bampton 模态综合法单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟收敛 949 阶特征模态；而本文方法计算出 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
   \label{fig:teaser}
 \end{figure}
 
@@ -269,6 +269,17 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 此外，我们将本方法与 SLEPc 分布式特征值求解器进行了对比测试。当配置 Cluster Pardiso 线性求解器时，计算运行超过 7 小时仍未完成并被中止。当配置 MUMPS 求解器并将收敛阈值放宽至 $3 \times 10^{-2}$ 时，SLEPc 耗时近 2 小时仅收敛了 949 阶模态。
 
+\paragraph{降阶模型动画}
+前述计算得到的特征向量不仅可用于频谱分析，也可以作为降阶模型的基函数，用于构造动态仿真中的低维表示。基于这一子空间，我们进一步计算了下落龙模型的动画过程，如 \Cref{fig:animation} 所示。为减弱线性模态在大转动情形下带来的伪影，动画生成过程中采用了模态扭曲技术~\cite{Choi2005ModalWarping}。
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.32\linewidth]{animation/mpv-shot0001.png}
+  \includegraphics[width=0.32\linewidth]{animation/mpv-shot0002.png}
+  \includegraphics[width=0.32\linewidth]{animation/mpv-shot0003.png}
+  \caption{\textbf{基于降阶模型的动画示例。}}
+  \label{fig:animation}
+\end{figure}
 \paragraph{可扩展性基准的代价分解}
 \label{sec:breakdown}
 \Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。

@@ -39,7 +39,7 @@
 
 \subsection{Craig-Bampton (CB) 方法}
 
-本节简要介绍 CMS 的代表性实现 CB 方法~\cite{craig1968coupling}，以此概述典型 CMS 的算法流程。
+本节简要介绍模态综合法的代表性实现——Craig-Bampton 方法（CB 方法），以此概述典型模态综合法的算法流程。
 
 \paragraph{子结构特征模态}
 该方法首先并行计算每个子结构的 $q_\mathcal{I}$ 个（截断后的）子结构特征模态 $\mathbf{S}_\mathcal{I}$。其求解方程如下：
@@ -122,14 +122,14 @@ $\mathbf{K}_{ii}$ 和 $\mathbf{M}_{ii}$ 是全局矩阵 $\mathbf{K}$ 和 $\mathb
   \end{split}
   \label{eq:reducing}
 \end{equation}
-尽管像 $\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$ 这样的项已经在 $\mathbf{S}_{b\mathcal{I}}$ 中被预计算，且许多矩阵乘法（彩色文本）可以并行执行，但其计算代价依然高昂。事实上，在某些文献~\cite{aristidou2013dynamic}中，界面模态计算（\Cref{eq:traditional-response}）和缩减过程（\Cref{eq:reducing}）统称为 Schur 补。
+尽管像 $\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$ 这样的项已经在 $\mathbf{S}_{b\mathcal{I}}$ 中被预计算，且许多矩阵乘法（彩色文本）可以并行执行，但其计算代价依然高昂。事实上，在某些文献~\cite{aristidou2013dynamic}中，界面模态计算（\Cref{eq:traditional-response}）和缩减过程（\Cref{eq:reducing}）统称为舒尔补。
 
 \subsection{计算代价分析}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{substructure_analysis/schur_vs_eig_timing_curves.pdf}
-  \caption{\textbf{传统 CMS 并行部分的计算代价分析。} 在一个正方形网格上，以 size$\times$size 个顶点离散。左图中，$t_{\text{sub-eig}}$ 随特征模态数量呈超线性增长；当子结构特征模态数量较少时，固定代价 $t_{\text{sub-schur}}$（红色虚线）与 $t_{\text{sub-eig}}$ 接近。}
+  \caption{\textbf{传统模态综合法并行部分的计算代价分析。} 在一个正方形网格上，以 $N\times N$ 个顶点离散。左图中，$t_{\text{sub-eig}}$ 随特征模态数量呈超线性增长；当子结构特征模态数量较少时，固定代价 $t_{\text{sub-schur}}$（红色虚线）与 $t_{\text{sub-eig}}$ 接近。}
   \label{fig:breakdown-CMS}
 \end{figure}
 
