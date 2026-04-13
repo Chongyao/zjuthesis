@@ -81,7 +81,7 @@
 
 通过上述向轴角链式空间的广义坐标变换，细杆的内在极硬约束已被内化消除。此时，系统的隐式时间积分被转化为一个维数更低、且仅受碰撞等外部边界条件限制的优化问题。为了高效处理这些剩余的不等式约束并保持大时间步长下的稳定性，在新表示下引入了基于主动集的序列二次规划（SQP）求解框架。
 \subsection{新表示下的 SQP 求解框架}
-总体而言，遵循文献~\cite{pan_subspace_2015} 的方法，在序列二次规划（Sequential Quadratic Programming, SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。使用线搜索方法~\cite{nocedal1999numerical} 来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
+总体而言，遵循 Pan 等人~\cite{pan_subspace_2015}的方法，在序列二次规划（Sequential Quadratic Programming, SQP）框架下（算法~\ref{alg: nonlinear_solver}）求解~\cref{eq: trans_opt} 中的非线性优化问题。使用线搜索方法~\cite{nocedal1999numerical}来提高 SQP 的收敛速度，评估线搜索步长的价值函数如下：
 \begin{equation}
    \phi(\mathbf{s}, \mu) = E(\mathcal{T}(\mathbf{s})) + \frac{1}{\mu}\left\|\mathbf{C}_{\mathcal{A}} \right\|_{1}.
    \label{eq:merit_function}
@@ -112,7 +112,7 @@
 \end{split}
 \end{equation*}
 
-这里，如~\cite{pan_subspace_2015} 那样省略了 $\left.\FPP{\J\left(\mathbf{s}\right)}{\mathbf{s}}\right|_{\mathbf s=\mathbf{s}^k}:\left.\FPP{E(\mathbf{x})} {\mathbf{x}}\right|_{\mathbf{x} = \mathcal{T}\left(\mathbf{s}^k\right)}$。因此，实际上使用不精确牛顿法来求解每个二次子问题。
+这里，如 Pan 等人~\cite{pan_subspace_2015}那样省略了 $\left.\FPP{\J\left(\mathbf{s}\right)}{\mathbf{s}}\right|_{\mathbf s=\mathbf{s}^k}:\left.\FPP{E(\mathbf{x})} {\mathbf{x}}\right|_{\mathbf{x} = \mathcal{T}\left(\mathbf{s}^k\right)}$。因此，实际上使用不精确牛顿法来求解每个二次子问题。
 % The inverse of the system matrix $\mathbf{N}^\top \J^\top \mathbf{H} \J \mathbf{N}$ is required frequently in equation~\ref{eq: solve_kkt}.
 \begin{algorithm}
 \caption{SQP 框架}\label{alg: nonlinear_solver}

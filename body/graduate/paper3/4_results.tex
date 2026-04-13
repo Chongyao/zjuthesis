@@ -52,15 +52,15 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 如果一条曲线越靠左下，说明该方法越高效，这表示在给定的总计算时间（即给定的 $q_{\mathcal{I}}$ 选择）下，其能实现更低的误差。在实际应用中，用户通常会根据所需精度或计算预算选择单个 $q_{\mathcal{I}}$，这对应于该曲线上的一点。
 
-\subsection{可扩展性}
+\subsection{并行可扩展性分析}
 \label{sec:scaling}
 
 可扩展性是高性能计算（HPC）的首要指标。两项标准指标包括：\textbf{强扩展}（衡量在固定问题规模下增加处理器数量带来的加速比）\cite{Rodgers1985Improvements}，以及\textbf{弱扩展}（衡量在问题规模与处理器数量同比例增加时，保持单处理器性能的能力）\cite{Gustafson1988Reevaluating, McCool2012Performance}。现代 HPC 集群通常采用两级嵌套并行模型，结合跨 $p_c$ 个计算节点的 MPI（消息传递接口）通信与节点内利用 OpenMP 在 $p_f$ 个 CPU 核心上实现的共享内存并行，实现总并行度为 $p_c \times p_f$~\cite{2010LiHybridMPI/OpenMPPpower-awareCcomputing, rabenseifner2009hybrid, Jammer2022Towards, Cappello2000MPI}。
 
 模态综合法（CMS）与这种架构极其契合。将其分解为独立子结构提供了一种粗粒度、高度并行（\textit{embarrassingly parallel}）的任务分配方式，非常适合 MPI，其中每个节点（或节点组）处理一个或多个子结构。此外，每个子结构内的计算密集型任务——如局部特征值求解（\Cref{eq:sub-eig}），以及传统 CMS 中的 Schur 补步骤（\Cref{eq:traditional-response}）——主要在共享内存内的局部数据上进行计算，可以利用节点多个核心间的细粒度 OpenMP 并行来有效加速。这种自然映射使得 CMS 成为利用分布式内存资源的绝佳策略。
 
-\subsubsection{MPI 环境模拟与性能指标}
-尽管本文方法适用于大规模分布式内存集群，受限于资源，我们的实验通过\textbf{模拟}这种并行环境来进行，这与 SMPI 类似~\cite{Degomme2017SMPI, Basu1990Model}。我们顺序执行每个（共 $m$ 个）子结构任务（局部特征求解、无 Schur 补（SE-free）IMR 计算等），并记录其挂钟时间 $T_i$ 与峰值内存 $M_i$。据此，我们估计以下并行性能指标：
+\paragraph{MPI 环境模拟与性能指标}
+尽管本文方法适用于大规模分布式内存集群，受限于资源，我们的实验通过\textbf{模拟}这种并行环境来进行，这与仿真消息传递接口（Simulated Message Passing Interface, SMPI）等模拟框架~\cite{Degomme2017SMPI, Basu1990Model}中的做法类似。我们顺序执行每个（共 $m$ 个）子结构任务（局部特征求解、无 Schur 补（SE-free）IMR 计算等），并记录其挂钟时间 $T_i$ 与峰值内存 $M_i$。据此，我们估计以下并行性能指标：
 \begin{itemize}
     \item \textbf{估计并行总时间}（$T_{\text{parallel}}$）：由最慢的任务决定，$T_{\text{parallel}} \approx \max_{i=1,\dots,m} (T_i)$。
     \item \textbf{峰值节点内存}（$M_{\text{peak}}$）：由最消耗内存的任务决定，$M_{\text{peak}} = \max_{i=1,\dots,m} (M_i)$。
@@ -68,7 +68,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \end{itemize}
 这些模拟指标为评估可扩展性和资源需求提供了可靠估计。
 
-\subsubsection{实验设置}
+\paragraph{实验设置}
 强扩展在保持问题规模不变时增加计算节点数量。相反，弱扩展则成比例地增加问题规模与计算节点数。
 
 为公平对比，我们设置统一的误差阈值 $\epsilon_{ev} < \tau=10^{-4}$。每种方法需使用不同的 $q_{\mathcal{I}}$ 运行多次，通过二分法确定恰好满足该条件的临界模态数 $q_\mathcal{I}^\star$。由于计算成本高昂，这一特殊过程也允许我们在计算集群上完成这些实验。
@@ -77,12 +77,12 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 
 本文方法采用两种划分：一种具有 $m^p$ 个子结构，另一种具有 $m^d = m^p + 1$ 个子结构。计算节点总数为 $2m^p + 1$。传统的 CB-CMS 将网格划分为 $2m^p + 1$ 个子结构，利用相同数量的计算节点。
 
-\subsubsection{结果}
+\paragraph{结果}
 临界数量 $q_{\mathcal{I}}^\star$ 如 \Cref{fig:critical-qb} 所示。\textcolor{ConclusionEvidence}{得益于相位补足，本文方法仅需要少量子结构特征模态，而传统 CMS 则需要数百个。}
 
-\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。附录详细分析了每个阶段的代价。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
+\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
 
-\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} （见附录 \Cref{sec:breakdown}）提供了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统 CMS 的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统 CMS 中的串行界面步骤（Schur 补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
+\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 进一步给出了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统 CMS 的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统 CMS 中的串行界面步骤（Schur 补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
 
 \Cref{fig:scaling-balance} 显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都保持了较好的均衡性（约 $0.9$）。相比之下，传统 C-B 方法呈现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性相对受限。
 \begin{figure}[tbp]
@@ -115,7 +115,6 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \end{enumerate}
 实验涵盖 2D 表面拉普拉斯问题和 3D 弹性问题，利用了轴对齐与 METIS 两种划分策略。
 
-\subsubsection{误差-时间分析}
 我们使用误差-时间曲线来评估计算效率，其中 x 轴表示总计算挂钟时间，y 轴表示 $\epsilon_{\text{ev}}$。
 
 \paragraph{轴对齐划分下的拉普拉斯问题}
@@ -196,7 +195,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \label{fig:elasticity-aa-error-time}
 \end{figure}
 
-\subsubsection{时间 vs. 准确模态数量}
+\paragraph{时间 vs. 准确模态数量}
 为了进一步量化实践中的优势，我们基于累积相对误差 $\epsilon_{\text{ev}}$（\Cref{eq:error-ev}），计算了在给定误差阈值（$\epsilon_{\text{target}}$）内求解出目标数量（$q_t$）全局特征模态所需的总时间（$t_{\text{cms}}$）。所有三种方法的对比结果详见 \Cref{fig:comp-timing-vs-nev}。
 \textcolor{ConclusionEvidence}{实验表明，本方法 MP-CMS 在求解目标 $q_t$ 时的计算耗时少于 CB-CMS 与 CMS-IMR。这意味着，在相同的计算时间预算内，本文方法能够获得更多满足精度要求的特征模态，并且当目标模态数量（$q_t$）较大时，这一优势更为明显。}
 
@@ -207,8 +206,8 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
  \label{fig:comp-timing-vs-nev}
 \end{figure}
 
-\subsection{可扩展能力}
-\subsubsection{可重用性}
+\subsection{局部更新与超大规模应用}
+\paragraph{可重用性}
 与全局整体求解器（如 Lanczos 或 HSIM~\cite{Nasikun2022HSIM}）处理任何系统微扰都需要彻底重算的特性不同，本方法利用其内在的模块化特性实现了高效的局部更新。这种能力在“设计-仿真-反馈”循环中颇具价值。当一个子结构 $\Omega_i$ 被标记为已修改（不论是因为几何结构改变、材质更替或是拓扑编辑）时，仅需要重新计算很少量的一组基向量：（1）$\Omega_i$ 自身的子结构特征模态；（2）以 $\Omega_i$ 充当激励源或响应域相关的无 Schur 补界面模态。尽管 Dual 划分策略可能要求重新计算两条划分中的重叠子结构，但相较于直接求解器对全局重构（$O(N)$），此过程在本质上依然是局部的计算（$O(1)$）。因此，在全局组装步骤中，降维矩阵 $\mathbf{S}^T \mathbf{K} \mathbf{S}$ 和 $\mathbf{S}^T \mathbf{M} \mathbf{S}$ 中仅对应被更新模态的特定行列需要予以更新，而大部分数据都可以直接从预计算的缓存中取用。
 
 我们通过两个场景展示此能力。首先，\Cref{fig:pcb-local-update} 演示了拓扑修改——删除印刷电路板（PCB）网格的一部分。在此场景中，局部更新方案避免了冗余计算，较之于对修改后模型进行完全重算，实现了大约 $2\times$ 的速度提升。
@@ -252,7 +251,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \label{fig:micro-local-update}
 \end{figure}
 
-\subsubsection{超大规模模型上的性能}
+\paragraph{超大规模模型上的性能}
 先前的结果已验证了本文方法的计算精度与可扩展性~\Cref{sec:scaling}。本节进一步在分布式内存并行环境（MPI/OpenMP）中测试其在超大规模模型上的性能，并重点关注通信效率。超算集群的硬件配置见 \Cref{tab:statistics}。
 
 实验采用空心壳状结构的猎鹰 9 号（Falcon 9）火箭模型，其被离散为 1000 万个顶点（约 3000 万个自由度）。模型在 Primal 划分下分为 9 个子结构，在 Dual 划分下分为 10 个子结构，共占用 19 个计算节点。每个子结构提取 100 阶子结构特征模态，用于求解整体的前 3000 阶全局特征模态。
@@ -269,50 +268,8 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 计算结果同样验证了本文方法的数值精度。在求解的 3000 阶特征模态中，最大残差为 $1.6 \times 10^{-4}$，且大多数高频模态的残差达到 $10^{-6}$ 量级。
 
 此外，我们将本方法与 SLEPc 分布式特征值求解器进行了对比测试。当配置 Cluster Pardiso 线性求解器时，计算运行超过 7 小时仍未完成并被中止。当配置 MUMPS 求解器并将收敛阈值放宽至 $3 \times 10^{-2}$ 时，SLEPc 耗时近 2 小时仅收敛了 949 阶模态。
-\subsection{积分误差分析的实验细节}
-\label{app:integrated-error-exp}
 
-\begin{figure}[tbp]
-  \centering
-  \includegraphics[width=\linewidth]{frequency-vs-phase/integration.pdf}
-  \caption{\textbf{完整域和积分子域。} 我们通过滑动区间起点 $a$ 自 $0$ 遍历到 $L-l$ 的方式，对子域 $[a, b]$ 积分处理，以破除针对性选择特定子域引发偏差的可能性。}
-  \label{fig:integration}
-\end{figure}
-
-本附录详细介绍了正文中用于对比频率适配基与相位适配基近似性能差异的数值实验方法。
-
-\subsubsection{实验目标}
-本实验旨在提供一种稳健且与位置无关的局部基底近似效率评估方法。通过在整个域上滑动分析窗口（即子域）并对 $L_2$ 误差进行积分，该方法消除了单一固定划分可能带来的特定共振偏差，从而能够客观反映每种基函数的真实逼近性能。
-
-\subsubsection{实验方法}
-实验的具体设置如下：
-
-\paragraph{全局问题} 目标函数选取定义在区间 $[0, L]$ 且满足 Dirichlet 边界条件的一维拉普拉斯全局特征模态，其表达式为 $f(x; n_{\text{global}}) = \sin(n_{\text{global}} \pi x / L)$。
-
-\paragraph{滑动子域} 在区间 $[a, a+l]$ 上定义一个长度固定为 $l$ 的子域。通过使左端点 $a$ 从 $0$ 连续变化至 $L-l$，实现该子域窗口在全域上的滑动，如 \Cref{fig:integration} 所示。
-
-\paragraph{基函数集合} 给定内部模态数 $M$，在区间 $[a, a+l]$ 上构造两组不同的基。两组基的总函数个数均为 $M+2$：
-\begin{itemize}
-    \item \textbf{频率适配基：} 包含 $M$ 个频率递增的正弦模态 $\{ \sin(m\pi(x-a)/l) \}_{m=1}^M$，以及 2 个线性界面（Lagrange）模态。
-    \item \textbf{相位适配基：} 包含正弦与余弦混合的模态集合 $\{ \sin(m\pi(x-a)/l), \cos(m\pi(x-a)/l) \}_{m=1}^{\lfloor M/2 \rfloor}$；若 $M$ 为奇数，则额外添加一个正弦模态；此外同样包含 2 个线性界面模态。
-\end{itemize}
-
-\paragraph{误差计算} 对于每一个窗口位置 $a$，将目标函数投影到所选的基函数集合上，从而计算出 $L_2$ 近似误差 $E(a)$。正文热图中最终报告的度量指标为\textbf{积分平均误差} $\bar{E}$，其计算公式为：
-\begin{equation}
-\bar{E}(n_{\text{global}}, M) = \frac{1}{L-l} \int_{0}^{L-l} E(a; n_{\text{global}}, M) \, da.
-\end{equation}
-
-\subsubsection{参数设置}
-生成正文积分误差对比结果时使用的具体参数如下：
-\begin{itemize}
-    \item 全局域长度：$L = 10.0$
-    \item 滑动子域长度：$l = 2.0$
-    \item 测试的最高全局特征模态阶数：$n_{\text{global,max}} = 8$
-    \item 测试的最大内部模态数：$M_{\text{max}} = 12$
-\end{itemize}
-所有的积分计算均调用 \texttt{scipy.integrate.quad} 函数进行高精度数值积分。
-
-\subsection{可扩展性基准的代价分解}
+\paragraph{可扩展性基准的代价分解}
 \label{sec:breakdown}
 \Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。
 
@@ -329,3 +286,43 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \caption{\textbf{弱扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
   \label{fig:weak-scaling-breakdown}
 \end{figure}
+\subsection{积分误差分析的实验细节}
+\label{app:integrated-error-exp}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{frequency-vs-phase/integration.pdf}
+  \caption{\textbf{完整域和积分子域。} 我们通过滑动区间起点 $a$ 自 $0$ 遍历到 $L-l$ 的方式，对子域 $[a, b]$ 积分处理，以破除针对性选择特定子域引发偏差的可能性。}
+  \label{fig:integration}
+\end{figure}
+
+本节详细介绍了正文中用于对比频率适配基与相位适配基近似性能差异的数值实验方法。
+
+\paragraph{实验目标}
+本实验旨在提供一种稳健且与位置无关的局部基底近似效率评估方法。通过在整个域上滑动分析窗口（即子域）并对 $L_2$ 误差进行积分，该方法消除了单一固定划分可能带来的特定共振偏差，从而能够客观反映每种基函数的真实逼近性能。实验的具体设置如下：
+
+\paragraph{全局问题} 目标函数选取定义在区间 $[0, L]$ 且满足 Dirichlet 边界条件的一维拉普拉斯全局特征模态，其表达式为 $f(x; n_{\text{global}}) = \sin(n_{\text{global}} \pi x / L)$。
+
+\paragraph{滑动子域} 在区间 $[a, a+l]$ 上定义一个长度固定为 $l$ 的子域。通过使左端点 $a$ 从 $0$ 连续变化至 $L-l$，实现该子域窗口在全域上的滑动，如 \Cref{fig:integration} 所示。
+
+\paragraph{基函数集合} 给定内部模态数 $M$，在区间 $[a, a+l]$ 上构造两组不同的基。两组基的总函数个数均为 $M+2$：
+\begin{itemize}
+    \item \textbf{频率适配基：} 包含 $M$ 个频率递增的正弦模态 $\{ \sin(m\pi(x-a)/l) \}_{m=1}^M$，以及 2 个线性界面（Lagrange）模态。
+    \item \textbf{相位适配基：} 包含正弦与余弦混合的模态集合 $\{ \sin(m\pi(x-a)/l), \cos(m\pi(x-a)/l) \}_{m=1}^{\lfloor M/2 \rfloor}$；若 $M$ 为奇数，则额外添加一个正弦模态；此外同样包含 2 个线性界面模态。
+\end{itemize}
+
+\paragraph{误差计算} 对于每一个窗口位置 $a$，将目标函数投影到所选的基函数集合上，从而计算出 $L_2$ 近似误差 $E(a)$。正文热图中最终报告的度量指标为\textbf{积分平均误差} $\bar{E}$，其计算公式为：
+\begin{equation}
+\bar{E}(n_{\text{global}}, M) = \frac{1}{L-l} \int_{0}^{L-l} E(a; n_{\text{global}}, M) \, da.
+\end{equation}
+
+\paragraph{参数设置}
+生成正文积分误差对比结果时使用的具体参数如下：
+\begin{itemize}
+    \item 全局域长度：$L = 10.0$
+    \item 滑动子域长度：$l = 2.0$
+    \item 测试的最高全局特征模态阶数：$n_{\text{global,max}} = 8$
+    \item 测试的最大内部模态数：$M_{\text{max}} = 12$
+\end{itemize}
+所有的积分计算均调用 \texttt{scipy.integrate.quad} 函数进行高精度数值积分。
+

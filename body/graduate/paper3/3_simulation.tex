@@ -1,6 +1,10 @@
 \section{基函数变换}\label{sec:interface-modes}
 
+在前一节明确了传统 CMS 在表达受限与界面代价上的双重困难后，本节进一步讨论如何通过重构基函数来缓解这一失配。核心思想是利用多重划分提供频带相近但相位不同的局部模态，并据此构造同时改进内部表达与界面处理的降维子空间。
+
 \subsection{相位补足机制}
+
+为说明这种基函数变换为何能够突破单一划分下的表达限制，下面先从一维相位补足的角度解释多重划分的基本作用机理。
 
 然而，在用相同频率但不同相位的函数丰富基集后，
 \begin{equation}
@@ -77,7 +81,7 @@
       \STATE 求解子结构边界问题 \cref{eq:ours-response-solution} 并组装
     \ENDFOR
     \STATE $\mathbf{S} \leftarrow [\mathbf{S}^p_\mathcal{I},\mathbf{S}^p_b,\mathbf{S}_{\mathcal{I}}^d,\mathbf{S}_b^d]$
-    \STATE 用 \cref{alg:adaptive-shifting} 求解最终降维系统
+    \STATE 用 \cref{alg:adaptive-shifting,alg:adaptive-shifting-refine} 求解最终降维系统
   \end{algorithmic}
 \end{algorithm}
 
@@ -122,7 +126,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 
 为将上述理论应用于实际计算，本节将讨论若干关键实现细节，包括缩减矩阵束的正则化、缩减矩阵的快速组装算法、SE-free IMR 计算中的预缩减技术，以及混合 MPI/OpenMP 并行框架。
 
-\subsubsection{奇异矩阵束与正则化背景} \label{sec:regularization-background}
+\subsection{奇异矩阵束与正则化背景}
 
 对于矩阵束 $\mathbf{K} - \lambda \mathbf{M}$，若存在 $\lambda$ 使得 $\DET{\mathbf{K} - \lambda \mathbf{M}} \equiv 0$，则称其为奇异矩阵束。当刚度矩阵 $\mathbf{K}$ 与质量矩阵 $\mathbf{M}$ 具有公共的零空间时，便会出现这种情形。根据 Kronecker 标准型 (KCF) 理论 \cite{gantmakher2000theory, Van1979Kronecker, Berger2012QuasiKroneckerFrom}，这类矩阵束可分解为非奇异的正则部分与不适定的奇异部分。由于奇异部分的干扰，任意微小的数值扰动都可能导致计算得到的特征谱发生剧烈且不连续的跳跃 \cite{Hochstenbach2019SolvingSingular, Kressner2024AnalysisOfeigenvalue}。
 
@@ -130,7 +134,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
 
 另一种策略是正则化方法。该方法通过引入微小扰动，将奇异矩阵束转化为邻近的、适定的正则矩阵束 \cite{Fernando2008FirstOrder, Hochstenbach2019SolvingSingular}。在求解正则化系统后，需要进一步设计过滤机制，从混合谱中剔除"伪"特征值以保留"真实"特征值。然而，现有的高级正则化方案在确定最佳扰动形式时，往往仍需进行耗时的秩判定操作，其时间复杂度依旧达到 $\mathcal{O}(n^3)$ 量级 \cite{Hochstenbach2019SolvingSingular, karl2024ShiftInvertArnoldi}。
 
-\subsubsection{正则化} \label{sec:regularization}
+\paragraph{正则化}
 
 在我们的方法中，组合 primal 和 dual 的子结构基（$\mathbf{S}^p_{\mathcal{I}}$ 和 $\mathbf{S}^d_{\mathcal{I}}$）可能引入线性相关性。引入界面模态后，由于这些模态具有不同划分的混合特征，基向量间的线性相关风险进一步增加。这导致投影后的缩减广义特征值问题可能具有秩亏的刚度矩阵和质量矩阵。更重要的是，在弹性力学等物理问题中，由于刚度矩阵和质量矩阵是从同一物理对象的离散化中派生出来的，它们通常共享相同的零空间（例如刚体平移或旋转等未受约束的自由度）。当缩减子空间过大或包含共线/近似共线的基向量时，缩减后的 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 的公共零空间会被放大，形成严格意义上的奇异矩阵束。常规特征值求解器（如 Lanczos 方法或基于 Arnoldi 的方法）需要对 $\hat{\mathbf{K}}$ 或 $\hat{\mathbf{M}}$（或其组合）进行求逆或分解；当矩阵束变得奇异时，这些分解会因主元过小或为零而彻底失败。
 
@@ -151,11 +155,13 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
   \label{fig:mu-and-sigma-sensitivity}
 \end{figure}
 
-在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting}）来动态确定最优的 $\mu$ 和 $\sigma$。
+% \FloatBarrier
+在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting,alg:adaptive-shifting-refine}）来动态确定最优的 $\mu$ 和 $\sigma$。
 
 \inputbody{paper3/5_1_alg_adaptive_shifting}
+% \FloatBarrier
 
-\subsubsection{快速缩减矩阵组装}\label{sec:fast-matrix-reducing}
+\subsection{快速缩减矩阵组装}
 
 构建缩减系统矩阵 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 通常需要密集的矩阵运算。但我们深入挖掘了基向量的正交性和静力平衡特性，极大地加速了该组装过程。
 首先，子结构特征模态 $\mathbf{S}_\mathcal{I}^{p/d}$ 本身是局部块特征值问题的解，因此它们天然地将各自子结构的局部刚度和质量矩阵对角化，分别投影为对角特征值矩阵 $\mathbf{\Lambda}$ 和单位矩阵 $\mathbf{I}$。
@@ -174,7 +180,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
   \label{fig:reduced-matrix-structure}
 \end{figure}
 
-\subsubsection{混合 MPI/OpenMP 框架}
+\subsection{混合 MPI/OpenMP 框架}
 
 为在分布式内存集群上实现最大的计算可扩展性，我们开发了基于混合 MPI 与 OpenMP 架构的并行计算框架。
 我们将来自 Primal 划分 $\mathcal{P}^p$ 和 Dual 划分 $\mathcal{P}^d$ 的每个子结构视为独立的计算单元，将其分配给不同的 MPI 进程管理。进程内部的局部稠密线性代数运算则通过 OpenMP 线程级并行进行加速。
@@ -187,7 +193,7 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
     因此，网络通信的主要瓶颈集中在质量矩阵 $\hat{\mathbf{M}}$ 的投影计算上。
 \end{enumerate}
 
-\subsubsection{基于 METIS 的划分}\label{sec:metis-partition}
+\subsection{基于 METIS 的划分}\label{sec:metis-partition}
 
 在此前讨论中，模型划分均基于坐标轴对齐的网格。然而，面对几何形态复杂的实际模型，直接采用 METIS~\cite{Karypis1997METIS} 等图划分工具是更稳健的选择。
 
