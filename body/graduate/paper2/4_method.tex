@@ -7,6 +7,26 @@
 
 因此，我们提出了一种基于算子感知的局部基空间重构与隔离方法，利用现有基函数和自适应 h-细化层次结构。\Cref{fig:refinement_adjoint_coarsening_demo} 展示了一个简单的两层示例：一个具有病态单元的网格（左上）先被细化（上中），再聚合成具有优化基函数的多面体（右上），其频谱分布与重新网格化的网格（左下）较为接近。由于病态单元及其局部环境具有多样性，本节进一步介绍用于构建网格层次结构的数值自适应方法及相应的基函数优化策略。
 
+\begin{algorithm}[tbp]
+  \caption{基于细化与局部基空间重构的强连接处理流程}\label{alg:paper2-workflow}
+  \begin{algorithmic}[1]
+    \REQUIRE 输入四面体网格 $\mathcal{M}^{h}=\{\mathcal{V}^{h},\mathcal{T}^{h}\}$，候选选择准则，局部细分与基函数优化参数
+    \STATE 选取候选四面体单元及其局部邻域
+    \STATE 在候选区域上递归执行局部 $h$-细分，得到 $\mathcal{M}^{h+}$
+    \STATE 在 $\mathcal{M}^{h+}$ 上显化隐式强连接
+    \STATE 在细化后的局部区域上重构局部基空间
+    \IF{保留所有输入顶点}
+      \STATE 构造主计算空间 $\mathbb{V}^{H}$ 与互补空间 $\mathbb{W}^{H}$
+    \ELSE
+      \STATE 在输入网格原本存在的显式强连接的一环邻域内实施局部隔离
+      \STATE 移除其中一个显式强连接顶点对应的自由度
+      \STATE 更新主计算空间 $\mathbb{V}^{H}$ 与互补空间 $\mathbb{W}^{H}$
+    \ENDIF
+    \STATE 构造最终计算网格 $\mathcal{M}^{H}$
+    \STATE 组装块对角系统
+    \RETURN $\mathcal{M}^{H}$，$\mathbb{V}^{H}$，$\mathbb{W}^{H}$ 以及对应的块对角系统
+  \end{algorithmic}
+\end{algorithm}
 
 \begin{figure}[tbp]
   \centering
