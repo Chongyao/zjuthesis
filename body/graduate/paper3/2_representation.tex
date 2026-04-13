@@ -24,6 +24,47 @@
 
 从软硬耦合的角度看，这里的困难并不只是近似误差增大，而是固定界面这一算法假设直接改变了局部基函数的表达性质。子结构特征模态必须在边界处为零，这使得局部基函数天然携带受限的相位结构。对于真正的全局低频模态而言，即便局部基已经覆盖了足够高的频带，它们仍然可能无法有效表达跨子结构延拓的柔顺响应。于是，算法不得不继续引入更多高频内部模态来弥补这一表达缺口，从而导致降维效率迅速下降。
 
+\subsection{积分误差分析的实验细节}
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\linewidth]{frequency-vs-phase/integration.pdf}
+  \caption{\textbf{完整域和积分子域。} 我们通过滑动区间起点 $a$ 自 $0$ 遍历到 $L-l$ 的方式，对子域 $[a, b]$ 积分处理，以破除针对性选择特定子域引发偏差的可能性。}
+  \label{fig:integration}
+\end{figure}
+
+本节详细介绍了正文中用于对比频率适配基与相位适配基近似性能差异的数值实验方法。
+
+\paragraph{实验目标}
+本实验旨在提供一种稳健且与位置无关的局部基底近似效率评估方法。通过在整个域上滑动分析窗口（即子域）并对 $L_2$ 误差进行积分，该方法消除了单一固定划分可能带来的特定共振偏差，从而能够客观反映每种基函数的真实逼近性能。实验的具体设置如下：
+
+\paragraph{全局问题}
+目标函数选取定义在区间 $[0, L]$ 且满足 Dirichlet 边界条件的一维拉普拉斯全局特征模态，其表达式为 $f(x; n_{\text{global}}) = \sin(n_{\text{global}} \pi x / L)$。
+
+\paragraph{滑动子域}
+在区间 $[a, a+l]$ 上定义一个长度固定为 $l$ 的子域。通过使左端点 $a$ 从 $0$ 连续变化至 $L-l$，实现该子域窗口在全域上的滑动，如 \Cref{fig:integration} 所示。
+
+\paragraph{基函数集合}
+给定内部模态数 $M$，在区间 $[a, a+l]$ 上构造两组不同的基。两组基的总函数个数均为 $M+2$：
+\begin{itemize}
+    \item \textbf{频率适配基：} 包含 $M$ 个频率递增的正弦模态 $\{ \sin(m\pi(x-a)/l) \}_{m=1}^M$，以及 2 个线性界面（Lagrange）模态。
+    \item \textbf{相位适配基：} 包含正弦与余弦混合的模态集合 $\{ \sin(m\pi(x-a)/l), \cos(m\pi(x-a)/l) \}_{m=1}^{\lfloor M/2 \rfloor}$；若 $M$ 为奇数，则额外添加一个正弦模态；此外同样包含 2 个线性界面模态。
+\end{itemize}
+
+\paragraph{误差计算}
+对于每一个窗口位置 $a$，将目标函数投影到所选的基函数集合上，从而计算出 $L_2$ 近似误差 $E(a)$。正文热图中最终报告的度量指标为\textbf{积分平均误差} $\bar{E}$，其计算公式为：
+\begin{equation}
+\bar{E}(n_{\text{global}}, M) = \frac{1}{L-l} \int_{0}^{L-l} E(a; n_{\text{global}}, M) \, da.
+\end{equation}
+
+\paragraph{参数设置}
+生成正文积分误差对比结果时使用的具体参数如下：
+\begin{itemize}
+    \item 全局域长度：$L = 10.0$
+    \item 滑动子域长度：$l = 2.0$
+    \item 测试的最高全局特征模态阶数：$n_{\text{global,max}} = 8$
+    \item 测试的最大内部模态数：$M_{\text{max}} = 12$
+\end{itemize}
+所有的积分计算均调用 \texttt{scipy.integrate.quad} 函数进行高精度数值积分。
 \subsection{界面耦合的舒尔补代价}\label{sec:schur-complement}
 
 在传统模态综合法中，界面耦合一旦通过舒尔补进入计算流程，就会成为大规模模态分析中的一类典型“硬”代价来源。
