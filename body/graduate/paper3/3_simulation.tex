@@ -1,6 +1,10 @@
 \section{基函数变换}\label{sec:interface-modes}
 
+在前一节明确了传统 CMS 在表达受限与界面代价上的双重困难后，本节进一步讨论如何通过重构基函数来缓解这一失配。核心思想是利用多重划分提供频带相近但相位不同的局部模态，并据此构造同时改进内部表达与界面处理的降维子空间。
+
 \subsection{相位补足机制}
+
+为说明这种基函数变换为何能够突破单一划分下的表达限制，下面先从一维相位补足的角度解释多重划分的基本作用机理。
 
 然而，在用相同频率但不同相位的函数丰富基集后，
 \begin{equation}
@@ -151,9 +155,11 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
   \label{fig:mu-and-sigma-sensitivity}
 \end{figure}
 
+\FloatBarrier
 在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting}）来动态确定最优的 $\mu$ 和 $\sigma$。
 
 \inputbody{paper3/5_1_alg_adaptive_shifting}
+\FloatBarrier
 
 \subsubsection{快速缩减矩阵组装}\label{sec:fast-matrix-reducing}
 
