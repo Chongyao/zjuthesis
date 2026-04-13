@@ -269,6 +269,17 @@
 
 此外，我们将本方法与 SLEPc 分布式特征值求解器进行了对比测试。当配置 Cluster Pardiso 线性求解器时，计算运行超过 7 小时仍未完成并被中止。当配置 MUMPS 求解器并将收敛阈值放宽至 $3 \times 10^{-2}$ 时，SLEPc 耗时近 2 小时仅收敛了 949 阶模态。
 
+\paragraph{降阶模型动画}
+前述计算得到的特征向量不仅可用于频谱分析，也可以作为降阶模型的基函数，用于构造动态仿真中的低维表示。基于这一子空间，我们进一步计算了下落龙模型的动画过程，如 \Cref{fig:animation} 所示。为减弱线性模态在大转动情形下带来的伪影，动画生成过程中采用了模态扭曲技术~\cite{Choi2005ModalWarping}。
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.32\linewidth]{animation/mpv-shot0001.png}
+  \includegraphics[width=0.32\linewidth]{animation/mpv-shot0002.png}
+  \includegraphics[width=0.32\linewidth]{animation/mpv-shot0003.png}
+  \caption{\textbf{基于降阶模型的动画示例。}}
+  \label{fig:animation}
+\end{figure}
 \paragraph{可扩展性基准的代价分解}
 \label{sec:breakdown}
 \Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。
