@@ -80,9 +80,9 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \subsubsection{结果}
 临界数量 $q_{\mathcal{I}}^\star$ 如 \Cref{fig:critical-qb} 所示。\textcolor{ConclusionEvidence}{得益于相位补足，本文方法仅需要少量子结构特征模态，而传统 CMS 则需要数百个。}
 
-\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。附录详细分析了每个阶段的代价。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
+\Cref{fig:scaling} 显示，本文方法在时间扩展性上与 CB-CMS 相近，且具有更低的计算耗时。同时，本文方法的峰值内存占用也具有更好的扩展表现。这证实了我们的分析：传统 CMS 的峰值内存由稠密界面矩阵（Schur 补）主导，其大小随界面规模呈平方级增长；而 MP-CMS 则规避了这一瓶颈，使得内存使用主要取决于稀疏的子结构矩阵，而不受 dual 基开销的影响。因此，对于需要大量计算节点的大规模问题，本文方法能够有效适应内存限制。
 
-\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} （见附录 \Cref{sec:breakdown}）提供了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统 CMS 的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统 CMS 中的串行界面步骤（Schur 补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
+\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 进一步给出了两种方法的时间代价分解。计算数百个子结构特征模态严重拖慢了传统 CMS 的速度，证实了单纯增加 $q_{\mathcal{I}}$ 既耗时又无法有效降低误差。本文方法的主要代价来自于矩阵降维计算。\textcolor{IsConclusion}{此外，从分解图清晰可见，随着问题规模增大，传统 CMS 中的串行界面步骤（Schur 补）在内存占用中日益占主导地位，这直接导致了 \Cref{fig:scaling} 中出现的内存可扩展性变差现象。}
 
 \Cref{fig:scaling-balance} 显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都保持了较好的均衡性（约 $0.9$）。相比之下，传统 C-B 方法呈现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性相对受限。
 \begin{figure}[tbp]
@@ -269,6 +269,24 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 计算结果同样验证了本文方法的数值精度。在求解的 3000 阶特征模态中，最大残差为 $1.6 \times 10^{-4}$，且大多数高频模态的残差达到 $10^{-6}$ 量级。
 
 此外，我们将本方法与 SLEPc 分布式特征值求解器进行了对比测试。当配置 Cluster Pardiso 线性求解器时，计算运行超过 7 小时仍未完成并被中止。当配置 MUMPS 求解器并将收敛阈值放宽至 $3 \times 10^{-2}$ 时，SLEPc 耗时近 2 小时仅收敛了 949 阶模态。
+
+\subsubsection{可扩展性基准的代价分解}
+\label{sec:breakdown}
+\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。
+
+\begin{figure}[tbp]
+  \centering
+    \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
+  \caption{\textbf{强扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
+  \label{fig:strong-scaling-breakdown}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+    \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
+  \caption{\textbf{弱扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
+  \label{fig:weak-scaling-breakdown}
+\end{figure}
 \subsection{积分误差分析的实验细节}
 \label{app:integrated-error-exp}
 
@@ -279,7 +297,7 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
   \label{fig:integration}
 \end{figure}
 
-本附录详细介绍了正文中用于对比频率适配基与相位适配基近似性能差异的数值实验方法。
+本节详细介绍了正文中用于对比频率适配基与相位适配基近似性能差异的数值实验方法。
 
 \subsubsection{实验目标}
 本实验旨在提供一种稳健且与位置无关的局部基底近似效率评估方法。通过在整个域上滑动分析窗口（即子域）并对 $L_2$ 误差进行积分，该方法消除了单一固定划分可能带来的特定共振偏差，从而能够客观反映每种基函数的真实逼近性能。
@@ -312,20 +330,3 @@ CMS 中精度与计算代价的权衡主要由每个子结构计算的内部特�
 \end{itemize}
 所有的积分计算均调用 \texttt{scipy.integrate.quad} 函数进行高精度数值积分。
 
-\subsection{可扩展性基准的代价分解}
-\label{sec:breakdown}
-\Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。
-
-\begin{figure}[tbp]
-  \centering
-    \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
-  \caption{\textbf{强扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
-  \label{fig:strong-scaling-breakdown}
-\end{figure}
-
-\begin{figure}[tbp]
-  \centering
-    \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
-  \caption{\textbf{弱扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
-  \label{fig:weak-scaling-breakdown}
-\end{figure}
