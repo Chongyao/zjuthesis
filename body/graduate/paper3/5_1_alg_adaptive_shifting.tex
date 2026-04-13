@@ -1,7 +1,5 @@
-\refstepcounter{algorithm}
-\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}自适应位移}
-\noindent\textbf{算法~\thealgorithm\quad 自适应位移}\label{alg:adaptive-shifting}
-{\small
+\begin{algorithm}[tbp]
+  \caption{自适应位移：初始化阶段}\label{alg:adaptive-shifting}
   \begin{algorithmic}[1]
     \STATE $\mu \gets 0,\ \sigma \gets 0$
     \STATE 求解 \cref{eq:final-eig}，记录 $\lambda_{\min}$ 和 $\lambda_{\text{cut-off}}$
@@ -15,6 +13,12 @@
       \STATE $\mu \gets 10\mu,\ \sigma \gets 10\sigma$
       \STATE 求解 \cref{eq:final-eig}，记录 $\lambda_{\min}$ 和 $\lambda_{\text{cut-off}}$
     \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[tbp]
+  \caption{自适应位移：自适应回退阶段}\label{alg:adaptive-shifting-refine}
+  \begin{algorithmic}[1]
     \STATE $\alpha \gets 4,\ \beta \gets 10^{-6}$
     \WHILE{$\mu \ge \beta \lambda_{\min}$}
       \STATE $\mu \gets \mu / 10$
@@ -32,4 +36,4 @@
     \ENDWHILE
     \RETURN 特征值和特征向量
   \end{algorithmic}
-}
+\end{algorithm}

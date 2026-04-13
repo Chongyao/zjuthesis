@@ -81,7 +81,7 @@
       \STATE 求解子结构边界问题 \cref{eq:ours-response-solution} 并组装
     \ENDFOR
     \STATE $\mathbf{S} \leftarrow [\mathbf{S}^p_\mathcal{I},\mathbf{S}^p_b,\mathbf{S}_{\mathcal{I}}^d,\mathbf{S}_b^d]$
-    \STATE 用 \cref{alg:adaptive-shifting} 求解最终降维系统
+    \STATE 用 \cref{alg:adaptive-shifting,alg:adaptive-shifting-refine} 求解最终降维系统
   \end{algorithmic}
 \end{algorithm}
 
@@ -155,11 +155,11 @@ CMS 的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}�
   \label{fig:mu-and-sigma-sensitivity}
 \end{figure}
 
-\FloatBarrier
-在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting}）来动态确定最优的 $\mu$ 和 $\sigma$。
+% \FloatBarrier
+在实际实现中，我们设计了自适应位移算法（\Cref{alg:adaptive-shifting,alg:adaptive-shifting-refine}）来动态确定最优的 $\mu$ 和 $\sigma$。
 
 \inputbody{paper3/5_1_alg_adaptive_shifting}
-\FloatBarrier
+% \FloatBarrier
 
 \subsection{快速缩减矩阵组装}
 
