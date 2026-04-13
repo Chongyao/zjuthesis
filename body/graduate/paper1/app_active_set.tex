@@ -1,4 +1,4 @@
-\noindent\textbf{基于有效集法的碰撞处理。}
+\noindent\textbf{基于有效集法的碰撞处理。}\phantomsection
 \label{app:active_set}
 不等式约束 $\mathbf{C_I}$ 主要代表碰撞约束，用于避免相交。根据 Bridson 等人~\cite{bridson2002robust}的方法，顶点-三角形约束和边-边约束可以表示如下：
 \begin{equation}
@@ -9,7 +9,7 @@
   - w_j) \p_{j+1}) \right) \cdot \mathbf{n} - \delta \geq 0.
    \end{array}
  \right.
- \label{eq: collision constraint}
+ \label{eq:collision_constraint}
 \end{equation}
 使用经典的有效集法（算法~\ref{alg: active_set}），激活的约束将被插入到 $\mathbf{C_{\mathcal A}}$ 中并作为等式约束处理。非激活的约束将被直接删除。
 \begin{algorithm}
