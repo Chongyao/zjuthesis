@@ -182,9 +182,9 @@ im1 = axes[0].imshow(
     ],
     aspect="auto",
 )
-axes[0].set_title("Error using \n Phase-fixed Basis", fontsize=TITLE_FONTSIZE)
+axes[0].set_title("使用固定相位基\n的误差", fontsize=TITLE_FONTSIZE)
 axes[0].set_xlabel("")  # 使用共享 X 轴标签
-axes[0].set_ylabel("Global Mode Order", fontsize=LABEL_FONTSIZE)
+axes[0].set_ylabel("全局模态阶数", fontsize=LABEL_FONTSIZE)
 axes[0].set_xticks(m_values[::2])
 axes[0].set_yticks(n_global_values)
 axes[0].tick_params(labelsize=TICK_FONTSIZE)
@@ -204,7 +204,7 @@ im2 = axes[1].imshow(
     ],
     aspect="auto",
 )
-axes[1].set_title("Error using \n Phase-complete Basis", fontsize=TITLE_FONTSIZE)
+axes[1].set_title("使用完整相位基\n的误差", fontsize=TITLE_FONTSIZE)
 axes[1].set_xlabel("")  # 使用共享 X 轴标签
 axes[1].set_xticks(m_values[::2])
 axes[1].set_yticks(n_global_values)
@@ -227,7 +227,7 @@ im3 = axes[2].imshow(
     aspect="auto",
 )
 axes[2].grid(False)
-axes[2].set_title("Improvement Factor \n (Ratio: fixed/complete)", fontsize=TITLE_FONTSIZE)
+axes[2].set_title("改进因子 \n (比值: 固定/完整)", fontsize=TITLE_FONTSIZE)
 axes[2].set_xlabel("")  # 使用共享 X 轴标签
 axes[2].set_xticks(m_values[::2])
 axes[2].set_yticks(n_global_values)
@@ -238,7 +238,7 @@ axes[2].tick_params(labelsize=TICK_FONTSIZE)
 # Add a single colorbar for the error plots, with label on the left
 cbar_ax = fig.add_axes([0.055, 0.12, 0.018, 0.72])
 cbar = fig.colorbar(im1, cax=cbar_ax, orientation="vertical")
-cbar.set_label("Average L2 Norm Error", size=LABEL_FONTSIZE, labelpad=2)
+cbar.set_label("平均 L2 范数误差", size=LABEL_FONTSIZE, labelpad=2)
 # Move label & ticks to left side
 cbar.ax.yaxis.set_label_position('left')
 cbar.ax.yaxis.tick_left()
@@ -249,12 +249,12 @@ cbar.ax.tick_params(labelsize=TICK_FONTSIZE)
 # Add a separate colorbar for the ratio plot
 cbar_ax_ratio = fig.add_axes([0.935, 0.12, 0.018, 0.72])
 cbar = fig.colorbar(im3, cax=cbar_ax_ratio, orientation="vertical")
-cbar.set_label("Improvement Factor", size=LABEL_FONTSIZE, labelpad=4)
+cbar.set_label("改进因子", size=LABEL_FONTSIZE, labelpad=4)
 cbar.ax.tick_params(labelsize=TICK_FONTSIZE)
 
 # Adjust rect to make space for the repositioned colorbar
 plt.tight_layout(rect=[0.09, 0.07, 0.93, 0.96])
-fig.text(0.5, 0.05, 'Number of Internal Modes', ha='center', va='center', fontsize=LABEL_FONTSIZE)
+fig.text(0.5, 0.05, '内部模态数量', ha='center', va='center', fontsize=LABEL_FONTSIZE)
 
 OUTPUT_FILE = "frequency-vs-phase.png"
 try:

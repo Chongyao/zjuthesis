@@ -617,7 +617,7 @@ def plot_combined_pie_all(
                 )
 
             if row_idx == 0:
-                ax.set_title(f"Node: {x_labels[col_idx]}", fontsize=16, weight="bold")
+                ax.set_title(f"节点: {x_labels[col_idx]}", fontsize=16, weight="bold")
 
             sizes, labels, pie_colors = [], [], []
 
@@ -894,7 +894,7 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
             pd_seri,
             sp_seri,
             x_labels,
-            f"{scaling_prefix.title()} - Detailed Pie Breakdown (All Nodes)",
+            ("强扩展 - 时间代价详细分解 (全部节点)" if scaling_prefix == "strong_scaling" else "弱扩展 - 时间代价详细分解 (全部节点)"),
             os.path.join(output_dir, f"6_{scaling_prefix}_combined_pie_breakdown.png"),
         )
     except Exception as e:
