@@ -15,6 +15,21 @@ from plot_style_config import get_style, apply_style, apply_spines
 SCHEME = os.environ.get("PLOT_COLOR_SCHEME", "teal_coral")
 STYLE = get_style(SCHEME)
 apply_style(STYLE, scale="double_column")
+# 中文显示名称映射 (用于 breakdown 图例和标签)
+DISPLAY_NAME_MAP = {
+    "Solve Eigenmodes": "求解特征模态",
+    "Interface Modes (CMS)": "界面模态 (CMS)",
+    "SE-free Modes (Ours)": "SE-free 模态 (本文方法)",
+    "Matrix-Reducing (Ours)": "矩阵缩减 (本文方法)",
+    "Preprocessing of SE-free Modes (Ours)": "SE-free 模态预处理 (本文方法)",
+    "Postprocessing of SE-free Modes (Ours)": "SE-free 模态后处理 (本文方法)",
+    "Preprocessing of Matrix-Reducing (Ours)": "矩阵缩减预处理 (本文方法)",
+    "Postprocessing of Matrix-Reducing (Ours)": "矩阵缩减后处理 (本文方法)",
+    "Solve Reduced Eigenmodes (Ours)": "求解降阶特征模态 (本文方法)",
+    "Solve Reduced Eigenmodes (CMS)": "求解降阶特征模态 (CMS)",
+    "Assemble Reduced Matrix (CMS)": "组装降阶矩阵 (CMS)",
+}
+
 
 TITLE_FONTSIZE = STYLE.scaled_fontsize("title", "double_column")
 LABEL_FONTSIZE = STYLE.scaled_fontsize("label", "double_column")
@@ -235,7 +250,7 @@ def plot_stacked_bar_comparison(
             data,
             width,
             bottom=bottom,
-            label=label,
+            label=DISPLAY_NAME_MAP.get(label, label),
             color=colors.get(label, STYLE.ui_colors["reference_line"]),
         )
         sp_bars.append(bar)
@@ -251,7 +266,7 @@ def plot_stacked_bar_comparison(
             data,
             width,
             bottom=bottom,
-            label=label,
+            label=DISPLAY_NAME_MAP.get(label, label),
             color=colors.get(label, STYLE.ui_colors["reference_line"]),
         )
         pd_bars.append(bar)
@@ -276,7 +291,7 @@ def plot_stacked_bar_comparison(
             linestyle="-",
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE * 0.8,
-            label="Ours efficiency",
+            label="本文方法 效率",
             zorder=10,
         )
 
@@ -289,12 +304,12 @@ def plot_stacked_bar_comparison(
             linestyle="--",
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE * 0.8,
-            label="CB-CMS efficiency",
+            label="CB-CMS 效率",
             zorder=10,
         )
 
         # 设置右侧 Y 轴
-        ax2.set_ylabel("Efficiency", fontsize=LABEL_FONTSIZE)
+        ax2.set_ylabel("效率", fontsize=LABEL_FONTSIZE)
         ax2.set_yscale("log")
         ax2.tick_params(axis="y", which="major", labelsize=TICK_FONTSIZE)
 
@@ -320,7 +335,7 @@ def plot_stacked_bar_comparison(
                 lw=LINE_WIDTH,
                 marker="o",
                 linestyle="-",
-                label="Ours eff.",
+                label="本文方法效率",
             ),
             Line2D(
                 [0],
@@ -329,7 +344,7 @@ def plot_stacked_bar_comparison(
                 lw=LINE_WIDTH,
                 marker="o",
                 linestyle="-",
-                label="CB-CMS eff.",
+                label="CB-CMS效率",
             ),
         ]
 
@@ -353,14 +368,14 @@ def plot_stacked_bar_comparison(
         pd_legend = ax.legend(
             handles=pd_legend_handles,
             loc="upper right",
-            title="Ours" if not efficiency_handles else "Ours & Efficiency",
+            title="本文方法" if not efficiency_handles else "本文方法 & 效率",
             fontsize=LEGEND_FONTSIZE,
         )
         pd_legend.get_title().set_fontsize(LEGEND_FONTSIZE)
 
     # --- 6. 格式化图表 (使用全局字体大小) ---
     ax.set_title(title, fontsize=TITLE_FONTSIZE, pad=20)
-    ax.set_xlabel("number of computing nodes", fontsize=LABEL_FONTSIZE)
+    ax.set_xlabel("计算节点数", fontsize=LABEL_FONTSIZE)
     ax.set_ylabel(ylabel, fontsize=LABEL_FONTSIZE)
     ax.set_yscale(yscale)
     ax.set_xticks(x_ticks)
@@ -498,7 +513,7 @@ def plot_line_comparison(
 
     # --- 5. 添加两个图例 ---
     method_handles = [
-        Line2D([0], [0], color=pd_color, lw=LINE_WIDTH, label="Ours"),
+        Line2D([0], [0], color=pd_color, lw=LINE_WIDTH, label="本文方法"),
         Line2D([0], [0], color=sp_color, lw=LINE_WIDTH, label="CB-CMS"),
     ]
     if gt_lines:  # <-- 新增: 仅当 gt 数据存在时才添加图例
@@ -509,7 +524,7 @@ def plot_line_comparison(
     method_legend = ax.legend(
         handles=method_handles,
         loc="upper left",
-        title="Method",
+        title="方法",
         fontsize=LEGEND_FONTSIZE,
     )
     method_legend.get_title().set_fontsize(LEGEND_FONTSIZE)
@@ -519,7 +534,7 @@ def plot_line_comparison(
         metric_legend = ax.legend(
             handles=metric_handles,
             loc="upper right",
-            title="Metric",
+            title="指标",
             fontsize=LEGEND_FONTSIZE,
         )
         metric_legend.get_title().set_fontsize(LEGEND_FONTSIZE)
@@ -527,7 +542,7 @@ def plot_line_comparison(
 
     # --- 6. 格式化图表 (使用全局字体大小) ---
     ax.set_title(title, fontsize=TITLE_FONTSIZE, pad=20)
-    ax.set_xlabel("number of computing nodes", fontsize=LABEL_FONTSIZE)
+    ax.set_xlabel("计算节点数", fontsize=LABEL_FONTSIZE)
     ax.set_ylabel(ylabel, fontsize=LABEL_FONTSIZE)
     ax.set_yscale(yscale)
 
@@ -582,10 +597,10 @@ def plot_combined_pie_all(
     colors = STYLE.breakdown_colors
 
     row_configs = [
-        (pd_para, "Ours Parallel"),
-        (sp_para, "CB-CMS Parallel"),
-        (pd_seri, "Ours Serial"),
-        (sp_seri, "CB-CMS Serial"),
+        (pd_para, "本文方法 并行"),
+        (sp_para, "CB-CMS 并行"),
+        (pd_seri, "本文方法 串行"),
+        (sp_seri, "CB-CMS 串行"),
     ]
 
     for row_idx, (data, row_title) in enumerate(row_configs):
@@ -610,7 +625,7 @@ def plot_combined_pie_all(
                 vals = data[key]
                 if col_idx < len(vals) and vals[col_idx] > 0:
                     sizes.append(vals[col_idx])
-                    labels.append(key)
+                    labels.append(DISPLAY_NAME_MAP.get(key, key))
                     pie_colors.append(
                         colors.get(key, STYLE.ui_colors["reference_line"])
                     )
@@ -644,7 +659,7 @@ def plot_combined_pie_all(
             sorted_row_labels = sorted(list(row_labels_used))
             print(f"    [DEBUG] {row_title} legend labels: {sorted_row_labels}")
             legend_handles = [
-                Patch(color=colors[l], label=l) for l in sorted_row_labels
+                Patch(color=colors[l], label=DISPLAY_NAME_MAP.get(l, l)) for l in sorted_row_labels
             ]
             legend_ncol = 2
             legend_ax.legend(
@@ -839,7 +854,7 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
             sp_plot_data,
             x_labels,
             title=f"{scaling_prefix.title()} - Parallel Time Breakdown",
-            ylabel="Time (s) (log scale)",
+            ylabel="时间 (s) (对数刻度)",
             output_path=os.path.join(
                 output_dir, f"1_{scaling_prefix}_time_parallel_breakdown.png"
             ),
@@ -857,7 +872,7 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
             sp_plot_data,
             x_labels,
             title=f"{scaling_prefix.title()} - Serial Time Breakdown",
-            ylabel="Time (s) (log scale)",
+            ylabel="时间 (s) (对数刻度)",
             output_path=os.path.join(
                 output_dir, f"2_{scaling_prefix}_time_serial_breakdown.png"
             ),
@@ -958,7 +973,7 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
             sp_plot_data,
             x_labels_plot3,
             title=f"{scaling_prefix.title()} - Total Time (Serial vs Parallel)",
-            ylabel="Time (s)",
+            ylabel="时间 (s)",
             output_path=os.path.join(
                 output_dir, f"3_{scaling_prefix}_time_total_breakdown.png"
             ),
@@ -1017,7 +1032,7 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
             {},
             x_labels_plot4,
             title=f"{scaling_prefix.title()} - Balance Comparison (Time vs Memory)",
-            ylabel="Balance Ratio",
+            ylabel="均衡比",
             output_path=os.path.join(
                 output_dir, f"4_{scaling_prefix}_balance_comparison.png"
             ),
@@ -1052,14 +1067,14 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
         else:
             x_labels_plot5 = x_labels
 
-        metric_styles = {"Serial": ("s", "--"), "Parallel": ("^", ":")}
+        metric_styles = {"串行": ("s", "--"), "并行": ("^", ":")}
         pd_lines = {
-            "Serial": (pd_serial_y, *metric_styles["Serial"]),
-            "Parallel": (pd_parallel_y, *metric_styles["Parallel"]),
+            "串行": (pd_serial_y, *metric_styles["串行"]),
+            "并行": (pd_parallel_y, *metric_styles["并行"]),
         }
         sp_lines = {
-            "Serial": (sp_serial_y, *metric_styles["Serial"]),
-            "Parallel": (sp_parallel_y, *metric_styles["Parallel"]),
+            "串行": (sp_serial_y, *metric_styles["串行"]),
+            "并行": (sp_parallel_y, *metric_styles["并行"]),
         }
 
         # 不再使用 gt_lines，因为 gt 已融入 pd/sp 数据
@@ -1069,7 +1084,7 @@ def generate_all_plots_for_scaling_type(pd_data, sp_data, gt_data, scaling_prefi
             {},
             x_labels_plot5,
             title=f"{scaling_prefix.title()} - Peak Memory (Serial vs Parallel)",
-            ylabel="Peak Memory (GB)",
+            ylabel="峰值内存 (GB)",
             output_path=os.path.join(
                 output_dir, f"5_{scaling_prefix}_memory_peak_comparison.png"
             ),
@@ -1167,9 +1182,9 @@ def generate_combined_strong_weak_total(
             pd_parallel = [0.0] + pd_parallel
             sp_serial = [gt_node1_time] + sp_serial
             sp_parallel = [0.0] + sp_parallel
-        return {"Serial": pd_serial, "Parallel": pd_parallel}, {
-            "Serial": sp_serial,
-            "Parallel": sp_parallel,
+        return {"串行": pd_serial, "并行": pd_parallel}, {
+            "串行": sp_serial,
+            "并行": sp_parallel,
         }
 
     pd_data_strong, sp_data_strong = get_total_data(
@@ -1193,10 +1208,10 @@ def generate_combined_strong_weak_total(
         pd_plot_data, sp_plot_data, x_labels_plot, gt_node1_time, is_strong_scaling
     ):
         pd_total = [
-            s + p for s, p in zip(pd_plot_data["Serial"], pd_plot_data["Parallel"])
+            s + p for s, p in zip(pd_plot_data["串行"], pd_plot_data["并行"])
         ]
         sp_total = [
-            s + p for s, p in zip(sp_plot_data["Serial"], sp_plot_data["Parallel"])
+            s + p for s, p in zip(sp_plot_data["串行"], sp_plot_data["并行"])
         ]
 
         pd_efficiency = []
@@ -1301,7 +1316,7 @@ def generate_combined_strong_weak_total(
                 linestyle="-",
                 linewidth=LINE_WIDTH,
                 markersize=MARKER_SIZE * 0.8,
-                label="Ours Eff.",
+                label="本文方法效率",
                 zorder=10,
             )
 
@@ -1314,11 +1329,11 @@ def generate_combined_strong_weak_total(
                 linestyle="-",
                 linewidth=LINE_WIDTH,
                 markersize=MARKER_SIZE * 0.8,
-                label="CB-CMS Eff.",
+                label="CB-CMS效率",
                 zorder=10,
             )
 
-            ax2_eff.set_ylabel("Efficiency", fontsize=LABEL_FONTSIZE)
+            ax2_eff.set_ylabel("效率", fontsize=LABEL_FONTSIZE)
             ax2_eff.set_yscale("log")
             ax2_eff.tick_params(axis="y", which="major", labelsize=TICK_FONTSIZE)
 
@@ -1342,7 +1357,7 @@ def generate_combined_strong_weak_total(
         pd_data_strong,
         sp_data_strong,
         x_labels_strong_plot,
-        "Strong Scaling",
+        "强扩展",
         gt_node1_time_strong,
         is_strong_scaling=True,
     )
@@ -1351,20 +1366,20 @@ def generate_combined_strong_weak_total(
         pd_data_weak,
         sp_data_weak,
         x_labels_weak_plot,
-        "Weak Scaling",
+        "弱扩展",
         gt_node1_time_weak,
         is_strong_scaling=False,
     )
 
-    ax1.set_ylabel("Time (s)", fontsize=LABEL_FONTSIZE)
-    ax2.set_ylabel("Time (s)", fontsize=LABEL_FONTSIZE)
-    ax2.set_xlabel("Number of Computing Nodes", fontsize=LABEL_FONTSIZE)
+    ax1.set_ylabel("时间 (s)", fontsize=LABEL_FONTSIZE)
+    ax2.set_ylabel("时间 (s)", fontsize=LABEL_FONTSIZE)
+    ax2.set_xlabel("计算节点数", fontsize=LABEL_FONTSIZE)
 
     legend_handles = [
-        Patch(color=ours_colors[0], label="Ours Serial"),
-        Patch(color=cms_colors[0], label="CB-CMS Serial"),
-        Patch(color=ours_colors[1], label="Ours Parallel"),
-        Patch(color=cms_colors[1], label="CB-CMS Parallel"),
+        Patch(color=ours_colors[0], label="本文方法 串行"),
+        Patch(color=cms_colors[0], label="CB-CMS 串行"),
+        Patch(color=ours_colors[1], label="本文方法 并行"),
+        Patch(color=cms_colors[1], label="CB-CMS 并行"),
         Line2D(
             [0],
             [0],
@@ -1373,7 +1388,7 @@ def generate_combined_strong_weak_total(
             linestyle="-",
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE * 0.8,
-            label="Ours Eff.",
+            label="本文方法效率",
         ),
         Line2D(
             [0],
@@ -1383,7 +1398,7 @@ def generate_combined_strong_weak_total(
             linestyle="-",
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE * 0.8,
-            label="CB-CMS Eff.",
+            label="CB-CMS效率",
         ),
     ]
     fig.legend(
@@ -1489,7 +1504,7 @@ def generate_combined_strong_weak_balance_line(
             color=sp_color_map["Time Balance"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="CB-CMS Time",
+            label="CB-CMS 时间",
         )
         (cms_mem,) = ax.plot(
             x_plot,
@@ -1499,7 +1514,7 @@ def generate_combined_strong_weak_balance_line(
             color=sp_color_map["Memory Balance"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="CB-CMS Memory",
+            label="CB-CMS 内存",
         )
         (ours_time,) = ax.plot(
             x_plot,
@@ -1509,7 +1524,7 @@ def generate_combined_strong_weak_balance_line(
             color=pd_color_map["Time Balance"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="Ours Time",
+            label="本文方法 时间",
         )
         (ours_mem,) = ax.plot(
             x_plot,
@@ -1519,7 +1534,7 @@ def generate_combined_strong_weak_balance_line(
             color=pd_color_map["Memory Balance"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="Ours Memory",
+            label="本文方法 内存",
         )
 
         ax.text(
@@ -1531,7 +1546,7 @@ def generate_combined_strong_weak_balance_line(
             ha="right",
             va="top",
         )
-        ax.set_ylabel("Balance Ratio", fontsize=LABEL_FONTSIZE)
+        ax.set_ylabel("均衡比", fontsize=LABEL_FONTSIZE)
         ax.set_xticks(x_plot)
         ax.set_xticklabels(x_plot, fontsize=TICK_FONTSIZE)
         ax.tick_params(axis="y", labelsize=TICK_FONTSIZE)
@@ -1540,11 +1555,11 @@ def generate_combined_strong_weak_balance_line(
         if all_vals:
             ax.set_ylim(0.4, max(all_vals) * 1.2)
         if not remove_xlabel:
-            ax.set_xlabel("Number of Computing Nodes", fontsize=LABEL_FONTSIZE)
+            ax.set_xlabel("计算节点数", fontsize=LABEL_FONTSIZE)
         if show_legend:
             ax.legend(
                 handles=[ours_time, ours_mem, cms_time, cms_mem],
-                labels=["Ours Time", "Ours Memory", "CB-CMS Time", "CB-CMS Memory"],
+                labels=["本文方法 时间", "本文方法 内存", "CB-CMS 时间", "CB-CMS 内存"],
                 loc="upper center",
                 bbox_to_anchor=(0.5, 1.2),
                 ncol=4,
@@ -1559,7 +1574,7 @@ def generate_combined_strong_weak_balance_line(
         pd_idx_s,
         sp_idx_s,
         x_strong,
-        "Strong Scaling",
+        "强扩展",
         remove_xlabel=True,
         show_legend=True,
     )
@@ -1570,7 +1585,7 @@ def generate_combined_strong_weak_balance_line(
         pd_idx_w,
         sp_idx_w,
         x_weak,
-        "Weak Scaling",
+        "弱扩展",
         remove_xlabel=False,
         show_legend=False,
     )
@@ -1629,10 +1644,10 @@ def generate_combined_strong_weak_peak_memory_line(
     fig, (ax_top, ax_bottom) = plt.subplots(
         2, 1, figsize=FIG_SIZE_COMBINED, sharex=False
     )
-    pd_color_map = {"Serial": OURS_SERIAL, "Parallel": OURS_PARALLEL}
+    pd_color_map = {"串行": OURS_SERIAL, "并行": OURS_PARALLEL}
     sp_color_map = {
-        "Serial": to_rgba(CMS_SERIAL, CMS_ALPHA),
-        "Parallel": to_rgba(CMS_PARALLEL, CMS_ALPHA),
+        "串行": to_rgba(CMS_SERIAL, CMS_ALPHA),
+        "并行": to_rgba(CMS_PARALLEL, CMS_ALPHA),
     }
 
     def draw_subplot(
@@ -1671,40 +1686,40 @@ def generate_combined_strong_weak_peak_memory_line(
             sp_serial,
             marker="o",
             linestyle="-",
-            color=sp_color_map["Serial"],
+            color=sp_color_map["串行"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="CB-CMS Serial",
+            label="CB-CMS 串行",
         )
         (cms_parallel,) = ax.plot(
             x_plot_parallel,
             sp_parallel,
             marker="o",
             linestyle="-",
-            color=sp_color_map["Parallel"],
+            color=sp_color_map["并行"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="CB-CMS Parallel",
+            label="CB-CMS 并行",
         )
         (ours_serial,) = ax.plot(
             x_plot_serial,
             pd_serial,
             marker="o",
             linestyle="-",
-            color=pd_color_map["Serial"],
+            color=pd_color_map["串行"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="Ours Serial",
+            label="本文方法 串行",
         )
         (ours_parallel,) = ax.plot(
             x_plot_parallel,
             pd_parallel,
             marker="o",
             linestyle="-",
-            color=pd_color_map["Parallel"],
+            color=pd_color_map["并行"],
             linewidth=LINE_WIDTH,
             markersize=MARKER_SIZE,
-            label="Ours Parallel",
+            label="本文方法 并行",
         )
 
         ax.text(
@@ -1716,7 +1731,7 @@ def generate_combined_strong_weak_peak_memory_line(
             ha="right",
             va="top",
         )
-        ax.set_ylabel("Peak Memory (GB)", fontsize=LABEL_FONTSIZE)
+        ax.set_ylabel("峰值内存 (GB)", fontsize=LABEL_FONTSIZE)
         ax.set_xticks(x_plot_serial)
         ax.set_xticklabels(x_plot_serial, fontsize=TICK_FONTSIZE)
         ax.tick_params(axis="y", labelsize=TICK_FONTSIZE)
@@ -1725,15 +1740,15 @@ def generate_combined_strong_weak_peak_memory_line(
         ylim = ax.get_ylim()
         ax.set_ylim(ylim[0], ylim[1] * 10)
         if not remove_xlabel:
-            ax.set_xlabel("Number of Computing Nodes", fontsize=LABEL_FONTSIZE)
+            ax.set_xlabel("计算节点数", fontsize=LABEL_FONTSIZE)
         if show_legend:
             ax.legend(
                 handles=[ours_serial, ours_parallel, cms_serial, cms_parallel],
                 labels=[
-                    "Ours Serial",
-                    "Ours Parallel",
-                    "CB-CMS Serial",
-                    "CB-CMS Parallel",
+                    "本文方法 串行",
+                    "本文方法 并行",
+                    "CB-CMS 串行",
+                    "CB-CMS 并行",
                 ],
                 loc="upper center",
                 bbox_to_anchor=(0.5, 1.18),
@@ -1749,7 +1764,7 @@ def generate_combined_strong_weak_peak_memory_line(
         pd_idx_s,
         sp_idx_s,
         x_strong,
-        "Strong Scaling",
+        "强扩展",
         remove_xlabel=True,
         show_legend=True,
     )
@@ -1760,7 +1775,7 @@ def generate_combined_strong_weak_peak_memory_line(
         pd_idx_w,
         sp_idx_w,
         x_weak,
-        "Weak Scaling",
+        "弱扩展",
         remove_xlabel=False,
         show_legend=False,
     )

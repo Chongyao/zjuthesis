@@ -113,11 +113,11 @@ def create_plot(amls_df, sample_step, suffix):
         marker="o",
     )
     plot_scatter_with_fit(
-        ax, pd_df["nev"].values, pd_df["time"].values, OURS_COLOR, "Ours", marker="o"
+        ax, pd_df["nev"].values, pd_df["time"].values, OURS_COLOR, "本文方法", marker="o"
     )
 
-    ax.set_xlabel(r"Number of Eigenvalues ($n_{ev}$)", fontsize=LABEL_FONTSIZE)
-    ax.set_ylabel("Time (s)", fontsize=LABEL_FONTSIZE)
+    ax.set_xlabel(r"特征值数量 ($n_{ev}$)", fontsize=LABEL_FONTSIZE)
+    ax.set_ylabel("时间 (s)", fontsize=LABEL_FONTSIZE)
     ax.tick_params(axis="both", which="major", labelsize=TICK_FONTSIZE)
     ax.grid(False)
     ax.legend(fontsize=LEGEND_FONTSIZE, frameon=False, loc="best")

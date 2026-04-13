@@ -86,7 +86,7 @@ im1 = axes[0].imshow(
 )
 axes[0].set_title("")
 axes[0].set_xlabel("")
-axes[0].set_ylabel("Global Eigen Order", fontsize=LABEL_FONTSIZE)
+axes[0].set_ylabel("全局特征阶数", fontsize=LABEL_FONTSIZE)
 
 axes[0].set_xticks(m_values[::2])
 axes[0].set_yticks(n_global_values[9::10])
@@ -119,7 +119,7 @@ im3 = axes[2].imshow(
     aspect="auto",
 )
 axes[2].grid(False)
-axes[2].set_title("Improvement Factor\n(Ratio: fixed/complete)", fontsize=TITLE_FONTSIZE)
+axes[2].set_title("改进因子\n(比值: 固定/完整)", fontsize=TITLE_FONTSIZE)
 axes[2].set_xlabel("")
 axes[2].set_xticks(m_values[::2])
 axes[2].tick_params(labelsize=TICK_FONTSIZE)
@@ -130,7 +130,7 @@ axes[2].tick_params(labelsize=TICK_FONTSIZE)
 # 为误差图添加共享 colorbar (左侧紧凑, 标签在左)
 cbar_ax = fig.add_axes([0.055, 0.12, 0.018, 0.72])
 cbar = fig.colorbar(im1, cax=cbar_ax, orientation="vertical")
-cbar.set_label("Average L2 Norm Error", size=LABEL_FONTSIZE, labelpad=2)
+cbar.set_label("平均 L2 范数误差", size=LABEL_FONTSIZE, labelpad=2)
 cbar.ax.yaxis.set_label_position('left')
 cbar.ax.yaxis.tick_left()
 cbar.ax.yaxis.set_ticks_position('left')
@@ -139,19 +139,19 @@ cbar.ax.tick_params(labelsize=TICK_FONTSIZE)
 # 为比率图添加独立 colorbar (右侧紧凑)
 cbar_ax_ratio = fig.add_axes([0.935, 0.12, 0.018, 0.72])
 cbar_ratio = fig.colorbar(im3, cax=cbar_ax_ratio, orientation="vertical")
-cbar_ratio.set_label("Improvement Factor", size=LABEL_FONTSIZE, labelpad=4)
+cbar_ratio.set_label("改进因子", size=LABEL_FONTSIZE, labelpad=4)
 cbar_ratio.ax.tick_params(labelsize=TICK_FONTSIZE)
 
 # 使用 axes.text 手动放置单行标题居中（垂直居中于双行高度）
 single_line_y = 1.12  # 位于两行标题的中间偏上
-axes[0].text(0.5, single_line_y, 'Error using $[\\mathbf{S}^p_{\\mathcal{I}}, \\mathbf{S}^p_b]$',
+axes[0].text(0.5, single_line_y, '使用 $[\\mathbf{S}^p_{\\mathcal{I}}, \\mathbf{S}^p_b]$ 的误差',
              ha='center', va='center', transform=axes[0].transAxes, fontsize=TITLE_FONTSIZE)
-axes[1].text(0.5, single_line_y, 'Error using $[\\mathbf{S}^p_{\\mathcal{I}}, \\mathbf{S}^p_b, \\mathbf{S}^d_{\\mathcal{I}}]$',
+axes[1].text(0.5, single_line_y, '使用 $[\\mathbf{S}^p_{\\mathcal{I}}, \\mathbf{S}^p_b, \\mathbf{S}^d_{\\mathcal{I}}]$ 的误差',
              ha='center', va='center', transform=axes[1].transAxes, fontsize=TITLE_FONTSIZE)
 
 # 调整布局矩形以扩大中间绘图区并为共享 xlabel 留空间
 plt.tight_layout(rect=[0.09, 0.07, 0.93, 0.96])
-fig.text(0.5, 0.05, 'Total number of Substructure Eigenmodes', ha='center', va='center', fontsize=LABEL_FONTSIZE)
+fig.text(0.5, 0.05, '子结构特征模态总数', ha='center', va='center', fontsize=LABEL_FONTSIZE)
 
 # --- 6. 保存 ---
 OUTPUT_FILE = "fixed-vs-complete-eig-error.png"

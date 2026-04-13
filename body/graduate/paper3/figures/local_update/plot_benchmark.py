@@ -24,15 +24,15 @@ TITLE_FONTSIZE = STYLE.scaled_fontsize("title", "double_column")
 
 COLORS = {
     "Substructure Eigenmodes": STYLE.breakdown_colors.get(
-        "Substructure Eigenmodes", STYLE.ours
+        "子结构特征模态", STYLE.ours
     ),
     "Interface Modes": STYLE.breakdown_colors.get(
-        "Interface Modes", STYLE.method_colors["ours_nc"]
+        "界面模态", STYLE.method_colors["ours_nc"]
     ),
-    "Matrix Reducing": STYLE.breakdown_colors.get("Matrix Reducing", STYLE.cms),
-    "Reduced Solve": STYLE.breakdown_colors.get("Reduced Solve", STYLE.amls),
+    "Matrix Reducing": STYLE.breakdown_colors.get("矩阵缩减", STYLE.cms),
+    "Reduced Solve": STYLE.breakdown_colors.get("降阶求解", STYLE.amls),
     "Global Solve": STYLE.breakdown_colors.get(
-        "Global Solve", STYLE.method_colors["imr"]
+        "全局求解", STYLE.method_colors["imr"]
     ),
 }
 
@@ -43,12 +43,20 @@ COMPONENTS = [
     "Reduced Solve",
     "Global Solve",
 ]
+COMPONENT_LABELS = {
+    "Substructure Eigenmodes": "子结构特征模态",
+    "Interface Modes": "界面模态",
+    "Matrix Reducing": "矩阵缩减",
+    "Reduced Solve": "降阶求解",
+    "Global Solve": "全局求解",
+}
+
 
 # Map CSV method names to canonical display names
 METHOD_DISPLAY_NAMES = {
-    "Origin CMS Full": "Origin mesh\nOurs full comp.",
-    "Updated CMS Full": "Modified mesh\nOurs full comp.",
-    "CMS Local Update": "Modified mesh\nOurs local update",
+    "Origin CMS Full": "原始网格\n本文完整计算",
+    "Updated CMS Full": "修改网格\n本文完整计算",
+    "CMS Local Update": "修改网格\n本文局部更新",
     "Global Spectra": "Modified mesh\nSpectra",
 }
 
@@ -84,11 +92,11 @@ def plot_benchmark(model_type, csv_file, output_prefix):
     for col in COMPONENTS:
         values = df[col].values
         if values.sum() > 0:
-            ax.bar(x, values, width, label=col, bottom=bottom, color=COLORS[col])
+            ax.bar(x, values, width, label=COMPONENT_LABELS.get(col, col), bottom=bottom, color=COLORS[col])
             bottom += values
 
-    ax.set_xlabel("Method", fontsize=LABEL_FONTSIZE)
-    ax.set_ylabel("Core Computation Time (seconds)", fontsize=LABEL_FONTSIZE)
+    ax.set_xlabel("方法", fontsize=LABEL_FONTSIZE)
+    ax.set_ylabel("核心计算时间 (秒)", fontsize=LABEL_FONTSIZE)
 
     # No title for cleaner figure
 
@@ -105,7 +113,7 @@ def plot_benchmark(model_type, csv_file, output_prefix):
         color=STYLE.method_colors["imr"],
         linestyle="--",
         linewidth=1.5,
-        label=f"Ours Local Update baseline ({local_update_time:.1f}s)",
+        label=f"本文局部更新基线 ({local_update_time:.1f}s)",
     )
 
     max_total = df["Total Core"].max()
@@ -121,11 +129,11 @@ def plot_benchmark(model_type, csv_file, output_prefix):
             fontweight="bold",
         )
         if speedup == 1.0:
-            speedup_text = "(baseline)"
+            speedup_text = "(基线)"
         elif speedup > 1.0:
-            speedup_text = f"({speedup:.2f}x slower)"
+            speedup_text = f"({speedup:.2f}倍更慢)"
         else:
-            speedup_text = f"({1 / speedup:.2f}x faster)"
+            speedup_text = f"({1 / speedup:.2f}倍更快)"
         ax.annotate(
             speedup_text,
             xy=(i, total + label_offset2),
@@ -166,10 +174,10 @@ def plot_cms_breakdown(df, output_prefix):
     ]
     for i, comp in enumerate(components):
         values = cms_df[comp].values
-        ax.bar(x + i * width, values, width, label=comp, color=list(COLORS.values())[i])
+        ax.bar(x + i * width, values, width, label=COMPONENT_LABELS.get(comp, comp), color=list(COLORS.values())[i])
 
-    ax.set_xlabel("Method", fontsize=LABEL_FONTSIZE)
-    ax.set_ylabel("Time (seconds)", fontsize=LABEL_FONTSIZE)
+    ax.set_xlabel("方法", fontsize=LABEL_FONTSIZE)
+    ax.set_ylabel("时间 (秒)", fontsize=LABEL_FONTSIZE)
     ax.set_xticks(x + 1.5 * width)
     ax.set_xticklabels(
         [get_display_name(m) for m in cms_methods], fontsize=TICK_FONTSIZE

@@ -71,12 +71,12 @@ if df is not None and h_line_value is not None:
         # 绘制曲线 (来自 CSV)
         ax.plot(
             df['Magnitude'], df['Exact_Err'],
-            marker='o', linestyle='-', label='Regularization',
+            marker='o', linestyle='-', label='正则化',
             markersize=MARKER_SIZE, linewidth=LINE_WIDTH, color=colors[0]
         )
 
         # 绘制水平线 (来自 TXT)
-        legend_label = f'Orthogonalization\n({h_line_value:.2e})'
+        legend_label = f'正交化\n({h_line_value:.2e})'
         ax.axhline(
             y=h_line_value, color=colors[1], linestyle='--',
             linewidth=LINE_WIDTH, label=legend_label

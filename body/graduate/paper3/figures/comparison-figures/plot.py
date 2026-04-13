@@ -6,7 +6,7 @@ import os
 from matplotlib.lines import Line2D
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from figures.plot_style_config import get_style, apply_style
+from plot_style_config import get_style, apply_style
 
 SCHEME = os.environ.get('PLOT_COLOR_SCHEME', 'teal_coral')
 STYLE = get_style(SCHEME)
@@ -30,7 +30,7 @@ ALG_TO_STYLE_KEY = {
     "AMLS": "amls",
 }
 ALG_DISPLAY_NAMES = {
-    "PD": "Ours",
+    "PD": "本文方法",
     "PD-NC": "PD-NC",
     "CB-CMS": "CB-CMS",
     "CMS-INTRD": "CMS-IMR",
@@ -111,14 +111,14 @@ def main():
             markersize=MARKER_SIZE,
         )
 
-    ax1.set_xlabel(r"Number of Eigenpairs ($N_{ep}$)", fontsize=LABEL_FONTSIZE)
-    ax1.set_ylabel(r"Relative Error ($\epsilon_{ev}$)", fontsize=LABEL_FONTSIZE)
+    ax1.set_xlabel(r"特征对数量 ($N_{ep}$)", fontsize=LABEL_FONTSIZE)
+    ax1.set_ylabel(r"相对误差 ($\epsilon_{ev}$)", fontsize=LABEL_FONTSIZE)
     ax1.set_yscale("log")
     ax1.tick_params(
         axis="both", which="major", labelsize=TICK_FONTSIZE, width=2, length=6
     )
 
-    ax2.set_xlabel("Total Time (s)", fontsize=LABEL_FONTSIZE)
+    ax2.set_xlabel("总时间 (s)", fontsize=LABEL_FONTSIZE)
     ax2.set_yscale("log")
     ax2.tick_params(
         axis="both", which="major", labelsize=TICK_FONTSIZE, width=2, length=6

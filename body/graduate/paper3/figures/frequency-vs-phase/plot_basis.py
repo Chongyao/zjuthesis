@@ -41,7 +41,7 @@ x_vals = np.linspace(a, b, 400)
 x_local = x_vals - a  # Local coordinate [0, D] for basis functions
 
 # --- 3. Plotting the Frequency-Adapted Basis (Left Panel) ---
-ax1.text(0.98, 0.95, "Phase-fixed Basis", transform=ax1.transAxes,
+ax1.text(0.98, 0.95, "固定相位基函数", transform=ax1.transAxes,
          ha='right', va='top', fontsize=LABEL_FONTSIZE)
 
 # 为 M 条线从 viridis 调色板生成 M 个颜色
@@ -52,15 +52,15 @@ for n in range(1, M + 1):
     y_vals = np.sin(n * np.pi * x_local / D)
     ax1.plot(x_vals, y_vals, label=f"n={n} (sin)", linewidth=LINE_WIDTH, color=colors_ax1[n-1])
 
-ax1.set_xlabel(r"Global Coordinate $x$", fontsize=LABEL_FONTSIZE)
-ax1.set_ylabel("Basis Function Value", fontsize=LABEL_FONTSIZE)
+ax1.set_xlabel(r"全局坐标 $x$", fontsize=LABEL_FONTSIZE)
+ax1.set_ylabel("基函数值", fontsize=LABEL_FONTSIZE)
 ax1.grid(False)
 ax1.legend(fontsize=LEGEND_FONTSIZE)
 ax1.axhline(0, color=STYLE.ui_colors['spine'], linewidth=0.5)
 ax1.tick_params(axis='both', which='major', labelsize=TICK_FONTSIZE)
 
 # --- 4. Plotting the Phase-Adapted Basis (Right Panel) ---
-ax2.text(0.98, 0.95, "Phase-complete Basis", transform=ax2.transAxes,
+ax2.text(0.98, 0.95, "完整相位基函数", transform=ax2.transAxes,
          ha='right', va='top', fontsize=LABEL_FONTSIZE)
 num_pairs = M // 2
 colors_ax2 = colors_ax1
@@ -80,7 +80,7 @@ if M % 2 != 0:
     y_sin = np.sin(n * np.pi * x_local / D)
     ax2.plot(x_vals, y_sin, linestyle="-", color=colors_ax2[n - 1], label=f"n={n} (sin)", linewidth=LINE_WIDTH)
 
-ax2.set_xlabel(r"Global Coordinate $x$", fontsize=LABEL_FONTSIZE)
+ax2.set_xlabel(r"全局坐标 $x$", fontsize=LABEL_FONTSIZE)
 ax2.grid(False)
 ax2.legend(fontsize=LEGEND_FONTSIZE)
 ax2.axhline(0, color=STYLE.ui_colors['spine'], linewidth=0.5)

@@ -52,13 +52,13 @@ def generate_plot(data1_path, data2_path, output_filename_base, title, legend_op
         return
 
     fig, ax = plt.subplots(figsize=(11, 4))
-    ax.plot(x1, y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='Ours', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
+    ax.plot(x1, y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='本文方法', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax.plot(x2, y2, marker=CMS_MARKER, linestyle='-', color=CMS_COLOR, label='CB-CMS', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
-    
+
     if show_xlabel:
-        ax.set_xlabel('Number of Computational Nodes', fontsize=LABEL_FONTSIZE)
+        ax.set_xlabel('计算节点数', fontsize=LABEL_FONTSIZE)
     ax.set_ylabel(r'$q_b$', fontsize=LABEL_FONTSIZE)
-    
+
     ax.text(0.98, 0.95, title,
             transform=ax.transAxes,
             fontsize=TITLE_FONTSIZE,
@@ -142,10 +142,10 @@ def plot_combined_scaling():
 
     fig, (ax_top, ax_bottom) = plt.subplots(2, 1, figsize=(11, 8), sharex=False)
 
-    ax_top.plot(w_x1, w_y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='Ours', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
+    ax_top.plot(w_x1, w_y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='本文方法', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax_top.plot(w_x2, w_y2, marker=CMS_MARKER, linestyle='-', color=CMS_COLOR, label='CB-CMS', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax_top.set_ylabel(r'$q_{\mathcal{I}^\star}$', fontsize=LABEL_FONTSIZE)
-    ax_top.text(0.98, 0.95, 'Weak Scaling', transform=ax_top.transAxes,
+    ax_top.text(0.98, 0.95, '弱扩展', transform=ax_top.transAxes,
                 fontsize=TITLE_FONTSIZE, va='top', ha='right')
     ax_top.tick_params(axis='x', labelsize=TICK_FONTSIZE)
     ax_top.tick_params(axis='y', labelsize=TICK_FONTSIZE)
@@ -153,10 +153,10 @@ def plot_combined_scaling():
     ax_top.yaxis.offsetText.set_fontsize(TICK_FONTSIZE)
     ax_top.grid(False)
 
-    ax_bottom.plot(s_x1, s_y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='Ours', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
+    ax_bottom.plot(s_x1, s_y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='本文方法', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax_bottom.plot(s_x2, s_y2, marker=CMS_MARKER, linestyle='-', color=CMS_COLOR, label='CB-CMS', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax_bottom.set_ylabel(r'$q_{\mathcal{I}^\star}$', fontsize=LABEL_FONTSIZE)
-    ax_bottom.text(0.98, 0.95, 'Strong Scaling', transform=ax_bottom.transAxes,
+    ax_bottom.text(0.98, 0.95, '强扩展', transform=ax_bottom.transAxes,
                    fontsize=TITLE_FONTSIZE, va='top', ha='right')
     ax_bottom.tick_params(axis='x', labelsize=TICK_FONTSIZE)
     ax_bottom.tick_params(axis='y', labelsize=TICK_FONTSIZE)
@@ -164,7 +164,7 @@ def plot_combined_scaling():
     ax_bottom.yaxis.offsetText.set_fontsize(TICK_FONTSIZE)
     ax_bottom.grid(False)
 
-    fig.supxlabel('Number of Computational Nodes', fontsize=LABEL_FONTSIZE, y=0.03)
+    fig.supxlabel('计算节点数', fontsize=LABEL_FONTSIZE, y=0.03)
 
     # Outside legend (use handles from bottom plot)
     handles, labels = ax_bottom.get_legend_handles_labels()

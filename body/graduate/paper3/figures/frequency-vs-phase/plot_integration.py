@@ -43,7 +43,7 @@ ax.plot(
     global_func_vals,
     color=cmap(0.2),
     linewidth=LINE_WIDTH,
-    label=f"Global Mode (n={n_global_to_show})",
+    label=f"全局模态 (n={n_global_to_show})",
 )
 ax.axhline(0, color=STYLE.ui_colors["reference_line"], linestyle="--", linewidth=0.8)
 
@@ -130,7 +130,7 @@ ax.annotate(
 ax.text(
     arrow_start_pos + l / 2,
     arrow_y_pos_length + 0.05,
-    f"Subdomain Length $l$",
+    f"子域长度 $l$",
     color="black",
     fontsize=LEGEND_FONTSIZE,
     ha="center",
@@ -162,7 +162,7 @@ ax.annotate(
 ax.text(
     (arrow_start_x + arrow_end_x) / 2,
     slide_text_y_pos,
-    r"Window slides: $a \in [0, L-l]$",
+    r"窗口滑动: $a \in [0, L-l]$",
     color="black",
     fontsize=LEGEND_FONTSIZE,
     ha="center",
@@ -175,11 +175,11 @@ ax.text(
 
 # --- 5. Final Touches ---
 ax.set_title(
-    f"Diagram of Sliding substructure for Integrated Error (Global Mode $n={n_global_to_show}$)",
+    f"集成误差滑动子结构示意图 (全局模态 $n={n_global_to_show}$)",
     fontsize=LABEL_FONTSIZE,
 )
-ax.set_xlabel("Global Domain Coordinate $x$", fontsize=LABEL_FONTSIZE)
-ax.set_ylabel("Amplitude", fontsize=LABEL_FONTSIZE)
+ax.set_xlabel("全局域坐标 $x$", fontsize=LABEL_FONTSIZE)
+ax.set_ylabel("振幅", fontsize=LABEL_FONTSIZE)
 ax.tick_params(axis="both", which="major", labelsize=TICK_FONTSIZE)
 
 ax.grid(False)

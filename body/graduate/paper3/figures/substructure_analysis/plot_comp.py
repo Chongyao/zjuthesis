@@ -149,7 +149,6 @@ def plot_equivalence_bar_chart(df_eig, df_schur):
                 ha="center",
                 va="bottom",
                 fontsize=12,
-                family="Times New Roman",
             )
 
     plt.title("Performance Comparison: eig vs. schur", fontsize=TITLE_FONTSIZE)
@@ -161,7 +160,7 @@ def plot_equivalence_bar_chart(df_eig, df_schur):
     plt.yticks(fontsize=TICK_FONTSIZE)
     from matplotlib.font_manager import FontProperties
 
-    legend_font = FontProperties(family="Times New Roman", size=LEGEND_FONTSIZE)
+    legend_font = FontProperties(size=LEGEND_FONTSIZE)
     plt.legend(prop=legend_font)
     plt.grid(False)  # Unified style: no grid
     plt.ylim(bottom=0)
@@ -259,7 +258,7 @@ def plot_timing_curves(df_eig, df_schur, legend_cfg=None):
     # 色标放最右
     cax = fig.add_subplot(gs[0, 2])
     cbar = fig.colorbar(line, cax=cax)
-    cbar.set_label("Problem Size", size=LABEL_FONTSIZE, family="Times New Roman")
+    cbar.set_label("问题规模", size=LABEL_FONTSIZE)
     cbar.ax.tick_params(labelsize=TICK_FONTSIZE)
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family("Times New Roman")
@@ -298,8 +297,7 @@ def plot_timing_curves(df_eig, df_schur, legend_cfg=None):
     # ax.set_ylabel('Time (s)', fontsize=22, family='Times New Roman')
     ax.tick_params(axis="x", labelsize=TICK_FONTSIZE)
     ax.tick_params(axis="y", labelsize=TICK_FONTSIZE)
-    for label in ax.get_xticklabels() + ax.get_yticklabels():
-        label.set_family("Times New Roman")
+    # 中文字体已由 plot_style_config 全局设置
     # 不在这里创建单独 legend，稍后统一合并
     ax.grid(False)  # Unified style: no grid
     ax.set_xlim(df_eig["neig_blk"].min(), df_eig["neig_blk"].max())
@@ -392,7 +390,7 @@ def plot_timing_curves(df_eig, df_schur, legend_cfg=None):
     # 增加左侧边距 (left 从 0.08 -> 0.12) 给共享 y 轴标签留更大空间，避免与 y 轴刻度或科学计数法偏移文本重叠
     plt.subplots_adjust(left=0.06, right=0.92, bottom=0.12, top=0.95, wspace=0.04)
     shared_ylabel = fig.supylabel(
-        r"$t_\text{sub-eig} \ (s)$", fontsize=LABEL_FONTSIZE, family="Times New Roman"
+        r"$t_\text{sub-eig} \ (s)$", fontsize=LABEL_FONTSIZE
     )
     # 适度左移共享 y 轴标签（默认在 x≈0.0 处），通过设置一个略微负的 x 使其离轴更远
     try:
@@ -400,9 +398,8 @@ def plot_timing_curves(df_eig, df_schur, legend_cfg=None):
     except Exception:
         pass  # 兼容旧版本 matplotlib 若不支持 set_x
     fig.supxlabel(
-        "Number of Eigenmodes",
+        "特征模态数",
         fontsize=LABEL_FONTSIZE,
-        family="Times New Roman",
         y=0.00,
     )
 
@@ -433,7 +430,7 @@ def plot_timing_curves(df_eig, df_schur, legend_cfg=None):
     from matplotlib.font_manager import FontProperties
 
     shared_font = FontProperties(
-        family="Times New Roman", size=legend_cfg.get("fontsize", 32)
+        size=legend_cfg.get("fontsize", 32)
     )
     # 支持宽高：通过 bbox_transform + bbox_to_anchor 指定 legend 的下左角，并使用 bbox_to_anchor 的 (x,y,width,height)
     pos = legend_cfg.get("pos", (0.5, 0.5))

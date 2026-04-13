@@ -367,7 +367,7 @@ METRIC_STYLES = {
 # =============================================================================
 
 FONT_CONFIG = {
-    "family": "Times New Roman",
+    "family": ["Source Han Sans CN", "Times New Roman"],
     "fallback": "serif",
     "mathtext": "stix",
     "title": 16,
@@ -518,6 +518,7 @@ def apply_style(style: PlotStyle, scale: str = "single_column"):
         plt.rcParams["font.family"] = style.fonts["fallback"]
 
     plt.rcParams["mathtext.fontset"] = style.fonts["mathtext"]
+    plt.rcParams["axes.unicode_minus"] = False
 
     # Font sizes (scaled)
     plt.rcParams["axes.titlesize"] = style.scaled_fontsize("title", scale)
