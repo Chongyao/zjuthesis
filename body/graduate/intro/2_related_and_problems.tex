@@ -123,11 +123,11 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{body/graduate/intro/figures/rod_rep.png} 
-    \caption[一维细长弹性细杆离散表示对比]{图 1.2 一维细长弹性细杆离散表示对比：同时离散中心线和局部材料标架以刻画扭转屈曲的离散柯塞拉特杆模型\cite{spillmann_corde_2007}。}
+    \caption[一维细长弹性细杆离散表示对比]{一维细长弹性细杆离散表示对比：同时离散中心线和局部材料标架以刻画扭转屈曲的离散柯塞拉特杆模型\cite{spillmann_corde_2007}。}
     \label{fig:intro_rod_representation}
 \end{figure}
 
-除了上述呈空间分布的非均匀材料外，在特定方向上受到极端本构约束的同质材料同样会引发严重的软硬耦合。在这类问题中，不可拉伸的一维细长弹性体（如毛发、纱线级布料、手术缝合线等）的动力学仿真是一个典型问题。与传统的质点-弹簧模型仅追踪离散质点的位置不同，为了准确重现真实细长物体在扭转作用下产生的屈曲和打结等复杂非线性现象，离散柯塞拉特杆模型（Discrete Cosserat Rods）或基尔霍夫杆模型（Kirchhoff Rod Model）被广泛采用~\cite{pai2002strands,spillmann_corde_2007}。这类模型不仅需要追踪一维中心线的空间演化，还必须在中心线的每一点附着一个正交的材料标架，以此来完整刻画物体内部的弯曲与扭转状态\Cref{fig:intro_rod_representation}。
+除了上述呈空间分布的非均匀材料外，在特定方向上受到极端本构约束的同质材料同样会引发严重的软硬耦合。在这类问题中，不可拉伸的一维细长弹性体（如毛发、纱线级布料、手术缝合线等）的动力学仿真是一个典型问题。与传统的质点-弹簧模型仅追踪离散质点的位置不同，为了准确重现真实细长物体在扭转作用下产生的屈曲和打结等复杂非线性现象，离散柯塞拉特杆模型（Discrete Cosserat Rods）或基尔霍夫杆模型（Kirchhoff Rod Model）被广泛采用~\cite{pai2002strands,spillmann_corde_2007}。这类模型不仅需要追踪一维中心线的空间演化，还必须在中心线的每一点附着一个正交的材料标架，以此来完整刻画物体内部的弯曲与扭转状态（\Cref{fig:intro_rod_representation}）。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{body/graduate/intro/figures/rod_deform.png} 
