@@ -19,28 +19,28 @@
   \centering
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
-    \caption{$\mathcal{P}^p$}
+    \caption[$\mathcal{P}^p$]{$\mathcal{P}^p$}
   \end{subfigure}
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/partition-d.png}
-    \caption{$\mathcal{P}^d$}
+    \caption[$\mathcal{P}^d$]{$\mathcal{P}^d$}
   \end{subfigure}
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-1.png}
-    \caption{$\mathbf{S}^d_2$}
+    \caption[$\mathbf{S}^d_2$]{$\mathbf{S}^d_2$}
   \end{subfigure}
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/primal-eig.png}
-    \caption{$\mathbf{S}^p_2$}
+    \caption[$\mathbf{S}^p_2$]{$\mathbf{S}^p_2$}
   \end{subfigure}
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/dual-eig-2.png}
-    \caption{$\mathbf{S}^d_3$}
+    \caption[$\mathbf{S}^d_3$]{$\mathbf{S}^d_3$}
   \end{subfigure}
   \begin{subfigure}{\linewidth}
     \includegraphics[width=\linewidth]{frequency-vs-phase/fixed-vs-complete-eig-error.pdf}
   \end{subfigure}
-  \caption{\textbf{两个子空间的误差比较。}\textbf{上图：原始-对偶划分和子结构特征模态示例。} $\mathbf{S}^p_2$ 的相位与 $\mathbf{S}^d_3$ 和 $\mathbf{S}^d_2$ 的相位不同。\textbf{下图：误差比较。} 相位完备基 $[\mathbf{S}_\mathcal{I}^p, \mathbf{S}_\mathcal{I}^d]$ 的误差（中）显著低于（右）相位固定基 $\mathbf{S}_{\mathcal{I}}^p$ 的误差（左）。}
+  \caption[两个子空间的误差比较]{两个子空间的误差比较。上图：原始-对偶划分和子结构特征模态示例。$\mathbf{S}^p_2$ 的相位与 $\mathbf{S}^d_3$ 和 $\mathbf{S}^d_2$ 的相位不同。下图：误差比较。相位完备基 $[\mathbf{S}_\mathcal{I}^p, \mathbf{S}_\mathcal{I}^d]$ 的误差（中）显著低于（右）相位固定基 $\mathbf{S}_{\mathcal{I}}^p$ 的误差（左）。}
   \label{fig:primal-dual-partition-example}
 \end{figure}
 
@@ -96,22 +96,22 @@
   \begin{subfigure}{1.0\linewidth}
     \centering
     \includegraphics[width=\linewidth]{interface-modes-example/dual-sub-eig-combined.png}
-    \caption{对偶划分的子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$。}
+    \caption[对偶划分的子结构特征模态]{对偶划分的子结构特征模态 $\mathbf{S}_{\mathcal{I}}^d$。}
     \label{fig:imr-boundary-condition}
   \end{subfigure}
   \begin{subfigure}{1.0\linewidth}
     \centering
     \includegraphics[width=\linewidth]{interface-modes-example/SE-free-IMR-combined.png}
-    \caption{本文方法生成的无舒尔补界面模态 $\mathbf{S}_b^{p \leftarrow d}$。}
+    \caption[本文方法生成的无舒尔补界面模态]{本文方法生成的无舒尔补界面模态 $\mathbf{S}_b^{p \leftarrow d}$。}
     \label{fig:imr-ours}
   \end{subfigure}
   \begin{subfigure}{1.0\linewidth}
     \centering
     \includegraphics[width=\linewidth]{interface-modes-example/gt-combined.png}
-    \caption{传统界面模态缩减法的界面模态，从第 1 阶到第 10 阶模态。}
+    \caption[传统界面模态缩减法的界面模态]{传统界面模态缩减法的界面模态，从第 1 阶到第 10 阶模态。}
     \label{fig:imr-tra}
   \end{subfigure}
-  \caption{\textbf{无舒尔补界面模态。} 由于原始划分界面位于对偶子结构内部，我们提取对偶低频特征模态 (a) 在界面处的值作为 Dirichlet 边界条件。本文方法生成的界面模态 (b) 与传统界面模态缩减法生成的界面模态 (c) 在形态上较为接近，但消除了舒尔补和后续稠密特征求解器的高昂成本。}
+  \caption[无舒尔补界面模态]{无舒尔补界面模态。由于原始划分界面位于对偶子结构内部，我们提取对偶低频特征模态 (a) 在界面处的值作为 Dirichlet 边界条件。本文方法生成的界面模态 (b) 与传统界面模态缩减法生成的界面模态 (c) 在形态上较为接近，但消除了舒尔补和后续稠密特征求解器的高昂成本。}
   \label{fig:interface-modes-example}
 \end{figure}
 
@@ -151,7 +151,7 @@
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=0.28\linewidth]{mu_and_sigma/mu_and_sigma_plot.pdf}
-  \caption{\textbf{正则化参数对误差的影响。} 图中展示了计算误差对扰动参数 $\mu$ 的敏感性。结果表明，当 $\mu$ 和 $\sigma$ 选取适当时，这种简单的对角扰动方案能够达到与高成本正交化技术相当的计算精度。}
+  \caption[正则化参数对误差的影响]{正则化参数对误差的影响。图中展示了计算误差对扰动参数 $\mu$ 的敏感性。结果表明，当 $\mu$ 和 $\sigma$ 选取适当时，这种简单的对角扰动方案能够达到与高成本正交化技术相当的计算精度。}
   \label{fig:mu-and-sigma-sensitivity}
 \end{figure}
 
@@ -174,7 +174,7 @@
   \color{black}{
   \input{body/graduate/paper3/figures/matrix_structure.pdf_tex}
   }
-  \caption{\textbf{缩减矩阵的稀疏结构。}
+  \caption[缩减矩阵的稀疏结构]{缩减矩阵的稀疏结构。
     （左）缩减刚度矩阵。图中“消失的投影”标注了计算中被跳过的零交叉项。由于无舒尔补界面模态满足静力平衡，中间乘积退化为 $\mathbf{K} \mathbf{S}_b = [\mathbf{0}^T, \mathbf{f}_b^T]^T$。
     （右）缩减质量矩阵，其非零块模式直接反映了原始与对偶子结构间的几何重叠关系。}
   \label{fig:reduced-matrix-structure}

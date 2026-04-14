@@ -94,7 +94,7 @@
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{critical-qb/combined_scaling.pdf}
-  \caption{\textbf{子结构特征模态的临界数量。} 本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 小于传统模态综合法。}
+  \caption[子结构特征模态的临界数量]{子结构特征模态的临界数量。本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 小于传统模态综合法。}
   \label{fig:critical-qb}
 \end{figure}
 
@@ -102,14 +102,14 @@
   \centering
   \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_total_breakdown.pdf}
   \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_peak_memory_line.pdf}
-  \caption{\textbf{强弱扩展下的时间与内存代价。} 相比于传统模态综合法，本文方法在保持更低内存开销的同时，展现了更好的内存可扩展性。}
+  \caption[强弱扩展下的时间与内存代价]{强弱扩展下的时间与内存代价。相比于传统模态综合法，本文方法在保持更低内存开销的同时，展现了更好的内存可扩展性。}
   \label{fig:scaling}
 \end{figure}
 
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_balance_line.pdf}
-  \caption{\textbf{强弱扩展中并行部分的均衡性。} 相比于传统模态综合法，本文方法在时间开销和内存开销上保持了较好的均衡性。这反映了本文方法具备较好的并行计算适应性。}
+  \caption[强弱扩展中并行部分的均衡性]{强弱扩展中并行部分的均衡性。相比于传统模态综合法，本文方法在时间开销和内存开销上保持了较好的均衡性。这反映了本文方法具备较好的并行计算适应性。}
   \label{fig:scaling-balance}
 \end{figure}
 
@@ -120,14 +120,14 @@
 \begin{figure}[tbp]
   \centering
     \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
-  \caption{\textbf{强扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
+  \caption[强扩展时间代价分解]{强扩展时间代价分解。预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
   \label{fig:strong-scaling-breakdown}
 \end{figure}
 
 \begin{figure}[tbp]
   \centering
     \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
-  \caption{\textbf{弱扩展时间代价分解。} 预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
+  \caption[弱扩展时间代价分解]{弱扩展时间代价分解。预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
   \label{fig:weak-scaling-breakdown}
 \end{figure}
 
@@ -167,7 +167,7 @@
     \begin{subfigure}{\linewidth}
         \includegraphics[width=\linewidth]{comparison-figures/breaker/breaker_comparison.pdf}
     \end{subfigure}
-    \caption{\textbf{轴对齐划分下针对拉普拉斯问题的对比。} 在采用简单轴对齐划分的拉普拉斯问题上，本文方法表现出较好的求解效率。}
+    \caption[轴对齐划分下针对拉普拉斯问题的对比]{轴对齐划分下针对拉普拉斯问题的对比。在采用简单轴对齐划分的拉普拉斯问题上，本文方法表现出较好的求解效率。}
     \label{fig:laplacian-aa-error-time}
 \end{figure}
 
@@ -197,7 +197,7 @@
     \begin{subfigure}{\linewidth}
       \includegraphics[width=\linewidth]{comparison-figures/cat/cat_comparison.pdf}
     \end{subfigure}
-    \caption{\textbf{采用 METIS 划分针对拉普拉斯问题的对比。} 顶部第一排左侧两幅图展示了划分情况。本文方法保持了效率表现，在同等时间代价下取得了更小的误差。若未加入互补子结构（图中 PD-NC 曲线），误差则处于较高水平，由此验证了互补子结构的必要性。}
+    \caption[采用 METIS 划分针对拉普拉斯问题的对比]{采用 METIS 划分针对拉普拉斯问题的对比。顶部第一排左侧两幅图展示了划分情况。本文方法保持了效率表现，在同等时间代价下取得了更小的误差。若未加入互补子结构（图中 PD-NC 曲线），误差则处于较高水平，由此验证了互补子结构的必要性。}
     \label{fig:laplacian-metis-error-time}
 \end{figure}
 
@@ -217,7 +217,7 @@
   \begin{subfigure}{\linewidth}
     \includegraphics[width=\linewidth]{comparison-figures/board/board_comparison.pdf}
   \end{subfigure}
-  \caption{\textbf{轴对齐划分下针对弹性问题的对比。} 在弹性问题上，本文方法的误差水平低于其它方法；在达到同等精度要求时，其所需的计算时间更短。此外，得益于高质量的降维特征子空间，本文方法在达到相同全局精度所需提取的子结构特征模态数量大幅减少。}
+  \caption[轴对齐划分下针对弹性问题的对比]{轴对齐划分下针对弹性问题的对比。在弹性问题上，本文方法的误差水平低于其它方法；在达到同等精度要求时，其所需的计算时间更短。此外，得益于高质量的降维特征子空间，本文方法在达到相同全局精度所需提取的子结构特征模态数量大幅减少。}
   \label{fig:elasticity-aa-error-time}
 \end{figure}
 
@@ -230,7 +230,7 @@
 \begin{figure}[tbp]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
- \caption{\textbf{综合效率对比：时间与准确模态数关系。} 曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。本文方法能在获取同一目标值 $q_t$ 的情况下始终快于 Craig--Bampton 模态综合法、自动多层子结构法以及带界面模态缩减的单划分模态综合法。}
+ \caption[综合效率对比：时间与准确模态数关系]{综合效率对比：时间与准确模态数关系。曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。本文方法能在获取同一目标值 $q_t$ 的情况下始终快于 Craig--Bampton 模态综合法、自动多层子结构法以及带界面模态缩减的单划分模态综合法。}
  \label{fig:comp-timing-vs-nev}
 \end{figure}
 
@@ -261,7 +261,7 @@
   \end{tabular}
 
   \includegraphics[width=\linewidth]{local_update/PCB_np4_neig100/benchmark_comparison.pdf}
-  \caption{\textbf{PCB 模型：划分与局部更新的性能。} 顶部：原始网格（第一行）和被删除了部分 PCB 网格的修改后网格（第二行）的原始与对偶划分。底部：耗时对比图显示，通过采用局部更新机制，总计算耗时从 20.02\,s 削减到了 15.60\,s。}
+  \caption[PCB 模型：划分与局部更新的性能]{PCB 模型：划分与局部更新的性能。顶部：原始网格（第一行）和被删除了部分 PCB 网格的修改后网格（第二行）的原始与对偶划分。底部：耗时对比图显示，通过采用局部更新机制，总计算耗时从 20.02\,s 削减到了 15.60\,s。}
   \label{fig:pcb-local-update}
 \end{figure}
 
@@ -279,7 +279,7 @@
     \draw[red, line width=.5pt] (img.north west) rectangle ([xshift=0.05\linewidth]img.south west);
   \end{tikzpicture}
   \includegraphics[width=\linewidth]{local_update/micro_long/benchmark_neig100_comparison.pdf}
-  \caption{\textbf{微结构模型：划分与局部更新的性能。} 顶部：原始网格（第一行）和修改后网格（第二行，部分微观结构更换为更粗体结构）的原始与对偶划分；特征向量的比较（第三行）。底部：耗时对比图显示，对比完整重算过程，局部更新取得了大概 $2.24\times$ 的加速。}
+  \caption[微结构模型：划分与局部更新的性能]{微结构模型：划分与局部更新的性能。顶部：原始网格（第一行）和修改后网格（第二行，部分微观结构更换为更粗体结构）的原始与对偶划分；特征向量的比较（第三行）。底部：耗时对比图显示，对比完整重算过程，局部更新取得了大概 $2.24\times$ 的加速。}
   \label{fig:micro-local-update}
 \end{figure}
 
@@ -293,7 +293,7 @@
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\linewidth]{teaser/teaser.pdf}
-  \caption{\textbf{猎鹰 9 号火箭模型的大规模 MPI 并行计算。} 实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 Craig--Bampton 模态综合法单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟收敛 949 阶特征模态；而本文方法计算出 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
+  \caption[猎鹰 9 号火箭模型的大规模 MPI 并行计算]{猎鹰 9 号火箭模型的大规模 MPI 并行计算。实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 Craig--Bampton 模态综合法单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟收敛 949 阶特征模态；而本文方法计算出 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
   \label{fig:teaser}
 \end{figure}
 
@@ -309,6 +309,6 @@
   \includegraphics[width=0.32\linewidth]{animation/mpv-shot0001.png}
   \includegraphics[width=0.32\linewidth]{animation/mpv-shot0002.png}
   \includegraphics[width=0.32\linewidth]{animation/mpv-shot0003.png}
-  \caption{\textbf{基于降阶模型的动画示例。}}
+  \caption[基于降阶模型的动画示例]{基于降阶模型的动画示例。}
   \label{fig:animation}
 \end{figure}
