@@ -17,7 +17,7 @@
     \centering
     \includegraphics[width=0.4\textwidth]{body/graduate/intro/figures/local_basis.jpg}
     \includegraphics[width=0.4\textwidth]{body/graduate/intro/figures/global_basis.jpeg}
-    \caption{局部的拉格朗日插值基函数（左）\cite{chen2018numerical} 与全局特征基函数（右）\cite{barbic2005real}。}
+    \caption[局部与全局基函数对比]{局部的拉格朗日插值基函数（左）\cite{chen2018numerical} 与全局特征基函数（右）\cite{barbic2005real}。}
     \label{fig:local-and-global-basis}
 \end{figure}
 在计算机图形学以及基于有限元方法（Finite Element Method, FEM）的物理仿真中，最普遍的离散表征是基于网格拓扑的\textbf{局部插值基函数}（如线性拉格朗日形函数~\cite{chen2018numerical}）。如图~\ref{fig:local-and-global-basis} 所示，对于三维空间中的连续形变场，我们仅在计算机中维护离散采样点（即网格节点）处的物理量。物体内部任意位置的状态则通过周围节点的基函数线性插值获得。最常见的是满足克罗内克（Kronecker delta）插值性质的拉格朗日基函数：
@@ -116,14 +116,14 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{body/graduate/intro/figures/coarsening.png}
-    \caption{非均匀材料仿真中的数值粗化（Numerical Coarsening）。该类方法通常构建一个分辨率更低的粗网格，并通过优化其上的材料参数（如弹性张量）或基函数，来近似原始细网格上的物理行为并缓解刚度失配~\cite{chen2018numerical, chen2019material,ChenDdFEM2015}。}
+    \caption[非均匀材料仿真中的数值粗化]{非均匀材料仿真中的数值粗化（Numerical Coarsening）。该类方法通常构建一个分辨率更低的粗网格，并通过优化其上的材料参数（如弹性张量）或基函数，来近似原始细网格上的物理行为并缓解刚度失配~\cite{chen2018numerical, chen2019material,ChenDdFEM2015}。}
     \label{fig:intro_coarsening}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{body/graduate/intro/figures/rod_rep.png} 
-    \caption{图 1.2 一维细长弹性细杆离散表示对比：同时离散中心线和局部材料标架以刻画扭转屈曲的离散柯塞拉特杆模型\cite{spillmann_corde_2007}。}
+    \caption[一维细长弹性细杆离散表示对比]{图 1.2 一维细长弹性细杆离散表示对比：同时离散中心线和局部材料标架以刻画扭转屈曲的离散柯塞拉特杆模型\cite{spillmann_corde_2007}。}
     \label{fig:intro_rod_representation}
 \end{figure}
 
@@ -131,7 +131,7 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{body/graduate/intro/figures/rod_deform.png} 
-    \caption{不可伸长弹性细杆中的软硬刚度失配：极难发生的轴向拉伸对应极大的能量代价（硬模式，左），而相对容易发生的弯曲与扭转对应微小的能量代价（软模式，右）。}
+    \caption[不可伸长弹性细杆中的软硬刚度失配]{不可伸长弹性细杆中的软硬刚度失配：极难发生的轴向拉伸对应极大的能量代价（硬模式，左），而相对容易发生的弯曲与扭转对应微小的能量代价（软模式，右）。}
     \label{fig:intro_stiff_soft_rod}
 \end{figure}
 
@@ -158,7 +158,7 @@
     \centering
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/good-mesh.png} 
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/bad-mesh.png} 
-    \caption{畸变网格单元的采样劣化：标准网格（左，来自~\cite{rangarajan2026cutvem}）与包含极度扁平单元的网格（右，来自~\cite{chen_multiscale_2021}）对比图，后者极大地限制了计算的稳定性与精度。}
+    \caption[畸变网格单元的采样劣化]{畸变网格单元的采样劣化：标准网格（左，来自~\cite{rangarajan2026cutvem}）与包含极度扁平单元的网格（右，来自~\cite{chen_multiscale_2021}）对比图，后者极大地限制了计算的稳定性与精度。}
     \label{fig:intro_sliver_mesh}
 \end{figure}
 在连续偏微分方程的高维求解或有限元物理模拟中，对复杂几何体或大变形拓扑的离散化是建立整个底层计算管线的基础。最常用的空间离散方法是通过由局部节点支撑的多项式形函数（如拉格朗日形函数）对连续场（如位移、应变等）进行采样与近似。然而，在面对高曲率的薄壁结构、复杂的交界面以及发生交互式切割等破坏性拓扑变化的动态场景时，由于空间采样点的极端不均匀分布，离散网格往往会不可避免地退化出各种形状极其恶劣的单元。其中，以三维空间下的扁平四面体单元最为典型且棘手，其四个顶点几乎共面，体积或内切与外接半径比极小~\cite{Tournois2009PerturbingSlivers, Cheng1999SliverExudation}。
@@ -167,7 +167,7 @@
     \centering
     \includegraphics[width=0.3\textwidth]{body/graduate/intro/figures/mesh_schematic.png}
     \includegraphics[width=0.6\textwidth]{body/graduate/intro/figures/condition_numbers.png}
-    \caption{网格畸变诱发的数值病态：畸变单元（左）导致单元和全局刚度矩阵条件数恶化。}
+    \caption[网格畸变诱发的数值病态]{网格畸变诱发的数值病态：畸变单元（左）导致单元和全局刚度矩阵条件数恶化。}
     \label{fig:intro_sliver_condition}
 \end{figure}
 网格质量的劣化不仅影响几何表征，还会在离散系统中引入“极短空间距离”约束，引发软硬耦合病态性。从数值分析角度看，局部单元 $\Omega_e$ 的物理坐标 $\mathbf{x}$ 与参考坐标 $\boldsymbol{\xi}$ 映射由雅可比矩阵 $\mathbf{J}_e$ 描述。拉格朗日基函数 $\phi_i(\mathbf{x})$ 的梯度遵循链式法则：
@@ -194,7 +194,7 @@
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.72\linewidth]{body/graduate/intro/figures/CMS.png}
-  \caption{模态综合法中子结构划分与界面缩减的示意图。整体结构首先被划分为若干子结构，再在局部模态提取与界面缩减的基础上组装为缩减后的全局模型。图引自 Gibanica 等~\cite{GIBANICA2017348}。}
+    \caption[模态综合法中的子结构划分与界面缩减]{模态综合法中子结构划分与界面缩减的示意图。整体结构首先被划分为若干子结构，再在局部模态提取与界面缩减的基础上组装为缩减后的全局模型。图引自 Gibanica 等~\cite{GIBANICA2017348}。}
   \label{fig:intro_cms_partition}
 \end{figure}
 在结构动力学分析、声学模拟以及计算机图形学的形变控制中，提取大规模工程模型的固有振动频率与其对应的变形模式是一项决定性任务。这一问题在数学上被公式化为求解规模巨大的无阻尼广义特征值问题 $\mathbf{K}\mathbf{u} = \lambda\mathbf{M}\mathbf{u}$。在几乎所有的物理系统中，起主导作用并决定整体结构宏观动态响应的往往是对应于较小特征值的前几十至上百个低频（即“软”）模态。因此，大规模模态分析的核心挑战，本质上是一个从千万甚至上亿自由度系统中，如何高效且高保真地提取并降维出一个能够精确捕捉全局低频“软”响应的超大规模特征子空间问题。
