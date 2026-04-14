@@ -38,11 +38,11 @@
   \centering
   \centering
   \includegraphics[width=0.75\textwidth]{single_chain_new.pdf}
-  \caption{\textbf{链式结构。} \textcolor{black}{提出了一种紧凑的链式结构，没有冗余自由度来表示不可伸长的 Cosserat 杆，即 Kirchhoff 杆。}}
+  \caption{\textbf{链式结构。} \textcolor{black}{提出了一种紧凑的链式结构，没有冗余自由度来表示不可伸长的柯塞拉特杆，即基尔霍夫杆。}}
   \label{fig:single-chain}
 \end{figure}
 
-综合以上内容，使用根顶点处的 $\p_c \in \mathcal{R}^3$ 和第 $i$ 个段 $\mathbf{e}_i$ 上的 $\omega_i\in\mathcal{R}^3$ 来表示杆。回顾使用 $\p$ 和 $\q$ 中 $7n-4$ 个变量的传统表示方法，在~\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中有 $4(n-1)$ 个线性独立约束，因此实际上只有 $(7n-4)-4(n-1)=3n$ 个自由度。本文的表示方法 $\mathbf{s}=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$ 恰好有 $3n$ 个自由度，自然匹配非闭环不可伸长分段线性 Cosserat 杆的本质。\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中的所有等式约束都是不必要的，在采用该表示方法时它们已被自然满足。\textcolor{black}{实际上，该方法有效地建模了一类特殊的不可剪切且不可伸长的 Cosserat 杆，即 Kirchhoff 杆~\cite{dill1992kirchhoff}。}
+综合以上内容，使用根顶点处的 $\p_c \in \mathcal{R}^3$ 和第 $i$ 个段 $\mathbf{e}_i$ 上的 $\omega_i\in\mathcal{R}^3$ 来表示杆。回顾使用 $\p$ 和 $\q$ 中 $7n-4$ 个变量的传统表示方法，在~\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中有 $4(n-1)$ 个线性独立约束，因此实际上只有 $(7n-4)-4(n-1)=3n$ 个自由度。本文的表示方法 $\mathbf{s}=[\p_{\text{c}}^\top, \mathbf{\omega}^\top]^\top$ 恰好有 $3n$ 个自由度，自然匹配非闭环不可伸长分段线性柯塞拉特杆的本质。\Cref{eq: inext_cons_d,eq: unitq_cons,eq: alignment_cons} 中的所有等式约束都是不必要的，在采用该表示方法时它们已被自然满足。\textcolor{black}{实际上，该方法有效地建模了一类特殊的不可剪切且不可伸长的柯塞拉特杆，即基尔霍夫杆~\cite{dill1992kirchhoff}。}
 
 这一点也说明了本文方法的物理适用范围。通过将位置更新完全建立在线段静止长度与局部旋转之上，本文事实上默认了轴向拉伸与剪切形变可以忽略，而主要保留弯曲与扭转主导的动力学响应。对于细长比很大、且几何变化主要体现为弯扭传播的线缆、细丝与线状结构，这一假设是合理的；也正是在这种场景下，采用更贴近杆内在运动学的广义坐标，能够显著减少传统表示中的冗余约束负担。
 
