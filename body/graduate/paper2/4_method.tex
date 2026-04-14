@@ -31,7 +31,7 @@
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=\textwidth]{figpdf/demo.pdf}
-  \caption{\textbf{两层聚合示例。}一个具有明显病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱与重新网格化的网格（左下）接近。}
+  \caption[两层聚合示例]{两层聚合示例。一个具有明显病态单元的网格（左上）被细化（上中），然后聚合成具有优化基函数的多面体（右上），其频谱与重新网格化的网格（左下）接近。}
   \label{fig:refinement_adjoint_coarsening_demo}
 \end{figure}
 
@@ -70,7 +70,7 @@ Chen 等人~\cite{chen2019material, chen2018numerical}通过最小化 Galerkin �
 \begin{figure}[tbp]
     \centering
     \includegraphics[width=0.4\linewidth]{figures/split-zjx/F4.0523a.png}
-    \caption{\textbf{局部网格细分示意。}对于候选四面体及其局部邻域，我们分别考虑边细分与面细分等不同情形，并比较细分后局部四面体块的数值性质，从中选择更优的细分配置。}
+  \caption[局部网格细分示意]{局部网格细分示意。对于候选四面体及其局部邻域，我们分别考虑边细分与面细分等不同情形，并比较细分后局部四面体块的数值性质，从中选择更优的细分配置。}
     \label{fig:local-mesh-subdivision}
 \end{figure}
 
@@ -108,7 +108,7 @@ Chen 等人~\cite{chen2019material, chen2018numerical}通过最小化 Galerkin �
     \includegraphics[height=0.20\textwidth]{figures/subdivide/foot_at_center.png}
     \includegraphics[height=0.20\textwidth]{figures/subdivide/foot_at_edge.png}
     \includegraphics[height=0.20\textwidth]{figures/subdivide/like_quad.png}
-    \caption{\textbf{隐式强连接经细分后转化为显式强连接。}}
+    \caption[隐式强连接经细分后转化为显式强连接]{隐式强连接经细分后转化为显式强连接。}
     \label{fig:strong-link-implicit-to-explicit}
 \end{figure}
 
@@ -167,7 +167,7 @@ Chen 等人~\cite{chen2019material, chen2018numerical}通过最小化 Galerkin �
       node[pos=0.52, below=1.18cm, align=center, font=\small, text=hierotext] {基函数优化与强连接隔离}
       (MH.south east);
   \end{tikzpicture}
-  \caption{基于细化的层次结构示意图。输入网格 $\mathcal{M}^{h}$ 经局部细分生成 $\mathcal{M}^{h+}$，使隐式强连接转化为显式强连接；随后再通过局部基函数优化与强连接处理构造最终计算网格 $\mathcal{M}^{H}$。}
+  \caption[基于细化的层次结构示意图]{基于细化的层次结构示意图。输入网格 $\mathcal{M}^{h}$ 经局部细分生成 $\mathcal{M}^{h+}$，使隐式强连接转化为显式强连接；随后再通过局部基函数优化与强连接处理构造最终计算网格 $\mathcal{M}^{H}$。}
   \label{fig:paper2-hierarchy-overview}
 \end{figure}
 
@@ -198,7 +198,7 @@ Chen 等人~\cite{chen2019material, chen2018numerical}通过最小化 Galerkin �
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=0.7\linewidth]{plot_figures/Fig56/Fig56.0524.png}
-  \caption{\textbf{显式强连接及其隔离效果。}左：一个典型的微结构模型，经 Tetgen 离散化为四面体网格后，其中部分单元包含一对距离极近的顶点，从而形成显式强连接。右上：$\mathbf{K}^H$ 与互补块 $\mathbf{B}^H$ 的频谱变化。右下：是否进行显式强连接隔离时的收敛比率比较。}
+  \caption[显式强连接及其隔离效果]{显式强连接及其隔离效果。左：一个典型的微结构模型，经 Tetgen 离散化为四面体网格后，其中部分单元包含一对距离极近的顶点，从而形成显式强连接。右上：$\mathbf{K}^H$ 与互补块 $\mathbf{B}^H$ 的频谱变化。右下：是否进行显式强连接隔离时的收敛比率比较。}
   \label{fig:strong-link-demo}
 \end{figure}
 
