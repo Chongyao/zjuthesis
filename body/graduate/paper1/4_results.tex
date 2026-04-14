@@ -26,11 +26,10 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
       \node [anchor=west,inner sep=0] at (0.7, 0.32) {\small{罚函数法-权重1e9}};
       \node [anchor=west,inner sep=0] at (0.7, 0.21) {\small{KKT方法}};
       \node [anchor=west,inner sep=0] at (0.7, 0.1) {\small{本文方法}};
-
     \end{scope}
   \end{tikzpicture}
   % \includegraphics[width=\textwidth]{helix_vs_penalty/final.pdf}
-  \caption{\textbf{重力作用下的螺旋线。} 模拟由 200 个线段构成的螺旋杆，每个时间步最多使用 5 次牛顿迭代。}
+  \caption[重力作用下的螺旋线]{模拟由 200 个线段构成的螺旋杆，每个时间步最多使用 5 次牛顿迭代。}
   \label{fig:visual_damping_penalty}
 \end{figure}
 
@@ -57,7 +56,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
   \caption{对齐约束的违反程度。}
   \label{fig:align_penalty}
   \end{subfigure}
-  \caption{\color{black}\textbf{罚函数方法中的约束违背。}
+  \caption[罚函数方法中的约束违背]{
   罚函数法无法精确满足不可伸长约束（a）与对齐约束（b），当权重不足时违背更显著。注意第 0 帧各方法误差均为 0，故曲线从第 1 帧开始绘制。}
   \label{fig:compare_penalty_method}
 \end{figure}
@@ -83,7 +82,7 @@ $T_{trans} = \frac{1}{2}\sum_i m_i v_i^2$ 与式~\ref{eq:T_q} 中 $T_{q,i}$ 求�
   \label{fig:damping_amplitude}
   \end{subfigure}
 
-  \caption{\color{black}\textbf{罚函数法（权重=1e9）在不同迭代次数下的数值阻尼。}
+  \caption[罚函数法（权重=1e9）在不同迭代次数下的数值阻尼]{
   更大权重引入更强数值阻尼，需要更多牛顿迭代以减轻伪影。}
   \label{fig:numeric_damping}
 \end{figure}
@@ -108,7 +107,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
  \label{timing_B}
   \end{subfigure}
 
-  \caption{\color{black}\textbf{本文方法与罚函数法的性能对比。}
+  \caption[本文方法与罚函数法的性能对比]{
   在收敛条件下，大权重罚函数法需要更多迭代与更高时间开销。}
   \label{fig:time_comparison_penalty}
 \end{figure}
@@ -141,7 +140,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
   \label{fig:kkt_violation_b}
   \end{subfigure}
 
-  \caption{\textbf{本文方法与笛卡尔坐标直接 KKT 方法比较。}
+  \caption[本文方法与笛卡尔坐标直接 KKT 方法比较]{
   在图~\ref{fig:visual_damping_penalty} 场景中，本文方法不仅耗时更低（a），且可严格满足非线性内在约束（b,c）。}
   \label{fig:compare_direct_method}
 \end{figure}
@@ -156,7 +155,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{super_helix/render1.notation.png}
-  \caption{\textbf{拖动杆根部。}使用 200 个线段模拟该场景，参考长度 $1\mathrm{m}$，密度 $\SI{1}{\den}$，半径 $\SI{0.03}{m}$，杨氏模量 $\SI{1}{MPa}$，剪切模量 $\SI{1}{MPa}$，时间步长 $\Delta t=\SI{250}{ms}$。对顶部两个顶点施加位移
+  \caption[拖动杆根部]{使用 200 个线段模拟该场景，参考长度 $1\mathrm{m}$，密度 $\SI{1}{\den}$，半径 $\SI{0.03}{m}$，杨氏模量 $\SI{1}{MPa}$，剪切模量 $\SI{1}{MPa}$，时间步长 $\Delta t=\SI{250}{ms}$。对顶部两个顶点施加位移
   $\phi \sin (2\pi f t)$，取 $f=1$、$\phi=\SI{0.5}{m}$。}
   \label{fig:compare_to_super_helix}
 \end{figure}
@@ -198,7 +197,7 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
     \caption{扩展 RedMax 与本文方法在重力螺旋场景下对比。}
   \end{subfigure}
 
-  \caption{\textbf{与扩展 RedMax 的稳定性比较。}
+  \caption[与扩展 RedMax 的稳定性比较]{
   对每个重力加速度 $g$，二分法最后一步给出时间步区间（a），其起点（紫线）对应稳定仿真，终点（橙线）对应不稳定仿真。随 $g$ 增大，RedMax 稳定域显著收缩；图（b）展示了（a）中首个采样点对应的可视化结果。}
   \label{fig:timestep_limit}
 \end{figure}
@@ -218,7 +217,7 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
 \begin{figure}[H]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{strand_helices/helices-long.png} \end{subfigure}
-  \caption{\textbf{穿过弹簧的细杆。} 两个弹簧在滑动过程中相互碰撞，接触丰富，本文方法可稳定处理。}
+  \caption[穿过弹簧的细杆]{两个弹簧在滑动过程中相互碰撞，接触丰富，本文方法可稳定处理。}
   \label{fig:demo_hang}
 \end{figure}
 
@@ -231,7 +230,7 @@ $E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，
 \begin{figure}[H]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{knot/knots-long.png} \end{subfigure}
-  \caption{\textbf{打结。}本文方法能重现打结过程，并在大拉力下保持不可伸长性。\textcolor{black}{使用不同颜色区分杆表面不同侧面以增强可视化。}}
+  \caption[打结]{本文方法能重现打结过程，并在大拉力下保持不可伸长性。\textcolor{black}{使用不同颜色区分杆表面不同侧面以增强可视化。}}
   \label{fig:demo_knot0}
 \end{figure}
 
@@ -246,7 +245,7 @@ $E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，
     \node [anchor=east, inner sep=0] at (7.2, 3.2) {\footnotesize{$20000\mathrm{N}$}};
     \node [anchor=west, inner sep=0] at (5.3, 0.2) {\footnotesize{$20000\mathrm{N}$}};
   \end{tikzpicture}
-  \caption{\textbf{不同拉力下的打结。}更大的拉力可形成更紧的结。}
+  \caption[不同拉力下的打结]{更大的拉力可形成更紧的结。}
   \label{fig:tightest_knot}
 \end{figure}
 
@@ -261,7 +260,7 @@ $E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，
     \centering
     \includegraphics[width=\textwidth,height=0.25\textwidth]{plectoneme/plectoneme-long.png}
   \end{subfigure}
-  \caption{\textbf{超螺旋形成。}该过程体现扭转能向弯曲能转换；杆两端仅沿 $x$ 方向自由移动。}
+  \caption[超螺旋形成]{该过程体现扭转能向弯曲能转换；杆两端仅沿 $x$ 方向自由移动。}
   \label{fig:demo_plectoneme}
 \end{figure}
 
@@ -277,7 +276,7 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
     \centering
     \includegraphics[width=\textwidth]{pulley/pulley-long.png}
   \end{subfigure}
-  \caption{\textbf{杆落在三个圆柱上。}该示例展示了本文方法处理外部障碍接触的能力。}
+  \caption[杆落在三个圆柱上]{该示例展示了本文方法处理外部障碍接触的能力。}
   \label{fig:pulley}
 \end{figure}
 
