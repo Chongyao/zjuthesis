@@ -1,0 +1,68 @@
+\documentclass[UTF8,fontset=none]{ctexart}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{xcolor}
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans Mono CJK SC}
+
+\graphicspath{{/home/zcy/workspace/records/zjuthesis/body/graduate/paper1/figures/}}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \node [above right, inner sep=0] (image) at (0, 0) {
+      \includegraphics[width=\textwidth]{helix_vs_penalty/render.png}
+    };
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+      \node [inner sep=0] at (0.7, 0.8) {重力$g$};
+      \node [anchor=west,inner sep=0] at (0.7, 0.43) {\small{罚函数法-权重1e2}};
+      \node [anchor=west,inner sep=0] at (0.7, 0.32) {\small{罚函数法-权重1e9}};
+      \node [anchor=west,inner sep=0] at (0.7, 0.21) {\small{KKT方法}};
+      \node [anchor=west,inner sep=0] at (0.7, 0.1) {\small{本文方法}};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{\textbf{重力作用下的螺旋线。} 模拟由 200 个线段构成的螺旋杆，每个时间步最多使用 5 次牛顿迭代。}
+  \label{fig:visual_damping_penalty}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sheet/pdf/RedMax.pdf}
+    \caption{扩展 RedMax 最大稳定时间步估计；紫线与橙线几乎重合。}
+  \end{subfigure}
+
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \node [above right, inner sep=0] (image) at (0, 0) {
+        \includegraphics[width=\textwidth]{redMax/render2.png}
+      };
+      \node [anchor=east,inner sep=0] at (1.2, 3.5) {重力$g$};
+      \node [anchor=south,inner sep=0] at (3.2, 5.6) {第$0$帧};
+      \node [anchor=south,inner sep=0] at (8.8, 5.6) {第$1$帧};
+      \node [anchor=south,inner sep=0] at (13.8, 5.6) {第$2$帧};
+      \node [anchor=south west,inner sep=0] at (1.2, 2.3) {\small{RedMax($\Delta t=0.6875\mathrm{s}$)}};
+      \node [anchor=south west,inner sep=0] at (1.2, 1.7) {\small{RedMax($\Delta t=0.71875\mathrm{s}$)}};
+      \node [anchor=south west,inner sep=0] at (1.2, 1.1) {\small{本文方法($\Delta t=0.71875\mathrm{s}$)}};
+      \node [anchor=south west,inner sep=0] at (1.2, 0.5) {\small{本文方法($\Delta t=1.3\mathrm{s}$)}};
+    \end{tikzpicture}
+    \caption{扩展 RedMax 与本文方法在重力螺旋场景下对比。}
+  \end{subfigure}
+
+  \caption{\textbf{与扩展 RedMax 的稳定性比较。}
+  对每个重力加速度 $g$，二分法最后一步给出时间步区间（a），其起点（紫线）对应稳定仿真，终点（橙线）对应不稳定仿真。随 $g$ 增大，RedMax 稳定域显著收缩；图（b）展示了（a）中首个采样点对应的可视化结果。}
+  \label{fig:timestep_limit}
+\end{figure}
+
+\end{document}
