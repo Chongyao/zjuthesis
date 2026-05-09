@@ -188,6 +188,7 @@ volume = {24},
 number = {08},
 pages = {1541-1573},
 year = {2014},
+publisher = {World Scientific},
 
 abstract = { We present the essential ingredients in the Virtual Element Method for a simple linear elliptic second-order problem. We emphasize its computer implementation, which will enable interested readers to readily implement the method. }
 }
@@ -285,7 +286,8 @@ keywords = {rods, strands, discrete holonomy, discrete differential geometry}
   title = {Multiresolution Deep Implicit Functions for 3D Shape Representation},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
   pages = {13056--13065},
-  year = {2021}
+  year = {2021},
+  publisher = {IEEE/CVF}
 }
 
 @article{mercier2022adaptive,
@@ -585,7 +587,7 @@ location = {Copenhagen, Denmark},
 series = {SCA '14}
 }
 
-@ARTICLE{spillmann2008cosseratnet,
+@article{spillmann2008cosseratnet,
 author={Spillmann, Jonas and Teschner, Matthias},
 journal={IEEE Transactions on Visualization and Computer Graphics},
 title={Cosserat Nets},
@@ -593,9 +595,10 @@ year={2009},
 volume={15},
 number={2},
 pages={325-338},
+publisher={IEEE},
 }
 
-@ARTICLE{servin2008rigid,
+@article{servin2008rigid,
 author={Servin, Martin and Lacoursière, Claude},
 journal={IEEE Transactions on Visualization and Computer Graphics},
 title={Rigid Body Cable for Virtual Environments},
@@ -605,7 +608,7 @@ number={4},
 pages={783-796},
 abstract={The present paper addresses real-time simulation of cables for virtual environments. A faithful physical model based on constrained rigid bodies is introduced and discretized. The performance and stability of the numerical method are analyzed in details and found to meet the requriements of interactive heavy hoisting simulations. The physical model is well behaved in the limit of infinite stiffness as well as in the elastic regime , and the tuning parameters correspond directly to conventional material constants. The integration scheme mixes the well known Störmer-Verlet method for the dynamics equations with the linearly implicit Euler method for the constraint equations and enables physical constraint relaxation and stabilization terms. The technique is shown to have superior numerical stability properties in comparison with either chain link systems, or spring and damper models. Experimental results are presented to show that the method results in stable, real-time simulations. Stability persists for moderately large fixed integration step of $\Delta t = 1/60$ s, with hoisting loads of up to $10^5$ times heavier than the elements of the cable. Further numerical experiments validating the physical model are also presented.},
 keywords={},
-ISSN={1941-0506},
+issn={1941-0506},
 month={July}
 }
 
@@ -740,7 +743,7 @@ numpages = {9},
 keywords = {Domain decomposition, Cholesky factorization, Deformation, Cluster PCA}
 }
 
-@ARTICLE{kim2012physics,
+@article{kim2012physics,
 author={Kim, Theodore and James, Doug L.},
 journal={IEEE Transactions on Visualization and Computer Graphics},
 title={Physics-Based Character Skinning Using Multidomain Subspace Deformations},
@@ -751,7 +754,7 @@ pages={1228-1240},
 abstract={In this extended version of our Symposium on Computer Animation paper, we describe a domain-decomposition method to simulate articulated deformable characters entirely within a subspace framework. We have added a parallelization and eigendecomposition performance analysis, and several additional examples to the original symposium version. The method supports quasistatic and dynamic deformations, nonlinear kinematics and materials, and can achieve interactive time-stepping rates. To avoid artificial rigidity, or "locking,” associated with coupling low-rank domain models together with hard constraints, we employ penalty-based coupling forces. The multidomain subspace integrator can simulate deformations efficiently, and exploits efficient subspace-only evaluation of constraint forces between rotated domains using a novel Fast Sandwich Transform (FST). Examples are presented for articulated characters with quasistatic and dynamic deformations, and interactive performance with hundreds of fully coupled modes. Using our method, we have observed speedups of between 3 and 4 orders of magnitude over full-rank, unreduced simulations.},
 keywords={},
   
-ISSN={1941-0506},
+issn={1941-0506},
 month={Aug},
 }
 
@@ -1051,14 +1054,12 @@ keywords = {material-adapted basis functions, deformable body simulation, operat
 	abstract = {Many computer graphics applications boil down to solving sparse systems of linear equations. While the current arsenal of numerical solvers available in various specialized libraries and for different computer architectures often allow efficient and scalable solutions to image processing, modeling and simulation applications, an increasing number of graphics problems face large-scale and ill-conditioned sparse linear systems --- a numerical challenge which typically chokes both direct factorizations (due to high memory requirements) and iterative solvers (because of slow convergence). We propose a novel approach to the efficient preconditioning of such problems which often emerge from the discretization over unstructured meshes of partial differential equations with heterogeneous and anisotropic coefficients. Our numerical approach consists in simply performing a fine-to-coarse ordering and a multiscale sparsity pattern of the degrees of freedom, using which we apply an incomplete Cholesky factorization. By further leveraging supernodes for cache coherence, graph coloring to improve parallelism and partial diagonal shifting to remedy negative pivots, we obtain a preconditioner which, combined with a conjugate gradient solver, far exceeds the performance of existing carefully-engineered libraries for graphics problems involving bad mesh elements and/or high contrast of coefficients. We also back the core concepts behind our simple solver with theoretical foundations linking the recent method of operator-adapted wavelets used in numerical homogenization to the traditional Cholesky factorization of a matrix, providing us with a clear bridge between incomplete Cholesky factorization and multiscale analysis that we leverage numerically.},
 	language = {en},
 	number = {4},
-	urldate = {2023-02-10},
 	journal = {ACM Transactions on Graphics},
 	author = {Chen, Jiong and Schäfer, Florian and Huang, Jin and Desbrun, Mathieu},
 	month = aug,
 	year = {2021},
 	keywords = {/unread},
-	pages = {1--13},
-	file = {2021_Chen et al_Multiscale cholesky preconditioning for ill-conditioned problems.pdf:/home/zcy/OneDrive/Papers/Simulation/multigrid/2021_Chen et al_Multiscale cholesky preconditioning for ill-conditioned problems.pdf:application/pdf},
+	pages = {1--13}
 }
 
 @article{li_analysis_2022,
@@ -1068,13 +1069,11 @@ keywords = {material-adapted basis functions, deformable body simulation, operat
   
 	abstract = {Numerically predicting the performance of heterogeneous structures without scale separation is a challenging task owing to the critical requirements related to computational scalability and efficiency that must be satisfied. In addition, adopting a sufficiently fine mesh to consider the small-scale heterogeneities results in prohibitive computational costs, whereas neglecting them tends to drastically over-stiffen the rigidity of the structure.},
 	language = {en},
-	urldate = {2022-02-25},
 	journal = {Computer Methods in Applied Mechanics and Engineering},
 	author = {Li, Ming and Hu, Jingqiao},
 	month = mar,
 	year = {2022},
-	pages = {114582},
-	file = {2022_Li_Hu_Analysis of heterogeneous structures of non-separated scales using curved.pdf:/home/zcy/OneDrive/Papers/Simulation/FEM/2022_Li_Hu_Analysis of heterogeneous structures of non-separated scales using curved.pdf:application/pdf},
+	pages = {114582}
 }
 
 @article{heFast2023,
@@ -1093,13 +1092,11 @@ year = {2022}
 	issn = {0167-7055, 1467-8659},
   
 	language = {en},
-	urldate = {2023-07-18},
 	journal = {Computer Graphics Forum},
 	author = {Ni, Ning and Xu, Qingyu and Li, Zhehao and Fu, Xiao‐Ming and Liu, Ligang},
 	month = mar,
 	year = {2023},
-	pages = {cgf.14736},
-	file = {2023_Ni et al_Numerical Coarsening with Neural Shape Functions.pdf:/home/zcy/OneDrive/Papers/2023_Ni et al_Numerical Coarsening with Neural Shape Functions.pdf:application/pdf},
+	pages = {cgf.14736}
 }
 
 @article{zhang2023progressive,
@@ -1290,12 +1287,10 @@ title = {METIS—A Software Package for Partitioning Unstructured Graphs, Partit
 	abstract = {Substructuring and component mode synthesis (CMS), is a very popular method of model reduction for large structural dynamics problems. Starting from the pioneering works on this technique in the early 1960s, many researchers have studied and used this technique in a variety of applications. Besides model reduction, CMS offers several other crucial advantages. The present work aims to provide a review of the available literature on this important technique.},
 	language = {en},
 	number = {3},
-	urldate = {2025-08-06},
 	journal = {Shock and Vibration},
 	author = {Seshu, P.},
 	year = {1997},
-	pages = {199--210},
-	file = {1997 - Seshu - Substructuring and Component Mode Synthesis.pdf:/mnt/sda2/zcy/OneDrive/Papers/Numeric/CMS/1997 - Seshu - Substructuring and Component Mode Synthesis.pdf:application/pdf},
+	pages = {199--210}
 }
 
 @inproceedings{horvath2018efficiency,
@@ -1304,11 +1299,9 @@ title = {METIS—A Software Package for Partitioning Unstructured Graphs, Partit
   
 	abstract = {The paper investigates and shows the efficiency and accuracy of the Cr-aiBgampton model order reduction method on the analysis of a cantilever beam and rod with harmonic excitation. The results of different finite elemen-tand Craig-Bampton models are compared to the analytical (closed-form) continuum vibration results as reference.},
 	language = {en},
-	urldate = {2025-08-06},
 	author = {Horváth, Péter},
 	year = {2018},
-	pages = {120006},
-	file = {2018 - Horváth - Efficiency and accuracy investigation of the Craig-Bampton method through continuum vibration tests.pdf:/mnt/sda2/zcy/OneDrive/Papers/Numeric/CMS/2018 - Horváth - Efficiency and accuracy investigation of the Craig-Bampton method through continuum vibration tests.pdf:application/pdf},
+	pages = {120006}
 }
 
 @article{William1985CMS,
@@ -1329,12 +1322,10 @@ year = {1985},
   
 	language = {en},
 	number = {7},
-	urldate = {2025-08-06},
 	journal = {AIAA Journal},
 	author = {Craig, Roy R. and Bampton, Mervyn C. C.},
 	year = {1968},
-	pages = {1313--1319},
-	file = {1968 - Craig and Bampton - Coupling of substructures for dynamic analyses..pdf:/mnt/sda2/zcy/OneDrive/Papers/Numeric/CMS/1968 - Craig and Bampton - Coupling of substructures for dynamic analyses..pdf:application/pdf},
+	pages = {1313--1319}
 }
 
 @article{KRATTIGER2019Riview,
@@ -1435,12 +1426,11 @@ year = {2002},
 	abstract = {Abstract
             In this work, we propose and analyze an extension of the approximate component mode synthesis (ACMS) method to the two-dimensional heterogeneous Helmholtz equation. The ACMS method has originally been introduced by Hetmaniuk and Lehoucq as a multiscale method to solve elliptic partial differential equations. The ACMS method uses a domain decomposition to separate the numerical approximation by splitting the variational problem into two independent parts: local Helmholtz problems and a global interface problem. While the former are naturally local and decoupled such that they can be easily solved in parallel, the latter requires the construction of suitable local basis functions relying on local eigenmodes and suitable extensions. We carry out a full error analysis of this approach focusing on the case where the domain decomposition is kept fixed, but the number of eigenfunctions is increased. The theoretical results in this work are supported by numerical experiments verifying algebraic convergence for the method. In certain, practically relevant cases, even super-algebraic convergence for the local Helmholtz problems can be achieved without oversampling.},
 	language = {en},
-	urldate = {2025-08-06},
 	journal = {IMA Journal of Numerical Analysis},
 	author = {Giammatteo, Elena and Heinlein, Alexander and Schlottbom, Matthias},
 	month = oct,
 	year = {2024},
-	pages = {drae076},
+	pages = {drae076}
 }
 
 @article{hetmaniuk2010special,
@@ -1451,7 +1441,6 @@ year = {2002},
 	abstract = {The goal of our paper is to introduce basis functions for the ﬁnite element discretization of a second order linear elliptic operator with rough or highly oscillating coeﬃcients. The proposed basis functions are inspired by the classic idea of component mode synthesis and exploit an orthogonal decomposition of the trial subspace to minimize the energy. Numerical experiments illustrate the eﬀectiveness of the proposed basis functions.},
 	language = {en},
 	number = {3},
-	urldate = {2025-08-06},
 	journal = {ESAIM: Mathematical Modelling and Numerical Analysis},
 	author = {Hetmaniuk, Ulrich L. and Lehoucq, Richard B.},
 	month = may,
@@ -1655,7 +1644,8 @@ publisher = {IEEE Educational Activities Department},
 address = {USA},
 volume = {17},
 number = {7},
-issn = {1077-2626},
+	issn = {1077-2626},
+	journal = {IEEE Transactions on Visualization and Computer Graphics},
   
 month = jul,
 pages = {983–992},
