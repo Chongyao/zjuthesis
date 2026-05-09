@@ -8,7 +8,7 @@
 
 \subsection{划分与子结构}
 
-要应用模态综合法，需要将区域划分为子结构。区域 $\Omega$ 的一个划分 $\mathcal{P}$ 是一组互不重叠的子结构 $\Omega_i, i=1, \cdots m$，满足 $\bigcup_i\Omega_i = \Omega$（示例见~\cref{fig:domain-partition}）。子结构之间的界面定义为 $\Gamma_{ij} = \Omega_i \cap \Omega_j$。划分 $\mathcal{P}$ 的界面定义为其并集 $\partial \mathcal{P} = \bigcup_{i,j} \Gamma_{ij}$。第 $i$ 个子结构的界面定义为 $\partial \Omega_i = \bigcup_{j} \Gamma_{ij}$。注意符号 $\partial$ 不是指外部区域边界。每个子结构 $\Omega_i$ 内部的自由度记为 $u_i \in \Omega_i\setminus\partial \Omega_i$（不包含界面），所有剩余自由度收集到向量 $u_b$ 中。不失一般性，我们假设自由度已重新排序，使得 $\mathbf{u} = [u_1^T, u_2^T, \cdots, u_m^T, u_b^T]^T$。此时 $\mathbf{K}$ 具有以下分块结构：
+要应用模态综合法，需要将区域划分为子结构。区域 $\Omega$ 的一个划分 $\mathcal{P}$ 是一组互不重叠的子结构 $\Omega_i, i=1, \cdots m$，满足 $\bigcup_i\Omega_i = \Omega$（示例见~\cref{fig:domain-partition}）。子结构之间的界面定义为 $\Gamma_{ij} = \Omega_i \cap \Omega_j$。划分 $\mathcal{P}$ 的界面定义为其并集 $\partial \mathcal{P} = \bigcup_{i,j} \Gamma_{ij}$。第 $i$ 个子结构的界面定义为 $\partial \Omega_i = \bigcup_{j} \Gamma_{ij}$。注意符号 $\partial$ 不是指外部区域边界。每个子结构 $\Omega_i$ 内部的自由度记为 $u_i \in \Omega_i\setminus\partial \Omega_i$（不包含界面），所有剩余自由度收集到向量 $u_b$ 中。不失一般性，可假设自由度已重新排序，使得 $\mathbf{u} = [u_1^T, u_2^T, \cdots, u_m^T, u_b^T]^T$。此时 $\mathbf{K}$ 具有以下分块结构：
 \begin{equation}
   \left[
     \begin{array}{ccc|c}

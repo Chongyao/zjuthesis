@@ -20,8 +20,8 @@
             inner sep=6pt,
             text depth=0pt
         },
-        mainBox/.style={baseBox, draw=solColor!80, fill=solColor!8, minimum width=3.9cm, minimum height=1.5cm},
-        basisBox/.style={baseBox, draw=coreColor!80, fill=coreColor!10, minimum width=4.2cm, minimum height=1.5cm},
+        mainBox/.style={baseBox, draw=solColor!80, fill=solColor!8, minimum width=3.9cm, minimum height=1.5cm, font=\footnotesize},
+        basisBox/.style={baseBox, draw=coreColor!80, fill=coreColor!10, minimum width=4.2cm, minimum height=1.5cm, font=\footnotesize},
         flowArrow/.style={->, thick, draw=gray!80}
     ]
         % 主框
@@ -30,14 +30,14 @@
         \node[basisBox] (basis) at (4,-2.7) {基函数};
 
         % 中间箭头
-        \draw[flowArrow] (continuous.east) -- (discrete.west) node[midway, below, text=gray!70!black, font=\small] {网格离散};
+        \draw[flowArrow] (continuous.east) -- (discrete.west) node[midway, below, text=gray!70!black, font=\footnotesize] {网格离散};
 
         % 从基函数框指向上方两个框与中间标签
         \draw[flowArrow] (basis.north) .. controls (3.0,-2.0) and (1.5,-1.35) .. (continuous.south);
         \draw[flowArrow] (basis.north) -- (4,-0.42);
         \draw[flowArrow] (basis.north) .. controls (5.0,-2.0) and (6.5,-1.35) .. (discrete.south);
     \end{tikzpicture}
-    \caption[]{数值模拟过程与网格离散示意图}
+    \caption[数值模拟过程与网格离散]{数值模拟过程与网格离散示意图}
     \label{fig:numerical_simulation_process}
 \end{figure}
 

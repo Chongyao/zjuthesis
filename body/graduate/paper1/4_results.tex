@@ -21,7 +21,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
       \includegraphics[width=\textwidth]{helix_vs_penalty/render.png}
     };
     \begin{scope}[x={(image.south east)},y={(image.north west)}]
-      \node [inner sep=0] at (0.7, 0.8) {重力$g$};
+      \node [inner sep=0, font=\small] at (0.7, 0.8) {重力$g$};
       \node [anchor=west,inner sep=0] at (0.7, 0.43) {\small{罚函数法-权重1e2}};
       \node [anchor=west,inner sep=0] at (0.7, 0.32) {\small{罚函数法-权重1e9}};
       \node [anchor=west,inner sep=0] at (0.7, 0.21) {\small{KKT方法}};
@@ -184,10 +184,10 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
       \node [above right, inner sep=0] (image) at (0, 0) {
         \includegraphics[width=\textwidth]{redMax/render2.png}
       };
-      \node [anchor=east,inner sep=0] at (1.2, 3.5) {重力$g$};
-      \node [anchor=south,inner sep=0] at (3.2, 5.6) {第$0$帧};
-      \node [anchor=south,inner sep=0] at (8.8, 5.6) {第$1$帧};
-      \node [anchor=south,inner sep=0] at (13.8, 5.6) {第$2$帧};
+      \node [anchor=east,inner sep=0, font=\small] at (1.2, 3.5) {重力$g$};
+      \node [anchor=south,inner sep=0, font=\small] at (3.2, 5.6) {第$0$帧};
+      \node [anchor=south,inner sep=0, font=\small] at (8.8, 5.6) {第$1$帧};
+      \node [anchor=south,inner sep=0, font=\small] at (13.8, 5.6) {第$2$帧};
       \node [anchor=south west,inner sep=0] at (1.2, 2.3) {\small{RedMax($\Delta t=0.6875\mathrm{s}$)}};
       \node [anchor=south west,inner sep=0] at (1.2, 1.7) {\small{RedMax($\Delta t=0.71875\mathrm{s}$)}};
       \node [anchor=south west,inner sep=0] at (1.2, 1.1) {\small{本文方法($\Delta t=0.71875\mathrm{s}$)}};
