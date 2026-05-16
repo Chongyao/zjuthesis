@@ -1,12 +1,12 @@
 \section{软硬耦合分析}
 
-为便于讨论，下面暂不考虑弹性微分算子 $\mathcal{L}$ 本身因非均匀材料分布、各向异性本构等因素所产生的软硬耦合，而只关注网格离散额外引入的谱分离现象。由张成函数空间 $\mathbb{V}^h$ 的基函数 $\varphi^h_i$ 对算子进行离散后，得到的线性系统为 $\mathbf{K}^h = \int_{\Omega} \varphi \mathcal{L} \varphi^T dX$。在这一背景下，刚度矩阵 $\mathbf{K}$ 的病态通常可归结为两类来源。
+为便于讨论，下面暂不考虑弹性微分算子 $\mathcal{L}$ 本身因非均匀材料分布、各向异性本构等因素所产生的软硬耦合，而只关注网格离散额外引入的谱分离现象。由张成函数空间 $\mathbb{V}^h$ 的基函数 $\varphi^h_i$ 对算子进行离散后，得到的线性系统为 $\mathbf{K}^h = \int_{\Omega} \varphi^h \mathcal{L} \varphi^{h,T} dX$。在这一背景下，刚度矩阵 $\mathbf{K}$ 的病态通常可归结为两类来源。
 
 第一类来源于离散分辨率。随着网格分辨率逐渐提高，微分算子的低频模态会逐步收敛到连续问题对应的真实低频响应，这可视为有限元离散的一种渐进一致性~\cite{wang2003finite}。与此同时，局部基函数的支撑域不断缩小，离散空间因而具备表达更高频模态的能力，使得全局线性系统的谱跨度持续增大。对于这类由自由度规模扩大所带来的谱展宽问题，已有工作通常采用算子自适应层次基、小波型多分辨率分解或多重网格等方法加以处理~\cite{Budninskiy_2019_wavelet, chen2019material, zhu2010multigridElas}。例如，算子自适应可精细化基函数~\cite{chen2019material,Budninskiy_2019_wavelet} 构造了一组相对于算子正交且在空间和特征空间中均具有局部性的基函数。以两层层级结构为例，小波 Galerkin 方法将原始函数空间 $\mathbb{V}^h$ 分解为两个子空间：
 \begin{equation}
   \mathbb{V}^{h} = \mathbb{V}^H \oplus_{\mathcal{L}} \mathbb{W}^H,
 \end{equation}
-其中，$\varphi^H_i = \sum_{l} \mathbb{C}^H_{il} \varphi^h_l$ 张成函数空间 $\mathbb{V}^H$，$\psi^H_i = \sum_l \mathbf{W}^H_{il} \varphi^h_l$ 张成函数空间 $\mathbb{W}^H$。文献~\cite{chen_multiscale_2021}指出，在进行适当排序后，可以通过 Cholesky 分解计算这些层级基函数和小波函数。因此，原始细层级的刚度矩阵可以通过基变换 $\mathbf{P}$ 块对角化为 $\mathbb{K}^h = \operatorname{diag}(\mathbb{B}, \mathbb{K}^H)$。由于特征空间局部性的存在，$\mathbb{K}^H$ 或 $\mathbb{B}$ 的条件数都比 $\mathbf{K}^h$ 更小。可以直接分别求解它们，也可以使用不完全 Cholesky 分解作为预条件子，这两种方法都能得到条件数更优的线性系统。
+其中，$\varphi^H_i = \sum_{l} \mathbf{C}^H_{il} \varphi^h_l$ 张成函数空间 $\mathbb{V}^H$，$\psi^H_i = \sum_l \mathbf{W}^H_{il} \varphi^h_l$ 张成函数空间 $\mathbb{W}^H$。文献~\cite{chen_multiscale_2021}指出，在进行适当排序后，可以通过 Cholesky 分解计算这些层级基函数和小波函数。因此，原始细层级的刚度矩阵可以通过基变换 $\mathbf{P}$ 块对角化为 $\mathbf{K}^h = \operatorname{diag}(\mathbf{B}, \mathbf{K}^H)$。由于特征空间局部性的存在，$\mathbf{K}^H$ 或 $\mathbf{B}$ 的条件数都比 $\mathbf{K}^h$ 更小。可以直接分别求解它们，也可以使用不完全 Cholesky 分解作为预条件子，这两种方法都能得到条件数更优的线性系统。
 
 这类病态性的关键特征在于：它主要由离散自由度总数的提升和近似空间频带的整体扩展所驱动，因此本质上更接近一种全局性的谱展宽现象。即便不存在特别恶劣的局部单元，只要离散尺度足够细，系统也会自然获得表达更高频模态的能力，从而拉宽整体谱跨度。也正因为如此，针对这类问题的主流思路通常是构造全局层次化基、子空间分解或多重网格型预处理，以在整个求解空间范围内重新组织频带结构。它们所处理的是“整体系统过宽”的问题，而不是某一小片局部区域因几何退化而人为制造出的异常刚性方向。
 \begin{figure}[b]
@@ -25,7 +25,7 @@
 其中 $\mathbf{K}_F = \FPP{^2\rho}{F^2}$ 与本构定律和材料参数相关，而 $\mathbf{G}$ 是由基函数梯度导出的梯度算子矩阵。对于四面体单元的传统线性拉格朗日基，沿两个不同边界点 $d=\mathbf{X}_a- \mathbf{X}_b$ 的最小方向导数为 $\nabla_{d}\varphi_i =
 \frac{\varphi_i(\mathbf{X}_a) - \varphi_i (\mathbf{X}_b)}{\mathbf{X}_a -
   \mathbf{X}_b} = \frac{1 - 0}{\mathbf{X}_a - \mathbf{X}_b},
-\mathbf{X}_a,\mathbf{X}_b \in \partial T $，当 $\mathbf{X}_a$ 和 $\mathbf{X}_b$ 距离极短时，该值会显著增大。这直接导致迹 $\operatorname{tr}(\mathbf{K}^e)$ 很大，意味着 $\mathbf{K}^e$ 的最大特征值较大。\Cref{fig:thin-elements} 展示了典型的扁平单元及其最刚性的特征向量。这些刚性特征向量会导致绪论所述的较大二次型能量 $\phi_{\text{stiff}}^T \mathbf{K}^e \phi_{\text{stiff}}$。当一个网格中存在多个这样的单元时，整体刚度矩阵的条件数会显著恶化，导致迭代求解器性能下降。下面将聚焦于由单元质量引起的软硬耦合问题。
+\mathbf{X}_a,\mathbf{X}_b \in \partial T $，当 $\mathbf{X}_a$ 和 $\mathbf{X}_b$ 距离极短时，该值会显著增大。这直接导致迹 $\operatorname{tr}(\mathbf{K}^e)$ 很大，意味着 $\mathbf{K}^e$ 的最大特征值较大。\Cref{fig:thin-elements} 展示了典型的扁平单元及其最刚性的特征向量。这些刚性特征向量会导致绪论所述的较大二次型能量 $\varphi_{\text{stiff}}^T \mathbf{K}^e \varphi_{\text{stiff}}$。当一个网格中存在多个这样的单元时，整体刚度矩阵的条件数会显著恶化，导致迭代求解器性能下降。下面将聚焦于由单元质量引起的软硬耦合问题。
 
 虽然上述方法同样适用于这种情况，但其计算开销通常较大，往往需要围绕组装后的全局线性系统进行预计算。另一方面，经过多年网格质量优化研究的发展，坏形状单元通常不会遍布整个区域，换言之，这些劣质单元往往是局部的。因此，对于由畸变单元引起的离散化软硬耦合问题，更自然的思路是先识别需要进入局部处理的候选四面体单元及其局部邻域，再在这些局部区域中实施基于算子感知的局部基空间重构与隔离，以削弱局部高频刚性对全局系统的数值干扰。
 
