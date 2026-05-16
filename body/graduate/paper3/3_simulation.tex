@@ -6,12 +6,12 @@
 
 为说明这种基函数变换为何能够突破单一划分下的表达限制，下面先从一维相位补足的角度解释多重划分的基本作用机理。
 
-然而，在用相同频率但不同相位的函数丰富基集后，
+若进一步用相同频率但不同相位的函数丰富基集，
 \begin{equation}
   \tilde{\mathbf{S}}^d_{i,j} = \sin\left(j\pi t+\phi\right), t\in[0,1], j=1,2,\cdots,
   \label{eq:phase-complete-basis}
 \end{equation}
-其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。这两组函数频率相同但相位不同（一组相位为 0，另一组相位为 $\phi$）。根据三角函数积化和差公式，它们可以线性组合出任意相位 $\psi$ 的同频函数 $\sin(j\pi t+\psi), t\in[0,1]$。本文将这些额外引入的基函数称为对原基函数的\textbf{相位补足}，扩展后的基集则是\textbf{相位完备}的。直观上，不同划分生成的偏移子结构恰好能提供不同相位的基函数。
+其中 $\phi \neq k\pi$（例如，$\phi=\pi/2$）。这两组函数频率相同而相位不同：一组相位为 0，另一组相位为 $\phi$。根据三角函数积化和差公式，它们可以线性组合出任意相位 $\psi$ 的同频函数 $\sin(j\pi t+\psi), t\in[0,1]$。本文将这些额外引入的基函数称为对原基函数的\textbf{相位补足}，扩展后的基集则称为\textbf{相位完备}。直观上，不同划分生成的偏移子结构恰好能够提供不同相位的基函数。
 
 为验证相位完备基函数相较于传统模态综合法中固定相位基的优势，本文分析了积分误差。\textcolor{ConclusionEvidence}{下图显示，相位完备基的误差显著低于固定相位基。}
 
@@ -46,7 +46,7 @@
 
 \subsection{模态综合法的多重划分}
 
-实际应用中，本文通过多重划分（尤其是交错划分）生成相位完备基。尽管本方法不限制划分数量，但实验表明双重划分已能取得良好效果。因此，后文默认采用两个划分，分别命名为原始划分和对偶划分。
+在实际应用中，本文通过多重划分（尤其是交错划分）生成相位完备基。尽管本方法并不限制划分数量，但实验表明双重划分已能取得良好效果。因此，后文默认采用两个划分，分别命名为原始划分和对偶划分。
 
 划分过程通常沿模型最优包围盒的最长轴展开，以利用结构的纵横比。\textbf{原始划分}建立初始的子分割，而\textbf{对偶划分}则将切割平面平移至原始子结构的质心处，从而最大化空间重叠。对于复杂拓扑或几何切片困难的模型，采用 METIS 库~\cite{Karypis1997METIS}进行图划分，详见\Cref{sec:metis-partition}。
 
@@ -65,7 +65,7 @@
 
 随后，通过 Galerkin 投影将最终的特征值问题缩减并求解，形式如\Cref{eq:reduced-matrix-pencil}所示。
 
-\Cref{fig:primal-dual-partition-example}底行表明：在缩减自由度数量相同的前提下，只要频带覆盖了所需的全局特征模态范围，采用多重划分提供的相位完备基能显著降低误差。随着子结构特征模态数量的增加，相位完备基持续且有效地降低了低频误差；相比之下，单纯增加相位固定基仅能改善高频误差。
+\Cref{fig:primal-dual-partition-example} 底行表明：在缩减自由度数量相同的前提下，只要频带覆盖了所需的全局特征模态范围，采用多重划分提供的相位完备基便能显著降低误差。随着子结构特征模态数量增加，相位完备基持续而有效地降低了低频误差；相比之下，单纯增加相位固定基只能改善高频误差。
 
 \begin{algorithm}[t]
   \caption{多重划分模态综合法}
@@ -85,11 +85,11 @@
   \end{algorithmic}
 \end{algorithm}
 
-模态综合法的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}）及相应的缩减过程（\cref{sec:reducing}），即舒尔补运算。如图所示，当网格尺寸较大但子结构特征模态较少时，该部分的耗时（$t_{\text{sub-schur}}$）甚至与求解子结构特征值问题相当。此外，舒尔补生成的稠密矩阵会占用极大的内存空间。
+模态综合法的另一大计算瓶颈在于界面模态的求解（\cref{sec:interface}）及相应的缩减过程（\cref{sec:reducing}），即舒尔补运算。如图所示，当网格尺寸较大而子结构特征模态较少时，该部分的耗时（$t_{\text{sub-schur}}$）甚至与求解子结构特征值问题相当。此外，舒尔补生成的稠密矩阵会占用大量内存空间。
 
 \subsection{低频界面模态的近似}\label{subsec:approx-interface-modes}
 
-为消除舒尔补带来的庞大计算负担，本文结合多重划分策略，提出了一种高效的无舒尔补界面模态缩减法。其核心思路在于：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而是采用对偶划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
+为消除舒尔补带来的高额计算负担，本文结合多重划分策略，提出了一种高效的无舒尔补界面模态缩减法。其核心思路是：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而改用对偶划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
 
 \begin{figure}[tbp]
   \centering
@@ -122,7 +122,7 @@
   \mathbf{S}_{bb}^{p\leftarrow d}
   \label{eq:ours-response-solution}
 \end{equation}
-该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中 $\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到无舒尔补界面模态缩减基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于对偶划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。尽管在理论上，可以通过仅使用单套界面模态（例如，只使用 $\mathbf{S}_{b}^{p\leftarrow d}$）或进行额外的过滤来进一步压缩这一基底集合，但为了保证与现有方法的公平对比并增强求解的鲁棒性，本文保留了所有生成的界面模态。针对这一基底压缩空间的优化将作为未来的工作方向。
+该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中，$\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到无舒尔补界面模态缩减基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于对偶划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。尽管在理论上，可以通过仅使用单套界面模态（例如只使用 $\mathbf{S}_{b}^{p\leftarrow d}$）或额外过滤来进一步压缩这一基底集合，但为保证与现有方法的公平对比并增强求解鲁棒性，本文保留了所有生成的界面模态。针对这一基底压缩空间的优化将作为未来工作方向。
 
 为将上述理论应用于实际计算，本节将讨论若干关键实现细节，包括缩减矩阵束的正则化、缩减矩阵的快速组装算法、无舒尔补界面模态缩减计算中的预缩减技术，以及混合 MPI/OpenMP 并行框架。
 
@@ -163,7 +163,7 @@
 
 \subsection{快速缩减矩阵组装}
 
-构建缩减系统矩阵 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 通常需要密集的矩阵运算。但本文深入挖掘了基向量的正交性和静力平衡特性，极大地加速了该组装过程。
+构建缩减系统矩阵 $\hat{\mathbf{K}}$ 和 $\hat{\mathbf{M}}$ 通常需要大量稠密矩阵运算。本文利用基向量的正交性和静力平衡特性，对这一组装过程进行了显著加速。
 首先，子结构特征模态 $\mathbf{S}_\mathcal{I}^{p/d}$ 本身是局部块特征值问题的解，因此它们天然地将各自子结构的局部刚度和质量矩阵对角化，分别投影为对角特征值矩阵 $\Lambda$ 和单位矩阵 $\mathbf{I}$。
 其次，更为核心的是，无舒尔补界面模态 $\mathbf{S}_b$ 严格满足静力平衡条件：$\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} + \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$。
 这一数学性质导致涉及界面模态和内部模态的刚度投影交叉项在内部区域 $\mathcal{I}$ 上恒等于零。得益于此，原本理论上密集的稠密矩阵乘法被退化为仅涉及边界自由度的稀疏矩阵运算，从根本上削减了组装缩减刚度矩阵 $\hat{\mathbf{K}}$ 的算力消耗。
