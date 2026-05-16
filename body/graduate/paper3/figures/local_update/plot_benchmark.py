@@ -57,7 +57,7 @@ METHOD_DISPLAY_NAMES = {
     "Origin CMS Full": "原始网格\n本文完整计算",
     "Updated CMS Full": "修改网格\n本文完整计算",
     "CMS Local Update": "修改网格\n本文局部更新",
-    "Global Spectra": "Modified mesh\nSpectra",
+    "Global Spectra": "修改网格\nSpectra",
 }
 
 
