@@ -1228,20 +1228,18 @@ year = {2021}
 @article{karl2024ShiftInvertArnoldi,
     title={The shift-and-invert Arnoldi method for singular matrix pencils},
     author={Meerbergen, Karl and Wang, Zhijun},
-    
-    publisher={arXiv},
+    journal={arXiv preprint arXiv:2411.02895},
     year={2024},
-    month={Jan},
+    eprint={2411.02895},
+    archivePrefix={arXiv},
+    url={https://arxiv.org/abs/2411.02895}
 }
 
 @book{Aurenhammer2013VoronoiDiagrams,
 author = {Aurenhammer, Franz and Klein, Rolf and Lee, Der-Tsai},
 title = {Voronoi Diagrams and Delaunay Triangulations},
 publisher = {WORLD SCIENTIFIC},
-year = {2013},
-  
-address = {},
-edition   = {},
+year = {2013}
 }
 
 @misc{Qiu2015Spectra,
@@ -1271,12 +1269,14 @@ numpages = {12},
 keywords = {Eigenvalue computation, singular values, spectral transform}
 }
 
-@article{Karypis1997METIS,
+@techreport{Karypis1997METIS,
 author = {Karypis, George and Kumar, Vipin},
+title = {METIS: A Software Package for Partitioning Unstructured Graphs, Partitioning Meshes, and Computing Fill-Reducing Orderings of Sparse Matrices},
+institution = {University of Minnesota, Department of Computer Science and Engineering},
+type = {Technical Report},
+number = {97-061},
 year = {1997},
-month = {01},
-pages = {},
-title = {METIS—A Software Package for Partitioning Unstructured Graphs, Partitioning Meshes and Computing Fill-Reducing Ordering of Sparse Matrices}
+url = {https://hdl.handle.net/11299/215346}
 }
 
 @article{seshu1997substructuring,
@@ -1539,11 +1539,6 @@ author = {Mladen Gibanica and Thomas J.S. Abrahamsson and Daniel J. Rixen},
 keywords = {Substructuring, component mode synthesis, interface reduction, mesh coarsening},
 abstract = {Component mode synthesis is a technique to simplify the analysis of complicated finite element models. A structure is split into substructures from which reduced order models can be generated and subsequently assembled. A model reduction performance gain can be limited if the component interfaces contain many degrees of freedom, which is often the case for high resolution models. In this paper a substructuring framework with interface reduction is presented. The method first splits a detailed model into substructures. The substructures' fine mesh is then coarsened on the internal region, while keeping the boundary mesh intact. Thereafter a Guyan reduction is performed on each coarse mesh substructure. The Guyan computations are cheap due to the reduced size of the linear equation system necessary to solve for the coarse mesh system. After synthesis of the statically reduced systems, a reduction basis for the interface degrees of freedom is computed. Thereafter a Craig-Bampton reduction is performed on each fine mesh substructure using projections with the reduced interface degrees of freedom and fixed interface modes. The method is verified on a dense mesh plate model consisting of two substructures.}
 }
-@inproceedings{2007ComponentMS,
-  title={Component Mode Synthesis in ANSYS Workbench Simulation CMS},
-  author={},
-  year={2007},
-}
 
 @inproceedings{Karypis1995graph,
 author = {Karypis, George and Kumar, Vipin},
@@ -1560,7 +1555,7 @@ location = {San Diego, California, USA},
 series = {Supercomputing '95}
 }
 
-@Inbook{Hendrickson2011,
+@inbook{Hendrickson2011,
 author="Hendrickson, Bruce",
 editor="Padua, David",
 title="Chaco",
@@ -1606,14 +1601,14 @@ numpages = {14},
 keywords = {tetrahedral mesh optimization, simplicial meshes, dirichlet energy}
 }
 
-@article{Shewchuk2002whatIsAGoodLinearFiniteElement,
+@inproceedings{Shewchuk2002whatIsAGoodLinearFiniteElement,
 author = {Shewchuk, Jonathan},
+title = {What Is a Good Linear Finite Element? Interpolation, Conditioning, and Quality Measures},
+booktitle = {Proceedings of the 11th International Meshing Roundtable},
+pages = {115--126},
 year = {2002},
-month = {09},
-pages = {},
-title = {What Is a Good Linear Finite Element? - Interpolation, Conditioning, Anisotropy, and Quality Measures},
-volume = {73},
-journal = {Proceedings of the 11th International Meshing Roundtable}
+month = sep,
+publisher = {Sandia National Laboratories}
 }
 
 @article{si_2015_tetgen,
@@ -1782,39 +1777,41 @@ keywords = {additive schwarz, cloth and deformable body simulation, conjugate gr
     abstract = {In the finite element method, poor quality elements typically increase the condition number of the underlying stiffness matrix, thereby potentially: (1) degrading the computed solution, and (2) slowing the convergence of iterative solvers. Current mesh improvement strategies rely on node movement and edge-flipping to alleviate these problems. However, these methods cannot guarantee a lower-bound on mesh quality, especially in 3-D. In this paper we propose the concept, and use, of inverted elements to improve mesh quality and condition number. Inverted elements are standard finite elements, but with negative Jacobian. After establishing the mathematical properties of these elements we show how they can be used to dramatically improve the quality of a mesh through the use of an ‘element cover’. Further, we show that a lower-bound on the mesh quality can be easily achieved, as supported by numerical experiments and case-studies.},
 }
 
-@Article{RH2005EliminateSlivers,
-AUTHOR = {R.H.  Moore, S.  Saigal},
-TITLE = {Eliminating Slivers in Three-Dimensional Finite Element Models},
-JOURNAL = {Computer Modeling in Engineering \& Sciences},
-VOLUME = {7},
-YEAR = {2005},
-NUMBER = {3},
-PAGES = {283--292},
-ISSN = {1526-1506},
-ABSTRACT = {An efficient method for treating slivers and other poorly shaped elements in finite element solutions is presented. A major difficulty for finite element analyses arises from the creation of slivers in automated mesh generation. Sliver shaped elements can degrade the accuracy of a solution and are difficult to remove from a mesh. The proposed method treats slivers by first merging them with neighboring elements to form polyhedra and next subdividing the polyhedra into well-shaped tetrahedral elements. The method does not require the cumbersome and expensive operations of addition or rearrangement of nodes. The validity and accuracy of the present method are demonstrated through the evaluation of a performance metric for a set of example problems.},
+@article{RH2005EliminateSlivers,
+author = {R.H.  Moore, S.  Saigal},
+title = {Eliminating Slivers in Three-Dimensional Finite Element Models},
+journal = {Computer Modeling in Engineering \& Sciences},
+volume = {7},
+year = {2005},
+number = {3},
+pages = {283--292},
+issn = {1526-1506},
+abstract = {An efficient method for treating slivers and other poorly shaped elements in finite element solutions is presented. A major difficulty for finite element analyses arises from the creation of slivers in automated mesh generation. Sliver shaped elements can degrade the accuracy of a solution and are difficult to remove from a mesh. The proposed method treats slivers by first merging them with neighboring elements to form polyhedra and next subdividing the polyhedra into well-shaped tetrahedral elements. The method does not require the cumbersome and expensive operations of addition or rearrangement of nodes. The validity and accuracy of the present method are demonstrated through the evaluation of a performance metric for a set of example problems.},
   
 }
 
-@article{Tournois2009PerturbingSlivers,
+@inproceedings{Tournois2009PerturbingSlivers,
 author = {Tournois, Jane and Srinivasan, Rahul and Alliez, Pierre},
-year = {2009},
-month = {10},
-pages = {},
 title = {Perturbing Slivers in 3D Delaunay Meshes},
+booktitle = {Proceedings of the 18th International Meshing Roundtable},
+pages = {157--173},
+year = {2009},
+month = oct,
+publisher = {Springer, Berlin, Heidelberg},
 isbn = {978-3-642-04318-5},
-journal = {Proceedings of the 18th International Meshing Roundtable, IMR 2009},
-  
+doi = {10.1007/978-3-642-04319-2_10}
 }
 
-@inproceedings{Cheng1999SliverExudation,
-author = {Cheng, Siu-Wing and Dey, Tamal and Edelsbrunner, Herbert and Facello, Michael and Teng, Shang-Hua},
-year = {1999},
-month = {06},
-pages = {1-13},
+@article{Cheng1999SliverExudation,
+author = {Cheng, Siu-Wing and Dey, Tamal K. and Edelsbrunner, Herbert and Facello, Michael A. and Teng, Shang-Hua},
 title = {Sliver Exudation},
+journal = {Journal of the ACM},
 volume = {47},
-journal = {J. ACM},
-  
+number = {5},
+pages = {883--904},
+year = {2000},
+month = sep,
+doi = {10.1145/355483.355487}
 }
 
 @article{Vysok2017CurrentCO,
@@ -1982,15 +1979,15 @@ year = {2001},
   
 }
 
-@Article{Cheon2023Enhanced,
-AUTHOR = {Cheon, Seunghee and Lee, Jaehun},
-TITLE = {An Enhanced Hybrid-Level Interface-Reduction Method Combined with an Interface Discrimination Algorithm},
-JOURNAL = {Mathematics},
-VOLUME = {11},
-YEAR = {2023},
-NUMBER = {23},
-ARTICLE-NUMBER = {4867},
-ISSN = {2227-7390},
+@article{Cheon2023Enhanced,
+author = {Cheon, Seunghee and Lee, Jaehun},
+title = {An Enhanced Hybrid-Level Interface-Reduction Method Combined with an Interface Discrimination Algorithm},
+journal = {Mathematics},
+volume = {11},
+year = {2023},
+number = {23},
+article-number = {4867},
+issn = {2227-7390},
   
 }
 
@@ -2075,7 +2072,7 @@ eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/nme.76},
 year = {2001}
 }
 
-@ARTICLE{Degomme2017SMPI,
+@article{Degomme2017SMPI,
   author={Degomme, Augustin and Legrand, Arnaud and Markomanolis, George S. and Quinson, Martin and Stillwell, Mark and Suter, Frédéric},
   journal={IEEE Transactions on Parallel and Distributed Systems}, 
   title={Simulating MPI Applications: The SMPI Approach}, 
