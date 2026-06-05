@@ -53,7 +53,7 @@
   \label{eq:A}
 \end{equation}
 
-进一步分析后，可以注意到 $\mathbf{A}$ 具有如下结构：
+进一步分析可得，$\mathbf{A}$ 具有如下结构：
 \begin{equation}
   \begin{aligned}
     \J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}} & =
@@ -83,16 +83,16 @@ $且 $\J_{\mathbf{p, s}} =
     \I, \J_{\mathbf{p, \omega}}
   \end{bmatrix}$。
 
-显然，\cref{eq:JTHJ} 中的 $ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 具有块三对角结构。受此启发，本文选择提取 $\J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}$ 的完整块三对角部分和 $\J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}}$ 的对角线部分来构造混合预条件子 $\mathbf P$，以尽可能保留变换 $\mathcal T$ 后的信息：
+\cref{eq:JTHJ} 表明，$ \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 具有块三对角结构。受此启发，本文提取 $\J_{\mathbf{q, s}}^{\top} \mathbf{H}_{\mathbf{q}} \J_{\mathbf{q, s}}$ 的完整块三对角部分，以及 $\J^{\top}_{\mathbf{p, s}} \mathbf{H}_{\mathbf{p}} \J_{\mathbf{p, s}}$ 的对角线部分来构造混合预条件子 $\mathbf P$，以尽可能保留变换 $\mathcal T$ 后的信息：
 \begin{equation}
   \setlength{\arraycolsep}{0.5pt}
   \mathbf{P} =\left(\operatorname{blk-diag}\left(\J_{\p, \s}^\top \mathbf{H}_{\p} \J_{\p, \s}\right) + \begin{bmatrix} \mathbf{0} & \mathbf{0} \\ \mathbf{0}  & \J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega} \end{bmatrix}\right).
   \label{eq:preconditioner_structure}
 \end{equation}
 
-这种构造并非任意截断系统矩阵，而是有针对性地保留当前问题中最关键的结构成分。对于与旋转变量相关的 $\mathbf q$ 部分，块三对角结构反映了沿链条传播的局部弯扭耦合，因此在本文中被完整保留。相比之下，$\mathbf p$ 部分在链式表示下更多体现为由质量和惯性诱导的平移响应；在预条件子中仅保留其对角部分，意味着保留局部主导尺度，同时有意识地忽略较弱的远距离耦合。这样既避免预条件子退化为近似原矩阵的稠密对象，又能在力学上抓住最主要的刚性来源。
+这种构造并非任意截断系统矩阵，而是有针对性地保留当前问题中最关键的结构成分。对于与旋转变量相关的 $\mathbf q$ 部分，块三对角结构反映了沿链条传播的局部弯扭耦合，因此本文完整保留该结构。相比之下，$\mathbf p$ 部分在链式表示下更多体现为由质量和惯性诱导的平移响应；在预条件子中仅保留其对角部分，意味着保留局部主导尺度，同时忽略较弱的远距离耦合。这样既避免预条件子退化为近似原矩阵的稠密对象，又能在力学上抓住最主要的刚性来源。
 
-换言之，混合预条件子的设计逻辑是：对决定高频刚性传播的块结构尽量完整保留，对只提供局部尺度信息、却不主导收敛行为的部分采用更轻量的近似。正因为这种取舍是围绕链式杆系统的实际耦合模式展开的，预条件子才能在不显著增加应用代价的前提下，同时兼顾正定性、结构稀疏性和收敛效果。
+换言之，混合预条件子的设计逻辑是：对决定高频刚性传播的块结构尽量完整保留，对只提供局部尺度信息、但不主导收敛行为的部分采用更轻量的近似。这种取舍围绕链式杆系统的实际耦合模式展开，使预条件子能够在不显著增加应用代价的前提下，同时兼顾正定性、结构稀疏性和收敛效果。
 
 该混合预条件子具有较好的性质：它是对称正定矩阵，且构造与应用都可在线性时间 $\mathcal{O}(n)$ 内完成。
 
@@ -123,7 +123,7 @@ $且 $\J_{\mathbf{p, s}} =
 \end{equation}
 结果矩阵 $\mathbf A \mathbf B \mathbf C$ 的 $(i, j)$ 块为 $\mathbf{A}_{i} \mathbf{B}_{ij} \mathbf{C}_{j}$。利用这一性质，当矩阵 $\mathbf A$、$\mathbf B$ 和 $\mathbf C$ 已知时，可在线性时间内构造其块三对角部分或块对角部分。
 
-回到本文预条件子，$\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 天然满足这种结构，因为 $\J_{\mathbf{q, \omega}}$ 是块对角矩阵 (\cref{eq:Jqs_pattern})。利用~\cref{eq:JTHJ} 中展示的乘法结合律，$\J_{\p,\s}^\top \mathbf{H}_\p \J_{\p, \s}$ 很容易转换为~\cref{eq:bmb_multiplication} 的结构。因此，问题转化为如何在线性时间内得到 $\bar{\mathbf{H}}_{\mathbf{p}}$。幸运的是，$\mathbf{H}_{\mathbf{p}}$ 是集中块对角矩阵：
+回到本文预条件子，$\J_{\q,\omega}^\top \mathbf{H}_\q \J_{\q, \omega}$ 满足这种结构，因为 $\J_{\mathbf{q, \omega}}$ 是块对角矩阵 (\cref{eq:Jqs_pattern})。利用~\cref{eq:JTHJ} 中的乘法结合律，$\J_{\p,\s}^\top \mathbf{H}_\p \J_{\p, \s}$ 也可转换为~\cref{eq:bmb_multiplication} 的结构。因此，问题转化为如何在线性时间内得到 $\bar{\mathbf{H}}_{\mathbf{p}}$。注意到 $\mathbf{H}_{\mathbf{p}}$ 是集中块对角矩阵：
 \begin{equation}
   \bar{\mathbf{H}}_{\mathbf{p}} = \UpperTri \mathbf{H}_{\mathbf{p}} \LowerTri =
   \begin{bmatrix}
