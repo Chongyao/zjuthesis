@@ -154,20 +154,19 @@ year = {2008}
 }
 
 @article{Jabbari2022AdaptiveRefinement,
-author = {Jabbari, Mahdi and Moslemi, Hamid},
 title = {Adaptive mesh refinement in polygonal finite elements using clustering technique},
-year = {2022},
-issue_date = {Dec 2022},
-publisher = {Elsevier Science Publishers B. V.},
-address = {NLD},
+journal = {Finite Elements in Analysis and Design},
 volume = {212},
-number = {C},
+pages = {103841},
+year = {2022},
 issn = {0168-874X},
-journal = {Finite Elem. Anal. Des.},
-month = dec,
-numpages = {16},
-keywords = {Polygonal elements, Adaptive finite element method, Clustering, Mesh refinement, Error estimation}
+doi = {https://doi.org/10.1016/j.finel.2022.103841},
+url = {https://www.sciencedirect.com/science/article/pii/S0168874X22001147},
+author = {Mahdi Jabbari and Hamid Moslemi},
+keywords = {Polygonal elements, Adaptive finite element method, Clustering, Mesh refinement, Error estimation},
+abstract = {In the adaptive finite element method, the goal is to achieve the desired accuracy with the minimum degrees of freedom. Thus, mesh refinement is required to adjust the mesh size to distribute the error uniformly over the domain. In recent years, research has paid attention to the polygonal elements due to their flexibility for adapting to complex geometries. The most common approach for creating a polygonal mesh is the Voronoi diagram. The main drawback of this approach is the inconsistency of the generated polygonal mesh and the desired mesh density of the adaptive method. This inconsistency is more noticeable in problems where the mesh density changes rapidly in a small region. The adjustment of the size of the elements in polygonal elements is more difficult than triangular or quadrilateral elements because of the greater number of adjacent elements. In the present study, a target error function is defined as the difference of the generated mesh and the desired mesh density in each Gauss point that has been optimized in an iterative algorithm. In the problems where the mesh density changes rapidly, a clustering technique is used to classify different regions of the domain and the Voronoi nuclei of the mesh are located separately. Some additional modification techniques are employed to improve the mesh quality. In problems with cracks, where the Voronoi diagram method has more challenges and some interlocking elements are generated, the problem is modeled without crack initially and then the crack is added to the model and finally the mesh is adapted to the desired mesh density.}
 }
+
 
 @article{BeiraoDaVeiga2013a_VEMBasic,
   author    = {Beir{\~a}o da Veiga, Louren{\c{c}}o and Brezzi, Franco and Cangiani, Andrea and Manzini, Gianmarco and Marini, L. Donatella and Russo, Alessandro},
@@ -313,11 +312,23 @@ keywords = {rods, strands, discrete holonomy, discrete differential geometry}
 }
 
 @article{huang2025stiffgipc,
-  author = {Huang, Kemeng and Chitalu, Floyd M. and Lin, Huancheng and Komura, Taku},
-  title = {StiffGIPC: Advancing GPU IPC for Stiff Affine-Deformable Simulation},
-  journal = {ACM Transactions on Graphics (TOG)},
-  year = {2025},
-  note = {SIGGRAPH 2025 (to appear). Preprint arXiv:2411.06224}
+author = {Huang, Kemeng and Lu, Xinyu and Lin, Huancheng and Komura, Taku and Li, Minchen},
+title = {StiffGIPC: Advancing GPU IPC for Stiff Affine-Deformable Simulation},
+year = {2025},
+issue_date = {June 2025},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {44},
+number = {3},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/3735126},
+doi = {10.1145/3735126},
+abstract = {Incremental Potential Contact (IPC) is a widely used, robust, and accurate method for simulating complex frictional contact behaviors. However, achieving high efficiency remains a major challenge, particularly as material stiffness increases, which leads to slower Preconditioned Conjugate Gradient (PCG) convergence, even with state-of-the-art preconditioners. In this article, we propose a fully GPU-optimized IPC simulation framework capable of handling materials across a wide range of stiffnesses, delivering consistent high performance and scalability with up to 10\texttimes{} speedup over state-of-the-art GPU IPC methods. Our framework introduces three key innovations: (1) A novel connectivity-enhanced Multilevel Additive Schwarz (MAS) preconditioner on the GPU, designed to efficiently capture both stiff and soft elastodynamics and improve PCG convergence at a reduced preconditioning cost. (2) A C2-continuous cubic energy with an analytic eigensystem for inexact strain limiting, enabling more parallel-friendly simulations of stiff membranes, such as cloth, without membrane locking. (3) For extremely stiff behaviors where elastic waves are barely visible, we employ affine body dynamics (ABD) with a hash-based two-level reduction strategy for fast Hessian assembly and efficient affine-deformable coupling. We conduct extensive performance analyses and benchmark studies to compare our framework against state-of-the-art methods and alternative design choices. Our system consistently delivers the fastest performance across soft, stiff, and hybrid simulation scenarios, even in cases with high resolution, large deformations, and high-speed impacts.},
+journal = {ACM Trans. Graph.},
+month = may,
+articleno = {31},
+numpages = {20},
+keywords = {GPU programming, incremental potential contact, elastodynamics, finite element method, affine body dynamics, preconditioning, cloth simulation}
 }
 
 @inproceedings{spillmann_corde_2007,
@@ -1430,14 +1441,19 @@ year = {2002},
 }
 
 @article{hetmaniuk2010special,
-  author = {Hetmaniuk, Ulrich L. and Lehoucq, Richard B.},
-  title = {A special finite element method based on component mode synthesis},
-  journal = {ESAIM: Mathematical Modelling and Numerical Analysis},
-  volume = {44},
-  number = {3},
-  pages = {401--420},
-  month = may,
-  year = {2010}
+     author = {Hetmaniuk, Ulrich L. and Lehoucq, Richard B.},
+     title = {A special finite element method based on component mode synthesis},
+     journal = {ESAIM : Mod\'elisation math\'ematique et analyse num\'erique},
+     pages = {401--420},
+     year = {2010},
+     publisher = {EDP-Sciences},
+     volume = {44},
+     number = {3},
+     doi = {10.1051/m2an/2010007},
+     mrnumber = {2666649},
+     zbl = {1190.65173},
+     language = {en},
+     url = {https://www.numdam.org/articles/10.1051/m2an/2010007/}
 }
 
 @article{hetmaniuk2014error,
@@ -1807,12 +1823,16 @@ doi = {10.1145/355483.355487}
 }
 
 @article{Vysok2017CurrentCO,
-  title={Current Capabilities of Modal Analysis of Aircraft Propeller in ANSYS Mechanical Environment},
-  author={Vysok{\'y}},
-  journal={Advances in Military Technology},
-  year={2017},
-  volume={12},
+author = {Vysoký, R.},
+year = {2017},
+month = {08},
+pages = {33-47},
+title = {Current Capabilities of Modal Analysis of Aircraft Propeller in ANSYS Mechanical Environment},
+volume = {12},
+journal = {Advances in Military Technology},
+doi = {10.3849/aimt.01160}
 }
+
 
 @article{10.1145/327070.327215,
 author = {Rodgers, David P.},
@@ -1971,17 +1991,22 @@ year = {2001},
   
 }
 
-@article{Cheon2023Enhanced,
-author = {Cheon, Seunghee and Lee, Jaehun},
-title = {An Enhanced Hybrid-Level Interface-Reduction Method Combined with an Interface Discrimination Algorithm},
-journal = {Mathematics},
-volume = {11},
-year = {2023},
-number = {23},
-article-number = {4867},
-issn = {2227-7390},
-  
+@Article{Cheon2023Enhanced,
+journal={Mathematics},
+author={Seunghee Cheon and Jaehun Lee},
+title={An Enhanced Hybrid-Level Interface-Reduction Method Combined with an Interface Discrimination Algorithm},
+year={2023},
+month={December},
+pages={1-21},
+volume={11},
+number={23},
+abstract={This study proposes an interface localizing scheme to enhance the performance of the previous hybrid-level interface-reduction method. The conventional component mode synthesis (CMS) only focuses on interior reduction, while the interface is fully retained for convenient synthesis. Thus, various interface-reduction methods have been suggested to obtain a satisfactory size for the reduced systems. Although previous hybrid-level interface-reduction approaches have addressed major issues associated with conventional interface-reduction methodsâ€”in terms of accuracy and efficiency through considering partial substructure synthesisâ€”this method can be applied to limited modeling conditions where interfaces and substructures are independently defined. To overcome this limitation, an interface localizing algorithm is developed to ensure an enhanced performance in the conventional hybrid-level interface-reduction method. The interfaces are discriminated through considering the Boolean operation of substructures, and the interface reduction basis is computed at the localized interface level, which is constructed by a partially coupled system. As a result, a large amount of computational resources are saved, achieving the possibility of efficient design modifications at the semi-substructural level.},
+keywords={parametric component mode synthesis; Craig Bampton method; interface reduction; characteristic const},
+doi={None},
+url={https://ideas.repec.org/a/gam/jmathe/v11y2023i23p4867-d1293773.html},
 }
+
+
 
 @article{BATTIATO2018187,
 title = {Reduction and coupling of substructures via Gram–Schmidt Interface modes},
@@ -2245,7 +2270,7 @@ keywords = {Laplace–Beltrami operator, Laplace matrix, spectral methods, multi
 @inproceedings {muller2012fast,
 booktitle = {Workshop on Virtual Reality Interaction and Physical Simulation},
 editor = {Jan Bender and Arjan Kuijper and Dieter W. Fellner and Eric Guerin},
-title = {{Fast Simulation of Inextensible Hair and Fur}},
+title = {Fast Simulation of Inextensible Hair and Fur},
 author = {Müller, Matthias and Kim, Tae-Yong and Chentanez, Nuttapong},
 year = {2012},
 publisher = {The Eurographics Association},
