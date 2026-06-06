@@ -124,6 +124,8 @@
 \end{equation}
 该过程本质上是将\Cref{eq:traditional-response}中的单位矩阵替换为激励矩阵 $\mathbf{S}_{bb}^{p \leftarrow d} = \mathbf{U}_b^p \mathbf{S}_{\mathcal{I}}^d$。其中，$\mathbf{U}_b^p$ 是用于提取全局界面 $\bigcup_i \partial \Omega_i^p$ 自由度的选择矩阵。组合激励与响应，即可得到无舒尔补界面模态缩减基函数 $\mathbf{S}_b^{p\leftarrow d}= [\mathbf{S}_{b\mathcal{I}}^{p\leftarrow d, T}, \mathbf{S}_{bb}^{p\leftarrow d,T}]^T$。由于 $\mathbf{K}^p_{\mathcal{II}}$ 呈块对角结构，上述计算可以在各子结构间完全并行。\textcolor{ExplainConclusion}{值得注意的是，矩阵 $\mathbf{S}_{bb}^{p \leftarrow d}$ 的列数\textbf{远少于} $\mathbf{S}_{bb}=\mathbf{I}$，这大幅缩减了线性方程组的求解次数以及后续矩阵运算的规模。} 同样的计算流程也适用于对偶划分。合并两组划分的模态，得到最终的完备基底 $\mathbf{S}^{p\leftrightarrow d}=[\mathbf{S}^p_{\mathcal{I}}, \mathbf{S}_{b}^{p\leftarrow d}, \mathbf{S}^d_{\mathcal{I}},\mathbf{S}_{b}^{d\leftarrow p} ]$。尽管在理论上，可以通过仅使用单套界面模态（例如只使用 $\mathbf{S}_{b}^{p\leftarrow d}$）或额外过滤来进一步压缩这一基底集合，但为保证与现有方法的公平对比并增强求解鲁棒性，本文保留了所有生成的界面模态。针对这一基底压缩空间的优化将作为未来工作方向。
 
+需要指出的是，这一通过补充界面激励来丰富降维子空间表达能力的思路，与 Yang 等人~\cite{6461878}提出的边界感知多域子空间变形方法具有概念上的相似性——后者同样通过在子结构界面上引入额外的低频基底响应来增强全局变形表达。但本文方法与之存在本质区别：Yang 等人的方法是在原固定界面上额外叠加一组边界模态，而本文利用的是对偶划分在空间上的自然错位——对偶划分的界面恰好穿过原始子结构内部，从而使其子结构内部提取的低频特征模态天然携带了跨越原始固定边界的平滑相位信息。相较于仅在单一界面补基的策略，这种来自错位子结构内部的激励模态在相位结构上更为丰富，能够更自然地补足单一划分下缺失的跨界面低频相位成分。
+
 为将上述理论应用于实际计算，本节将讨论若干关键实现细节，包括缩减矩阵束的正则化、缩减矩阵的快速组装算法、无舒尔补界面模态缩减计算中的预缩减技术，以及混合 MPI/OpenMP 并行框架。
 
 \subsection{奇异矩阵束与正则化背景}
