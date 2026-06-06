@@ -131,7 +131,7 @@
   \label{fig:weak-scaling-breakdown}
 \end{figure}
 
-\subsection{方法对比}
+\subsection{方法对比分析}
 本节中，本文对提出的方法——\textbf{多重划分模态综合法}进行全面的性能评估。本文在单机环境下将其与三种经典方法进行对比：传统的\textbf{Craig--Bampton 模态综合法}、\textbf{带界面模态缩减的单划分模态综合法}以及\textbf{自动多层子结构法}~\cite{Gao2008AMLS}。分析主要集中在两点：
 \begin{enumerate}
     \item \textbf{误差-时间效率：} 分析针对固定的目标特征模态数量（$q_t$）达到特定精度所需的计算时间，展示本文方法带来的效率提升。
@@ -234,7 +234,7 @@
  \label{fig:comp-timing-vs-nev}
 \end{figure}
 
-\subsection{应用展示}
+\subsection{应用验证}
 本节展示本文方法在三个层面的应用潜力：局部更新说明其在重复分析场景中的可复用性，超大规模算例展示其在受限资源下的并行适应能力，而降阶模型动画则说明由本文方法构造的降维子空间不仅适用于频谱分析，也能够进一步服务于动态近似与可视化任务。三者共同表明，本文方法并非只在标准对比算例中有效，而具备向实际工程分析流程延展的可能性。
 
 \paragraph{可重用性}
