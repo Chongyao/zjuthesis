@@ -19,11 +19,12 @@
     & microstructure（\Cref{fig:micro-local-update}） & 321K & 105K & 100 \\
     & microstructure modified（\Cref{fig:micro-local-update}） & 333K & 111K & 100 \\
     \hline
-    \multirow{4}*{\makecell{计算服务器\\2 $\times$ Intel Xeon Gold 6254 @ 3.10GHz\\1024 GiB RAM}}
+    \multirow{5}*{\makecell{计算服务器\\2 $\times$ Intel Xeon Gold 6254 @ 3.10GHz\\1024 GiB RAM}}
     & Frame（\Cref{fig:comp-timing-vs-nev}） & 137K & 274K & * \\
     & Breaker（\Cref{fig:laplacian-aa-error-time}） & 3.3M & 6.6M & 500 \\
-    & Cat（\Cref{fig:laplacian-metis-error-time}） & 765K & 1.5M & 500 \\
+    & Cat（\Cref{fig:laplacian-metis-error-time}、\Cref{fig:laplacian-aa-vs-metis}） & 765K & 1.5M & 500 \\
     & Wing（\Cref{fig:elasticity-aa-error-time}） & 40K & 140K & 200 \\
+    & Dragon（\Cref{fig:animation}、\Cref{fig:dragon-tet-tradeoff}） & 244K & 1.2M & 300 \\
     \hline
     \makecell{超算集群（19 节点）\\AMD 2$\times$7H12 64-core @ 2.6GHz, 512GB RAM\\100Gb IB 高速网络}
     & 猎鹰 9 号（\Cref{fig:teaser}） & 10M & 30M & 3000 \\
@@ -45,11 +46,16 @@
 \end{equation}
 其中 $N_e$ 为已计算特征值的数量。该指标直接量化了计算特征值相对于真实值的精确度。
 
+当问题规模较大、难以稳定获得高精度参考谱时，采用平衡残差误差作为补充指标：
+\begin{equation}
+  \epsilon_{\text{eq}} = \frac{\left\| \mathbf{K} \mathbf{x} - \lambda \mathbf{M} \mathbf{x} \right\|}{ |\lambda| \left\| \mathbf{x} \right\|},
+  \label{eq:error-eq}
+\end{equation}
+其中 $\mathbf{K}$ 与 $\mathbf{M}$ 分别为刚度矩阵和质量矩阵，$\lambda$ 与 $\mathbf{x}$ 为对应的特征值和特征向量。该指标衡量计算结果满足原始广义特征值方程的程度。
+
 \paragraph{性能评估：误差--时间曲线}
 本文使用\textbf{误差--时间曲线}评估整体效率。与迭代方法的收敛图（随着同一次运行内部迭代次数增加，误差降低）不同，曲线上的每个点都代表一次\textbf{完整、独立}的模态综合法运行。
-
-模态综合法中精度与计算代价的权衡主要由每个子结构计算的内部特征模态数 $q_{\mathcal{I}}$ 控制。为生成该曲线，通过系统地增加每次运行的 $q_{\mathcal{I}}$ 来执行多次计算。然后，将结果误差（$\epsilon_{\text{ev}}$）绘制为对应总计算时间（$t_{\text{cms}}$）的函数。
-
+模态综合法中精度与计算代价的权衡主要由每个子结构计算的内部特征模态数 $q_{\mathcal{I}}$ 控制。为生成该曲线，通过系统地增加每次运行的 $q_{\mathcal{I}}$ 来执行多次计算。然后，将结果误差（$\epsilon_{\text{ev}}$ 或 $\epsilon_{\text{eq}}$）绘制为对应总计算时间（$t_{\text{cms}}$）的函数。
 如果一条曲线越靠左下，说明该方法越高效，这表示在给定的总计算时间（即给定的 $q_{\mathcal{I}}$ 选择）下，其能实现更低的误差。在实际应用中，用户通常会根据所需精度或计算预算选择单个 $q_{\mathcal{I}}$，这对应于该曲线上的一点。
 
 \subsection{并行可扩展性分析}
@@ -139,7 +145,7 @@
 \end{enumerate}
 实验涵盖 2D 表面拉普拉斯问题和 3D 弹性问题，利用了轴对齐与 METIS 两种划分策略。
 
-使用误差-时间曲线来评估计算效率，其中 x 轴表示总计算挂钟时间，y 轴表示 $\epsilon_{\text{ev}}$。
+使用误差-时间曲线来评估计算效率，其中 x 轴表示总计算挂钟时间，y 轴表示 $\epsilon_{\text{ev}}$ 或 $\epsilon_{\text{eq}}$。
 
 \paragraph{轴对齐划分下的拉普拉斯问题}
 \Cref{fig:laplacian-aa-error-time} 比较了四种方法在断路器模型（breaker）2D 拉普拉斯问题上的表现。传统的\textbf{Craig--Bampton 模态综合法}由于稠密舒尔补存在高昂的初始开销。尽管\textbf{带界面模态缩减的单划分模态综合法}和\textbf{自动多层子结构法}降低了这一开销（后者通过多级递归），但它们在基函数生成方面仍需要大量计算。相反，\textcolor{ConclusionEvidence}{本文提出的\textbf{多重划分模态综合法}在相同计算预算下达成了更小的误差，相较于单级和多级基准方法呈现出精度的提升。这表明尽管维护两种划分带来了一定开销，但由于相位丰富的基函数作用，达到指定精度所需的总子空间维度小于传统方法，进而缩短了整体求解时间。}
@@ -225,14 +231,55 @@
 为了进一步量化实践中的优势，本文基于累积相对误差 $\epsilon_{\text{ev}}$（\Cref{eq:error-ev}），计算了在给定误差阈值（$\epsilon_{\text{target}}$）内求解出目标数量（$q_t$）全局特征模态所需的总时间（$t_{\text{cms}}$）。所有三种方法的对比结果详见 \Cref{fig:comp-timing-vs-nev}。
 \textcolor{ConclusionEvidence}{实验表明，本文提出的多重划分模态综合法在求解目标 $q_t$ 时的计算耗时少于 Craig--Bampton 模态综合法与带界面模态缩减的单划分模态综合法。这意味着，在相同的计算时间预算内，本文方法能够获得更多满足精度要求的特征模态，并且当目标模态数量（$q_t$）较大时，这一优势更为明显。}
 
-这一趋势说明，多重划分带来的收益在高目标模态数场景下会进一步放大。随着目标模态阶数升高，对应的空间振型通常具有更复杂的局部变化和更短的有效波长，单一划分下固定相位基函数的表达缺陷也会因此更加突出。若仍沿用传统方法，就只能通过继续增加子结构内部模态数量来补偿这一缺陷，从而使计算代价迅速上升。相比之下，本文方法通过引入相位互补的局部基函数，在更早阶段就获得了更充分的表示能力，因此当 $q_t$ 继续增大时，其时间优势不会被快速抵消，反而会更加明显。
+这一趋势说明，多重划分带来的收益在高目标模态数场景下会进一步放大。随着目标模态阶数升高，对应的空间振型通常具有更复杂的局部变化和更短的有效波长，单一划分下固定相位基函数的表达缺陷也会因此更加突出。若仍沿用传统方法，就只能通过继续增加子结构内部模态数量来补偿这一缺陷，从而使计算代价迅速上升。相比之下，本文方法通过引入相位互补的局部基函数，在更早阶段就获得了更充分的表示能力，因此其时间优势在本文测试范围内仍能保持，并在较高目标模态数下表现得更为明显。
 
 \begin{figure}[tbp]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
- \caption[综合效率对比：时间与准确模态数关系]{综合效率对比：时间与准确模态数关系。曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。本文方法能在获取同一目标值 $q_t$ 的情况下始终快于 Craig--Bampton 模态综合法、自动多层子结构法以及带界面模态缩减的单划分模态综合法。}
+ \caption[综合效率对比：时间与准确模态数关系]{综合效率对比：时间与准确模态数关系。曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。在本文测试的参数范围内，本文方法在获取同一目标值 $q_t$ 时所需时间少于 Craig--Bampton 模态综合法、自动多层子结构法以及带界面模态缩减的单划分模态综合法。}
  \label{fig:comp-timing-vs-nev}
 \end{figure}
+\paragraph{轴对齐划分与 METIS 划分的对比}
+\Cref{fig:laplacian-aa-error-time} 与 \Cref{fig:laplacian-metis-error-time} 已分别给出了轴对齐划分和 METIS 划分下的总体对比。为便于直接比较两种划分策略在 Cat 拉普拉斯算例上的差异，\Cref{fig:laplacian-aa-vs-metis} 上部展示了轴对齐的原始划分与对偶划分，下部给出了对应的误差--时间关系。可以看到，在当前实验设置下，轴对齐划分对应的曲线表现出更低的误差和较短的总耗时。
+\begin{figure}[tbp]
+  \centering
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=0.38\linewidth]{comparison-figures/aa_vs_metis/aa-primal-partition.png}\hfill
+    \includegraphics[width=0.38\linewidth]{comparison-figures/aa_vs_metis/aa-dual-partition.png}
+    \subcaption{轴对齐原始划分与对偶划分。}
+  \end{subfigure}
+  \vspace{2mm}
+  \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{comparison-figures/aa_vs_metis/cat_aa_vs_metis_comparison.pdf}
+  \end{subfigure}
+  \caption[Cat 拉普拉斯问题中轴对齐划分与 METIS 划分的对比]{Cat 拉普拉斯问题中轴对齐划分与 METIS 划分的对比。上部给出轴对齐原始划分与对偶划分，下部给出两种划分下的误差--时间对比。在当前实验设置下，轴对齐划分对应的曲线位于更低误差和较短耗时区域。}
+  \label{fig:laplacian-aa-vs-metis}
+\end{figure}
+
+这一差异与两类划分生成的界面结构有关。轴对齐划分更容易形成较规则的错位相邻子结构；而 METIS 虽然通常有助于控制界面规模，但也可能引入更多原始界面与对偶界面的交叉区域。对本文方法而言，这些交叉区域需要额外的互补子结构来补足局部相位完备性，从而增加基函数构造与降维装配成本。因此，划分策略不仅影响界面规模，也会影响相位补足结构和最终的端到端效率。
+
+\paragraph{子结构数量对求解质量与效率的影响}
+\Cref{sec:scaling} 中的强扩展实验从并行资源变化的角度分析了代价结构。这里进一步在 Dragon 四面体模型上固定实验场景，考察子结构数量本身对求解质量与端到端效率的影响。\Cref{fig:dragon-tet-tradeoff} 上部给出了 $n_p=4,8,16$ 时的原始与对偶划分，下部汇总了相应的误差--时间曲线和运行代价分解。可以看到，在当前实验设置下，增加子结构数量并不必然带来端到端效率提升。
+\begin{figure}[tbp]
+  \centering
+  \begin{tabular}{@{}c c c@{}}
+    \includegraphics[width=0.27\linewidth]{dragon_tet/np4-primal-partition.png} &
+    \includegraphics[width=0.27\linewidth]{dragon_tet/np8-primal-partition.png} &
+    \includegraphics[width=0.27\linewidth]{dragon_tet/np16-primal-partition.png} \\
+    \includegraphics[width=0.27\linewidth]{dragon_tet/np4-dual-partition.png} &
+    \includegraphics[width=0.27\linewidth]{dragon_tet/np8-dual-partition.png} &
+    \includegraphics[width=0.27\linewidth]{dragon_tet/np16-dual-partition.png} \\
+  \end{tabular}
+  \vspace{1mm}
+  \includegraphics[width=0.86\linewidth]{dragon_tet/dragon_tet_performance.pdf}
+  \includegraphics[width=0.86\linewidth]{dragon_tet/dragon_tet_breakdown.pdf}
+  \caption[Dragon 四面体模型中子结构数量与求解效率的关系]{Dragon 四面体模型中子结构数量与求解效率的关系。上部给出不同 $n_p$ 下的原始与对偶划分，下部给出误差--时间对比和运行代价分解。在该实验中，增大子结构数量虽然降低了单个局部特征值问题的规模，但矩阵降维与缩减求解开销同步增加，因此端到端效率并不必然提升。}
+  \label{fig:dragon-tet-tradeoff}
+\end{figure}
+
+增加子结构数量通常会降低单个局部特征值问题的规模，但同时也会增加全局基函数组织、矩阵降维以及最终缩减系统求解的代价。在本实验中，后续阶段增加的成本逐渐抵消了局部特征求解带来的节省。因此，子结构数量不能仅依据局部子问题规模来选择，而需要在局部求解规模、相位补足效果、矩阵装配规模与缩减求解成本之间进行权衡。
 
 \subsection{应用验证}
 本节展示本文方法在三个层面的应用潜力：局部更新说明其在重复分析场景中的可复用性，超大规模算例展示其在受限资源下的并行适应能力，而降阶模型动画则说明由本文方法构造的降维子空间不仅适用于频谱分析，也能够进一步服务于动态近似与可视化任务。三者共同表明，本文方法并非只在标准对比算例中有效，而具备向实际工程分析流程延展的可能性。
