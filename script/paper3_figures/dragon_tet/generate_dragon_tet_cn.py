@@ -14,6 +14,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
+from matplotlib.ticker import LogFormatterMathtext
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(THIS_DIR)))
@@ -163,7 +164,7 @@ def plot_performance(df):
     ax1.set_xlabel(r"特征对数量 ($N_{ep}$)", fontsize=LABEL_FONTSIZE)
     ax1.set_ylabel(r"相对误差 ($\epsilon_{ev}$)", fontsize=LABEL_FONTSIZE)
     ax1.set_yscale("log")
-    ax1.tick_params(axis="both", which="major", labelsize=TICK_FONTSIZE, width=2, length=6)
+    ax1.yaxis.set_major_formatter(LogFormatterMathtext())
 
     # --- Right: Error vs Total Time ---
     for np_val in np_vals:
@@ -182,7 +183,7 @@ def plot_performance(df):
     ax2.set_xlabel("总计算时间 (秒)", fontsize=LABEL_FONTSIZE)
     ax2.set_ylabel(r"相对误差 ($\epsilon_{ev}$)", fontsize=LABEL_FONTSIZE)
     ax2.set_yscale("log")
-    ax2.tick_params(axis="both", which="major", labelsize=TICK_FONTSIZE, width=2, length=6)
+    ax2.yaxis.set_major_formatter(LogFormatterMathtext())
 
     # Shared legend on top
     handles, labels = ax2.get_legend_handles_labels()
