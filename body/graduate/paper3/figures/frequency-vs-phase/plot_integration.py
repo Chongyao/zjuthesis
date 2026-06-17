@@ -33,7 +33,7 @@ l = 2.0  # Length of the sliding window
 n_global_to_show = 5
 
 # --- 2. Setup Plot ---
-fig, ax = plt.subplots(1, 1, figsize=(12, 6))
+fig, ax = plt.subplots(1, 1, figsize=(14, 6))
 
 x_global = np.linspace(0, L, 500)
 
