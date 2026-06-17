@@ -3,7 +3,7 @@
 
 本文首先在标准二维矩形区域（四边形网格）上验证方法的基础数值行为。随后在两类场景上比较该方法与其他方法：三角表面网格上的拉普拉斯问题，以及四面体体网格上的弹性问题。进一步地，本文在超算集群上将该方法应用于超大规模模型，以验证方法的效率。最后，本文展示了当网格局部发生改动时快速更新特征模态的能力（这是模态综合法固有优势的体现）。所有计算平台与模型的统计信息列于 \Cref{tab:statistics}。
 
-\begin{table}[tbp]
+\begin{table}[htbp]
   \caption[实验所用模型统计]{$q_t$ 表示需计算的全局特征模态数量；* 表示变量。}
   \label{tab:statistics}
   \centering
@@ -97,14 +97,14 @@
 \Cref{fig:scaling-balance} 显示了本文方法在时间与内存代价方面，无论是在强扩展还是弱扩展中都保持了较好的均衡性（约 $0.9$）。相比之下，传统 Craig--Bampton 模态综合法呈现出均衡性下降的趋势——特别是内存均衡性（接近 $0.6$）——表明其对并行的适应性相对受限。
 
 这种均衡性的提升具有直接的工程意义。对于超大规模模态分析而言，可扩展性并不只是单纯追求更多节点带来的加速，还包括是否能够避免由个别最慢任务或最耗内存任务主导整体效率。本文方法在时间和内存两方面都保持较好的均衡，意味着它更容易在有限节点预算下稳定运行，也更适合扩展到更大规模的工业模型。这一点为后文的超大规模算例和应用展示提供了直接支撑。
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{critical-qb/combined_scaling.pdf}
   \caption[子结构特征模态的临界数量]{子结构特征模态的临界数量。本文方法所需的临界模态数 $q_{\mathcal{I}^\star}$ 小于传统模态综合法。}
   \label{fig:critical-qb}
 \end{figure}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_total_breakdown.pdf}
   \includegraphics[width=0.94\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_peak_memory_line.pdf}
@@ -112,7 +112,7 @@
   \label{fig:scaling}
 \end{figure}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{scaling_aggregation_new/combined_plots/combined_strong_weak_balance_line.pdf}
   \caption[强弱扩展中并行部分的均衡性]{强弱扩展中并行部分的均衡性。相比于传统模态综合法，本文方法在时间开销和内存开销上保持了较好的均衡性。这反映了本文方法具备较好的并行计算适应性。}
@@ -123,14 +123,14 @@
 \label{sec:breakdown}
 \Cref{fig:strong-scaling-breakdown} 与 \Cref{fig:weak-scaling-breakdown} 给出了各项组件的花费分解。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
     \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/strong_scaling_plots/6_strong_scaling_combined_pie_breakdown.png}
   \caption[强扩展时间代价分解]{强扩展时间代价分解。预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
   \label{fig:strong-scaling-breakdown}
 \end{figure}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
     \includegraphics[width=0.84\linewidth]{scaling_aggregation_new/weak_scaling_plots/6_weak_scaling_combined_pie_breakdown.png}
   \caption[弱扩展时间代价分解]{弱扩展时间代价分解。预处理阶段负责任务分析与分发；后处理阶段负责结果收集与组装。}
@@ -158,7 +158,7 @@
 
 综合这三组结果可以看到，在本文考察的不同问题类型与划分方式下，本文方法均表现出稳定优势。无论是在规则的轴对齐划分下，还是在更贴近真实复杂网格的 METIS 划分下，只要目标问题的全局低频响应需要跨子结构平滑传播，单一划分下的固定相位基函数就会逐渐暴露表达不足，而多重划分提供的相位互补结构则能够持续改善降维特征子空间的有效性。换言之，本文方法的收益来源于基函数构造机制本身，而不是某个特定模型或参数设置的偶然结果。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}{0.8\linewidth}
         \includegraphics[width=0.189\linewidth]{comparison-figures/breaker/primal-partition.png}
@@ -177,7 +177,7 @@
     \label{fig:laplacian-aa-error-time}
 \end{figure}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}{\linewidth}
       \includegraphics[width=0.189\linewidth]{comparison-figures/cat/primal-partition.png}
@@ -207,7 +207,7 @@
     \label{fig:laplacian-metis-error-time}
 \end{figure}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}{\linewidth}
     \centering
@@ -233,7 +233,7 @@
 
 这一趋势说明，多重划分带来的收益在高目标模态数场景下会进一步放大。随着目标模态阶数升高，对应的空间振型通常具有更复杂的局部变化和更短的有效波长，单一划分下固定相位基函数的表达缺陷也会因此更加突出。若仍沿用传统方法，就只能通过继续增加子结构内部模态数量来补偿这一缺陷，从而使计算代价迅速上升。相比之下，本文方法通过引入相位互补的局部基函数，在更早阶段就获得了更充分的表示能力，因此其时间优势在本文测试范围内仍能保持，并在较高目标模态数下表现得更为明显。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
  \centering
  \includegraphics[width=\linewidth]{time-nev/nev_vs_time_plot_sparse.pdf}
  \caption[综合效率对比：时间与准确模态数关系]{综合效率对比：时间与准确模态数关系。曲线图展示了总时间（$t_{\text{cms}}$）与准确模态数（$q_t$）（满足 $\epsilon_{\text{ev}}(q_t) \le \epsilon_{\text{target}}$）的关系。图上每一点都对应一次指定 $q_{\mathcal{I}}$ 的运行。在本文测试的参数范围内，本文方法在获取同一目标值 $q_t$ 时所需时间少于 Craig--Bampton 模态综合法、自动多层子结构法以及带界面模态缩减的单划分模态综合法。}
@@ -241,7 +241,7 @@
 \end{figure}
 \paragraph{轴对齐划分与 METIS 划分的对比}
 \Cref{fig:laplacian-aa-error-time} 与 \Cref{fig:laplacian-metis-error-time} 已分别给出了轴对齐划分和 METIS 划分下的总体对比。为便于直接比较两种划分策略在 Cat 拉普拉斯算例上的差异，\Cref{fig:laplacian-aa-vs-metis} 上部展示了轴对齐的原始划分与对偶划分，下部给出了对应的误差--时间关系。可以看到，在当前实验设置下，轴对齐划分对应的曲线表现出更低的误差和较短的总耗时。
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}{\linewidth}
     \centering
@@ -262,7 +262,7 @@
 
 \paragraph{子结构数量对求解质量与效率的影响}
 \Cref{sec:scaling} 中的强扩展实验从并行资源变化的角度分析了代价结构。这里进一步在 Dragon 四面体模型上固定实验场景，考察子结构数量本身对求解质量与端到端效率的影响。\Cref{fig:dragon-tet-tradeoff} 上部给出了 $n_p=4,8,16$ 时的原始与对偶划分，下部汇总了相应的误差--时间曲线和运行代价分解。可以看到，在当前实验设置下，增加子结构数量并不必然带来端到端效率提升。
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{tabular}{@{}c c c@{}}
     \includegraphics[width=0.27\linewidth]{dragon_tet/np4-primal-partition.png} &
@@ -293,7 +293,7 @@
 
 这两个例子共同说明，局部更新收益并不是一个固定常数，而是取决于“被修改区域占整体系统的比例”以及“修改所引起的耦合传播范围”。当修改集中在少量局部区域、且其影响能够被限制在有限数量的子结构内时，缓存可复用比例较高，局部更新的加速效果就会更加显著；反之，若修改跨越更多子结构边界，或需要同步更新较大范围的界面模态，则收益会相应减弱。因此，本文方法在需要反复设计迭代、局部修形或参数调优的场景中尤具实际价值。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{tabular}{@{} m{1.5em} c c @{}}
     & \textbf{原始划分} & \textbf{对偶划分} \\[1ex]
@@ -312,7 +312,7 @@
   \label{fig:pcb-local-update}
 \end{figure}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}
     \node[anchor=north west, inner sep=0] (img) at (0,0) {%
@@ -337,7 +337,7 @@
 
 计算耗时分布如 \Cref{fig:teaser} 所示。在降维刚度矩阵与质量矩阵的过程中，本文通过优化 MPI 任务分发最大程度减少了等待时间。在 88 分钟的总运行时间中，节点间数据传输的通信开销仅为 4.3 秒，占比极小。这表明本文方法保留了模态综合法类方法通信开销低的优势。相比之下，若不使用界面模态缩减技术，传统 Craig--Bampton 模态综合法在处理同等规模问题时，单节点内存需求将高达约 2.82 TB，远超现有的 512 GB 内存限制。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{teaser/teaser.pdf}
   \caption[猎鹰 9 号火箭模型的大规模 MPI 并行计算]{猎鹰 9 号火箭模型的大规模 MPI 并行计算。实验验证了本文方法在超大规模环境下的可行性。总耗时为 88 分钟，其中通信时间仅为 4.3 秒。由于界面稠密矩阵的影响，传统 Craig--Bampton 模态综合法单节点的内存需求约为 2.82 TB，无法完成计算。相比之下，SLEPc+MUMPS 在放宽收敛阈值至 $3\times10^{-2}$ 时，运行约 120 分钟收敛 949 阶特征模态；而本文方法计算出 3000 阶模态，且多数高频模态的误差保持在 $10^{-6}$ 量级。}
@@ -351,7 +351,7 @@
 \paragraph{降阶模型动画}
 前述计算得到的特征向量不仅可用于频谱分析，也可以作为降阶模型的基函数，用于构造动态仿真中的低维表示。基于这一子空间，进一步计算了下落龙模型的动画过程，如 \Cref{fig:animation} 所示。为减弱线性模态在大转动情形下带来的伪影，动画生成过程中采用了模态扭曲技术~\cite{Choi2005ModalWarping}。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.32\linewidth]{animation/mpv-shot0001.png}
   \includegraphics[width=0.32\linewidth]{animation/mpv-shot0002.png}

@@ -15,7 +15,7 @@
 
 为验证相位完备基函数相较于传统模态综合法中固定相位基的优势，本文分析了积分误差。\textcolor{ConclusionEvidence}{下图显示，相位完备基的误差显著低于固定相位基。}
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}{0.19\linewidth}
     \includegraphics[width=\linewidth]{pd-partition-demo/partition-p.png}
@@ -91,7 +91,7 @@
 
 为消除舒尔补带来的高额计算负担，本文结合多重划分策略，提出了一种高效的无舒尔补界面模态缩减法。其核心思路是：不再使用人工设定的单位位移激励（即\Cref{eq:traditional-response}中的 $\mathbf{S}_{bb} = \mathbf{I}$），而改用对偶划分子结构特征模态的低频激励（见\Cref{fig:interface-modes-example}）作为替代。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}{1.0\linewidth}
     \centering
@@ -150,7 +150,7 @@
 \end{equation}
 参数 $\mu$ 和 $\sigma$ 的选取至关重要：它们应当足够小，以免对原系统的"真实"特征值和特征向量产生显著扰动；同时又必须足够大，以确保扰动后的矩阵满秩，使特征值求解器能稳定运行。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.28\linewidth]{mu_and_sigma/mu_and_sigma_plot.pdf}
   \caption[正则化参数对误差的影响]{正则化参数对误差的影响。图中展示了计算误差对扰动参数 $\mu$ 的敏感性。结果表明，当 $\mu$ 和 $\sigma$ 选取适当时，这种简单的对角扰动方案能够达到与高成本正交化技术相当的计算精度。}
@@ -170,7 +170,7 @@
 其次，更为核心的是，无舒尔补界面模态 $\mathbf{S}_b$ 严格满足静力平衡条件：$\mathbf{K}_{\mathcal{I} \mathcal{I}} \mathbf{S}_{\mathcal{I}} + \mathbf{K}_{\mathcal{I}b} \mathbf{S}_{b} = \mathbf{0}$。
 这一数学性质导致涉及界面模态和内部模态的刚度投影交叉项在内部区域 $\mathcal{I}$ 上恒等于零。得益于此，原本理论上密集的稠密矩阵乘法被退化为仅涉及边界自由度的稀疏矩阵运算，从根本上削减了组装缩减刚度矩阵 $\hat{\mathbf{K}}$ 的算力消耗。
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
   \centering
   \tiny
   \color{black}{
