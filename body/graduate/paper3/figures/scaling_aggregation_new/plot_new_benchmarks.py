@@ -1289,7 +1289,7 @@ def generate_combined_strong_weak_total(
             0.90,
             title,
             transform=ax.transAxes,
-            fontsize=TITLE_FONTSIZE,
+            fontsize=LEGEND_FONTSIZE,
             ha="right",
             va="top",
         )
@@ -1542,7 +1542,7 @@ def generate_combined_strong_weak_balance_line(
             0.95,
             title,
             transform=ax.transAxes,
-            fontsize=TITLE_FONTSIZE,
+            fontsize=LEGEND_FONTSIZE,
             ha="right",
             va="top",
         )
@@ -1727,7 +1727,7 @@ def generate_combined_strong_weak_peak_memory_line(
             0.90,
             title,
             transform=ax.transAxes,
-            fontsize=TITLE_FONTSIZE,
+            fontsize=LEGEND_FONTSIZE,
             ha="right",
             va="top",
         )
