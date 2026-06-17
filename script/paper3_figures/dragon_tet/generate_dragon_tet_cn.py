@@ -181,7 +181,6 @@ def plot_performance(df):
         )
 
     ax2.set_xlabel("总计算时间 (秒)", fontsize=LABEL_FONTSIZE)
-    ax2.set_ylabel(r"相对误差 ($\epsilon_{ev}$)", fontsize=LABEL_FONTSIZE)
     ax2.set_yscale("log")
     ax2.yaxis.set_major_formatter(LogFormatterMathtext())
 
