@@ -5,6 +5,15 @@
 % Set default linespread to one-half
 \linespreadonehalf{}
 
+% Prefer mixing floats with text over creating float-only pages.
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{6}
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.70}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.80}
+
 % Enable subsubsection's numbering
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{2}
