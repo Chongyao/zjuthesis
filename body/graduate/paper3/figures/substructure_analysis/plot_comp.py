@@ -174,7 +174,7 @@ def plot_equivalence_bar_chart(df_eig, df_schur):
 def plot_timing_curves(df_eig, df_schur, legend_cfg=None):
     from matplotlib.gridspec import GridSpec
 
-    fig = plt.figure(figsize=(11, 6))
+    fig = plt.figure(figsize=(12, 6))
     gs = GridSpec(1, 3, width_ratios=[2, 1, 0.08], wspace=0.15)
     ax = fig.add_subplot(gs[0, 0])
     ax_zoom = fig.add_subplot(gs[0, 1], sharey=None)
