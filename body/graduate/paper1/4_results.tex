@@ -117,25 +117,25 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 
 这一组对比清楚地说明了“表示重构”与“代数修补”之间的差异。与罚函数法不同，直接 KKT 方法并不通过惩罚项近似硬约束，而是在原始坐标中精确求解全部内在约束。因此，它能够避免明显的数值阻尼伪影，但也必须在每个时间步持续处理更大、更强耦合的约束系统。本文方法在同等条件下计算代价更低，并不是因为简单忽略了约束，而是因为这些内在约束已经在参数化层面得到处理，不再需要在每一步中显式重复求解。
 
-\begin{figure}[H]
+\begin{figure}
   \centering
   \begin{subfigure}[b]{\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{sheet/pdf/KKT_ours_time_cost_cmp.pdf}
+  \includegraphics[width=0.8\textwidth]{sheet/pdf/KKT_ours_time_cost_cmp.pdf}
   \caption{每个时间步计算成本比较。}
   \label{fig:kkt_timing}
   \end{subfigure}
 
   \begin{subfigure}[b]{\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{sheet/pdf/violation_inext_KKT.pdf}
+  \includegraphics[width=0.8\textwidth]{sheet/pdf/violation_inext_KKT.pdf}
   \caption{不可伸长约束误差比较。}
   \label{fig:kkt_violation_a}
   \end{subfigure}
 
   \begin{subfigure}[b]{\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{sheet/pdf/violation_align_KKT.pdf}
+  \includegraphics[width=0.8\textwidth]{sheet/pdf/violation_align_KKT.pdf}
   \caption{对齐约束误差比较。}
   \label{fig:kkt_violation_b}
   \end{subfigure}
