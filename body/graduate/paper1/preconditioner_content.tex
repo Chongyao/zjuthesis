@@ -1,6 +1,6 @@
 \subsection{混合预条件子}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -145,7 +145,7 @@ $且 $\J_{\mathbf{p, s}} =
 此外，在实验设置下，PCG 求解器呈现出近似线性的复杂度。在线性系统求解阶段，平均耗时随线段数增加而近似线性增长（见图~\ref{fig:linear_increasing}），这说明本文方法对段数具有较好的可扩展性。需要注意的是，这种线性复杂度并不直接适用于整个时间步，因为~\cref{eq:collision_constraint} 中的碰撞约束在本文的简化表示下仍是非线性的，不同帧所需的牛顿迭代次数也可能不同。
 }
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{sheet/pdf/linear_increasing.pdf}
   \caption[平均时间成本]{在图~\ref{fig:visual_damping_penalty} 中的重力作用下模拟螺旋线。PCG 求解线性系统使用几乎固定的迭代次数。每步的时间成本关于段数几乎是线性的。}
@@ -158,7 +158,7 @@ $且 $\J_{\mathbf{p, s}} =
 
 同样地，图~\ref{fig:PCG_iter_Young} 中随杨氏模量增大而不断扩大的性能差距，也并非偶然现象。随着材料变硬，系统中由弯扭刚度诱导的主导项会越来越集中在 $\J_{\q,\mathbf{s}}^\top\mathbf{H}_{\mathbf q} \J_{\q, \mathbf{s}}$ 这部分结构里。此时，是否保留这一部分的完整块三对角信息，会直接决定预条件子对原矩阵的逼近质量。也就是说，材料越硬，本文所保留的结构就越接近真实的主导刚性模式，因此其收敛优势会表现得更加明显。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \vspace{1.2cm}
   \begin{subfigure}[b]{0.48\textwidth}

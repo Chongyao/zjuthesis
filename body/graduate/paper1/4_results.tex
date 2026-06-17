@@ -14,7 +14,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
 
 此外，实验参数有意覆盖了由不可伸长条件主导的高刚度场景。在这类场景中，轴向响应与弯扭响应之间存在显著的能量尺度差异，因此最能体现不同方法在处理显式硬约束时的差别。由此，本节实验并不只是展示可视化结果，而是围绕第二节和第三节的核心命题展开：当病态性的主要来源是显式几何硬约束时，重构广义坐标并匹配相应求解结构，能否比原始空间中的直接处理方式获得更稳健的动力学行为。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}
     \node [above right, inner sep=0] (image) at (0, 0) {
@@ -40,7 +40,7 @@ $\sum_{i=0}^{n-2} \left\|\frac{\p_{i+1} - \p_i}{\|\p_{i+1} - \p_i\|} - d(\q_i) \
 
 在第一组实验中，两种方法均执行 5 次牛顿迭代。图~\ref{fig:inext_penalty_a} 与图~\ref{fig:align_penalty} 表明，罚函数法难以在少量迭代内同时满足不可伸长与对齐约束，因而约束精度不足；权重偏小时会出现明显拉伸，而权重增大又会在有限迭代下引入动力学伪影。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \begin{subfigure}[b]{\textwidth}
   \centering
   \includegraphics[width=0.49\textwidth]{sheet/pdf/violation_inext_1e2.pdf}
@@ -66,7 +66,7 @@ $T_{trans} = \frac{1}{2}\sum_i m_i v_i^2$ 与式~\ref{eq:T_q} 中 $T_{q,i}$ 求�
 
 这一现象与第二节中的病态性分析一致：当罚项权重增大时，系统中最硬的轴向方向会迅速抬升，而有限次数的牛顿迭代不足以完全消除这些高刚度带来的局部残差，于是额外数值耗散会影响本应保留的低频弯扭响应。因此，这里的过阻尼并不只是参数选择不当，更反映了显式硬约束在有限迭代条件下对低频动力学响应的干扰。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
   \centering
@@ -152,7 +152,7 @@ $\|\partial E(\mathbf x)/\partial \mathbf{x}\|_2<\text{1e-5}$。图~\ref{fig:tim
 
 此外，Super-Helices 并不像本文的隐式时间步进那样无条件稳定~\cite{bertails_linear_2009}：由于显式计算 $\ddot{\kappa}_{\mathcal{Q}}$，时间步上限会随单元数增多而明显降低——单曲线单元时最大约 $\SI{35}{ms}$，40 单元时仅约 $\SI{4}{ms}$。在与其基准相近的场景中，本文使用 200 个线段并取 $\SI{250}{ms}$ 时间步，仍能稳定仿真（图~\ref{fig:compare_to_super_helix}）。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{super_helix/render1.notation.png}
   \caption[拖动杆根部]{使用 200 个线段模拟该场景，参考长度 $1\mathrm{m}$，密度 $\SI{1}{\den}$，半径 $\SI{0.03}{m}$，杨氏模量 $\SI{1}{MPa}$，剪切模量 $\SI{1}{MPa}$，时间步长 $\Delta t=\SI{250}{ms}$。对顶部两个顶点施加位移
@@ -170,7 +170,7 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
 
 本文在图~\ref{fig:visual_damping_penalty} 的相同场景下使用扩展 RedMax，并以二分法估计视觉稳定下的最大时间步。图~\ref{fig:timestep_limit} 显示：重力加速度越大，扩展 RedMax 越易失稳；本文方法可在更大时间步下稳定运行。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -214,7 +214,7 @@ RedMax~\cite{wang_redmax_2019} 可高效模拟铰接刚体，也可扩展用于�
 
 这一场景的难点不仅在于接触数量较多，还在于接触关系会在两个弹簧与中间细杆之间频繁切换。该例主要检验本文活动集 SQP 框架在多接触约束频繁变化时的鲁棒性，以及紧凑表示在接触主导场景下对不可伸长条件的一致保持能力。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{strand_helices/helices-long.png} \end{subfigure}
   \caption[穿过弹簧的细杆]{两个弹簧在滑动过程中相互碰撞，接触丰富，本文方法可稳定处理。}
@@ -227,14 +227,14 @@ $E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，
 
 打结场景集中体现了本章方法需要处理的几种困难：强接触、自接触、大拉力以及由此带来的局部高曲率同时出现。若不可伸长条件只能通过显式罚项近似维持，那么结逐步收紧时往往会伴随明显的拉伸伪影；而本文方法在该场景下仍能保持中心线长度一致，说明表示重构确实将最显式的轴向硬约束稳定地从动力学演化中剥离出来。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
   \begin{subfigure}[b]{\textwidth} \centering \includegraphics[width=\textwidth]{knot/knots-long.png} \end{subfigure}
   \caption[打结]{本文方法能重现打结过程，并在大拉力下保持不可伸长性。\textcolor{black}{使用不同颜色区分杆表面不同侧面以增强可视化。}}
   \label{fig:demo_knot0}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}
     \node [above right, inner sep=0] (image) at (0,0) {
@@ -254,7 +254,7 @@ $E = \SI{20}{MPa}, G = \SI{20}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.1}{\den}$，
 
 与前面的复杂接触场景不同，这个例子更侧重于检验本文表示是否保留了细杆真正关心的低频弯扭主导行为。超螺旋形成本质上反映了扭转能在动力学演化中向弯曲能的再分配过程，因此它不只是形状演示，也说明在移除显式轴向硬约束之后，系统仍能正确表达驱动细杆宏观形态变化的主导模式。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -270,7 +270,7 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
 
 这一场景说明，本文方法并未通过过强数值阻尼来换取稳定性。若系统在处理外部障碍接触时引入过量耗散，杆往往会迅速贴附并失去真实的瞬态反弹过程；而这里出现的短时反弹表明，在保持稳定的同时，方法仍能较好保留碰撞后的瞬态动力学响应。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{\textwidth}
     \centering
@@ -280,7 +280,7 @@ $E = \SI{1}{MPa}, G = \SI{0.1}{MPa}, r = \SI{0.03}{m}, \rho = \SI{0.5}{\den}$、
   \label{fig:pulley}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \begin{tabularx}{\textwidth}{|l|X|X|X|X|X|X|X|}
 \hline
