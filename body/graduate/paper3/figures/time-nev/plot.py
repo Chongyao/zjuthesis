@@ -25,7 +25,7 @@ AMLS_COLOR = STYLE.method_colors["amls"]
 IMR_COLOR = STYLE.method_colors["imr"]
 
 SCALE = 1
-FIG_SIZE = (11 * SCALE, 6 * SCALE)
+FIG_SIZE = (12 * SCALE, 6 * SCALE)
 DPI = 300
 LABEL_FONTSIZE = STYLE.scaled_fontsize("label", "double_column")
 LEGEND_FONTSIZE = STYLE.scaled_fontsize("legend", "double_column")

@@ -38,7 +38,7 @@ TICK_FONTSIZE = STYLE.scaled_fontsize("tick", "double_column")
 LINE_WIDTH = STYLE.methods["ours"]["linewidth"]
 MARKER_SIZE = STYLE.methods["ours"]["markersize"]
 
-FIG_SIZE = (11, 6)
+FIG_SIZE = (12, 6)
 FIG_SIZE_COMBINED = (11, 8)
 DPI = 300
 
