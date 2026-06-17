@@ -7,6 +7,9 @@ print("--- 开始生成 mu_and_sigma 图表 (统一样式) ---")
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from plot_style_config import get_style, apply_style
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))), "script"))
+from thesis_figure_config import setup_figure_fonts
+setup_figure_fonts()
 
 SCHEME = os.environ.get('PLOT_COLOR_SCHEME', 'teal_coral')
 STYLE = get_style(SCHEME)
