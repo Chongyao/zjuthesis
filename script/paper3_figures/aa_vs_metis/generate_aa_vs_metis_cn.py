@@ -13,7 +13,7 @@ TARGET_DIR = os.path.join(
     "comparison-figures", "aa_vs_metis",
 )
 
-sys.path.insert(0, THIS_DIR)
+sys.path.insert(0, os.path.join(REPO_ROOT, "body", "graduate", "paper3", "figures"))
 from plot_style_config import get_style, apply_style
 
 sys.path.insert(0, os.path.join(REPO_ROOT, "script"))

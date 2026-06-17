@@ -19,7 +19,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(THIS_DIR)))
 TARGET_DIR = os.path.join(REPO_ROOT, "body", "graduate", "paper3", "figures", "dragon_tet")
 
-sys.path.insert(0, THIS_DIR)
+sys.path.insert(0, os.path.join(REPO_ROOT, "body", "graduate", "paper3", "figures"))
 from plot_style_config import get_style, apply_style
 
 sys.path.insert(0, os.path.join(REPO_ROOT, "script"))
