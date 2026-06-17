@@ -99,8 +99,10 @@ def main():
     ax1.set_yscale("log")
     ax1.yaxis.set_major_formatter(LogFormatterMathtext())
 
+    ax2.set_xlabel("总计算时间 (秒)", fontsize=LABEL_FONTSIZE)
     ax2.set_yscale("log")
     ax2.yaxis.set_major_formatter(LogFormatterMathtext())
+    ax2.tick_params(axis="both", which="major", labelsize=TICK_FONTSIZE, width=2, length=6)
 
     legend_handles = [
         Line2D([0], [0], color=PARTITION_COLORS[k], marker="o", linestyle="None", markersize=MARKER_SIZE, label={"AA": "轴对齐划分", "METIS": "METIS 划分"}[k])
