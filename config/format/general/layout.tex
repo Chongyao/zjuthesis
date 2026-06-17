@@ -281,3 +281,12 @@
 \setlength{\bibitemsep}{0ex}
 \setlength{\bibnamesep}{0ex}
 \setlength{\bibinitsep}{0ex}
+
+% 允许段落内跨页，减少为避孤行而推走整段
+\clubpenalty=0
+\widowpenalty=0
+\interlinepenalty=0
+
+% 允许更多浮动体挤在同一页
+\setcounter{topnumber}{3}
+\renewcommand{\topfraction}{0.9}
