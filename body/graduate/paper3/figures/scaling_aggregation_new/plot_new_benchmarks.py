@@ -39,7 +39,7 @@ LINE_WIDTH = STYLE.methods["ours"]["linewidth"]
 MARKER_SIZE = STYLE.methods["ours"]["markersize"]
 
 FIG_SIZE = (12, 6)
-FIG_SIZE_COMBINED = (11, 8)
+FIG_SIZE_COMBINED = (14, 8)
 DPI = 300
 
 OURS_COLOR = STYLE.ours
