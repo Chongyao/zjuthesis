@@ -91,12 +91,12 @@
 
 ### ✅ 第一优先级：Paper3 — 完成
 
-全图中文化、figsize 统一、log scale 修复、冗余脚本清理。
+全图中文化、figsize 统一、log scale 修复、冗余脚本清理、字体配置统一。
 
-### 🔶 第二优先级：Paper2（~7 个外部脚本）
+### ✅ 第二优先级：Paper2 — 不修改
 
-脚本在 `/home/zcy/workspace/projects/arborecence/` 等。需复制到 thesis 或修改项目脚本。
+大部分图为 ParaView 渲染截图 / PPT 拼图，可程序化调整的 matplotlib 脚本仅 2 个且输出非主图。无集中式字体配置。
 
-### 🔶 第三优先级：Paper1（~38 个 Excel 图）
+### ✅ 第三优先级：Paper1 — 不修改
 
-数据在 `/home/zcy/workspace/records/ConsManifold/sheet/*.xlsx`。需从零写 Matplotlib 脚本。参考 `agFEM_draft/chinese_figures` 分支。
+全部 PDF 为 Excel 导出或 ParaView 渲染，无 Python 脚本。数据分析在 `ConsManifold/sheet/*.xlsx` 中，字体调整需手动操作 Excel。
