@@ -22,7 +22,7 @@ TICK_FONTSIZE *= scale
 
 MARKER_SIZE = 12
 LINE_WIDTH = 4.0
-FIG_SIZE = (5, 5)
+FIG_SIZE = (12, 6)
 DPI = 150
 OUTPUT_FILE = 'mu_and_sigma_plot.png'
 

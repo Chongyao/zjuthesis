@@ -51,7 +51,7 @@ def generate_plot(data1_path, data2_path, output_filename_base, title, legend_op
         print(f"Skipping plot for '{title}' due to missing data.")
         return
 
-    fig, ax = plt.subplots(figsize=(11, 4))
+    fig, ax = plt.subplots(figsize=(12, 6))
     ax.plot(x1, y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='本文方法', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax.plot(x2, y2, marker=CMS_MARKER, linestyle='-', color=CMS_COLOR, label='CB-CMS', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
 
@@ -140,7 +140,7 @@ def plot_combined_scaling():
     print(f"  Strong PD nodes: {s_x1.tolist() if s_x1 is not None and len(s_x1) > 0 else 'empty'}")
     print(f"  Strong SP nodes: {s_x2.tolist() if s_x2 is not None and len(s_x2) > 0 else 'empty'}")
 
-    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, figsize=(11, 8), sharex=False)
+    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, figsize=(14, 8), sharex=False)
 
     ax_top.plot(w_x1, w_y1, marker=OURS_MARKER, linestyle='-', color=OURS_COLOR, label='本文方法', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)
     ax_top.plot(w_x2, w_y2, marker=CMS_MARKER, linestyle='-', color=CMS_COLOR, label='CB-CMS', markersize=MARKER_SIZE, linewidth=LINE_WIDTH)

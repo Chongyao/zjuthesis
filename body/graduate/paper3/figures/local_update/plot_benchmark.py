@@ -10,7 +10,7 @@ import pandas as pd
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from plot_style_config import get_style, apply_style
 
 SCHEME = os.environ.get('PLOT_COLOR_SCHEME', 'teal_coral')
@@ -82,7 +82,7 @@ def plot_benchmark(model_type, csv_file, output_prefix):
     df = pd.read_csv(csv_file)
     print(df)
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(14, 6))
 
     methods = df["Method"].tolist()
     x = np.arange(len(methods))
@@ -158,7 +158,7 @@ def plot_benchmark(model_type, csv_file, output_prefix):
 
 
 def plot_cms_breakdown(df, output_prefix):
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(14, 6))
 
     cms_methods = ["Origin CMS Full", "Updated CMS Full", "CMS Local Update"]
     cms_df = df[df["Method"].isin(cms_methods)]
